@@ -29,8 +29,7 @@ app.use(stylus.middleware(
 app.use(express.static(__dirname + '/public'));
 
 if(env === 'development') {
-    //mongoose.connect('mongodb://localhost/hackathon');
-    mongoose.connect('mongodb://admin:Pa$$w0rd@ds064718.mlab.com:64718/specsavers');
+    mongoose.connect('mongodb://localhost/hackathon');
 } else {
     mongoose.connect('mongodb://admin:Pa$$w0rd@ds064718.mlab.com:64718/specsavers');
 }
