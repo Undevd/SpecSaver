@@ -1,0 +1,21 @@
+{
+  "name": "specsaver",
+  "version": "0.0.1",
+  "description": "Bare bones project for specsaver",
+  "main": "server.js",
+  "authors": [
+    "Scott Hulme"
+  ],
+  "license": "MIT",
+  "moduleType": [],
+  "homepage": "",
+  "private": true,
+  "dependencies": {
+    "jquery": "^2.2.1",
+    "toastr": "^2.1.2",
+    "angular-resource": "^1.5.0",
+    "angular": "^1.5.0",
+    "angular-route": "^1.5.0",
+    "bootstrap": "^3.3.6"
+  }
+}
