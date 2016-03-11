@@ -1,10 +1,22 @@
 doctype
 html
     head
+        title SpecSaver - Maxtreme Testing
         base(href="/")
         link(rel="stylesheet", href="/css/bootstrap.css")
         link(rel="stylesheet", href="/vendor/toastr/toastr.css")
         link(rel="stylesheet", href="/css/site.css")
     body(ng-app='app')
+        .navbar.navbar-inverse.navbar-fixed-top
+            .container
+                .navbar-header
+                    a.navbar-brand(href="/") SpecSaver
+                        h6 Test all the things
+                .navbar-collapse.collapse
+                    ul.nav.navbar-nav
+                        li
+                            a(href="/") Home
         block main-content
+        footer.container.text-center
+            img(ng-src="images/allthethings.png")
         include scripts

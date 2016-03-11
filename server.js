@@ -41,24 +41,12 @@ db.once('open', function callback() {
     console.log('hackathon db opened');
 });
 
-var quoteSchema = mongoose.Schema({quote: String, person: String});
-var Quote = mongoose.model('Quote', quoteSchema);
-var mongoQuote;
-Quote.findOne().exec(function(err, quoteDoc) {
-    console.log(quoteDoc);
-    mongoQuote = quoteDoc;
-});
-
-
 app.get('/partials/:partialPath', function(req, res) {
     res.render('partials/' + req.params.partialPath);
 });
 
 app.get('*', function(req, res) {
-    res.render('index', {
-        quote: mongoQuote.quote,
-        person: mongoQuote.person
-    });
+    res.render('index');
 });
 
 var port = process.env.PORT || 4450
