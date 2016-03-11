@@ -9,3 +9,6 @@ gulp.task('start', function () {
   , env: { 'NODE_ENV': 'development' }
   });
 });
+
+// Default task(s): start the server
+gulp.task('default', ['start']);
