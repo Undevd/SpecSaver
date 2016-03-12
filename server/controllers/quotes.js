@@ -2,6 +2,7 @@ var Quote = require('mongoose').model('Quote');
 
 exports.getQuotes = function(req, res) {
     Quote.find({}).exec(function(err, collection) {
+        console.log(collection);
         res.send(collection);
     })
 };
