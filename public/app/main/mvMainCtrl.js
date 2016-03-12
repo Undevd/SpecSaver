@@ -2,7 +2,7 @@ angular.module('app').controller('mvMainCtrl', function($scope, $timeout, mvQuot
   
   $scope.getOfThePage = function() {
       var quotesArr = $scope.quotes;
-      return quotesArr[Math.floor(Math.random() * Object.keys($scope.quotes).length)];
+      return quotesArr[Math.floor(Math.random() * $scope.quotes.length)];
   };
   
     $scope.quotes = mvQuote.query(function() {
