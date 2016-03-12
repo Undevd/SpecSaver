@@ -2,15 +2,15 @@
     .well
         form.form-horizontal(name="quoteForm")
             fieldset
-                legend quote all the things
+                legend Inspire others with awesome quotations
                 .form-group
                     label.col-md-2.control-label(for="quote") Quote
                     .col-md-10
-                        input.form-control(name="quote", type="text", placeholder="Make it funny")
+                        input.form-control(name="quote", type="text", placeholder="Make it light-hearted", ng-model="quote", required)
                 .form-group
                     label.col-md-2.control-label(for="person") Person
                     .col-md-10
-                        input.form-control(name="person", type="text", placeholder="Who speaketh this gem")
+                        input.form-control(name="person", type="text", placeholder="Who speaketh this gem", ng-model="person", required)
                 .form-group
                     .col-md-10.col-md-offset-2
                         .pull-right

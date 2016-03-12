@@ -1,4 +1,5 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+    quoteModel = require('../models/Quote')
 
 module.exports = function(config) {
     mongoose.connect(config.db);
@@ -8,4 +9,6 @@ module.exports = function(config) {
     db.once('open', function callback() {
         console.log('hackathon db opened');
     });
+    
+    quoteModel.createInitialQuotes();    
 }
