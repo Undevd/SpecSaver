@@ -1,54 +1,16 @@
-var express = require('express'),
-    stylus = require('stylus'),
-    logger = require('morgan'),
-    bodyParser = require('body-parser'),
+var express = require('express')
     mongoose = require('mongoose');
 
 var env = process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
+var config = require('./server/config/config.js')[env];
+
 var app = express();
+require('./server/config/express')(app, config);
 
-function compile(str, path) {
-    return stylus(str).set('filename', path);
-}
+require('./server/config/mongoose')(config);
 
-app.set('views', __dirname + '/server/views');
-app.set('view engine', 'jade');
-app.use(logger('dev'));
+require('./server/config/routes')(app);
 
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
-
-app.use(stylus.middleware(
-    {
-        src: __dirname + '/public',
-        compile: compile
-    }
-));
-
-app.use(express.static(__dirname + '/public'));
-
-if(env === 'development') {
-    mongoose.connect('mongodb://localhost/hackathon');
-} else {
-    mongoose.connect('mongodb://admin:Pa$$w0rd@ds064718.mlab.com:64718/specsavers');
-}
-
-
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error...'));
-db.once('open', function callback() {
-    console.log('hackathon db opened');
-});
-
-app.get('/partials/:partialPath', function(req, res) {
-    res.render('partials/' + req.params.partialPath);
-});
-
-app.get('*', function(req, res) {
-    res.render('index');
-});
-
-var port = process.env.PORT || 4450
-app.listen(port);
-console.log('Listening on port: ' + port);
+app.listen(config.port);
+console.log('Listening on port: ' + config.port);

@@ -1,0 +1,19 @@
+.container
+    .well
+        form.form-horizontal(name="quoteForm")
+            fieldset
+                legend quote all the things
+                .form-group
+                    label.col-md-2.control-label(for="quote") Quote
+                    .col-md-10
+                        input.form-control(name="quote", type="text", placeholder="Make it funny")
+                .form-group
+                    label.col-md-2.control-label(for="person") Person
+                    .col-md-10
+                        input.form-control(name="person", type="text", placeholder="Who speaketh this gem")
+                .form-group
+                    .col-md-10.col-md-offset-2
+                        .pull-right
+                            button.btn.btn-primary(ng-click="share()", ng-disabled="quoteForm.$invalid") Share
+                            | &nbsp;
+                            a.btn.btn-default(href="/") Cancel

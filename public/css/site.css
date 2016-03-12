@@ -17,3 +17,10 @@ footer img {
   width: 10pc;
   height: 10pc;
 }
+.quote {
+  color: #ccc;
+  font-family: fantasy;
+}
+.quoteperson {
+  margin-left: 50px;
+}
