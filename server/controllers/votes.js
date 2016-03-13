@@ -1,5 +1,11 @@
 var Vote = require('mongoose').model('Vote');
 
+exports.getVotes = function(req, res) {
+    Vote.find({}).exec(function(err, collection) {
+        res.send(collection);
+    })
+};
+
 exports.createVote = function(req, res, next) {
     var voteData = req.body;
     Vote.create(voteData, function(err, vote) {

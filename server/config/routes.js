@@ -9,6 +9,7 @@ module.exports = function(app) {
     
     
     app.post('/api/votes', votes.createVote);
+    app.get('/api/votes', votes.getVotes);
     
     app.get('/partials/*', function(req, res) {
         console.log(req.params);

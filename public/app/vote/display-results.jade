@@ -1,0 +1,16 @@
+.container.top-padding-med(controller="mvResultCtrl")
+    table.table.table-hover.table-striped.table-condensed
+        thead
+            tr
+                th Team
+                th Concept
+                th Implementation
+                th Presentation
+                th Total
+        tbody(ng-repeat="result in results")
+            tr
+                td {{result.project}}
+                td {{result.concept}}
+                td {{result.implementation}}
+                td {{result.presentation}}
+                td {{result.total}}
