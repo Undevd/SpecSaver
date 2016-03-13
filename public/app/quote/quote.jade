@@ -4,9 +4,15 @@
             fieldset
                 legend Inspire others with awesome quotations
                 .form-group
-                    label.col-md-2.control-label(for="quote") Quote
+                    .col-md-2.control-label
+                        span.glyphicon.glyphicon-asterisk.text-danger
+                        label(for="quote") Quote
                     .col-md-10
-                        input.form-control(name="quote", type="text", placeholder="Make it light-hearted", ng-model="quote", required)
+                        .input-group
+                            span.input-group-addon(id="quoteAddon")
+                                span.glyphicon.glyphicon-comment
+                            input.form-control(name="quote", type="text", ng-model="quote", required, placeholder="Make it light-hearted", aria-describedby="quoteAddon")
+                        .alert.alert-danger(role="alert", ng-show="quoteForm.quote.$invalid && quoteForm.quote.$dirty") Please enter a quote
                 .form-group
                     label.col-md-2.control-label(for="person") Person
                     .col-md-10
