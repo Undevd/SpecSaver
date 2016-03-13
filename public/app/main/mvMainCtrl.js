@@ -6,10 +6,7 @@ angular.module('app').controller('mvMainCtrl', function($scope, $timeout, mvQuot
   };
   
     $scope.quotes = mvQuote.query(function() {
-        $timeout(function() {
-            $scope.quote = $scope.getOfThePage();
-            $scope.$apply($scope.quote);
-        }, 2000);
+        $scope.quote = $scope.getOfThePage();
     });
   
 })
