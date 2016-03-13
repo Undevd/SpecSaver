@@ -1,10 +1,14 @@
-var quotes = require('../controllers/quotes');
+var quotes = require('../controllers/quotes'),
+    votes = require('../controllers/votes');
 
 module.exports = function(app) {
     
     // Quote Routes
     app.get('/api/quotes', quotes.getQuotes);
     app.post('/api/quotes', quotes.createQuote);
+    
+    
+    app.post('/api/votes', votes.createVote);
     
     app.get('/partials/*', function(req, res) {
         console.log(req.params);
