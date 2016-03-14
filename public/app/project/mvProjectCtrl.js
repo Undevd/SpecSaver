@@ -8,10 +8,14 @@ angular.module('app').controller('mvProjectCtrl', function($scope, $location, mv
             description: $scope.description
         };
         
-        dbOps.createProject(newProject).then(function() {
-            $location.path('/');
-        }, function(reason) {
-            console.log("failed to add project");
-        });
+        // dbOps.createProject(newProject).then(function() {
+        //     $location.path('/');
+        // }, function(reason) {
+        //     console.log("failed to add project");
+        // });
+
+        dbOps.createProject(newProject);
+
+        $location.path('/project');
     }
 });
