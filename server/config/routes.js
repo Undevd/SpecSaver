@@ -1,11 +1,8 @@
 var quotes = require('../controllers/quotes'),
-<<<<<<< HEAD
     features = require('../controllers/features'),
-    releases = require('../controllers/releases')
-=======
     releases = require('../controllers/releases'),
+    testSteps = require('../controllers/testSteps'),
     project = require('../controllers/projects'),
->>>>>>> origin/master
     votes = require('../controllers/votes');
 
 module.exports = function(app) {
@@ -16,6 +13,9 @@ module.exports = function(app) {
 
     app.get('/api/features', features.getFeatures);
     app.post('/api/features', features.createFeature);
+    
+    app.get('/api/testSteps', testSteps.getTestSteps);
+    app.post('/api/testSteps', testSteps.createTestStep);
 
     app.get('/api/releases', releases.getReleases);
     app.post('/api/releases', releases.createRelease);
