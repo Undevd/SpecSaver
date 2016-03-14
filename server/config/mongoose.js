@@ -1,8 +1,12 @@
 var mongoose = require('mongoose'),
     quoteModel = require('../models/Quote'),
+    voteModel = require('../models/Vote'),
+    userStoryModel = require('../models/UserStory')
     featureModel = require('../models/Feature'),
     releaseModel = require('../models/Release'),
-    voteModel = require('../models/Vote')
+    voteModel = require('../models/Vote'),
+    projectModel = require('../models/Project'),
+    testStepModel = require('../models/TestStep');
     projectModel = require('../models/Project')
 
 module.exports = function(config) {
@@ -15,6 +19,8 @@ module.exports = function(config) {
     });
     
     quoteModel.createInitialQuotes();
-    featureModel.createInitialFeatures();   
-    projectModel.createInitialProject();    
+    userStoryModel.createInitialUserStory();
+    featureModel.createInitialFeatures();  
+    testStepModel.createInitialTestSteps();
+    projectModel.createInitialProject();
 }

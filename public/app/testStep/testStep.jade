@@ -1,0 +1,19 @@
+.container
+    .well
+        form.form-horizontal(name="testStepForm")
+            fieldset
+                legend Create Test Step
+                .form-group
+                    .col-md-2.control-label
+                        span.glyphicon.glyphicon-asterisk.text-danger
+                        label(for="description") Description
+                    .col-md-10
+                        input.form-control(name="description", type="text", ng-model="description", required, placeholder="Test step description...")
+                 .form-group
+                    .col-md-10.col-md-offset-2
+                        .pull-right
+                            button.btn.btn-success(ng-click="create()", ng-disabled="testStepForm.$invalid")
+                                span.glyphicon.glyphicon-ok
+                                span &nbsp; Submit
+                            | &nbsp;
+                            a.btn.btn-default(href="/") Cancel
