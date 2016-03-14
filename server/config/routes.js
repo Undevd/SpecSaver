@@ -1,6 +1,5 @@
 var quotes = require('../controllers/quotes'),
     features = require('../controllers/features'),
-    releases = require('../controllers/releases')
     releases = require('../controllers/releases'),
     votes = require('../controllers/votes'),
     projects = require('../controllers/projects'),
