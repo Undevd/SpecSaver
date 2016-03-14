@@ -1,11 +1,8 @@
 var quotes = require('../controllers/quotes'),
-<<<<<<< HEAD
     features = require('../controllers/features'),
     releases = require('../controllers/releases')
-=======
     releases = require('../controllers/releases'),
     project = require('../controllers/projects'),
->>>>>>> origin/master
     votes = require('../controllers/votes');
 
 module.exports = function(app) {
