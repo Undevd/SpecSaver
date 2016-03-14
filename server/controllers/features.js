@@ -7,6 +7,13 @@ exports.getFeatures = function(req, res) {
     })
 };
 
+exports.getSingleFeature = function(req, res, featureId){
+    Feature.find({_id: featureId}).exec(function (err, collection) {
+        console.log(collection);
+        res.send(collection)
+    })
+}
+
 exports.createFeature = function(req, res, next) {
     var featureData = req.body;
     Feature.create(featureData, function(err, feature) {

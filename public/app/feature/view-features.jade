@@ -8,7 +8,10 @@
             legend View Features
             div(ng-repeat="feature in features")
                 .form-group
-                    .col-md-5
+                    .col-md-2
                         {{feature.name}}
-                    .col-md-7
+                    .col-md-4
                         {{feature.description}}
+                    .col-md-6
+                        a.btn.btn-default(href="/feature/edit/{{feature._id}}") View/Edit
+                        .pull-right

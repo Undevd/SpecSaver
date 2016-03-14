@@ -20,6 +20,7 @@ module.exports = function(app) {
     // Features Routes
     app.get('/api/features', features.getFeatures);
     app.post('/api/features', features.createFeature);
+    app.get('/api/features/:featureId', features.getSingleFeature);
     
     // Test Step Routes
     app.get('/api/testSteps', testSteps.getTestSteps);
