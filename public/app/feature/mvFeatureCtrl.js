@@ -13,6 +13,6 @@ angular.module('app').controller('mvFeatureCtrl', function($scope, $window, $loc
 
         dbOps.createFeature(newFeature);
 
-        $location.path = '/feature';
+        $location.path('/feature');
     }
 });
