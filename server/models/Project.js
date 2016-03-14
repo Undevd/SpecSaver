@@ -12,7 +12,7 @@ var Project = mongoose.model('Project', projectSchema);
 function createInitialProject() {
     Project.find({}).exec(function(err, collection) {
         if(collection.length === 0) {
-            Project.create({project: "SpecSaver"}, {description: " SpecSaver project description"});
+            Project.create({project: "SpecSaver", description: "SpecSaver project description"});
         }
     });
 }

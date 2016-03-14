@@ -1,0 +1,14 @@
+.container
+    .well
+        a.btn.btn-success(href="/project/create")
+            span.glyphicon.glyphicon-plus
+            span &nbsp; Create
+    .well
+        fieldset
+            legend View Projects
+            div(ng-repeat="project in projects")
+                .form-group
+                    .col-md-5
+                        {{project.name}}
+                    .col-md-7
+                        {{project.description}}

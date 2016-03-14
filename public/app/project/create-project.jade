@@ -2,16 +2,11 @@
     .well
         form.form-horizontal(name="projectForm")
             fieldset
-                Please Create a project
+                Legend Create a project
                 .form-group
-                    .col-md-2.control-label
-                        span.glyphicon.glyphicon-asterisk.text-danger
-                        label(for="project") Project Name
+                    label.col-md-2.control-label(for="project") Project
                     .col-md-10
-                        .input-group
-                            span.input-group-addon(id="projectAddon")
-                                span.glyphicon.glyphicon-comment
-                            input.form-control(name="project", type="text", ng-model="Project", required, placeholder="Name That Project", aria-describedby="projectAddon")
+                        input.form-control(name="project", type="text", placeholder="Name that project", ng-model="Project", required)
                 .form-group
                     label.col-md-2.control-label(for="Description") Description
                     .col-md-10
