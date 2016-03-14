@@ -1,0 +1,14 @@
+.container
+    .well
+        a.btn.btn-success(href="/release/create")
+            span.glyphicon.glyphicon-plus
+            span &nbsp; Create
+    .well
+        fieldset
+            legend View Releases
+            div(ng-repeat="release in releases")
+                .form-group
+                    .col-md-5
+                        {{release.name}}
+                    .col-md-7
+                        {{release.description}}

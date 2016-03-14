@@ -39,6 +39,11 @@ angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvVote, mvPr
 
       return dfd.promise;
     },
+    viewReleases: function() {
+      var releases = mvRelease.query();
+
+      return releases;
+    },
     createVote: function(newVoteData) {
       var newVote = new mvVote(newVoteData);
       var dfd = $q.defer();
