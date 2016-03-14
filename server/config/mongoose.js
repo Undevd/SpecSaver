@@ -2,8 +2,9 @@ var mongoose = require('mongoose'),
     quoteModel = require('../models/Quote'),
     featureModel = require('../models/Feature'),
     releaseModel = require('../models/Release'),
-    voteModel = require('../models/Vote')
-    projectModel = require('../models/Project')
+    voteModel = require('../models/Vote'),
+    testModel = require('../models/Test'),
+    projectModel = require('../models/Project');
 
 module.exports = function(config) {
     mongoose.connect(config.db);

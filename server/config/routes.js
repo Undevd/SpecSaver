@@ -1,13 +1,9 @@
 var quotes = require('../controllers/quotes'),
-<<<<<<< HEAD
     features = require('../controllers/features'),
-    releases = require('../controllers/releases')
-=======
     releases = require('../controllers/releases'),
-    project = require('../controllers/projects'),
->>>>>>> origin/master
-    votes = require('../controllers/votes');
-
+    votes = require('../controllers/votes'),
+    projects = require('../controllers/projects'),
+    tests = require('../controllers/tests');
 module.exports = function(app) {
     
     // Quote Routes
@@ -20,11 +16,14 @@ module.exports = function(app) {
     app.get('/api/releases', releases.getReleases);
     app.post('/api/releases', releases.createRelease);
     
+    app.get('/api/tests', tests.getTests);
+    app.post('/api/tests', tests.createTest);   
+    
     app.post('/api/votes', votes.createVote);
     app.get('/api/votes', votes.getVotes);
 
-    app.post('api/projects', project.createProject);
-    app.get('api/projects', project.getProject);
+    app.post('api/projects', projects.createProject);
+    app.get('api/projects', projects.getProject);
     
     app.get('/partials/*', function(req, res) {
         console.log(req.params);

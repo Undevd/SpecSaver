@@ -1,5 +1,5 @@
 
-angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvVote, mvProject, mvRelease, mvFeature) {
+angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvVote, mvProject, mvRelease, mvFeature, mvTest) {
   return {
     createQuote: function(newQuoteData) {
       var newQuote = new mvQuote(newQuoteData);
@@ -39,6 +39,20 @@ angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvVote, mvPr
 
       return dfd.promise;
     },
+
+createTest: function(newTestData) {
+      var newTest = new mvTest(newTestData);
+      var dfd = $q.defer();
+
+      newTest.$save().then(function() {
+        dfd.resolve();
+       }, function(response) {
+        dfd.reject(response.data.reason);
+      });
+
+      return dfd.promise;
+    },
+
     createVote: function(newVoteData) {
       var newVote = new mvVote(newVoteData);
       var dfd = $q.defer();
