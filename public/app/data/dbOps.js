@@ -1,5 +1,4 @@
-
-angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvVote, mvProject, mvRelease, mvFeature, mvUserStory, mvTestStep) {
+angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvVote, mvProject, mvRelease, mvFeature, mvTest, mvUserStory, mvTestStep) {
 
   return {
     createQuote: function(newQuoteData) {
@@ -45,6 +44,20 @@ angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvVote, mvPr
 
       return dfd.promise;
     },
+
+createTest: function(newTestData) {
+      var newTest = new mvTest(newTestData);
+      var dfd = $q.defer();
+
+      newTest.$save().then(function() {
+        dfd.resolve();
+       }, function(response) {
+        dfd.reject(response.data.reason);
+      });
+
+      return dfd.promise;
+    },
+
     viewReleases: function() {
       var releases = mvRelease.query();
 
