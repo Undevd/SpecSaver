@@ -26,6 +26,11 @@ angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvVote, mvPr
       });
       return dfd.promise;
     },
+    viewFeatures: function() {
+      var features = mvFeature.query();
+
+      return features;
+    },
 
     createRelease: function(newReleaseData) {
       var newRelease = new mvRelease(newReleaseData);

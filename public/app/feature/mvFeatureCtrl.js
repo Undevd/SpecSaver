@@ -1,4 +1,4 @@
-angular.module('app').controller('mvFeatureCtrl', function($scope, $location, dbOps) {
+angular.module('app').controller('mvFeatureCtrl', function($scope, $window, $location, dbOps) {
     $scope.create = function() {
         var newFeature = {
             name: $scope.name,
@@ -6,7 +6,7 @@ angular.module('app').controller('mvFeatureCtrl', function($scope, $location, db
         };
         
         dbOps.createFeature(newFeature).then(function() {
-            $location.path('/');
+            $location.path = '/';
         }, function(reason) {
             console.log("failed to add feature");
         });
