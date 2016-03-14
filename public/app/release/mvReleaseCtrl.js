@@ -1,5 +1,5 @@
 angular.module('app').controller('mvReleaseCtrl', function($scope, $location, $routeParams, dbOps) {
-    $scope.projectId = $routeParams.projectId || '';
+    $scope.projectId = $routeParams.projectId;
     console.log($scope.projectId);
 	$scope.submit = function() {
         var newRelease = {
@@ -8,11 +8,11 @@ angular.module('app').controller('mvReleaseCtrl', function($scope, $location, $r
             project: $scope.projectId
         };
         
-        // dbOps.createRelease(newRelease).then(function() {
-        //     $location.path('/');
-        // }, function(reason) {
-        //     console.log("failed to add release");
-        // });
+         //dbOps.createRelease(newRelease).then(function() {
+         //   $location.path('/');
+         //}, function(reason) {
+         //    console.log("failed to add release");
+         //});
         
         dbOps.createRelease(newRelease);
 

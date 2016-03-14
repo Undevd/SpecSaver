@@ -23,4 +23,5 @@ module.exports = function(config) {
     featureModel.createInitialFeatures();  
     testStepModel.createInitialTestSteps();
     projectModel.createInitialProject();
+    releaseModel.createInitialReleases();
 }

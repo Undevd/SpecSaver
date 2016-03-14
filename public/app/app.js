@@ -9,7 +9,7 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
         .when('/feature/create', { templateUrl: '/partials/feature/create-feature', controller: "mvFeatureCtrl" })
         .when('/feature/edit/:featureId', { templateUrl: 'partials/feature/edit-features', controller: "mvViewFeaturesCtrl"})
         .when('/release/:productId', { templateUrl: '/partials/release/view-releases', controller: "mvViewReleasesCtrl" })
-        .when('/release/create', { templateUrl: '/partials/release/create-release', controller: "mvReleaseCtrl" })
+        .when('/release/create/:productId', { templateUrl: '/partials/release/create-release', controller: "mvReleaseCtrl" })
         .when('/vote/cast-vote', { templateUrl: '/partials/vote/cast-vote', controller: "mvVoteCtrl" })
         .when('/vote/display-results', { templateUrl: '/partials/vote/display-results', controller: "mvResultCtrl" })
         .when('/project', { templateUrl: '/partials/project/view-project', controller: "mvProjectCtrl"})
