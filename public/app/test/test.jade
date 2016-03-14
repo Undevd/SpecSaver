@@ -1,0 +1,25 @@
+.container
+    .well
+        form.form-horizontal(name="testForm")
+            fieldset
+                legend Create Test
+                .form-group
+                    .col-md-2.control-label
+                        span.glyphicon.glyphicon-asterisk.text-danger
+                        label(for="name") Name
+                    .col-md-10
+                        input.form-control(name="name", type="text", ng-model="name", required, placeholder="Test name")
+                        .alert.alert-danger(role="alert", ng-show="testForm.name.$invalid && testForm.name.$dirty") Please enter a test
+                .form-group
+                    .col-md-2.control-label
+                        label(for="name") Description
+                    .col-md-10
+                        textarea.form-control(name="description", type="text", ng-model="description", placeholder="Description")
+                 .form-group
+                    .col-md-10.col-md-offset-2
+                        .pull-right
+                            button.btn.btn-success(ng-click="submit()", ng-disabled="testForm.$invalid")
+                                span.glyphicon.glyphicon-ok
+                                span &nbsp; Submit
+                            | &nbsp;
+                            a.btn.btn-default(href="/") Cancel

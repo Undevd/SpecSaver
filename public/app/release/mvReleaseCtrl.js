@@ -8,10 +8,14 @@ angular.module('app').controller('mvReleaseCtrl', function($scope, $location, $r
             project: $scope.projectId
         };
         
-        dbOps.createRelease(newRelease).then(function() {
-            $location.path('/');
-        }, function(reason) {
-            console.log("failed to add release");
-        });
+        // dbOps.createRelease(newRelease).then(function() {
+        //     $location.path('/');
+        // }, function(reason) {
+        //     console.log("failed to add release");
+        // });
+        
+        dbOps.createRelease(newRelease);
+
+        $location.path('/release');
     }
 });

@@ -2,9 +2,10 @@ var quotes = require('../controllers/quotes'),
     features = require('../controllers/features'),
     releases = require('../controllers/releases')
     releases = require('../controllers/releases'),
-    testSteps = require('../controllers/testSteps'),
-    projects = require('../controllers/projects'),
     votes = require('../controllers/votes'),
+    projects = require('../controllers/projects'),
+    tests = require('../controllers/tests'),
+    testSteps = require('../controllers/testSteps'),
     userStories = require('../controllers/user-stories');
 
 module.exports = function(app) {
@@ -20,6 +21,7 @@ module.exports = function(app) {
     // Features Routes
     app.get('/api/features', features.getFeatures);
     app.post('/api/features', features.createFeature);
+    app.get('/api/features/:featureId', features.getSingleFeature);
     
     // Test Step Routes
     app.get('/api/testSteps', testSteps.getTestSteps);
@@ -28,6 +30,10 @@ module.exports = function(app) {
     // Release Routes
     app.get('/api/releases', releases.getReleases);
     app.post('/api/releases', releases.createRelease);
+
+    // Test Routes
+    app.get('/api/tests', tests.getTests);
+    app.post('/api/tests', tests.createTest);   
     
     // Vote Routes
     app.post('/api/votes', votes.createVote);

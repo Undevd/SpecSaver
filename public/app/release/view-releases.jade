@@ -6,6 +6,10 @@
     .well
         fieldset
             legend View Releases
+            .pad
+                .form-group
+                    strong.col-md-5 Name
+                    strong.col-md-7 Description
             div(ng-repeat="release in releases")
                 .form-group
                     .col-md-5

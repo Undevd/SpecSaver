@@ -1,0 +1,17 @@
+.container
+    .well
+        a.btn.btn-success(href="/feature/create")
+            span.glyphicon.glyphicon-plus
+            span &nbsp; Create
+    .well
+        fieldset
+            legend View Features
+            div(ng-repeat="feature in features")
+                .form-group
+                    .col-md-2
+                        {{feature.name}}
+                    .col-md-4
+                        {{feature.description}}
+                    .col-md-6
+                        a.btn.btn-default(href="/feature/edit/{{feature._id}}") View/Edit
+                        .pull-right

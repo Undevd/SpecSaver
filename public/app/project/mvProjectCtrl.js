@@ -1,9 +1,8 @@
 angular.module('app').controller('mvProjectCtrl', function($scope, $location, mvProject, dbOps) {
     
     $scope.projects = mvProject.query();
-    console.log($scope.projects);
     
-    $scope.share = function() {
+    $scope.submit = function() {
         var newProject = {
             project: $scope.project,
             description: $scope.description
