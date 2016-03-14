@@ -1,7 +1,9 @@
 var mongoose = require('mongoose'),
     quoteModel = require('../models/Quote'),
+    featureModel = require('../models/Feature'),
     releaseModel = require('../models/Release'),
     voteModel = require('../models/Vote')
+    projectModel = require('../models/Project')
 
 module.exports = function(config) {
     mongoose.connect(config.db);
@@ -12,5 +14,7 @@ module.exports = function(config) {
         console.log('hackathon db opened');
     });
     
-    quoteModel.createInitialQuotes();    
+    quoteModel.createInitialQuotes();
+    featureModel.createInitialFeatures();   
+    projectModel.createInitialProject();    
 }
