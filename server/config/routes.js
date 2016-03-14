@@ -1,10 +1,11 @@
 var quotes = require('../controllers/quotes'),
-    votes = require('../controllers/votes'),
-    userStories = require('../controllers/user-stories'),
     features = require('../controllers/features'),
+    releases = require('../controllers/releases')
     releases = require('../controllers/releases'),
+    testSteps = require('../controllers/testSteps'),
     projects = require('../controllers/projects'),
-    votes = require('../controllers/votes');
+    votes = require('../controllers/votes'),
+    userStories = require('../controllers/user-stories');
 
 module.exports = function(app) {
    
@@ -16,18 +17,25 @@ module.exports = function(app) {
     app.get('/api/quotes', quotes.getQuotes);
     app.post('/api/quotes', quotes.createQuote);
     
-    // Vote Routes
+    // Features Routes
     app.get('/api/features', features.getFeatures);
     app.post('/api/features', features.createFeature);
-
+    
+    // Test Step Routes
+    app.get('/api/testSteps', testSteps.getTestSteps);
+    app.post('/api/testSteps', testSteps.createTestStep);
+    
+    // Release Routes
     app.get('/api/releases', releases.getReleases);
     app.post('/api/releases', releases.createRelease);
     
+    // Vote Routes
     app.post('/api/votes', votes.createVote);
     app.get('/api/votes', votes.getVotes);
 
-    app.post('/api/projects', projects.createProject);
-    app.get('/api/projects', projects.getProject);
+    // Project Routes
+    app.post('api/projects', projects.createProject);
+    app.get('api/projects', projects.getProject);
     
     app.get('/partials/*', function(req, res) {
         console.log(req.params);

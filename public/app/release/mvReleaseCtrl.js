@@ -1,7 +1,4 @@
 angular.module('app').controller('mvReleaseCtrl', function($scope, $location, dbOps) {
-    
-    $scope.products = dbOps.viewReleases();
-    
 	$scope.submit = function() {
         var newRelease = {
             name: $scope.name,

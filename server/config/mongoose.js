@@ -5,6 +5,8 @@ var mongoose = require('mongoose'),
     featureModel = require('../models/Feature'),
     releaseModel = require('../models/Release'),
     voteModel = require('../models/Vote'),
+    projectModel = require('../models/Project'),
+    testStepModel = require('../models/TestStep');
     projectModel = require('../models/Project')
 
 module.exports = function(config) {
@@ -18,6 +20,7 @@ module.exports = function(config) {
     
     quoteModel.createInitialQuotes();
     userStoryModel.createInitialUserStory();
-    featureModel.createInitialFeatures();   
+    featureModel.createInitialFeatures();  
+    testStepModel.createInitialTestSteps();
     projectModel.createInitialProject();
 }
