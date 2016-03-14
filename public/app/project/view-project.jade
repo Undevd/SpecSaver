@@ -14,7 +14,7 @@
                         th Actions
                 tbody(ng-repeat="project in projects")
                     tr
-                        td {{project.project}}
+                        td {{project.name}}
                         td {{project.description}}
                         td 
                             a.btn.btn-success(href="/release/{{project._id}}")
