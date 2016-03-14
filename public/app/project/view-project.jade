@@ -6,9 +6,17 @@
     .well
         fieldset
             legend View Projects
-            div(ng-repeat="project in projects")
-                .form-group
-                    .col-md-5
-                        {{project.name}}
-                    .col-md-7
-                        {{project.description}}
+            table.table.table-hover.table-striped.table-condensed
+                thead
+                    tr
+                        th Project
+                        th Description
+                        th Actions
+                tbody(ng-repeat="project in projects")
+                    tr
+                        td {{project.project}}
+                        td {{project.description}}
+                        td 
+                            a.btn.btn-success(href="/release/{{project._id}}")
+                                span.glyphicon.glyphicon-th-list
+                                span &nbsp; View Releases

@@ -34,8 +34,8 @@ module.exports = function(app) {
     app.get('/api/votes', votes.getVotes);
 
     // Project Routes
-    app.post('api/projects', projects.createProject);
-    app.get('api/projects', projects.getProject);
+    app.post('/api/projects', projects.createProject);
+    app.get('/api/projects', projects.getProject);
     
     app.get('/partials/*', function(req, res) {
         console.log(req.params);
