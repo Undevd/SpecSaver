@@ -4,7 +4,7 @@ angular.module('app').controller('mvProjectCtrl', function($scope, $location, mv
     
     $scope.submit = function() {
         var newProject = {
-            project: $scope.project,
+            name: $scope.name,
             description: $scope.description
         };
         
