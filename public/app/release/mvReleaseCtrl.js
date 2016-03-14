@@ -5,10 +5,14 @@ angular.module('app').controller('mvReleaseCtrl', function($scope, $location, db
             description: $scope.description
         };
         
-        dbOps.createRelease(newRelease).then(function() {
-            $location.path('/');
-        }, function(reason) {
-            console.log("failed to add release");
-        });
+        // dbOps.createRelease(newRelease).then(function() {
+        //     $location.path('/');
+        // }, function(reason) {
+        //     console.log("failed to add release");
+        // });
+        
+        dbOps.createRelease(newRelease);
+
+        $location.path('/release');
     }
 });
