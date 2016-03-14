@@ -16,4 +16,5 @@ module.exports = function(config) {
     
     quoteModel.createInitialQuotes();
     featureModel.createInitialFeatures();   
+    projectModel.createInitialProject();    
 }
