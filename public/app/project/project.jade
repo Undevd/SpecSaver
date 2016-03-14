@@ -1,0 +1,27 @@
+.container
+    .well
+        form.form-horizontal(name="projectForm")
+            fieldset
+                Please Create a project
+                .form-group
+                    .col-md-2.control-label
+                        span.glyphicon.glyphicon-asterisk.text-danger
+                        label(for="project") Project Name
+                    .col-md-10
+                        .input-group
+                            span.input-group-addon(id="projectAddon")
+                                span.glyphicon.glyphicon-comment
+                            input.form-control(name="project", type="text", ng-model="Project", required, placeholder="Name That Project", aria-describedby="projectAddon")
+                        .alert.alert-danger(role="alert", ng-show="projectForm.project.$invalid && projectForm.project.$dirty") Please enter a project name
+                .form-group
+                    label.col-md-2.control-label(for="Description") Description
+                    .col-md-10
+                        input.form-control(name="description", type="text", placeholder="Brief project description", ng-model="Project", required)
+                .form-group
+                    .col-md-10.col-md-offset-2
+                        .pull-right
+                             button.btn.btn-success(ng-click="submit()", ng-disabled="projectForm.$invalid")
+                                span.glyphicon.glyphicon-ok
+                                span &nbsp; Create Project
+                                | &nbsp;
+                            a.btn.btn-default(href="/") Cancel
