@@ -1,0 +1,25 @@
+.container
+    .well
+        form.form-horizontal(name="releaseForm")
+            fieldset
+                legend Create Release
+                .form-group
+                    .col-md-2.control-label
+                        span.glyphicon.glyphicon-asterisk.text-danger
+                        label(for="name") Name
+                    .col-md-10
+                        input.form-control(name="name", type="text", ng-model="name", required, placeholder="Release name")
+                        .alert.alert-danger(role="alert", ng-show="releaseForm.name.$invalid && releaseForm.name.$dirty") Please enter a release
+                .form-group
+                    .col-md-2.control-label
+                        label(for="name") Description
+                    .col-md-10
+                        textarea.form-control(name="description", type="text", ng-model="description", placeholder="Description")
+                 .form-group
+                    .col-md-10.col-md-offset-2
+                        .pull-right
+                            button.btn.btn-success(ng-click="submit()", ng-disabled="releaseForm.$invalid")
+                                span.glyphicon.glyphicon-ok
+                                span &nbsp; Submit
+                            | &nbsp;
+                            a.btn.btn-default(href="/") Cancel
