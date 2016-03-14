@@ -1,6 +1,10 @@
 var mongoose = require('mongoose'),
     quoteModel = require('../models/Quote'),
+
     featureModel = require('../models/Feature'),
+
+    releaseModel = require('../models/Release'),
+
     voteModel = require('../models/Vote')
 
 module.exports = function(config) {

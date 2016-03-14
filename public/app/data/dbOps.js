@@ -1,4 +1,8 @@
+
 angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvFeature, mvVote) {
+
+angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvVote, mvRelease) {
+
   return {
     createQuote: function(newQuoteData) {
       var newQuote = new mvQuote(newQuoteData);
@@ -12,11 +16,25 @@ angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvFeature, m
 
       return dfd.promise;
     },
+
     createFeature: function(newFeatureData) {
       var newFeature = new mvFeature(newFeatureData);
       var dfd = $q.defer();
 
       newFeature.$save().then(function() {
+          dfd.resolve();
+      }, function(response) {
+        dfd.reject(response.data.reason);
+      });
+      return dfd.promise;
+    },
+
+    createRelease: function(newReleaseData) {
+      var newRelease = new mvRelease(newReleaseData);
+      var dfd = $q.defer();
+
+      newRelease.$save().then(function() {
+
         dfd.resolve();
       }, function(response) {
         dfd.reject(response.data.reason);

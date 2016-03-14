@@ -1,5 +1,6 @@
 var quotes = require('../controllers/quotes'),
     features = require('../controllers/features'),
+    releases = require('../controllers/releases')
     votes = require('../controllers/votes');
 
 module.exports = function(app) {
@@ -7,9 +8,12 @@ module.exports = function(app) {
     // Quote Routes
     app.get('/api/quotes', quotes.getQuotes);
     app.post('/api/quotes', quotes.createQuote);
-    
+
     app.get('/api/features', features.getFeatures);
     app.post('/api/features', features.createFeature);
+
+    app.get('/api/releases', releases.getReleases);
+    app.post('/api/releases', releases.createRelease);
     
     app.post('/api/votes', votes.createVote);
     app.get('/api/votes', votes.getVotes);
