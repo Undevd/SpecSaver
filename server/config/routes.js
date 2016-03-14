@@ -1,5 +1,6 @@
 var quotes = require('../controllers/quotes'),
-    releases = require('../controllers/releases')
+    releases = require('../controllers/releases'),
+    project = require('../controllers/projects'),
     votes = require('../controllers/votes');
 
 module.exports = function(app) {
@@ -13,6 +14,9 @@ module.exports = function(app) {
     
     app.post('/api/votes', votes.createVote);
     app.get('/api/votes', votes.getVotes);
+
+    app.post('api/projects', project.createProject);
+    app.get('api/projects', project.getProject);
     
     app.get('/partials/*', function(req, res) {
         console.log(req.params);

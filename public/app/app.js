@@ -8,4 +8,6 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
         .when('/release', { templateUrl: '/partials/release/release', controller: "mvReleaseCtrl" })
         .when('/vote/cast-vote', { templateUrl: '/partials/vote/cast-vote', controller: "mvVoteCtrl" })
         .when('/vote/display-results', { templateUrl: '/partials/vote/display-results', controller: "mvResultCtrl" });
+        .when('/vote/display-results', { templateUrl: '/partials/vote/display-results', controller: "mvResultCtrl" })
+        .when('/project', { templateUrl: '/partials/project/project', controller: "mvProjectCtrl"});
 });
