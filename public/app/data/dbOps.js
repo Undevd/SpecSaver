@@ -1,5 +1,5 @@
+angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvVote, mvProject, mvRelease, mvFeature, mvTest, mvUserStory, mvTestStep) {
 
-angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvVote, mvProject, mvRelease, mvFeature, mvTest) {
   return {
     createQuote: function(newQuoteData) {
       var newQuote = new mvQuote(newQuoteData);
@@ -53,6 +53,12 @@ createTest: function(newTestData) {
       return dfd.promise;
     },
 
+    viewReleases: function() {
+      var releases = mvRelease.query();
+
+      return releases;
+    },
+    
     createVote: function(newVoteData) {
       var newVote = new mvVote(newVoteData);
       var dfd = $q.defer();
@@ -66,6 +72,19 @@ createTest: function(newTestData) {
       return dfd.promise;
     },
     
+    createUserStory: function(newUserStoryData) {
+      var newUserStory = new mvUserStory(newUserStoryData);
+      var dfd = $q.defer();
+
+      newUserStory.$save().then(function() {
+        dfd.resolve();
+      }, function(response) {
+        dfd.reject(response.data.reason);
+      });
+      
+      return dfd.promise;
+    },
+    
     createProject: function(newProjectData) {
       var newProject = new mvProject(newProjectData);
       var dfd = $q.defer();
@@ -75,8 +94,19 @@ createTest: function(newTestData) {
       }, function(response) {
         dfd.reject(response.data.reason);
       });
-
       return dfd.promise;
-    }
+    },
+    
+    createTestStep: function(newTestStepData) {
+      var newTestStep = new mvTestStep(newTestStepData);
+      var dfd = $q.defer();
+
+      newTestStep.$save().then(function() {
+          dfd.resolve();
+      }, function(response) {
+        dfd.reject(response.data.reason);
+      });
+      return dfd.promise;
+    },
   }
 });

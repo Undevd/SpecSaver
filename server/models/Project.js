@@ -7,4 +7,14 @@ var projectSchema = mongoose.Schema({
 
 projectSchema.methods = { };
 
-var project = mongoose.model('Project', projectSchema);
+var Project = mongoose.model('Project', projectSchema);
+
+function createInitialProject() {
+    Project.find({}).exec(function(err, collection) {
+        if(collection.length === 0) {
+            Project.create({project: "SpecSaver", description: " SpecSaver project description"});
+        }
+    });
+}
+
+exports.createInitialProject = createInitialProject;

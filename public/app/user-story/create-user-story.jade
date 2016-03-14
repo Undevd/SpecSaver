@@ -1,0 +1,19 @@
+.container
+    .well
+        form.form-horizontal(name="userStoryForm")
+            fieldset
+                legend User Story
+                .form-group
+                    label.col-md-2.control-label(for="name") Name
+                    .col-md-10
+                        input.form-control(name="name", type="text", placeholder="what's your story's title?", ng-model="name", required)
+                .form-group
+                    label.col-md-2.control-label(for="story") Story
+                    .col-md-10
+                        input.form-control(name="story", type="text", placeholder="tell me a story...", ng-model="story", required)
+                .form-group
+                    .col-md-10.col-md-offset-2
+                        .pull-right
+                            button.btn.btn-primary(ng-click="create()", ng-disabled="userStoryForm.$invalid") Create
+                            | &nbsp;
+                            a.btn.btn-default(href="/") Cancel
