@@ -3,7 +3,7 @@ var quotes = require('../controllers/quotes'),
     releases = require('../controllers/releases')
     releases = require('../controllers/releases'),
     testSteps = require('../controllers/testSteps'),
-    project = require('../controllers/projects'),
+    projects = require('../controllers/projects'),
     votes = require('../controllers/votes'),
     userStories = require('../controllers/user-stories');
 
