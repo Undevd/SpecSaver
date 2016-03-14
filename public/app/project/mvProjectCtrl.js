@@ -1,5 +1,5 @@
 angular.module('app').controller('mvProjectCtrl', function($scope, $location, dbOps) {
-    $scope.share = function() {
+    $scope.submit = function() {
         var newProject = {
             project: $scope.project,
             description: $scope.description

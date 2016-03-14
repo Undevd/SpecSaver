@@ -10,5 +10,5 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
         .when('/release/create', { templateUrl: '/partials/release/create-release', controller: "mvReleaseCtrl" })
         .when('/vote/cast-vote', { templateUrl: '/partials/vote/cast-vote', controller: "mvVoteCtrl" })
         .when('/vote/display-results', { templateUrl: '/partials/vote/display-results', controller: "mvResultCtrl" })
-        .when('/project', { templateUrl: '/partials/project/project', controller: "mvProjectCtrl"});
+        .when('/project', { templateUrl: '/partials/project/project', controller: "mvProjectCtrl" });
 });
