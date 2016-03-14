@@ -1,5 +1,6 @@
 var mongoose = require('mongoose'),
     quoteModel = require('../models/Quote'),
+    featureModel = require('../models/Feature'),
     voteModel = require('../models/Vote')
 
 module.exports = function(config) {
@@ -11,5 +12,6 @@ module.exports = function(config) {
         console.log('hackathon db opened');
     });
     
-    quoteModel.createInitialQuotes();    
+    quoteModel.createInitialQuotes();
+    featureModel.createInitialFeatures();   
 }

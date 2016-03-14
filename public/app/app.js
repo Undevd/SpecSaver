@@ -5,6 +5,7 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
     $routeProvider
         .when('/', { templateUrl: '/partials/main/main', controller: 'mvMainCtrl'})
         .when('/quote', { templateUrl: '/partials/quote/quote', controller: "mvQuoteCtrl" })
+        .when('/feature', { templateUrl: '/partials/feature/feature', controller: "mvFeatureCtrl" })
         .when('/vote/cast-vote', { templateUrl: '/partials/vote/cast-vote', controller: "mvVoteCtrl" })
         .when('/vote/display-results', { templateUrl: '/partials/vote/display-results', controller: "mvResultCtrl" });
 });
