@@ -7,7 +7,7 @@ var quotes = require('../controllers/quotes'),
     votes = require('../controllers/votes');
 
 module.exports = function(app) {
-    
+   
     // User Story Routes
     app.post('/api/user-stories', userStories.createUserStory);
     app.get('/api/user-stories', userStories.getUserStories);
