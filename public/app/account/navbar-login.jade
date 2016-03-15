@@ -1,0 +1,15 @@
+.navbar-right(ng-controller="mvNavBarLoginCtrl")
+    form.navbar-form(ng-hide="identity.isAuthenticated()")
+        .form-group
+            input.form-control(placeholder="username", ng-model="username")
+        .form-group
+            input.form-control(type="password", placeholder="password", ng-model="password")
+        button.btn.btn-primary(ng-click="login(username, password)") Login
+  ul.nav.navbar-nav.navbar-right(ng-show="identity.isAuthenticated()")
+    li.dropdown
+      a.dropdown-toggle(href="", data-toggle="dropdown")
+        | {{identity.currentUser.firstName + " " + identity.currentUser.lastName}}
+        b.caret
+      ul.dropdown-menu
+        li
+          a(href="", ng-click="logout()") Log Out

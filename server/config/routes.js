@@ -5,9 +5,13 @@ var quotes = require('../controllers/quotes'),
     projects = require('../controllers/projects'),
     tests = require('../controllers/tests'),
     testSteps = require('../controllers/testSteps'),
-    userStories = require('../controllers/user-stories');
+    userStories = require('../controllers/user-stories'),
+    auth = require('./auth');
 
 module.exports = function(app) {
+   
+   // Authenticate
+    app.post('/login', auth.authenticate);
    
     // User Story Routes
     app.post('/api/user-stories', userStories.createUserStory);
