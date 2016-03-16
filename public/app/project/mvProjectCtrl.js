@@ -1,5 +1,7 @@
-angular.module('app').controller('mvProjectCtrl', function($scope, $location, mvProject, dbOps) {
+angular.module('app').controller('mvProjectCtrl', function($scope, $location, $routeParams, mvProject, dbOps) {
     
+    $scope.projectId = $routeParams.projectId;
+
     $scope.projects = mvProject.query();
     
     $scope.submit = function() {

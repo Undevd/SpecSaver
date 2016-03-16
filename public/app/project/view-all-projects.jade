@@ -1,0 +1,18 @@
+.container
+    .well
+        fieldset
+            legend.colour1.pad
+                span.glyphicon.glyphicon-th-list &nbsp; Projects
+                a.btn.btn-default.pull-right(href="/project/create")
+                    span.glyphicon.glyphicon-plus
+                    span &nbsp; Create
+            table.table.table-hover.table-striped.table-condensed
+                tbody(ng-repeat="project in projects")
+                    tr
+                        td
+                            a(href="/project/{{project._id}}") {{project.name}}
+                        td {{project.description}}
+                        td
+                            a.btn.btn-default.pull-right(href="/project/{{project._id}}")
+                                span.glyphicon.glyphicon-th-list
+                                span &nbsp; Manage

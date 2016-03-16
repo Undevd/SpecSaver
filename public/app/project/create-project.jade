@@ -4,19 +4,18 @@
             fieldset
                 legend Create a project
                 .form-group
-                    label.col-md-2.control-label(for="name") Project
+                    label.col-md-2.control-label(for="name") Name
                     .col-md-10
-                        input.form-control(name="project", type="text", placeholder="Name that project", ng-model="project", required)
                         input.form-control(name="name", type="text", placeholder="Name that project", ng-model="name", required)
                 .form-group
                     label.col-md-2.control-label(for="description") Description
                     .col-md-10
-                        input.form-control(name="description", type="text", placeholder="Brief project description", ng-model="description", required)
+                        textarea.form-control(name="description", type="text", placeholder="Brief project description", ng-model="description", required)
                 .form-group
                     .col-md-10.col-md-offset-2
                         .pull-right
-                             button.btn.btn-success(ng-click="submit()", ng-disabled="projectForm.$invalid")
+                            button.btn.btn-success(ng-click="submit()", ng-disabled="projectForm.$invalid")
                                 span.glyphicon.glyphicon-ok
                                 span &nbsp; Create Project
-                                | &nbsp;
+                            | &nbsp;
                             a.btn.btn-default(href="/") Cancel

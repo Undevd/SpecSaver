@@ -1,22 +1,22 @@
 .container
     .well
-        a.btn.btn-success(href="/project/create")
-            span.glyphicon.glyphicon-plus
-            span &nbsp; Create
-    .well
         fieldset
-            legend View Projects
-            table.table.table-hover.table-striped.table-condensed
-                thead
-                    tr
-                        th Project
-                        th Description
-                        th Actions
-                tbody(ng-repeat="project in projects")
-                    tr
-                        td {{project.name}}
-                        td {{project.description}}
-                        td 
-                            a.btn.btn-success(href="/release/{{project._id}}")
-                                span.glyphicon.glyphicon-th-list
-                                span &nbsp; View Releases
+            legend.colour1.pad
+                span.glyphicon.glyphicon-th-list &nbsp; {{project.name}} - In progress
+                span {{project.description}}
+            div
+                a.btn.btn-block.colour2(href="/release/{{projectId}}")
+                    span.glyphicon.glyphicon-gift
+                    span &nbsp; Releases
+                a.btn.btn-block.colour3(href="/feature/{{release._id}}")
+                    span.glyphicon.glyphicon-apple
+                    span &nbsp; Features
+                a.btn.btn-block.colour4(href="#")
+                    span.glyphicon.glyphicon-tree-deciduous
+                    span &nbsp; User Stories
+                a.btn.btn-block.colour5(href="#")
+                    span.glyphicon.glyphicon-grain
+                    span &nbsp; Acceptance Tests
+                a.btn.btn-block.colour6(href="#")
+                    span.glyphicon.glyphicon-leaf
+                    span &nbsp; System Tests
