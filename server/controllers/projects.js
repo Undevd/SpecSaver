@@ -14,14 +14,14 @@ exports.createProject = function(req, res, next) {
     });
 }
 
+exports.getProject = function(req, res) {
+    Project.find({ _id: req.params.projectId }).exec(function(err, obj) {
+        res.send(obj);
+    })
+}
+
 exports.getAllProjects = function(req, res) {
     Project.find({}).exec(function(err, collection) {
-        res.send(collection);
-    })
-};
-
-exports.getProject = function(req, res) {
-    Project.find({ _id: req.projectId }).exec(function(err, collection) {
         res.send(collection);
     })
 }
