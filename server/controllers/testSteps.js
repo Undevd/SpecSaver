@@ -1,15 +1,14 @@
 var TestStep = require('mongoose').model('TestStep');
 
 exports.getTestSteps = function(req, res) {
-    TestStep.find({}).exec(function(err, collection) {
-        console.log(collection);
-        res.send(collection);
+    TestStep.find({}).exec(function(err, testSteps) {
+        res.send(testSteps);
     })
 };
 
-exports.createTestStep = function(req, res, next) {
+exports.createTestStep = function(req, res) {
     var testStepData = req.body;
-    TestStep.create(testStepData, function(err, quote) {
+    TestStep.create(testStepData, function(err, testStep) {
         if(err) {
             if(err.toString().indexOf('E11000') > -1) {
                 err = new Error('A duplicate exists');
@@ -17,6 +16,8 @@ exports.createTestStep = function(req, res, next) {
             res.status(400);
             return res.send({reason:err.toString()});
         }
+
         res.status(201);
+        res.send(testStep);
     });
 }

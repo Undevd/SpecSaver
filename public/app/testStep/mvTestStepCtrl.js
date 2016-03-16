@@ -5,7 +5,7 @@ angular.module('app').controller('mvTestStepCtrl', function($scope, $location, d
         };
         
         dbOps.createTestStep(newTestStep).then(function() {
-            $location.path('/');
+            $location.path('/testStep');
         }, function(reason) {
             console.log("failed to add test step");
         });

@@ -1,13 +1,12 @@
 var Quote = require('mongoose').model('Quote');
 
 exports.getQuotes = function(req, res) {
-    Quote.find({}).exec(function(err, collection) {
-        console.log(collection);
-        res.send(collection);
+    Quote.find({}).exec(function(err, quotes) {
+        res.send(quotes);
     })
 };
 
-exports.createQuote = function(req, res, next) {
+exports.createQuote = function(req, res) {
     var quoteData = req.body;
     Quote.create(quoteData, function(err, quote) {
         if(err) {
@@ -17,6 +16,8 @@ exports.createQuote = function(req, res, next) {
             res.status(400);
             return res.send({reason:err.toString()});
         }
+
         res.status(201);
+        res.send(quote);
     });
 }

@@ -1,12 +1,12 @@
 var Vote = require('mongoose').model('Vote');
 
 exports.getVotes = function(req, res) {
-    Vote.find({}).exec(function(err, collection) {
-        res.send(collection);
+    Vote.find({}).exec(function(err, votes) {
+        res.send(votes);
     })
 };
 
-exports.createVote = function(req, res, next) {
+exports.createVote = function(req, res) {
     var voteData = req.body;
     Vote.create(voteData, function(err, vote) {
         if(err) {
@@ -16,6 +16,8 @@ exports.createVote = function(req, res, next) {
             res.status(400);
             return res.send({reason:err.toString()});
         }
+
         res.status(201);
+        res.send(vote);
     });
 }

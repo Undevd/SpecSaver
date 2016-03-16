@@ -5,14 +5,10 @@ angular.module('app').controller('mvFeatureCtrl', function($scope, $window, $loc
             description: $scope.description
         };
         
-        // dbOps.createFeature(newFeature).then(function() {
-        //     $location.path = '/';
-        // }, function(reason) {
-        //     console.log("failed to add feature");
-        // });
-
-        dbOps.createFeature(newFeature);
-
-        $location.path('/feature');
+        dbOps.createFeature(newFeature).then(function() {
+            $location.path = '/feature';
+        }, function(reason) {
+            console.log("failed to add feature");
+        });
     }
 });

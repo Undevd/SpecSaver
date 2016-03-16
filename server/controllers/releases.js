@@ -1,15 +1,14 @@
 var Release = require('mongoose').model('Release');
 
 exports.getReleases = function(req, res) {
-    Release.find({}).exec(function(err, collection) {
-        console.log(collection);
-        res.send(collection);
+    Release.find({}).exec(function(err, releases) {
+        res.send(releases);
     })
 };
 
-exports.createRelease = function(req, res, next) {
+exports.createRelease = function(req, res) {
     var releaseData = req.body;
-    Release.create(releaseData, function(err, quote) {
+    Release.create(releaseData, function(err, release) {
         if(err) {
             if(err.toString().indexOf('E11000') > -1) {
                 err = new Error('A duplicate exists');
@@ -17,6 +16,8 @@ exports.createRelease = function(req, res, next) {
             res.status(400);
             return res.send({reason:err.toString()});
         }
+
         res.status(201);
+        res.send(release);
     });
 }

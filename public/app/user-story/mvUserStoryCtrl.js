@@ -6,7 +6,7 @@ angular.module('app').controller('mvUserStoryCtrl', function($scope, $location, 
         };
         
         dbOps.createUserStory(newUserStory).then(function() {
-            $location.path('/');
+            $location.path('/user-story');
         }, function(reason) {
             console.log("failed to add user story");
         });

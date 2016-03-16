@@ -6,14 +6,10 @@ angular.module('app').controller('ctrlCreateProject', function($scope, $location
             description: $scope.description
         };
         
-        // dbProject.create(newProject).then(function() {
-        //     $location.path('/');
-        // }, function(reason) {
-        //     console.log("failed to add project");
-        // });
-
-        dbProject.createProject(newProject);
-
-        $location.path('/project');
+        dbProject.createProject(newProject).then(function() {
+            $location.path('/project');
+        }, function(reason) {
+            console.log("failed to add project");
+        });
     }
 });

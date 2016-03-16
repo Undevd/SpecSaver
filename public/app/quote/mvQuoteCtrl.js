@@ -6,7 +6,7 @@ angular.module('app').controller('mvQuoteCtrl', function($scope, $location, dbOp
         };
         
         dbOps.createQuote(newQuote).then(function() {
-            $location.path('/release/view-releases');
+            $location.path('/');
         }, function(reason) {
             console.log("failed to add quote");
         });

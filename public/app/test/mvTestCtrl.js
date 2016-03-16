@@ -6,7 +6,7 @@ angular.module('app').controller('mvTestCtrl', function($scope, $location, dbOps
         };
         
         dbOps.createTest(newTest).then(function() {
-            $location.path('/');
+            $location.path('/test');
         }, function(reason) {
             console.log("failed to add test");
         });
