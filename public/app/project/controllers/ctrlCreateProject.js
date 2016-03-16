@@ -1,8 +1,4 @@
-angular.module('app').controller('mvProjectCtrl', function($scope, $location, $routeParams, mvProject, dbOps) {
-    
-    $scope.projectId = $routeParams.projectId;
-
-    $scope.projects = mvProject.query();
+angular.module('app').controller('ctrlCreateProject', function($scope, $location, dbProject) {
     
     $scope.submit = function() {
         var newProject = {
@@ -10,13 +6,13 @@ angular.module('app').controller('mvProjectCtrl', function($scope, $location, $r
             description: $scope.description
         };
         
-        // dbOps.createProject(newProject).then(function() {
+        // dbProject.create(newProject).then(function() {
         //     $location.path('/');
         // }, function(reason) {
         //     console.log("failed to add project");
         // });
 
-        dbOps.createProject(newProject);
+        dbProject.createProject(newProject);
 
         $location.path('/project');
     }

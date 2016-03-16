@@ -1,12 +1,5 @@
 var Project = require('mongoose').model('Project');
 
-exports.getProject = function(req, res) {
-    Project.find({}).exec(function(err, collection) {
-        console.log(collection);
-        res.send(collection);
-    })
-};
-
 exports.createProject = function(req, res, next) {
     var projectData = req.body;
     Project.create(projectData, function(err, quote) {
@@ -19,4 +12,16 @@ exports.createProject = function(req, res, next) {
         }
         res.status(201);
     });
+}
+
+exports.getAllProjects = function(req, res) {
+    Project.find({}).exec(function(err, collection) {
+        res.send(collection);
+    })
+};
+
+exports.getProject = function(req, res) {
+    Project.find({ _id: req.projectId }).exec(function(err, collection) {
+        res.send(collection);
+    })
 }

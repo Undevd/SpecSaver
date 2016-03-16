@@ -1,4 +1,4 @@
-angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvVote, mvProject, mvRelease, mvFeature, mvTest, mvUserStory, mvTestStep) {
+angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvVote, mvRelease, mvFeature, mvTest, mvUserStory, mvTestStep) {
   return {
     createQuote: function(newQuoteData) {
       var newQuote = new mvQuote(newQuoteData);
@@ -86,18 +86,6 @@ createTest: function(newTestData) {
         dfd.reject(response.data.reason);
       });
       
-      return dfd.promise;
-    },
-    
-    createProject: function(newProjectData) {
-      var newProject = new mvProject(newProjectData);
-      var dfd = $q.defer();
-
-      newProject.$save().then(function() {
-        dfd.resolve();
-      }, function(response) {
-        dfd.reject(response.data.reason);
-      });
       return dfd.promise;
     },
     

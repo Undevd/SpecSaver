@@ -44,7 +44,11 @@ module.exports = function(app) {
 
     // Project Routes
     app.post('/api/projects', projects.createProject);
-    app.get('/api/projects', projects.getProject);
+    app.get('/api/projects/:projectId', function(req, res)
+    {
+        return projects.getProject(req.params)
+    });
+    app.get('/api/projects', projects.getAllProjects);
     
     app.get('/partials/*', function(req, res) {
         console.log(req.params);
