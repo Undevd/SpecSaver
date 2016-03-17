@@ -16,6 +16,34 @@
                             a(href="/project/{{project._id}}") {{project.name}}
                         td {{project.description}}
                         td
-                            a.btn.btn-default.pull-right(href="/project/{{project._id}}")
-                                span.glyphicon.glyphicon-th-list
-                                span &nbsp; Manage
+                            .dropdown.pull-right
+                                a.btn.btn-default(ng-href="/project/{{project._id}}")
+                                    span.glyphicon.glyphicon-th-list
+                                button.btn.btn-default.dropdown-toggle(aria-haspopup="true", aria-expanded="true", data-toggle="dropdown", type="button")
+                                    span.caret
+                                ul.dropdown-menu
+                                    li
+                                        a(ng-href="/project/{{project._id}}")
+                                            span.glyphicon.glyphicon-th-list
+                                            span &nbsp; Manage
+                                    li.divider(role="separator")
+                                    li
+                                        a(ng-href="/release/{{project._id}}")
+                                            span.glyphicon.glyphicon-gift
+                                            span &nbsp; Releases
+                                    li
+                                        a(href="#")
+                                            span.glyphicon.glyphicon-apple
+                                            span &nbsp; Features
+                                    li
+                                        a(href="#")
+                                            span.glyphicon.glyphicon-tree-deciduous
+                                            span &nbsp; User Stories
+                                    li
+                                        a(href="#")
+                                            span.glyphicon.glyphicon-grain
+                                            span &nbsp; Acceptance Tests
+                                    li
+                                        a(href="#")
+                                            span.glyphicon.glyphicon-leaf
+                                            span &nbsp; System Tests
