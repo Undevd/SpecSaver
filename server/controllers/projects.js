@@ -23,7 +23,7 @@ exports.getAllProjects = function(req, res) {
 }
 
 exports.getProject = function(req, res) {
-    Project.find({ _id: req.params.projectId }).exec(function(err, project) {
+    Project.findOne({ _id: req.params.projectId }).exec(function(err, project) {
         res.send(project);
     })
 }

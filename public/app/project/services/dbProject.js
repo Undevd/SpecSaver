@@ -9,7 +9,7 @@ angular.module('app').factory('dbProject', function(apiProject) {
     },
 
     getProject: function(projectId) {
-      return apiProject.query({ projectId: projectId });
+      return apiProject.queryOne({projectId: projectId});
     }
   }
 });

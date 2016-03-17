@@ -9,7 +9,7 @@ angular.module('app').factory('dbRelease', function(apiRelease) {
     },
 
     getRelease: function(projectId, releaseId) {
-      return apiRelease.query({projectId: projectId, releaseId: releaseId});
+      return apiRelease.queryOne({projectId: projectId, releaseId: releaseId});
     }
   }
 });

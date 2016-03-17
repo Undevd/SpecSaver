@@ -2,7 +2,11 @@
     .well
         form.form-horizontal(name="releaseForm")
             fieldset
-                legend Create Release
+                legend.padlr
+                    h1
+                        small
+                            span.glyphicon.glyphicon-th-list
+                            span &nbsp; Create a release: {{project.name}}
                 .form-group
                     .col-md-2.control-label
                         span.glyphicon.glyphicon-asterisk.text-danger
@@ -20,6 +24,6 @@
                         .pull-right
                             button.btn.btn-success(ng-click="submit()", ng-disabled="releaseForm.$invalid")
                                 span.glyphicon.glyphicon-ok
-                                span &nbsp; Submit
+                                span &nbsp; Create
                             | &nbsp;
                             a.btn.btn-default(href="/") Cancel

@@ -23,7 +23,7 @@ exports.getAllReleases = function(req, res) {
 };
 
 exports.getRelease = function(req, res) {
-    Release.find({ _id: req.params.releaseId, projectId: req.params.projectId }).exec(function(err, release) {
+    Release.findOne({ _id: req.params.releaseId, projectId: req.params.projectId }).exec(function(err, release) {
         res.send(release);
     })
 }

@@ -5,25 +5,25 @@
                 h1
                     small
                         span.glyphicon.glyphicon-gift
-                        span &nbsp; Releases
-                    a.btn.btn-default.pull-right(href="/release/create/{{projectId}}")
+                        span &nbsp; Releases: {{project.name}}
+                    a.btn.btn-default.pull-right(href="/release/create/{{project._id}}")
                         span.glyphicon.glyphicon-plus
                         span &nbsp; Create
             table.table.table-hover.table-striped.table-condensed
                 tbody(ng-repeat="release in releases")
                     tr
                         td
-                            a(href="/release/{{projectId}}/{{release._id}}") {{release.name}}
+                            a(href="/release/{{project._id}}/{{release._id}}") {{release.name}}
                         td {{release.description}}
                         td
                             .dropdown.pull-right
-                                a.btn.btn-default(ng-href="/release/{{projectId}}/{{release._id}}")
+                                a.btn.btn-default(ng-href="/release/{{project._id}}/{{release._id}}")
                                     span.glyphicon.glyphicon-gift
                                 button.btn.btn-default.dropdown-toggle(aria-haspopup="true", aria-expanded="true", data-toggle="dropdown", type="button")
                                     span.caret
                                 ul.dropdown-menu
                                     li
-                                        a(ng-href="/release/{{projectId}}/{{release._id}}")
+                                        a(ng-href="/release/{{project._id}}/{{release._id}}")
                                             span.glyphicon.glyphicon-gift
                                             span &nbsp; Manage
                                     li.divider(role="separator")
