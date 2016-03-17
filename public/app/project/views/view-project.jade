@@ -1,23 +1,46 @@
 .container
     .well
         fieldset(ng-repeat="project in projects")
-            legend.colour1.pad
-                span.glyphicon.glyphicon-th-list &nbsp; {{project.name}}
+            legend.padlr
+                h1
+                    small
+                        span.glyphicon.glyphicon-th-list
+                        span &nbsp; {{project.name}}
             .padb
                 span {{project.description}}
             .padb
-                a.btn.btn-block.colour2(href="/release/{{project._id}}")
-                    span.glyphicon.glyphicon-gift
-                    span &nbsp; Releases
-                a.btn.btn-block.colour3(href="#")
-                    span.glyphicon.glyphicon-apple
-                    span &nbsp; Features
-                a.btn.btn-block.colour4(href="#")
-                    span.glyphicon.glyphicon-tree-deciduous
-                    span &nbsp; User Stories
-                a.btn.btn-block.colour5(href="#")
-                    span.glyphicon.glyphicon-grain
-                    span &nbsp; Acceptance Tests
-                a.btn.btn-block.colour6(href="#")
-                    span.glyphicon.glyphicon-leaf
-                    span &nbsp; System Tests
+                .col-md-2.colour2.padn
+                    a.btn.btn-block.colour2(href="/release/{{project._id}}")
+                        h2
+                            small Releases
+                        h3
+                            span.glyphicon.glyphicon-gift(aria-label="Gift icon")
+                        h4 0
+                .col-md-2.colour3.padn
+                    a.btn.btn-block.colour3(href="#")
+                        h2
+                            small Features
+                        h3
+                            span.glyphicon.glyphicon-apple(aria-label="Apple icon")
+                        h4 0
+                .col-md-2.colour4.padn
+                    a.btn.btn-block.colour4(href="#")
+                        h2
+                            small User Stories
+                        h3
+                            span.glyphicon.glyphicon-tree-deciduous(aria-label="Tree icon")
+                        h4 0
+                .col-md-2.colour5.padn
+                    a.btn.btn-block.colour5(href="#")
+                        h2
+                            small Acceptance Tests
+                        h3
+                            span.glyphicon.glyphicon-grain(aria-label="Branch icon")
+                        h4 0
+                .col-md-2.colour6.padn
+                    a.btn.btn-block.colour6(href="#")
+                        h2
+                            small System Tests
+                        h3
+                            span.glyphicon.glyphicon-leaf(aria-label="Leaf icon")
+                        h4 0

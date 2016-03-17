@@ -50,8 +50,19 @@ footer img {
 .padb {
   padding-bottom: 1em;
 }
+.padbt {
+  padding-bottom: 1em;
+  padding-top: 1em;
+}
 .padl {
   padding-left: 1em;
+}
+.padlr {
+  padding-left: 1em;
+  padding-right: 1em;
+}
+.padn {
+  padding: 0;
 }
 .padr {
   padding-right: 1em;
@@ -71,6 +82,9 @@ footer img {
 }
 .navbar-form button {
   margin-left: 10px;
+}
+small {
+  color: inherit !important;
 }
 .toast-top-right {
   top: 70px;
