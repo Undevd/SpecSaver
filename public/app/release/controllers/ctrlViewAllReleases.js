@@ -2,5 +2,5 @@ angular.module('app').controller('ctrlViewAllReleases', function($scope, $locati
     
     $scope.projectId = $routeParams.projectId;
     
-    $scope.releases = dbRelease.getAllReleases();
+    $scope.releases = dbRelease.getAllReleases($scope.projectId);
 });

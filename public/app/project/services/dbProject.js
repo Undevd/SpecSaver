@@ -1,4 +1,4 @@
-angular.module('app').factory('dbProject', function($q, apiProject) {
+angular.module('app').factory('dbProject', function(apiProject) {
   return {
     createProject: function(newProjectData) {
       return new apiProject(newProjectData).$save();

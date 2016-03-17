@@ -1,11 +1,5 @@
 var Release = require('mongoose').model('Release');
 
-exports.getReleases = function(req, res) {
-    Release.find({}).exec(function(err, releases) {
-        res.send(releases);
-    })
-};
-
 exports.createRelease = function(req, res) {
     var releaseData = req.body;
     Release.create(releaseData, function(err, release) {
@@ -20,4 +14,16 @@ exports.createRelease = function(req, res) {
         res.status(201);
         res.send(release);
     });
+};
+
+exports.getAllReleases = function(req, res) {
+    Release.find({ projectId: req.params.projectId }).exec(function(err, releases) {
+        res.send(releases);
+    })
+};
+
+exports.getRelease = function(req, res) {
+    Release.find({ _id: req.params.releaseId, projectId: req.params.projectId }).exec(function(err, release) {
+        res.send(release);
+    })
 }

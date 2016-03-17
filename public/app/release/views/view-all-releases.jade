@@ -1,22 +1,21 @@
 .container
     .well
         fieldset
-            legend.colour2.pad
-                span.glyphicon.glyphicon-gift &nbsp; Releases
-                a.btn.btn-default.pull-right(href="/release/create/{{projectId}}")
-                    span.glyphicon.glyphicon-plus
-                    span &nbsp; Create
+            legend.colour2.padlr
+                h1
+                    small
+                        span.glyphicon.glyphicon-gift
+                        span &nbsp; Releases
+                    a.btn.btn-default.pull-right(href="/release/create/{{projectId}}")
+                        span.glyphicon.glyphicon-plus
+                        span &nbsp; Create
             table.table.table-hover.table-striped.table-condensed
-                thead
-                    tr
-                        th Name
-                        th Description
-                        th Actions
                 tbody(ng-repeat="release in releases")
                     tr
-                        td {{release.name}}
+                        td
+                            a(href="/release/{{projectId}}/{{release._id}}") {{release.name}}
                         td {{release.description}}
-                        td 
-                            a.btn.btn-block.colour3(href="/feature/{{release._id}}")
-                                span.glyphicon.glyphicon-apple
-                                span &nbsp; Features
+                        td
+                            a.btn.btn-default.pull-right(href="/release/{{projectId}}/{{release._id}}")
+                                span.glyphicon.glyphicon-gift
+                                span &nbsp; Manage

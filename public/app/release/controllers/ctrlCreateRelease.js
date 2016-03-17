@@ -6,7 +6,7 @@ angular.module('app').controller('ctrlCreateRelease', function($scope, $location
         var newRelease = {
             name: $scope.name,
             description: $scope.description,
-            project: $scope.projectId
+            projectId: $scope.projectId
         };
         
         dbRelease.createRelease(newRelease).then(function() {

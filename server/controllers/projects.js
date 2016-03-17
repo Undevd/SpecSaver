@@ -16,14 +16,14 @@ exports.createProject = function(req, res) {
     });
 }
 
-exports.getProject = function(req, res) {
-    Project.find({ _id: req.params.projectId }).exec(function(err, project) {
-        res.send(project);
-    })
-}
-
 exports.getAllProjects = function(req, res) {
     Project.find({}).exec(function(err, projects) {
         res.send(projects);
+    })
+}
+
+exports.getProject = function(req, res) {
+    Project.find({ _id: req.params.projectId }).exec(function(err, project) {
+        res.send(project);
     })
 }
