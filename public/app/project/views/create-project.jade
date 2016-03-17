@@ -2,7 +2,11 @@
     .well
         form.form-horizontal(name="projectForm")
             fieldset
-                legend Create a project
+                legend.padlr
+                    h1
+                        small
+                            span.glyphicon.glyphicon-th-list
+                            span &nbsp; Create a project
                 .form-group
                     label.col-md-2.control-label(for="name") Name
                     .col-md-10
@@ -16,6 +20,6 @@
                         .pull-right
                             button.btn.btn-success(ng-click="submit()", ng-disabled="projectForm.$invalid")
                                 span.glyphicon.glyphicon-ok
-                                span &nbsp; Create Project
+                                span &nbsp; Create
                             | &nbsp;
-                            a.btn.btn-default(href="/") Cancel
+                            a.btn.btn-default(href="/project") Cancel
