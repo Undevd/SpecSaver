@@ -1,4 +1,4 @@
-angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvVote, mvRelease, mvFeature, mvTest, mvUserStory, mvTestStep) {
+angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvVote, mvFeature, mvTest, mvUserStory, mvTestStep) {
   return {
     createQuote: function(newQuoteData) {
       var newQuote = new mvQuote(newQuoteData);
@@ -30,21 +30,7 @@ angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvVote, mvRe
       return features;
     },
 
-    createRelease: function(newReleaseData) {
-      var newRelease = new mvRelease(newReleaseData);
-      var dfd = $q.defer();
-
-      newRelease.$save().then(function() {
-
-        dfd.resolve();
-      }, function(response) {
-        dfd.reject(response.data.reason);
-      });
-
-      return dfd.promise;
-    },
-
-createTest: function(newTestData) {
+    createTest: function(newTestData) {
       var newTest = new mvTest(newTestData);
       var dfd = $q.defer();
 
@@ -55,12 +41,6 @@ createTest: function(newTestData) {
       });
 
       return dfd.promise;
-    },
-
-    viewReleases: function() {
-      var releases = mvRelease.query();
-
-      return releases;
     },
     
     createVote: function(newVoteData) {
