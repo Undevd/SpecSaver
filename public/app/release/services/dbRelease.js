@@ -8,6 +8,10 @@ angular.module('app').factory('dbRelease', function(apiRelease) {
       return apiRelease.query({projectId: projectId});
     },
 
+    getAllReleasesCount: function(projectId) {
+      return apiRelease.queryCount({projectId: projectId});
+    },
+
     getRelease: function(projectId, releaseId) {
       return apiRelease.queryOne({projectId: projectId, releaseId: releaseId});
     }

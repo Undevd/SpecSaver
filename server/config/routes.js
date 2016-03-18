@@ -28,8 +28,9 @@ module.exports = function(app) {
     app.post('/api/quotes', quotes.createQuote);
 
     // Release routes
-    app.get('/api/releases/:projectId/:releaseId', releases.getRelease);
-    app.get('/api/releases/:projectId', releases.getAllReleases);
+    app.get('/api/releases/query/:projectId', releases.getAllReleases);
+    app.get('/api/releases/querycount/:projectId', releases.getAllReleasesCount);
+    app.get('/api/releases/queryone/:projectId/:releaseId', releases.getRelease);
     app.post('/api/releases/:projectId', releases.createRelease);
 
     // Test routes

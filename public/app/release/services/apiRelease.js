@@ -1,9 +1,8 @@
 angular.module('app').factory('apiRelease', function($resource) {
-    var ReleaseResource = $resource('/api/releases/:projectId', {projectId: "@projectId"}, {
-        query: {method: 'GET', isArray: true, cancellable: true},
-        queryOne: {method: 'GET', isArray: false, cancellable: true},
+    return $resource('/api/releases/:projectId/:releaseId', {projectId: "@projectId", releaseId: "@releaseId"}, {
+        query: {method: 'GET', isArray: true, cancellable: true, url: '/api/releases/query/:projectId'},
+        queryCount: {method: 'GET', isArray: false, cancellable: true, url: '/api/releases/querycount/:projectId'},
+        queryOne: {method: 'GET', isArray: false, cancellable: true, url: '/api/releases/queryone/:projectId/:releaseId'},
         update: {method: 'PUT', isArray: false}
     });
-    
-    return ReleaseResource;
 });
