@@ -1,0 +1,41 @@
+.container
+    .well
+        fieldset
+            legend.padlr
+                h1
+                    small
+                        span.glyphicon.glyphicon-gift.padr
+                        span
+                            a(ng-href="/project/{{project._id}}") {{project.name}}
+                        span : {{release.name}}
+            .padb
+                span {{release.description}}
+            .padb
+                .col-md-2.colour3.padn
+                    a.btn.btn-block.colour3(href="#")
+                        h2
+                            small Features
+                        h3
+                            span.glyphicon.glyphicon-apple(aria-label="Apple icon")
+                        h4 0
+                .col-md-2.colour4.padn
+                    a.btn.btn-block.colour4(href="#")
+                        h2
+                            small User Stories
+                        h3
+                            span.glyphicon.glyphicon-tree-deciduous(aria-label="Tree icon")
+                        h4 0
+                .col-md-2.colour5.padn
+                    a.btn.btn-block.colour5(href="#")
+                        h2
+                            small Acceptance Tests
+                        h3
+                            span.glyphicon.glyphicon-grain(aria-label="Branch icon")
+                        h4 0
+                .col-md-2.colour6.padn
+                    a.btn.btn-block.colour6(href="#")
+                        h2
+                            small System Tests
+                        h3
+                            span.glyphicon.glyphicon-leaf(aria-label="Leaf icon")
+                        h4 0

@@ -11,8 +11,8 @@ angular.module('app').controller('ctrlCreateRelease', function($scope, $location
             projectId: projectId
         };
         
-        dbRelease.createRelease(newRelease).then(function() {
-          $location.path('/release/' + projectId);
+        dbRelease.createRelease(newRelease).then(function(release) {
+          $location.path('/release/' + projectId + '/' + release._id);
         }, function(reason) {
            console.log("failed to add release");
         });
