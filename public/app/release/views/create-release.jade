@@ -5,8 +5,10 @@
                 legend.padlr
                     h1
                         small
-                            span.glyphicon.glyphicon-th-list
-                            span &nbsp; Create a release: {{project.name}}
+                            span.glyphicon.glyphicon-gift.padr
+                            span
+                                a(ng-href="/project/{{project._id}}") {{project.name}}
+                            span : Create a release
                 .form-group
                     .col-md-2.control-label
                         span.glyphicon.glyphicon-asterisk.text-danger
@@ -22,8 +24,9 @@
                  .form-group
                     .col-md-10.col-md-offset-2
                         .pull-right
-                            button.btn.btn-success(ng-click="submit()", ng-disabled="releaseForm.$invalid")
-                                span.glyphicon.glyphicon-ok
-                                span &nbsp; Create
-                            | &nbsp;
-                            a.btn.btn-default(href="/") Cancel
+                            span.padr
+                                button.btn.btn-success(ng-click="submit()", ng-disabled="releaseForm.$invalid")
+                                    span.glyphicon.glyphicon-ok.padr
+                                    span Create
+                            span
+                                a.btn.btn-default(href="/release/{{project._id}}") Cancel

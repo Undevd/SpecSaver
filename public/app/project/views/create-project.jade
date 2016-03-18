@@ -5,8 +5,8 @@
                 legend.padlr
                     h1
                         small
-                            span.glyphicon.glyphicon-th-list
-                            span &nbsp; Create a project
+                            span.glyphicon.glyphicon-th-list.padr
+                            span Create a project
                 .form-group
                     label.col-md-2.control-label(for="name") Name
                     .col-md-10
@@ -18,8 +18,9 @@
                 .form-group
                     .col-md-10.col-md-offset-2
                         .pull-right
-                            button.btn.btn-success(ng-click="submit()", ng-disabled="projectForm.$invalid")
-                                span.glyphicon.glyphicon-ok
-                                span &nbsp; Create
-                            | &nbsp;
-                            a.btn.btn-default(href="/project") Cancel
+                            span.padr
+                                button.btn.btn-success(ng-click="submit()", ng-disabled="projectForm.$invalid")
+                                    span.glyphicon.glyphicon-ok.padr
+                                    span Create
+                            span
+                                a.btn.btn-default(href="/project") Cancel

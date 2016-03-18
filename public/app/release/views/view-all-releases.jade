@@ -4,11 +4,11 @@
             legend.colour2.padlr
                 h1
                     small
-                        span.glyphicon.glyphicon-gift
-                        span &nbsp; Releases: {{project.name}}
+                        span.glyphicon.glyphicon-gift.padr
+                        span {{project.name}}: Releases
                     a.btn.btn-default.pull-right(href="/release/create/{{project._id}}")
-                        span.glyphicon.glyphicon-plus
-                        span &nbsp; Create
+                        span.glyphicon.glyphicon-plus.padr
+                        span Create
             table.table.table-hover.table-striped.table-condensed
                 tbody(ng-repeat="release in releases")
                     tr
@@ -24,22 +24,22 @@
                                 ul.dropdown-menu
                                     li
                                         a(ng-href="/release/{{project._id}}/{{release._id}}")
-                                            span.glyphicon.glyphicon-gift
-                                            span &nbsp; Manage
+                                            span.glyphicon.glyphicon-gift.padr
+                                            span Manage
                                     li.divider(role="separator")
                                     li
                                         a(href="#")
-                                            span.glyphicon.glyphicon-apple
-                                            span &nbsp; Features
+                                            span.glyphicon.glyphicon-apple.padr
+                                            span Features
                                     li
                                         a(href="#")
-                                            span.glyphicon.glyphicon-tree-deciduous
-                                            span &nbsp; User Stories
+                                            span.glyphicon.glyphicon-tree-deciduous.padr
+                                            span User Stories
                                     li
                                         a(href="#")
-                                            span.glyphicon.glyphicon-grain
-                                            span &nbsp; Acceptance Tests
+                                            span.glyphicon.glyphicon-grain.padr
+                                            span Acceptance Tests
                                     li
                                         a(href="#")
-                                            span.glyphicon.glyphicon-leaf
-                                            span &nbsp; System Tests
+                                            span.glyphicon.glyphicon-leaf.padr
+                                            span System Tests
