@@ -12,6 +12,10 @@ module.exports = function(app) {
    
     // Authenticate
     app.post('/login', auth.authenticate);
+    app.post('/logout', function(req, res) {
+        req.logout();
+        res.end();
+    });
     
     // Feature routes
     app.get('/api/features', features.getFeatures);

@@ -5,11 +5,11 @@
         .form-group
             input.form-control(type="password", placeholder="password", ng-model="password")
         button.btn.btn-primary(ng-click="login(username, password)") Login
-  ul.nav.navbar-nav.navbar-right(ng-show="identity.isAuthenticated()")
-    li.dropdown
-      a.dropdown-toggle(href="", data-toggle="dropdown")
-        | {{identity.currentUser.firstName + " " + identity.currentUser.lastName}}
-        b.caret
-      ul.dropdown-menu
-        li
-          a(href="", ng-click="logout()") Log Out
+    ul.nav.navbar-nav.navbar-right(ng-show="identity.isAuthenticated()")
+        li.dropdown
+            a.dropdown-toggle(href="", data-toggle="dropdown")
+                | {{identity.currentUser.firstname + " " + identity.currentUser.lastname}}
+                b.caret
+            ul.dropdown-menu
+                li
+                a(href="", ng-click="logout()") Log Out
