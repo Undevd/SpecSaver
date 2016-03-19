@@ -27,7 +27,7 @@ angular.module('app').controller('ctrlViewRelease', function($scope, $routeParam
     }
 
     $scope.cancelEdit = function(field) {
-    	//Reset the description
+    	//Reset the value
     	$scope.release[field] = $scope.oldData[field];
 
     	//Stop editing
@@ -35,8 +35,8 @@ angular.module('app').controller('ctrlViewRelease', function($scope, $routeParam
     }
 
     $scope.submitEdit = function(field) {
-    	//Save the description
-    	//...
+    	//Save the release
+    	dbRelease.updateRelease($scope.release);
 
     	//Stop editing
     	$scope.showEdit(field, false);

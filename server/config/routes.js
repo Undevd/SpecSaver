@@ -36,6 +36,7 @@ module.exports = function(app) {
     app.get('/api/releases/querycount/:projectId', releases.getAllReleasesCount);
     app.get('/api/releases/queryone/:projectId/:releaseId', releases.getRelease);
     app.post('/api/releases/:projectId', releases.createRelease);
+    app.put('/api/releases/update', releases.updateRelease);
 
     // Test routes
     app.get('/api/tests', tests.getTests);

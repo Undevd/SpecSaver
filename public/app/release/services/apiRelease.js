@@ -3,6 +3,6 @@ angular.module('app').factory('apiRelease', function($resource) {
         query: {method: 'GET', isArray: true, cancellable: true, url: '/api/releases/query/:projectId'},
         queryCount: {method: 'GET', isArray: false, cancellable: true, url: '/api/releases/querycount/:projectId'},
         queryOne: {method: 'GET', isArray: false, cancellable: true, url: '/api/releases/queryone/:projectId/:releaseId'},
-        update: {method: 'PUT', isArray: false}
+        update: {method: 'PUT', isArray: false, url: '/api/releases/update'}
     });
 });

@@ -14,6 +14,10 @@ angular.module('app').factory('dbRelease', function(apiRelease) {
 
     getRelease: function(projectId, releaseId) {
       return apiRelease.queryOne({projectId: projectId, releaseId: releaseId});
-    }
+    },
+
+    updateRelease: function(newReleaseData) {
+      return apiRelease.update(newReleaseData);
+    },
   }
 });
