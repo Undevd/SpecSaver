@@ -17,7 +17,7 @@ exports.createRelease = function(req, res) {
 };
 
 exports.getAllReleases = function(req, res) {
-    Release.find({ projectId: req.params.projectId }).exec(function(err, releases) {
+    Release.find({ projectId: req.params.projectId }).sort('name').exec(function(err, releases) {
         res.send(releases);
     })
 };

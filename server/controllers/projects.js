@@ -17,7 +17,7 @@ exports.createProject = function(req, res) {
 }
 
 exports.getAllProjects = function(req, res) {
-    Project.find({}).exec(function(err, projects) {
+    Project.find({}).sort('name').exec(function(err, projects) {
         res.send(projects);
     })
 }
