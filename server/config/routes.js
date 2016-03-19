@@ -26,6 +26,7 @@ module.exports = function(app) {
     app.get('/api/projects/:projectId', projects.getProject);
     app.get('/api/projects', projects.getAllProjects);
     app.post('/api/projects', projects.createProject);
+    app.put('/api/projects', projects.updateProject);
 
     // Quote routes
     app.get('/api/quotes', quotes.getQuotes);

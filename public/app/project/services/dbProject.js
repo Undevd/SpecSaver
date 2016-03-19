@@ -10,6 +10,10 @@ angular.module('app').factory('dbProject', function(apiProject) {
 
     getProject: function(projectId) {
       return apiProject.queryOne({projectId: projectId});
+    },
+
+    updateProject: function(newProjectData) {
+      return apiProject.update(newProjectData);
     }
   }
 });

@@ -5,9 +5,26 @@
                 h1
                     small
                         span.glyphicon.glyphicon-th-list.padr
-                        span {{project.name}}
-            .padb
-                span {{project.description}}
+                        span(ng-show="!edit.name")
+                            a.edit(ng-click="showEdit('name', true)") {{project.name}}
+                        span(ng-show="edit.name")
+                            form(name="nameForm")
+                                input.form-control(name="project.name" ng-model="project.name" type="text" placeholder="Name" required)
+                                button.btn.btn-success(ng-click="submitEdit('name')", ng-disabled="nameForm.$invalid")
+                                    span.glyphicon.glyphicon-ok
+                                a.btn.btn-default(ng-click="cancelEdit('name')")
+                                    span.glyphicon.glyphicon-remove
+            .padb(ng-show="!edit.description")
+                a.edit(ng-click="showEdit('description', true)")
+                    span(ng-show="project.description") {{project.description}}
+                    em(ng-cloak ng-show="!project.description") Click to add a description
+            .padb(ng-show="edit.description")
+                form(name="descriptionForm")
+                    textarea.form-control(name="project.description" ng-model="project.description" type="text" placeholder="Description")
+                    button.btn.btn-success(ng-click="submitEdit('description')", ng-disabled="descriptionForm.$invalid")
+                        span.glyphicon.glyphicon-ok
+                    a.btn.btn-default(ng-click="cancelEdit('description')")
+                        span.glyphicon.glyphicon-remove
             .padb
                 .col-md-2.colour2.padn
                     a.btn.btn-block.colour2(href="/release/{{project._id}}")

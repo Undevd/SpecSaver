@@ -27,3 +27,16 @@ exports.getProject = function(req, res) {
         res.send(project);
     })
 }
+
+exports.updateProject = function(req, res) {
+    var projectData = req.body;
+    Project.findOneAndUpdate({_id: projectData._id}, projectData, function(err, project) {
+        if(err) {
+            res.status(400);
+            return res.send({reason:err.toString()});
+        }
+
+        res.status(200);
+        res.send(project);
+    });
+};
