@@ -1,11 +1,10 @@
 .container
     .well
         fieldset
-            legend.colour1.padlr
+            legend.colour1
                 h1
-                    small
-                        span.glyphicon.glyphicon-th-list.padr
-                        span Projects
+                    span.glyphicon.glyphicon-th-list.padr
+                    span Projects
                     a.btn.btn-default.pull-right(href="/project/create")
                         span.glyphicon.glyphicon-plus.padr
                         span Create
@@ -14,7 +13,7 @@
                     tr
                         td
                             a(href="/project/{{project._id}}") {{project.name}}
-                        td {{project.description}}
+                        td {{project.description | limitTo: 100}}{{project.description.length &gt; 100 ? '...' : ''}}
                         td
                             .dropdown.pull-right
                                 a.btn.btn-default(ng-href="/project/{{project._id}}")

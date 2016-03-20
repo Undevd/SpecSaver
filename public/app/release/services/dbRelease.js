@@ -18,6 +18,6 @@ angular.module('app').factory('dbRelease', function(apiRelease) {
 
     updateRelease: function(newReleaseData) {
       return apiRelease.update(newReleaseData);
-    },
+    }
   }
 });

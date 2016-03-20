@@ -2,13 +2,12 @@
     .well
         form.form-horizontal(name="releaseForm")
             fieldset
-                legend.padlr
+                legend
                     h1
-                        small
-                            span.glyphicon.glyphicon-gift.padr
-                            span
-                                a(ng-href="/project/{{project._id}}") {{project.name}}
-                            span : Create a release
+                        span.glyphicon.glyphicon-gift.padr
+                        span
+                            a(ng-href="/project/{{project._id}}") {{project.name}}
+                        span : Create a release
                 .form-group
                     .col-md-2.control-label
                         span.glyphicon.glyphicon-asterisk.text-danger

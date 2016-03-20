@@ -1,11 +1,13 @@
 .container
     .well
         fieldset
-            legend.colour2.padlr
+            legend.colour2
                 h1
-                    small
-                        span.glyphicon.glyphicon-gift.padr
-                        span {{project.name}}: Releases
+                    span.glyphicon.glyphicon-gift.padr
+                    span
+                        a(ng-href="/project/{{project._id}}") {{project.name}}
+                    span.padr :
+                    span Releases
                     a.btn.btn-default.pull-right(href="/release/create/{{project._id}}")
                         span.glyphicon.glyphicon-plus.padr
                         span Create
@@ -14,7 +16,7 @@
                     tr
                         td
                             a(href="/release/{{project._id}}/{{release._id}}") {{release.name}}
-                        td {{release.description}}
+                        td {{release.description | limitTo: 100}}{{release.description.length &gt; 100 ? '...' : ''}}
                         td
                             .dropdown.pull-right
                                 a.btn.btn-default(ng-href="/release/{{project._id}}/{{release._id}}")

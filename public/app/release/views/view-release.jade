@@ -1,25 +1,26 @@
 .container
     .well
         fieldset
-            legend.padlr
+            legend
                 h1
-                    small
-                        span.glyphicon.glyphicon-gift.padr
-                        span
-                            a(ng-href="/project/{{project._id}}") {{project.name}}
-                        span.padr :
-                        span(ng-show="!edit.name")
-                            a.edit(ng-click="showEdit('name', true)") {{release.name}}
-                        span(ng-show="edit.name")
-                            form(name="nameForm")
-                                input.form-control(name="release.name" ng-model="release.name" type="text" placeholder="Name" required)
-                                button.btn.btn-success(ng-click="submitEdit('name')", ng-disabled="nameForm.$invalid")
-                                    span.glyphicon.glyphicon-ok
-                                a.btn.btn-default(ng-click="cancelEdit('name')")
-                                    span.glyphicon.glyphicon-remove
+                    span.glyphicon.glyphicon-gift.padr
+                    span
+                        a(ng-href="/project/{{project._id}}") {{project.name}}
+                    span.padr :
+                    span(ng-show="!edit.name")
+                        a.edit(ng-click="showEdit('name', true)" ng-mouseleave="hover.name = false" ng-mouseover="hover.name = true") {{release.name}}
+                    span.glyphicon.glyphicon-pencil.small(ng-show="hover.name")
+                    span(ng-show="edit.name")
+                        form(name="nameForm")
+                            input.form-control(name="release.name" ng-model="release.name" type="text" placeholder="Name" required)
+                            button.btn.btn-success(ng-click="submitEdit('name')", ng-disabled="nameForm.$invalid")
+                                span.glyphicon.glyphicon-ok
+                            a.btn.btn-default(ng-click="cancelEdit('name')")
+                                span.glyphicon.glyphicon-remove
             .padb(ng-show="!edit.description")
-                a.edit(ng-click="showEdit('description', true)")
+                a.edit(ng-click="showEdit('description', true)" ng-mouseleave="hover.description = false" ng-mouseover="hover.description = true")
                     span(ng-show="release.description") {{release.description}}
+                    span.glyphicon.glyphicon-pencil.small(ng-show="hover.description")
                     em(ng-cloak ng-show="!release.description") Click to add a description
             .padb(ng-show="edit.description")
                 form(name="descriptionForm")
