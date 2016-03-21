@@ -10,7 +10,7 @@
                         span Create
             table.table.table-hover.table-striped.table-condensed
                 tbody(ng-repeat="project in projects")
-                    tr
+                    tr(ng-show="project.isMember()")
                         td
                             a(href="/p/{{project._id}}") {{project.name}}
                         td {{project.description | limitTo: 100}}{{project.description.length &gt; 100 ? '...' : ''}}
