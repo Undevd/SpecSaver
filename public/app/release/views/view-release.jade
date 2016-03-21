@@ -5,7 +5,7 @@
                 h1
                     span.glyphicon.glyphicon-gift.padr
                     span
-                        a(ng-href="/project/{{project._id}}") {{project.name}}
+                        a(ng-href="/p/{{project._id}}") {{project.name}}
                     span.padr :
                     span(ng-show="!edit.name")
                         a.edit(ng-click="showEdit('name', true)" ng-mouseleave="hover.name = false" ng-mouseover="hover.name = true") {{release.name}}
@@ -31,7 +31,7 @@
                         span.glyphicon.glyphicon-remove
             .padb
                 .col-md-2.colour3.padn
-                    a.btn.btn-block.colour3(href="#")
+                    a.btn.btn-block.colour3(ng-href="/p/{{project._id}}/r/{{release._id}}/f")
                         h2
                             small Features
                         h3

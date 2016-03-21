@@ -10,9 +10,9 @@ angular.module('app').controller('ctrlCreateRelease', function($scope, $location
             description: $scope.description,
             projectId: projectId
         };
-        
+
         dbRelease.createRelease(newRelease).then(function(release) {
-          $location.path('/release/' + projectId + '/' + release._id);
+          $location.path('/p/' + projectId + '/r/' + release._id);
         }, function(reason) {
            console.log("failed to add release");
         });

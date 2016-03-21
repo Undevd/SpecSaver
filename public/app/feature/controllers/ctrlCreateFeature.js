@@ -5,8 +5,8 @@ angular.module('app').controller('ctrlCreateFeature', function($scope, $window, 
             description: $scope.description
         };
         
-        dbOps.createFeature(newFeature).then(function() {
-            $location.path = '/feature';
+        dbOps.createFeature(newFeature).then(function(feature) {
+            $location.path = '/p/' + feature.productId + '/f/' + feature._id;
         }, function(reason) {
             console.log("failed to add feature");
         });

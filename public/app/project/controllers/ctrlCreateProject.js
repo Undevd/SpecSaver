@@ -7,7 +7,7 @@ angular.module('app').controller('ctrlCreateProject', function($scope, $location
         };
         
         dbProject.createProject(newProject).then(function(project) {
-            $location.path('/project/' + project._id);
+            $location.path('/p/' + project._id);
         }, function(reason) {
             console.log("failed to add project");
         });

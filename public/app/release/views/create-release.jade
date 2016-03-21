@@ -6,7 +6,7 @@
                     h1
                         span.glyphicon.glyphicon-gift.padr
                         span
-                            a(ng-href="/project/{{project._id}}") {{project.name}}
+                            a(ng-href="/p/{{project._id}}") {{project.name}}
                         span : Create a release
                 .form-group
                     .col-md-2.control-label
@@ -28,4 +28,4 @@
                                     span.glyphicon.glyphicon-ok.padr
                                     span Create
                             span
-                                a.btn.btn-default(href="/release/{{project._id}}") Cancel
+                                a.btn.btn-default(ng-href="/p/{{project._id}}/r") Cancel

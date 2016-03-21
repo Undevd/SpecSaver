@@ -3,7 +3,7 @@
         fieldset
             legend.colour3.pad
                 span.glyphicon.glyphicon-apple &nbsp; Features
-                a.btn.btn-default.pull-right(href="/feature/create/{{projectId}}")
+                a.btn.btn-default.pull-right(href="/c/p/{{project._id}}/f")
                     span.glyphicon.glyphicon-plus
                     span &nbsp; Create
             table.table.table-hover.table-striped.table-condensed
@@ -17,6 +17,6 @@
                         td {{feature.name}}
                         td {{feature.description}}
                         td 
-                            a.btn.btn-success(href="/feature/edit/{{feature._id}}")
+                            a.btn.btn-success(href="/p/{{project._id}}/f/{{feature._id}}")
                                 span.glyphicon.glyphicon-th-list
                                 span &nbsp; View/Edit
