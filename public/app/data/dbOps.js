@@ -1,4 +1,4 @@
-angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvVote, mvFeature, mvTest, mvUserStory, mvTestStep) {
+angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvVote, mvTest, mvUserStory, mvTestStep) {
   return {
     createQuote: function(newQuoteData) {
       var newQuote = new mvQuote(newQuoteData);
@@ -11,23 +11,6 @@ angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvVote, mvFe
       });
 
       return dfd.promise;
-    },
-
-    createFeature: function(newFeatureData) {
-      var newFeature = new mvFeature(newFeatureData);
-      var dfd = $q.defer();
-
-      newFeature.$save().then(function() {
-          dfd.resolve();
-      }, function(response) {
-        dfd.reject(response.data.reason);
-      });
-      return dfd.promise;
-    },
-    viewFeatures: function() {
-      var features = mvFeature.query();
-
-      return features;
     },
 
     createTest: function(newTestData) {

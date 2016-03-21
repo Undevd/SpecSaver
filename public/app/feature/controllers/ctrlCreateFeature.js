@@ -1,4 +1,4 @@
-angular.module('app').controller('mvFeatureCtrl', function($scope, $window, $location, dbOps) {
+angular.module('app').controller('ctrlCreateFeature', function($scope, $window, $location, dbOps) {
     $scope.create = function() {
         var newFeature = {
             name: $scope.name,
