@@ -18,9 +18,9 @@ module.exports = function(app) {
     });
     
     // Feature routes
-    app.get('/api/features', features.getFeatures);
-    app.post('/api/features', features.createFeature);
-    app.get('/api/features/:featureId', features.getSingleFeature);
+    app.get('/api/features/query/:projectId/:releaseId', features.getAllFeatures);
+    app.get('/api/features/query/:projectId', features.getAllFeatures);
+    app.post('/api/features/:projectId', features.createFeature);
 
     // Project routes
     app.get('/api/projects/:projectId', projects.getProject);

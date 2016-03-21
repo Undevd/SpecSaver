@@ -2,15 +2,21 @@
     .well
         form.form-horizontal(name="featureForm")
             fieldset
-                legend Feature
+                legend
+                    h1
+                        span.glyphicon.glyphicon-apple.padr
+                        span
+                            a(ng-href="/p/{{project._id}}") {{project.name}}
+                        span.padr :
+                        span(ng-show="release != null")
+                            span
+                                a(ng-href="/p/{{project._id}}/r/{{release._id}}") {{release.name}}
+                            span.padr :
+                        span Create a feature
                 .form-group
                     .col-md-2.control-label
-                        span.glyphicon.glyphicon-asterisk.text-danger
-                        label(for="feature") Feature
-                    .col-md-10
-                        .input-group
-                .form-group
-                    label.col-md-2.control-label(for="name") Name
+                        span.glyphicon.glyphicon-asterisk.text-danger.padr
+                        label(for="feature") Name
                     .col-md-10
                         input.form-control(name="name", type="text", placeholder="Please enter a feature name...", ng-model="name", required)
                         .alert.alert-danger(role="alert", ng-show="featureForm.name.$invalid && featureForm.name.$dirty") Please enter a name
@@ -18,7 +24,7 @@
                 .form-group
                     label.col-md-2.control-label(for="description") Description
                     .col-md-10
-                        input.form-control(name="description", type="multitext", placeholder="Please enter a feature description...", ng-model="description", required)
+                        textarea.form-control(name="description", type="text", placeholder="Please enter a feature description...", ng-model="description", required)
                         .alert.alert-danger(role="alert", ng-show="featureForm.description.$invalid && featureForm.description.$dirty") Please enter a name
                 .form-group
                     .col-md-10.col-md-offset-2

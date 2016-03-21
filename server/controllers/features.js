@@ -1,17 +1,5 @@
 var Feature = require('mongoose').model('Feature');
 
-exports.getFeatures = function(req, res) {
-    Feature.find({}).exec(function(err, features) {
-        res.send(features);
-    })
-};
-
-exports.getSingleFeature = function(req, res, featureId){
-    Feature.find({_id: featureId}).exec(function (err, feature) {
-        res.send(feature)
-    })
-}
-
 exports.createFeature = function(req, res) {
     var featureData = req.body;
     Feature.create(featureData, function(err, feature) {
@@ -26,4 +14,16 @@ exports.createFeature = function(req, res) {
         res.status(201);
         res.send(feature);
     });
-}
+};
+
+exports.getAllFeatures = function(req, res) {
+    Feature.find({ projectId: req.params.projectId, releaseId: req.params.releaseId }).sort('name').exec(function(err, features) {
+        res.send(features);
+    })
+};
+
+exports.getFeature = function(req, res){
+    Feature.find({_id: featureId}).exec(function (err, feature) {
+        res.send(feature)
+    })
+};
