@@ -4,16 +4,16 @@ angular.module('app').factory('dbRelease', function(apiRelease) {
       return new apiRelease(newReleaseData).$save();
     },
     
-    getAllReleases: function(projectId) {
-      return apiRelease.query({projectId: projectId});
+    getAllReleases: function(projectCode) {
+      return apiRelease.query({projectCode: projectCode});
     },
 
-    getAllReleasesCount: function(projectId) {
-      return apiRelease.queryCount({projectId: projectId});
+    getAllReleasesCount: function(projectCode) {
+      return apiRelease.queryCount({projectCode: projectCode});
     },
 
-    getRelease: function(projectId, releaseId) {
-      return apiRelease.queryOne({projectId: projectId, releaseId: releaseId});
+    getRelease: function(projectCode, releaseId) {
+      return apiRelease.queryOne({projectCode: projectCode, releaseId: releaseId});
     },
 
     updateRelease: function(newReleaseData) {

@@ -18,12 +18,12 @@ module.exports = function(app) {
     });
     
     // Feature routes
-    app.get('/api/features/query/:projectId/:releaseId', features.getAllFeatures);
-    app.get('/api/features/query/:projectId', features.getAllFeatures);
-    app.post('/api/features/:projectId', features.createFeature);
+    app.get('/api/features/query/:projectCode/:releaseId', features.getAllFeatures);
+    app.get('/api/features/query/:projectCode', features.getAllFeatures);
+    app.post('/api/features/:projectCode', features.createFeature);
 
     // Project routes
-    app.get('/api/projects/:projectId', projects.getProject);
+    app.get('/api/projects/:projectCode', projects.getProject);
     app.get('/api/projects', projects.getAllProjects);
     app.post('/api/projects', projects.createProject);
     app.put('/api/projects', projects.updateProject);
@@ -33,10 +33,10 @@ module.exports = function(app) {
     app.post('/api/quotes', quotes.createQuote);
 
     // Release routes
-    app.get('/api/releases/query/:projectId', releases.getAllReleases);
-    app.get('/api/releases/querycount/:projectId', releases.getAllReleasesCount);
-    app.get('/api/releases/queryone/:projectId/:releaseId', releases.getRelease);
-    app.post('/api/releases/:projectId', releases.createRelease);
+    app.get('/api/releases/query/:projectCode', releases.getAllReleases);
+    app.get('/api/releases/querycount/:projectCode', releases.getAllReleasesCount);
+    app.get('/api/releases/queryone/:projectCode/:releaseId', releases.getRelease);
+    app.post('/api/releases/:projectCode', releases.createRelease);
     app.put('/api/releases/update', releases.updateRelease);
 
     // Test routes

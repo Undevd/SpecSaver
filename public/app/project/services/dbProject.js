@@ -8,8 +8,8 @@ angular.module('app').factory('dbProject', function(apiProject) {
       return apiProject.query();
     },
 
-    getProject: function(projectId) {
-      return apiProject.queryOne({projectId: projectId});
+    getProject: function(projectCode) {
+      return apiProject.queryOne({projectCode: projectCode});
     },
 
     updateProject: function(newProjectData) {

@@ -1,8 +1,8 @@
 angular.module('app').controller('ctrlViewAllReleases', function($scope, $location, $routeParams, dbProject, dbRelease) {
     
-    var projectId = $routeParams.projectId;
+    var projectCode = $routeParams.projectCode;
     
-    $scope.project = dbProject.getProject(projectId);
+    $scope.project = dbProject.getProject(projectCode);
 
-    $scope.releases = dbRelease.getAllReleases(projectId);
+    $scope.releases = dbRelease.getAllReleases(projectCode);
 });

@@ -1,10 +1,10 @@
 angular.module('app').controller('ctrlViewProject', function($scope, $routeParams, dbProject, dbRelease) {
     
 	//Data related to the project
-	$scope.project = dbProject.getProject($routeParams.projectId);
+	$scope.project = dbProject.getProject($routeParams.projectCode);
 
 	//Get the number of releases associated with the project
-	$scope.release = dbRelease.getAllReleasesCount($routeParams.projectId);
+	$scope.release = dbRelease.getAllReleasesCount($routeParams.projectCode);
 
 	//Record whether a field is being edited
 	$scope.edit = {};

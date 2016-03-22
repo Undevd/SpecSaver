@@ -18,11 +18,4 @@ module.exports = function(config) {
     db.once('open', function callback() {
         console.log('hackathon db opened');
     });
-    
-    quoteModel.createInitialQuotes();
-    userStoryModel.createInitialUserStory();
-    featureModel.createInitialFeatures();  
-    testStepModel.createInitialTestSteps();
-    projectModel.createInitialProject();
-    releaseModel.createInitialReleases();
 }

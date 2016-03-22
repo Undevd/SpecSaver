@@ -1,14 +1,14 @@
 angular.module('app').controller('ctrlViewAllFeatures', function($scope, $routeParams, dbFeature, dbProject, dbRelease) {
     
-    var projectId = $routeParams.projectId;
+    var projectCode = $routeParams.projectCode;
     var releaseId = $routeParams.releaseId;
 
-    $scope.features = dbFeature.getAllFeatures(projectId, releaseId);
+    $scope.features = dbFeature.getAllFeatures(projectCode, releaseId);
 
-    $scope.project = dbProject.getProject(projectId);
+    $scope.project = dbProject.getProject(projectCode);
 
     if (releaseId)
     {
-    	$scope.release = dbRelease.getRelease(projectId, releaseId);	
+    	$scope.release = dbRelease.getRelease(projectCode, releaseId);	
     }
 });

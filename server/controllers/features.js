@@ -17,7 +17,7 @@ exports.createFeature = function(req, res) {
 };
 
 exports.getAllFeatures = function(req, res) {
-    Feature.find({ projectId: req.params.projectId, releaseId: req.params.releaseId }).sort('name').exec(function(err, features) {
+    Feature.find({ projectCode: req.params.projectCode, releaseId: req.params.releaseId }).sort('name').exec(function(err, features) {
         res.send(features);
     })
 };

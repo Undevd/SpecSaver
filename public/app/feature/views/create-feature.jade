@@ -6,11 +6,11 @@
                     h1
                         span.glyphicon.glyphicon-apple.padr
                         span
-                            a(ng-href="/p/{{project._id}}") {{project.name}}
+                            a(ng-href="/p/{{project.code}}") {{project.name}}
                         span.padr :
                         span(ng-show="release != null")
                             span
-                                a(ng-href="/p/{{project._id}}/r/{{release._id}}") {{release.name}}
+                                a(ng-href="/p/{{project.code}}/r/{{release._id}}") {{release.name}}
                             span.padr :
                         span Create a feature
                 .form-group
@@ -31,4 +31,4 @@
                         .pull-right
                             button.btn.btn-primary(ng-click="create()", ng-disabled="featureForm.$invalid") Submit
                             | &nbsp;
-                            a.btn.btn-default(ng-href="/p/{{project._id}}/f") Cancel
+                            a.btn.btn-default(ng-href="/p/{{project.code}}/f") Cancel

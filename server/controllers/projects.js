@@ -23,14 +23,14 @@ exports.getAllProjects = function(req, res) {
 }
 
 exports.getProject = function(req, res) {
-    Project.findOne({ _id: req.params.projectId }).exec(function(err, project) {
+    Project.findOne({ code: req.params.projectCode }).exec(function(err, project) {
         res.send(project);
     })
 }
 
 exports.updateProject = function(req, res) {
     var projectData = req.body;
-    Project.findOneAndUpdate({_id: projectData._id}, projectData, function(err, project) {
+    Project.findOneAndUpdate({code: projectData.code}, projectData, function(err, project) {
         if(err) {
             res.status(400);
             return res.send({reason:err.toString()});

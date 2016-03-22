@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var featureSchema = mongoose.Schema({
     name: { type:String, required:'{PATH} is required'},
     description: { type:String, required:'{PATH} is required'},
-    projectId: {type:String, required: '{PATH} is required'}
+    projectCode: {type:String, required: '{PATH} is required'}
 });
 
 featureSchema.methods = { };
