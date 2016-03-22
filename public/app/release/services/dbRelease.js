@@ -12,8 +12,8 @@ angular.module('app').factory('dbRelease', function(apiRelease) {
       return apiRelease.queryCount({projectCode: projectCode});
     },
 
-    getRelease: function(projectCode, releaseId) {
-      return apiRelease.queryOne({projectCode: projectCode, releaseId: releaseId});
+    getRelease: function(projectCode, releaseCode) {
+      return apiRelease.queryOne({projectCode: projectCode, releaseCode: releaseCode});
     },
 
     updateRelease: function(newReleaseData) {

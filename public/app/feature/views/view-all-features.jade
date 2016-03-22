@@ -6,7 +6,7 @@
                 a.btn.btn-default.pull-right(ng-href="/c/p/{{project.code}}/f" ng-show="release == null")
                     span.glyphicon.glyphicon-plus
                     span &nbsp; Create
-                a.btn.btn-default.pull-right(ng-href="/c/p/{{project.code}}/r/{{release._id}}/f" ng-show="release != null")
+                a.btn.btn-default.pull-right(ng-href="/c/p/{{project.code}}/r/{{release.code}}/f" ng-show="release != null")
                     span.glyphicon.glyphicon-plus
                     span &nbsp; Create
             table.table.table-hover.table-striped.table-condensed

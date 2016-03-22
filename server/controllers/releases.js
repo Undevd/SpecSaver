@@ -29,14 +29,14 @@ exports.getAllReleasesCount = function(req, res) {
 };
 
 exports.getRelease = function(req, res) {
-    Release.findOne({ _id: req.params.releaseId, projectCode: req.params.projectCode }).exec(function(err, release) {
+    Release.findOne({ code: req.params.releaseCode, projectCode: req.params.projectCode }).exec(function(err, release) {
         res.send(release);
     })
 };
 
 exports.updateRelease = function(req, res) {
     var releaseData = req.body;
-    Release.findOneAndUpdate({_id: releaseData._id}, releaseData, function(err, release) {
+    Release.findOneAndUpdate({code: releaseData.code}, releaseData, function(err, release) {
         if(err) {
             res.status(400);
             return res.send({reason:err.toString()});

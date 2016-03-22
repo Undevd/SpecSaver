@@ -18,7 +18,7 @@ module.exports = function(app) {
     });
     
     // Feature routes
-    app.get('/api/features/query/:projectCode/:releaseId', features.getAllFeatures);
+    app.get('/api/features/query/:projectCode/:releaseCode', features.getAllFeatures);
     app.get('/api/features/query/:projectCode', features.getAllFeatures);
     app.post('/api/features/:projectCode', features.createFeature);
 
@@ -35,7 +35,7 @@ module.exports = function(app) {
     // Release routes
     app.get('/api/releases/query/:projectCode', releases.getAllReleases);
     app.get('/api/releases/querycount/:projectCode', releases.getAllReleasesCount);
-    app.get('/api/releases/queryone/:projectCode/:releaseId', releases.getRelease);
+    app.get('/api/releases/queryone/:projectCode/:releaseCode', releases.getRelease);
     app.post('/api/releases/:projectCode', releases.createRelease);
     app.put('/api/releases/update', releases.updateRelease);
 

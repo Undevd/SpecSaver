@@ -17,6 +17,17 @@
                         .alert.alert-danger(role="alert", ng-show="releaseForm.name.$invalid && releaseForm.name.$dirty") Please enter a release
                 .form-group
                     .col-md-2.control-label
+                        span.glyphicon.glyphicon-asterisk.text-danger.padr
+                        label(for="feature") Code
+                    .col-md-10
+                        input.form-control(name="code", type="text", placeholder="Release code (used in URLs)", ng-model="code", ng-pattern="/^[a-zA-Z0-9]+$/" required)
+                        .alert.alert-danger(role="alert", ng-show="releaseForm.code.$invalid && releaseForm.code.$dirty") The project code may only contain the following characters:
+                            ul
+                                li Lowercase: a-z
+                                li Uppercase: A-Z
+                                li Digit: 0-9
+                .form-group
+                    .col-md-2.control-label
                         label(for="name") Description
                     .col-md-10
                         textarea.form-control(name="description", type="text", ng-model="description", placeholder="Description")

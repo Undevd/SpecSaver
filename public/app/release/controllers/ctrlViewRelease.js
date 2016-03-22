@@ -2,13 +2,13 @@ angular.module('app').controller('ctrlViewRelease', function($scope, $routeParam
     
 	//Get the project and release IDs from the route
 	var projectCode = $routeParams.projectCode;
-	var releaseId = $routeParams.releaseId;
+	var releaseCode = $routeParams.releaseCode;
 
 	//Data related to the project that the release is associated with
 	$scope.project = dbProject.getProject(projectCode);
 
 	//Data related to the release
-	$scope.release = dbRelease.getRelease(projectCode, releaseId);
+	$scope.release = dbRelease.getRelease(projectCode, releaseCode);
 
 	//Record whether a field is being edited
 	$scope.edit = {};
