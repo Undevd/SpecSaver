@@ -1,6 +1,6 @@
-angular.module('app').controller('ctrlCreateProject', function($scope, $location, dbProject, identitySvc) {
+angular.module('app').controller('ctrlCreateProject', function($scope, $location, dbProject, identitySvc, userSvc) {
     
-    $scope.users = 
+    $scope.users = userSvc.query();
     
     $scope.submit = function() {
         //Create the new project object

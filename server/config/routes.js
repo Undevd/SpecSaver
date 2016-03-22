@@ -5,6 +5,7 @@ var auth = require('./auth'),
     releases = require('../controllers/releases'),
     tests = require('../controllers/tests'),
     testSteps = require('../controllers/testSteps'),
+    users = require('../controllers/users'),
     userStories = require('../controllers/user-stories'),
     votes = require('../controllers/votes');
 
@@ -46,7 +47,10 @@ module.exports = function(app) {
     // Test Step routes
     app.get('/api/testSteps', testSteps.getTestSteps);
     app.post('/api/testSteps', testSteps.createTestStep);
-
+    
+    // User routes
+    app.get('/api/users', users.getUsers);
+    
     // User Story routes
     app.post('/api/user-stories', userStories.createUserStory);
     app.get('/api/user-stories', userStories.getUserStories);

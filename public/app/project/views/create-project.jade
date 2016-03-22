@@ -28,6 +28,8 @@
                     label.col-md-2.control-label(for="description") Description
                     .col-md-10
                         textarea.form-control(name="description", type="text", placeholder="Brief project description", ng-model="description")
+                div(ng-repeat="user in users")
+                    button.btn.btn-success(ng-click="addMember()") {{user.username}}
                 .form-group(ng-show="error != null")
                     .alert.alert-danger.text-center(role="alert") {{error}}
                 .form-group
