@@ -1,9 +1,9 @@
-angular.module('app').controller('mvNavBarLoginCtrl', function($scope, $location, mvNotifier, mvIdentity, mvAuth) {
+angular.module('app').controller('ctrlNavBarLogin', function($scope, $location, mvNotifier, identitySvc, authSvc) {
     
-    $scope.identity = mvIdentity;
+    $scope.identity = identitySvc;
     
     $scope.login = function(username, password) {
-        mvAuth.authenticateUser(username, password).then(function(success) {
+        authSvc.authenticateUser(username, password).then(function(success) {
             if(success) {
                 mvNotifier.notify('You have successfully logged into SpecSaver');
             } else {
@@ -13,7 +13,7 @@ angular.module('app').controller('mvNavBarLoginCtrl', function($scope, $location
     }
     
     $scope.logout = function() {
-        mvAuth.logoutUser().then(function() {
+        authSvc.logoutUser().then(function() {
             $scope.username = "";
             $scope.password = "";
             mvNotifier.notify('You have successfully logged out of SpecSaver');

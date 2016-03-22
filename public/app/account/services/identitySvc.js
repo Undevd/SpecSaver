@@ -1,4 +1,4 @@
-angular.module('app').factory('mvIdentity', function($window) {
+angular.module('app').factory('identitySvc', function($window) {
     var currentUser = undefined;
     if(!!$window.bootstrappedUserObject) {
         currentUser = $window.bootstrappedUserObject;
