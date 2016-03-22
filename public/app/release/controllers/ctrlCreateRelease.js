@@ -5,6 +5,7 @@ angular.module('app').controller('ctrlCreateRelease', function($scope, $location
     $scope.project = dbProject.getProject(projectCode);
 
 	$scope.submit = function() {
+        //Create the new release object
         var newRelease = {
             name: $scope.name,
             code: $scope.code,
@@ -12,10 +13,16 @@ angular.module('app').controller('ctrlCreateRelease', function($scope, $location
             projectCode: projectCode
         };
 
+        //Clear any previous errors
+        $scope.error = null;        
+
+        //Create the release in the database
         dbRelease.createRelease(newRelease).then(function(release) {
+          //Redirect to view the new release
           $location.path('/p/' + projectCode + '/r/' + release.code);
-        }, function(reason) {
-           console.log("failed to add release");
+        }, function(error) {
+            //Add the error message to the scope
+            $scope.error = error.data.reason;
         });
     }
 });

@@ -15,14 +15,15 @@
                 .form-group
                     .col-md-2.control-label
                         span.glyphicon.glyphicon-asterisk.text-danger.padr
-                        label(for="feature") Code
+                        label(for="code") Code
                     .col-md-10
-                        input.form-control(name="code", type="text", placeholder="Project code (used in URLs)", ng-model="code", ng-pattern="/^[a-zA-Z0-9]+$/" required)
+                        input.form-control(name="code", type="text", placeholder="Project code (used in URLs)", ng-model="code", ng-pattern="/^[a-zA-Z0-9.]+$/" required)
                         .alert.alert-danger(role="alert", ng-show="projectForm.code.$invalid && projectForm.code.$dirty") The project code may only contain the following characters:
                             ul
                                 li Lowercase: a-z
                                 li Uppercase: A-Z
                                 li Digit: 0-9
+                                li Full stop: .
                 .form-group
                     label.col-md-2.control-label(for="description") Description
                     .col-md-10
