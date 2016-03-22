@@ -11,7 +11,7 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
         .when('/p/:projectCode/r/:releaseCode', { templateUrl: '/partials/release/views/view-release', controller: "ctrlViewRelease" })
         .when('/p/:projectCode/r/:releaseCode/f', { templateUrl: '/partials/feature/views/view-all-features', controller: "ctrlViewAllFeatures" })
         .when('/p/:projectCode/f', { templateUrl: '/partials/feature/views/view-all-features', controller: "ctrlViewAllFeatures" })
-        .when('/p/:projectCode/f/:featureId', { templateUrl: '/partials/feature/views/view-feature', controller: "ctrlViewFeature" })
+        .when('/p/:projectCode/f/:featureCode', { templateUrl: '/partials/feature/views/view-feature', controller: "ctrlViewFeature" })
 
         .when('/c/p', { templateUrl: '/partials/project/views/create-project', controller: "ctrlCreateProject"})
         .when('/c/p/:projectCode/r', { templateUrl: '/partials/release/views/create-release', controller: "ctrlCreateRelease" })

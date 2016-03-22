@@ -23,7 +23,7 @@ exports.getAllFeatures = function(req, res) {
 };
 
 exports.getFeature = function(req, res){
-    Feature.find({_id: featureId}).exec(function (err, feature) {
+    Feature.find({code: featureCode}).exec(function (err, feature) {
         res.send(feature)
     })
 };

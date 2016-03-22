@@ -1,8 +1,9 @@
 var mongoose = require('mongoose');
 
 var featureSchema = mongoose.Schema({
-    name: { type:String, required:'{PATH} is required'},
-    description: { type:String, required:'{PATH} is required'},
+    name: {type: String, required: '{PATH} is required'},
+    code: {type: String, required: '{PATH} is required', unique: true},
+    description: {type:String},
     projectCode: {type:String, required: '{PATH} is required'}
 });
 

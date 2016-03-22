@@ -13,12 +13,13 @@ angular.module('app').controller('ctrlCreateFeature', function($scope, $routePar
     $scope.create = function() {
         var newFeature = {
             name: $scope.name,
+            code: $scope.code,
             description: $scope.description,
             projectCode: projectCode
         };
 
         dbFeature.createFeature(newFeature).then(function(feature) {
-            $location.path('/p/' + feature.projectCode + '/f/' + feature._id);
+            $location.path('/p/' + feature.projectCode + '/f/' + feature.code);
         }, function(reason) {
             console.log("failed to add feature");
         });
