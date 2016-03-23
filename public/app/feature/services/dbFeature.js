@@ -6,6 +6,18 @@ angular.module('app').factory('dbFeature', function(apiFeature) {
     
     getAllFeatures: function(projectCode, releaseCode) {
       return apiFeature.query({projectCode: projectCode, releaseCode: releaseCode});
+    },
+
+    getAllFeaturesCount: function(projectCode) {
+      return apiFeature.queryCount({projectCode: projectCode});
+    },
+
+    getFeature: function(projectCode, featureCode) {
+      return apiFeature.queryOne({projectCode: projectCode, featureCode: featureCode});
+    },
+
+    updateFeature: function(newFeatureData) {
+      return apiFeature.update(newFeatureData);
     }
   }
 });

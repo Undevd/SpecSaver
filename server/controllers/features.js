@@ -17,13 +17,32 @@ exports.createFeature = function(req, res) {
 };
 
 exports.getAllFeatures = function(req, res) {
-    Feature.find({ projectCode: req.params.projectCode, releaseCode: req.params.releaseCode }).sort('name').exec(function(err, features) {
+    Feature.find({projectCode: req.params.projectCode, releaseCode: req.params.releaseCode}).sort('name').exec(function(err, features) {
         res.send(features);
     })
 };
 
+exports.getAllFeaturesCount = function(req, res) {
+    Feature.count({projectCode: req.params.projectCode}).exec(function(err, count) {
+        res.send({count: count});
+    })
+};
+
 exports.getFeature = function(req, res){
-    Feature.find({code: featureCode}).exec(function (err, feature) {
+    Feature.findOne({code: req.params.featureCode, projectCode: req.params.projectCode}).exec(function(err, feature) {
         res.send(feature)
     })
+};
+
+exports.updateFeature = function(req, res) {
+    var featureData = req.body;
+    Feature.findOneAndUpdate({code: featureData.code, projectCode: featureData.projectCode}, featureData, function(err, feature) {
+        if(err) {
+            res.status(400);
+            return res.send({reason:err.toString()});
+        }
+
+        res.status(200);
+        res.send(feature);
+    });
 };

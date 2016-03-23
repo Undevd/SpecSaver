@@ -1,25 +1,43 @@
 .container
     .well
         fieldset
-            legend.colour3.pad
-                span.glyphicon.glyphicon-apple &nbsp; Features
-                a.btn.btn-default.pull-right(ng-href="/c/p/{{project.code}}/f" ng-show="release == null")
-                    span.glyphicon.glyphicon-plus
-                    span &nbsp; Create
-                a.btn.btn-default.pull-right(ng-href="/c/p/{{project.code}}/r/{{release.code}}/f" ng-show="release != null")
-                    span.glyphicon.glyphicon-plus
-                    span &nbsp; Create
+            legend.colour3
+                h1
+                    span.glyphicon.glyphicon-apple.padr
+                    span
+                        a(ng-href="/p/{{project.code}}") {{project.name}}
+                    span.padr :
+                    span Features
+                    a.btn.btn-default.pull-right(ng-href="/c/p/{{project.code}}/f")
+                        span.glyphicon.glyphicon-plus.padr
+                        span Create
             table.table.table-hover.table-striped.table-condensed
-                thead
-                    tr
-                        th Feature
-                        th Description
-                        th Actions
                 tbody(ng-repeat="feature in features")
                     tr
-                        td {{feature.name}}
-                        td {{feature.description}}
-                        td 
-                            a.btn.btn-success(ng-href="/p/{{project.code}}/f/{{feature.code}}")
-                                span.glyphicon.glyphicon-th-list
-                                span &nbsp; View/Edit
+                        td
+                            a(ng-href="/p/{{project.code}}/f/{{feature.code}}") {{feature.name}}
+                        td {{feature.description | limitTo: 100}}{{feature.description.length &gt; 100 ? '...' : ''}}
+                        td
+                            .dropdown.pull-right
+                                a.btn.btn-default(ng-href="/p/{{project.code}}/f/{{feature.code}}")
+                                    span.glyphicon.glyphicon-apple
+                                button.btn.btn-default.dropdown-toggle(aria-haspopup="true", aria-expanded="true", data-toggle="dropdown", type="button")
+                                    span.caret
+                                ul.dropdown-menu
+                                    li
+                                        a(ng-href="/p/{{project.code}}/f/{{feature.code}}")
+                                            span.glyphicon.glyphicon-apple.padr
+                                            span Manage
+                                    li.divider(role="separator")
+                                    li
+                                        a(href="#")
+                                            span.glyphicon.glyphicon-tree-deciduous.padr
+                                            span User Stories
+                                    li
+                                        a(href="#")
+                                            span.glyphicon.glyphicon-grain.padr
+                                            span Acceptance Tests
+                                    li
+                                        a(href="#")
+                                            span.glyphicon.glyphicon-leaf.padr
+                                            span System Tests

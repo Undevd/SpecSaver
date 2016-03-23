@@ -36,7 +36,7 @@ exports.getRelease = function(req, res) {
 
 exports.updateRelease = function(req, res) {
     var releaseData = req.body;
-    Release.findOneAndUpdate({code: releaseData.code}, releaseData, function(err, release) {
+    Release.findOneAndUpdate({code: releaseData.code, projectCode: releaseData.projectCode}, releaseData, function(err, release) {
         if(err) {
             res.status(400);
             return res.send({reason:err.toString()});

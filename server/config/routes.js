@@ -21,7 +21,10 @@ module.exports = function(app) {
     // Feature routes
     app.get('/api/features/query/:projectCode/:releaseCode', features.getAllFeatures);
     app.get('/api/features/query/:projectCode', features.getAllFeatures);
+    app.get('/api/features/querycount/:projectCode', features.getAllFeaturesCount);
+    app.get('/api/features/queryone/:projectCode/:featureCode', features.getFeature);
     app.post('/api/features/:projectCode', features.createFeature);
+    app.put('/api/features/update', features.updateFeature);
 
     // Project routes
     app.get('/api/projects/:projectCode', projects.getProject);

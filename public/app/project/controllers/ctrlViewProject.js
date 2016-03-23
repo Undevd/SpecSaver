@@ -1,10 +1,13 @@
-angular.module('app').controller('ctrlViewProject', function($scope, $routeParams, dbProject, dbRelease) {
+angular.module('app').controller('ctrlViewProject', function($scope, $routeParams, dbFeature, dbProject, dbRelease) {
     
 	//Data related to the project
 	$scope.project = dbProject.getProject($routeParams.projectCode);
 
 	//Get the number of releases associated with the project
 	$scope.release = dbRelease.getAllReleasesCount($routeParams.projectCode);
+
+    //Get the number of features associated with the project
+    $scope.feature = dbFeature.getAllFeaturesCount($routeParams.projectCode);
 
 	//Record whether a field is being edited
 	$scope.edit = {};
