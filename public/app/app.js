@@ -21,7 +21,7 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
         .when('/quote', { templateUrl: '/partials/quote/quote', controller: "mvQuoteCtrl" })
         .when('/test', { templateUrl: '/partials/test/test', controller: "mvTestCtrl"})
         .when('/testStep', { templateUrl: '/partials/testStep/testStep', controller: "mvTestStepCtrl"})
-        .when('/user-story/create-user-story', { templateUrl: '/partials/user-story/create-user-story', controller: "mvUserStoryCtrl" })
+        .when('/user-story/create-user-story', { templateUrl: '/partials/user-story/views/create-user-story', controller: "ctrlCreateUserStory" })
         .when('/vote/cast-vote', { templateUrl: '/partials/vote/cast-vote', controller: "mvVoteCtrl" })
         .when('/vote/display-results', { templateUrl: '/partials/vote/display-results', controller: "mvResultCtrl" });
 });

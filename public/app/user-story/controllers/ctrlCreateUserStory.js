@@ -1,4 +1,4 @@
-angular.module('app').controller('mvUserStoryCtrl', function($scope, $location, dbOps) {
+angular.module('app').controller('ctrlCreateUserStory', function($scope, $location, dbOps) {
     $scope.create = function() {
         var newUserStory = {
             name: $scope.name,
