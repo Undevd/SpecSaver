@@ -2,12 +2,15 @@
     .well
         fieldset
             legend.colour1
-                h1
-                    span.glyphicon.glyphicon-th-list.padr
-                    span Projects
+                h1 Project
                     a.btn.btn-default.pull-right(href="/c/p")
                         span.glyphicon.glyphicon-plus.padr
                         span Create
+                h2
+                    span.glyphicon.glyphicon-th-list.padr
+                    span
+                        em Select a project
+
             table.table.table-hover.table-striped.table-condensed
                 tbody(ng-repeat="project in projects")
                     tr(ng-show="project.isMember()")

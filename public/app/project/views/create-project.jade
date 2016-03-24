@@ -2,10 +2,11 @@
     .well
         form.form-horizontal(name="projectForm")
             fieldset
-                legend
-                    h1
+                legend.colour1
+                    h1 Project
+                    h2
                         span.glyphicon.glyphicon-th-list.padr
-                        span Create a project
+                        span {{name}}
                 .form-group
                     .col-md-2.control-label
                         span.glyphicon.glyphicon-asterisk.text-danger.padr
@@ -40,4 +41,6 @@
                                     span.glyphicon.glyphicon-ok.padr
                                     span Create
                             span
-                                a.btn.btn-default(href="/p") Cancel
+                                a.btn.btn-default(href="/p")
+                                    span.glyphicon.glyphicon-remove.padr
+                                    span Cancel

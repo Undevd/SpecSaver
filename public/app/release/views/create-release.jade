@@ -2,12 +2,14 @@
     .well
         form.form-horizontal(name="releaseForm")
             fieldset
-                legend
-                    h1
+                legend.colour2
+                    h1 Release
+                    h2
                         span.glyphicon.glyphicon-gift.padr
                         span
                             a(ng-href="/p/{{project.code}}") {{project.name}}
-                        span : Create a release
+                        span.padr :
+                        span {{name}}
                 .form-group
                     .col-md-2.control-label
                         span.glyphicon.glyphicon-asterisk.text-danger.padr
@@ -33,7 +35,7 @@
                     .col-md-10
                         textarea.form-control(name="description", type="text", ng-model="description", placeholder="Description")
                 .form-group(ng-show="error != null")
-                    .alert.alert-danger.text-center(role="alert") {{error}}                            
+                    .alert.alert-danger.text-center(role="alert") {{error}}
                  .form-group
                     .col-md-10.col-md-offset-2
                         .pull-right
@@ -42,4 +44,6 @@
                                     span.glyphicon.glyphicon-ok.padr
                                     span Create
                             span
-                                a.btn.btn-default(ng-href="/p/{{project.code}}/r") Cancel
+                                a.btn.btn-default(ng-href="/p/{{project.code}}/r")
+                                    span.glyphicon.glyphicon-remove.padr
+                                    span Cancel

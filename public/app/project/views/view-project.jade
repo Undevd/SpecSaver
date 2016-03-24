@@ -1,8 +1,9 @@
 .container
     .well
         fieldset
-            legend
-                h1
+            legend.colour1
+                h1 Project
+                h2
                     span.glyphicon.glyphicon-th-list.padr
                     span(ng-show="!edit.name")
                         a.edit(ng-click="showEdit('name', true)" ng-mouseleave="hover.name = false" ng-mouseover="hover.name = true") {{project.name}}
@@ -29,36 +30,31 @@
             .padb
                 .col-md-2.colour2.padn
                     a.btn.btn-block.colour2(href="/p/{{project.code}}/r")
-                        h2
-                            small Releases
-                        h3
+                        .box Releases
+                        .box
                             span.glyphicon.glyphicon-gift(aria-label="Gift icon")
-                        h4 {{release.count}}
+                        .box {{release.count}}
                 .col-md-2.colour3.padn
                     a.btn.btn-block.colour3(href="/p/{{project.code}}/f")
-                        h2
-                            small Features
-                        h3
+                        .box Features
+                        .box
                             span.glyphicon.glyphicon-apple(aria-label="Apple icon")
-                        h4 {{feature.count}}
+                        .box {{feature.count}}
                 .col-md-2.colour4.padn
                     a.btn.btn-block.colour4(href="#")
-                        h2
-                            small User Stories
-                        h3
+                        .box User Stories
+                        .box
                             span.glyphicon.glyphicon-tree-deciduous(aria-label="Tree icon")
-                        h4 0
+                        .box 0
                 .col-md-2.colour5.padn
                     a.btn.btn-block.colour5(href="#")
-                        h2
-                            small Acceptance Tests
-                        h3
+                        .box Acceptance Tests
+                        .box
                             span.glyphicon.glyphicon-grain(aria-label="Branch icon")
-                        h4 0
+                        .box 0
                 .col-md-2.colour6.padn
                     a.btn.btn-block.colour6(href="#")
-                        h2
-                            small System Tests
-                        h3
+                        .box System Tests
+                        .box
                             span.glyphicon.glyphicon-leaf(aria-label="Leaf icon")
-                        h4 0
+                        .box 0

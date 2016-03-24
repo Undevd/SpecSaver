@@ -1,8 +1,9 @@
 .container
     .well
         fieldset
-            legend
-                h1
+            legend.colour2
+                h1 Release
+                h2
                     span.glyphicon.glyphicon-gift.padr
                     span
                         a(ng-href="/p/{{project.code}}") {{project.name}}
@@ -32,29 +33,25 @@
             .padb
                 .col-md-2.colour3.padn
                     a.btn.btn-block.colour3(ng-href="/p/{{project.code}}/r/{{release.code}}/f")
-                        h2
-                            small Features
-                        h3
+                        .box Features
+                        .box
                             span.glyphicon.glyphicon-apple(aria-label="Apple icon")
-                        h4 0
+                        .box 0
                 .col-md-2.colour4.padn
                     a.btn.btn-block.colour4(href="#")
-                        h2
-                            small User Stories
-                        h3
+                        .box User Stories
+                        .box
                             span.glyphicon.glyphicon-tree-deciduous(aria-label="Tree icon")
-                        h4 0
+                        .box 0
                 .col-md-2.colour5.padn
                     a.btn.btn-block.colour5(href="#")
-                        h2
-                            small Acceptance Tests
-                        h3
+                        .box Acceptance Tests
+                        .box
                             span.glyphicon.glyphicon-grain(aria-label="Branch icon")
-                        h4 0
+                        .box 0
                 .col-md-2.colour6.padn
                     a.btn.btn-block.colour6(href="#")
-                        h2
-                            small System Tests
-                        h3
+                        .box System Tests
+                        .box
                             span.glyphicon.glyphicon-leaf(aria-label="Leaf icon")
-                        h4 0
+                        .box 0

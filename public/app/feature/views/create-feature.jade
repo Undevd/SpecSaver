@@ -2,17 +2,18 @@
     .well
         form.form-horizontal(name="featureForm")
             fieldset
-                legend
-                    h1
+                legend.colour3
+                    h1 Feature
+                    h2
                         span.glyphicon.glyphicon-apple.padr
                         span
                             a(ng-href="/p/{{project.code}}") {{project.name}}
-                        span.padr :
                         span(ng-show="release != null")
+                            span.padr :
                             span
                                 a(ng-href="/p/{{project.code}}/r/{{release.code}}") {{release.name}}
-                            span.padr :
-                        span Create a feature
+                        span.padr :
+                        span {{name}}
                 .form-group
                     .col-md-2.control-label
                         span.glyphicon.glyphicon-asterisk.text-danger.padr
@@ -42,6 +43,11 @@
                 .form-group
                     .col-md-10.col-md-offset-2
                         .pull-right
-                            button.btn.btn-primary(ng-click="create()", ng-disabled="featureForm.$invalid") Submit
-                            | &nbsp;
-                            a.btn.btn-default(ng-href="/p/{{project.code}}/f") Cancel
+                            span.padr
+                                button.btn.btn-success(ng-click="create()", ng-disabled="featureForm.$invalid")
+                                    span.glyphicon.glyphicon-ok.padr
+                                    span Create
+                            span
+                                a.btn.btn-default(ng-href="/p/{{project.code}}/f")
+                                    span.glyphicon.glyphicon-remove.padr
+                                    span Cancel

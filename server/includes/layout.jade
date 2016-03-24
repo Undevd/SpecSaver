@@ -6,7 +6,7 @@ html
         link(rel="stylesheet", href="/vendor/bootstrap/dist/css/bootstrap.css")
         link(rel="stylesheet", href="/vendor/toastr/toastr.css")
         link(rel="stylesheet", href="/css/site.css")
-    body(ng-app='app')
+    body.ng-cloak(ng-app='app')
         include currentUser
         .navbar.navbar-inverse.navbar-fixed-top
             .container

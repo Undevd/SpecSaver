@@ -3,14 +3,14 @@
         fieldset
             legend.colour2
                 h1
-                    span.glyphicon.glyphicon-gift.padr
-                    span
-                        a(ng-href="/p/{{project.code}}") {{project.name}}
-                    span.padr :
-                    span Releases
+                    span Release
                     a.btn.btn-default.pull-right(ng-href="/c/p/{{project.code}}/r")
                         span.glyphicon.glyphicon-plus.padr
                         span Create
+                h2
+                    span.glyphicon.glyphicon-gift.padr
+                    span
+                        a(ng-href="/p/{{project.code}}") {{project.name}}
             table.table.table-hover.table-striped.table-condensed
                 tbody(ng-repeat="release in releases")
                     tr
