@@ -17,11 +17,12 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
         .when('/c/p/:projectCode/r', { templateUrl: '/partials/release/views/create-release', controller: "ctrlCreateRelease" })
         .when('/c/p/:projectCode/r/:releaseCode/f', { templateUrl: '/partials/feature/views/create-feature', controller: "ctrlCreateFeature" })
         .when('/c/p/:projectCode/f', { templateUrl: '/partials/feature/views/create-feature', controller: "ctrlCreateFeature" })
-        
+        .when('/c/p/:projectCode/f/:featureCode/u', { templateUrl: '/partials/user-story/views/create-user-story', controller: "ctrlCreateUserStory" })
+        .when('/c/p/:projectCode/u', { templateUrl: '/partials/user-story/views/create-user-story', controller: "ctrlCreateUserStory" })
+
         .when('/quote', { templateUrl: '/partials/quote/quote', controller: "mvQuoteCtrl" })
         .when('/test', { templateUrl: '/partials/test/test', controller: "mvTestCtrl"})
         .when('/testStep', { templateUrl: '/partials/testStep/testStep', controller: "mvTestStepCtrl"})
-        .when('/user-story/create-user-story', { templateUrl: '/partials/user-story/views/create-user-story', controller: "ctrlCreateUserStory" })
         .when('/vote/cast-vote', { templateUrl: '/partials/vote/cast-vote', controller: "mvVoteCtrl" })
         .when('/vote/display-results', { templateUrl: '/partials/vote/display-results', controller: "mvResultCtrl" });
 });

@@ -1,14 +1,36 @@
-angular.module('app').controller('ctrlCreateUserStory', function($scope, $location, dbOps) {
-    $scope.create = function() {
+angular.module('app').controller('ctrlCreateUserStory', function($scope, $location, $routeParams, dbFeature, dbProject, dbUserStory) {
+    
+    var projectCode = $routeParams.projectCode;
+    var featureCode = $routeParams.featureCode;
+
+    $scope.project = dbProject.getProject(projectCode);
+
+    if (featureCode)
+    {
+        $scope.feature = dbFeature.getFeature(projectCode, featureCode);
+    }
+
+    $scope.submit = function() {
+        //Create the new user story object
         var newUserStory = {
-            name: $scope.name,
-            story: $scope.story
+            code: null,
+            asA: $scope.asA,
+            iCan: $scope.iCan,
+            soThat: $scope.soThat,
+            projectCode: projectCode,
+            featureCode: $scope.feature.code
         };
-        
-        dbOps.createUserStory(newUserStory).then(function() {
-            $location.path('/user-story');
-        }, function(reason) {
-            console.log("failed to add user story");
+
+        //Clear any previous errors
+        $scope.error = null;        
+
+        //Create the user story in the database
+        dbUserStory.createRelease(newUserStory).then(function(userStory) {
+          //Redirect to view the new user story
+          $location.path('/p/' + projectCode + '/r/' + userStory.code);
+        }, function(error) {
+            //Add the error message to the scope
+            $scope.error = error.data.reason;
         });
     }
 });

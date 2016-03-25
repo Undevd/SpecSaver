@@ -1,4 +1,4 @@
-angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvVote, mvTest, mvUserStory, mvTestStep) {
+angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvVote, mvTest, mvTestStep) {
   return {
     createQuote: function(newQuoteData) {
       var newQuote = new mvQuote(newQuoteData);
@@ -39,19 +39,6 @@ angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvVote, mvTe
       return dfd.promise;
     },
     
-    createUserStory: function(newUserStoryData) {
-      var newUserStory = new mvUserStory(newUserStoryData);
-      var dfd = $q.defer();
-
-      newUserStory.$save().then(function() {
-        dfd.resolve();
-      }, function(response) {
-        dfd.reject(response.data.reason);
-      });
-      
-      return dfd.promise;
-    },
-    
     createTestStep: function(newTestStepData) {
       var newTestStep = new mvTestStep(newTestStepData);
       var dfd = $q.defer();
@@ -62,6 +49,6 @@ angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvVote, mvTe
         dfd.reject(response.data.reason);
       });
       return dfd.promise;
-    },
+    }
   }
 });

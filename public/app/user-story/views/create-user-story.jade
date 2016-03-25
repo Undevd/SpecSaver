@@ -2,18 +2,53 @@
     .well
         form.form-horizontal(name="userStoryForm")
             fieldset
-                legend User Story
-                .form-group
-                    label.col-md-2.control-label(for="name") Name
+                legend.colour4
+                    h1 User Story
+                    h2
+                        span.glyphicon.glyphicon-tree-deciduous.padr
+                        span
+                            a(ng-href="/p/{{project.code}}") {{project.name}}
+                        span.padr :
+                        span
+                            a(ng-href="/p/{{project.code}}/f/{{feature.code}}") {{feature.name}}
+                .form-group.padb(ng-show="!feature.code || userStoryForm.featureCode.$dirty")
+                    .col-md-2.control-label
+                        span.glyphicon.glyphicon-asterisk.text-danger.padr
+                        label(for="feature.code") Feature
                     .col-md-10
-                        input.form-control(name="name", type="text", placeholder="what's your story's title?", ng-model="name", required)
+                        .input-group
+                            span.input-group-addon(id="codeAddon")
+                                a(href="#")
+                                    span.glyphicon.glyphicon-search
+                            input.form-control(name="feature.code", type="text", placeholder="Search", ng-model="feature.code", readonly, required, aria-describedby="codeAddon")
                 .form-group
-                    label.col-md-2.control-label(for="story") Story
+                    .col-md-2.control-label
+                        span.glyphicon.glyphicon-asterisk.text-danger.padr
+                        label(for="asA") As a
                     .col-md-10
-                        input.form-control(name="story", type="text", placeholder="tell me a story...", ng-model="story", required)
+                        input.form-control(name="asA", type="text", placeholder="User", ng-model="asA", required)
+                .form-group
+                    .col-md-2.control-label
+                        span.glyphicon.glyphicon-asterisk.text-danger.padr
+                        label(for="iCan") I can
+                    .col-md-10
+                        input.form-control(name="iCan", type="text", placeholder="Do something", ng-model="iCan", required)
+                .form-group
+                    .col-md-2.control-label
+                        span.glyphicon.glyphicon-asterisk.text-danger.padr
+                        label(for="soThat") So that
+                    .col-md-10
+                        input.form-control(name="soThat", type="text", placeholder="Something happens", ng-model="soThat", required)
+                .form-group(ng-show="error != null")
+                    .alert.alert-danger.text-center(role="alert") {{error}}
                 .form-group
                     .col-md-10.col-md-offset-2
                         .pull-right
-                            button.btn.btn-primary(ng-click="create()", ng-disabled="userStoryForm.$invalid") Create
-                            | &nbsp;
-                            a.btn.btn-default(href="/") Cancel
+                            span.padr
+                                button.btn.btn-success(ng-click="submit()", ng-disabled="userStoryForm.$invalid")
+                                    span.glyphicon.glyphicon-ok.padr
+                                    span Create
+                            span
+                                a.btn.btn-default(ng-href="{{feature.code ? '/p/' + project.code + '/f/' + feature.code + '/u' : '/p/' + project.code + '/u'}}")
+                                    span.glyphicon.glyphicon-remove.padr
+                                    span Cancel
