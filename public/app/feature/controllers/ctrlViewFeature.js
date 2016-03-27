@@ -1,4 +1,4 @@
-angular.module('app').controller('ctrlViewFeature', function($scope, $routeParams, dbFeature, dbProject) {
+angular.module('app').controller('ctrlViewFeature', function($scope, $routeParams, dbFeature, dbProject, dbUserStory) {
     
 	//Get the project and feature IDs from the route
 	var projectCode = $routeParams.projectCode;
@@ -9,6 +9,9 @@ angular.module('app').controller('ctrlViewFeature', function($scope, $routeParam
 
 	//Data related to the feature
 	$scope.feature = dbFeature.getFeature(projectCode, featureCode);
+
+    //Get the number of user stories associated with the feature
+    $scope.userStory = dbUserStory.getAllUserStoriesCount(projectCode, featureCode);
 
 	//Record whether a field is being edited
 	$scope.edit = {};

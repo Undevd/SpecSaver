@@ -59,8 +59,8 @@ module.exports = function(app) {
     app.get('/api/user-stories/query/:projectCode', userStories.getAllUserStories);
     app.get('/api/user-stories/querycount/:projectCode/:featureCode', userStories.getAllUserStoriesCount);
     app.get('/api/user-stories/querycount/:projectCode', userStories.getAllUserStoriesCount);
-    app.get('/api/user-stories/queryone/:projectCode/:featureCode', userStories.getUserStory);
-    app.post('/api/user-stories/:projectCode', userStories.createUserStory);
+    app.get('/api/user-stories/queryone/:projectCode/:featureCode/:userStoryCode', userStories.getUserStory);
+    app.post('/api/user-stories/:projectCode/:featureCode', userStories.createUserStory);
     app.put('/api/user-stories/update', userStories.updateUserStory);
 
     // Vote routes

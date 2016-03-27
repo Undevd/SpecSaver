@@ -25,9 +25,9 @@ angular.module('app').controller('ctrlCreateUserStory', function($scope, $locati
         $scope.error = null;        
 
         //Create the user story in the database
-        dbUserStory.createRelease(newUserStory).then(function(userStory) {
+        dbUserStory.createUserStory(newUserStory).then(function(userStory) {
           //Redirect to view the new user story
-          $location.path('/p/' + projectCode + '/r/' + userStory.code);
+          $location.path('/p/' + userStory.projectCode + '/f/' + userStory.featureCode + '/u/' + userStory.code);
         }, function(error) {
             //Add the error message to the scope
             $scope.error = error.data.reason;
