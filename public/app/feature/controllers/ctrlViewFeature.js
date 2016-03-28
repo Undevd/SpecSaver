@@ -11,7 +11,7 @@ angular.module('app').controller('ctrlViewFeature', function($scope, $routeParam
 	$scope.feature = dbFeature.getFeature(projectCode, featureCode);
 
     //Get the number of user stories associated with the feature
-    $scope.userStory = dbUserStory.getAllUserStoriesCount(projectCode, featureCode);
+    $scope.userStory = dbUserStory.getUserStoryCount(projectCode, featureCode);
 
 	//Record whether a field is being edited
 	$scope.edit = {};

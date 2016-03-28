@@ -31,25 +31,28 @@ exports.getAllUserStories = function(req, res) {
     })
 };
 
-exports.getAllUserStoriesCount = function(req, res) {
-    if (req.params.featureCode)
-    {
-        UserStory.count({projectCode: req.params.projectCode, featureCode: req.params.featureCode}).exec(function(err, count) {
-            res.send({count: count});
-        });
-    }
-    else
-    {
-        UserStory.count({projectCode: req.params.projectCode}).exec(function(err, count) {
-            res.send({count: count});
-        });
-    }
-};
-
 exports.getUserStory = function(req, res) {
     UserStory.findOne({code: req.params.userStoryCode, projectCode: req.params.projectCode, featureCode: req.params.featureCode}).exec(function(err, userStory) {
         res.send(userStory);
     })
+};
+
+exports.getUserStoryCountForFeature = function(req, res) {
+    UserStory.count({projectCode: req.params.projectCode, featureCode: req.params.featureCode}).exec(function(err, count) {
+        res.send({count: count});
+    });
+};
+
+exports.getUserStoryCountForProject = function(req, res) {
+    UserStory.count({projectCode: req.params.projectCode}).exec(function(err, count) {
+        res.send({count: count});
+    });
+};
+
+exports.getUserStoryCountGroupedByFeature = function(req, res) {;
+    UserStory.aggregate([{$match: {projectCode: req.params.projectCode}}, {$group: {_id: "$featureCode", total: {$sum: 1}}}]).sort('_id').exec(function(err, result) {
+        res.send(result);
+    });
 };
 
 exports.updateUserStory = function(req, res) {

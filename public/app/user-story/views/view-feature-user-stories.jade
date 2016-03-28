@@ -4,17 +4,16 @@
             legend.colour4
                 h1
                     span User Story
-                    a.btn.btn-default.pull-right(ng-href="{{feature == null ? '/c/p/' + project.code + '/u' : '/c/p/' + project.code + '/f/' + feature.code + '/u'}}")
+                    a.btn.btn-default.pull-right(ng-href="/c/p/{{project.code}}/f/{{feature.code}}/u")
                         span.glyphicon.glyphicon-plus.padr
                         span Create
                 h2
                     span.glyphicon.glyphicon-apple.padr
                     span
                         a(ng-href="/p/{{project.code}}") {{project.name}}
-                    span(ng-show="feature != null")
-                        span.padr :
-                        span
-                            a(ng-href="/p/{{project.code}}/f/{{feature.code}}") {{feature.name}}
+                    span.padr :
+                    span
+                        a(ng-href="/p/{{project.code}}/f/{{feature.code}}") {{feature.name}}
             table.table.table-hover.table-striped.table-condensed
                 tbody(ng-repeat="userStory in userStories")
                     tr

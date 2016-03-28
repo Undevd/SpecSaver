@@ -12,9 +12,9 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
         .when('/p/:projectCode/r/:releaseCode/f', { templateUrl: '/partials/feature/views/view-all-features', controller: "ctrlViewAllFeatures" })
         .when('/p/:projectCode/f', { templateUrl: '/partials/feature/views/view-all-features', controller: "ctrlViewAllFeatures" })
         .when('/p/:projectCode/f/:featureCode', { templateUrl: '/partials/feature/views/view-feature', controller: "ctrlViewFeature" })
-        .when('/p/:projectCode/f/:featureCode/u', { templateUrl: '/partials/user-story/views/view-all-user-stories', controller: "ctrlViewAllUserStories" })
+        .when('/p/:projectCode/f/:featureCode/u', { templateUrl: '/partials/user-story/views/view-feature-user-stories', controller: "ctrlViewFeatureUserStories" })
         .when('/p/:projectCode/f/:featureCode/u/:userStoryCode', { templateUrl: '/partials/user-story/views/view-user-story', controller: "ctrlViewUserStory" })
-        .when('/p/:projectCode/u', { templateUrl: '/partials/user-story/views/view-all-user-stories', controller: "ctrlViewAllUserStories" })
+        .when('/p/:projectCode/u', { templateUrl: '/partials/user-story/views/view-project-user-stories', controller: "ctrlViewProjectUserStories" })
         .when('/p/:projectCode/u/:userStoryCode', { templateUrl: '/partials/user-story/views/view-user-story', controller: "ctrlViewUserStory" })
 
         .when('/c/p', { templateUrl: '/partials/project/views/create-project', controller: "ctrlCreateProject"})

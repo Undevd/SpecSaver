@@ -55,13 +55,13 @@ module.exports = function(app) {
     app.get('/api/users', users.getUsers);
     
     // User Story routes
-    app.get('/api/user-stories/query/:projectCode/:featureCode', userStories.getAllUserStories);
-    app.get('/api/user-stories/query/:projectCode', userStories.getAllUserStories);
-    app.get('/api/user-stories/querycount/:projectCode/:featureCode', userStories.getAllUserStoriesCount);
-    app.get('/api/user-stories/querycount/:projectCode', userStories.getAllUserStoriesCount);
-    app.get('/api/user-stories/queryone/:projectCode/:featureCode/:userStoryCode', userStories.getUserStory);
+    app.get('/api/user-stories/count/for/:projectCode/:featureCode', userStories.getUserStoryCountForFeature);
+    app.get('/api/user-stories/count/for/:projectCode', userStories.getUserStoryCountForProject);
+    app.get('/api/user-stories/count/grouped/:projectCode', userStories.getUserStoryCountGroupedByFeature);
+    app.get('/api/user-stories/get/all/:projectCode/:featureCode', userStories.getAllUserStories);
+    app.get('/api/user-stories/get/one/:projectCode/:featureCode/:userStoryCode', userStories.getUserStory);
     app.post('/api/user-stories/:projectCode/:featureCode', userStories.createUserStory);
-    app.put('/api/user-stories/update', userStories.updateUserStory);
+    app.put('/api/user-stories', userStories.updateUserStory);
 
     // Vote routes
     app.post('/api/votes', votes.createVote);

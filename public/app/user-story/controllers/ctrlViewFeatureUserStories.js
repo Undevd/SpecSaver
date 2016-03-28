@@ -1,4 +1,4 @@
-angular.module('app').controller('ctrlViewAllUserStories', function($scope, $routeParams, dbFeature, dbProject, dbUserStory) {
+angular.module('app').controller('ctrlViewFeatureUserStories', function($scope, $routeParams, dbFeature, dbProject, dbUserStory) {
     
     var projectCode = $routeParams.projectCode;
     var featureCode = $routeParams.featureCode;
@@ -7,8 +7,5 @@ angular.module('app').controller('ctrlViewAllUserStories', function($scope, $rou
 
     $scope.project = dbProject.getProject(projectCode);
 
-    if (featureCode)
-    {
-    	$scope.feature = dbFeature.getFeature(projectCode, featureCode);
-    }
+    $scope.feature = dbFeature.getFeature(projectCode, featureCode);
 });
