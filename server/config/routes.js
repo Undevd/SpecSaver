@@ -60,8 +60,8 @@ module.exports = function(app) {
     app.get('/api/user-stories/count/grouped/:projectCode', userStories.getUserStoryCountGroupedByFeature);
     app.get('/api/user-stories/get/all/:projectCode/:featureCode', userStories.getAllUserStories);
     app.get('/api/user-stories/get/one/:projectCode/:featureCode/:userStoryCode', userStories.getUserStory);
-    app.post('/api/user-stories/:projectCode/:featureCode', userStories.createUserStory);
-    app.put('/api/user-stories', userStories.updateUserStory);
+    app.post('/api/user-stories/*', userStories.createUserStory);
+    app.put('/api/user-stories/*', userStories.updateUserStory);
 
     // Vote routes
     app.post('/api/votes', votes.createVote);

@@ -57,7 +57,7 @@ exports.getUserStoryCountGroupedByFeature = function(req, res) {;
 
 exports.updateUserStory = function(req, res) {
     var userStoryData = req.body;
-    UserStory.findOneAndUpdate({code: userStoryData.code, projectCode: userStoryData.projectCode, featureCode: req.params.featureCode}, userStoryData, function(err, userStory) {
+    UserStory.findOneAndUpdate({code: userStoryData.code, projectCode: userStoryData.projectCode, featureCode: userStoryData.featureCode}, userStoryData, function(err, userStory) {
         if(err) {
             res.status(400);
             return res.send({reason:err.toString()});

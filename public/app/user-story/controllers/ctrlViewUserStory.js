@@ -1,17 +1,18 @@
-angular.module('app').controller('ctrlViewFeature', function($scope, $routeParams, dbFeature, dbProject, dbUserStory) {
+angular.module('app').controller('ctrlViewUserStory', function($scope, $routeParams, dbFeature, dbProject, dbUserStory) {
     
 	//Get the project and feature IDs from the route
 	var projectCode = $routeParams.projectCode;
 	var featureCode = $routeParams.featureCode;
+    var userStoryCode = $routeParams.userStoryCode;
 
-	//Data related to the project that the feature is associated with
+	//Data related to the project that the user story is associated with
 	$scope.project = dbProject.getProject(projectCode);
 
-	//Data related to the feature
+	//Data related to the project that the user story is associated with
 	$scope.feature = dbFeature.getFeature(projectCode, featureCode);
 
-    //Get the number of user stories associated with the feature
-    $scope.userStory = dbUserStory.getUserStoryCount(projectCode, featureCode);
+    //Data related to the user story
+    $scope.userStory = dbUserStory.getUserStory(projectCode, featureCode, userStoryCode);
 
 	//Record whether a field is being edited
 	$scope.edit = {};
@@ -22,7 +23,7 @@ angular.module('app').controller('ctrlViewFeature', function($scope, $routeParam
 	$scope.showEdit = function(field, show) {
         if (show) {
 	        //Store the old data
-	        $scope.oldData[field] = $scope.feature[field];
+	        $scope.oldData[field] = $scope.userStory[field];
     	}
 
         //Show the edit fields
@@ -31,15 +32,16 @@ angular.module('app').controller('ctrlViewFeature', function($scope, $routeParam
 
     $scope.cancelEdit = function(field) {
     	//Reset the value
-    	$scope.feature[field] = $scope.oldData[field];
+    	$scope.userStory[field] = $scope.oldData[field];
 
     	//Stop editing
     	$scope.showEdit(field, false);
     }
 
     $scope.submitEdit = function(field) {
-        //Save the feature
-    	dbFeature.updateFeature($scope.feature);
+        console.log($scope.userStory);
+        //Save the user story
+    	dbUserStory.updateUserStory($scope.userStory);
 
     	//Stop editing
     	$scope.showEdit(field, false);

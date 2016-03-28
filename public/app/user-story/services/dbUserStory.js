@@ -8,7 +8,7 @@ angular.module('app').factory('dbUserStory', function(apiUserStory) {
       return apiUserStory.getAll({projectCode: projectCode, featureCode: featureCode});
     },
 
-    getUserStory: function(projectCode, userStoryCode) {
+    getUserStory: function(projectCode, featureCode, userStoryCode) {
       return apiUserStory.getOne({projectCode: projectCode, featureCode: featureCode, userStoryCode: userStoryCode});
     },
 
