@@ -9,8 +9,8 @@
                     span
                         a(ng-href="/p/{{project.code}}") {{project.name}}
             .padb
-                .col-md-2.colour3.padn(ng-repeat="feature in features")
-                    a.btn.btn-block.colour4(ng-href="/p/{{project.code}}/f/{{feature._id}}/u")
+                .col-md-2.padn(ng-class="'column' + ($index % 12 > 5 ? (6 - ($index % 6)) : (($index % 6) + 1))" ng-repeat="feature in features")
+                    a.btn.btn-block(ng-href="/p/{{project.code}}/f/{{feature._id}}/u")
                         .box {{feature._id}}
                         .box
                             span.glyphicon.glyphicon-tree-deciduous(aria-label="Tree icon")

@@ -36,6 +36,30 @@ body {
   background-color: #7ea3ac;
   color: #fff;
 }
+.column1 {
+  background-color: #999;
+  color: #fff;
+}
+.column2 {
+  background-color: #888;
+  color: #fff;
+}
+.column3 {
+  background-color: #777;
+  color: #fff;
+}
+.column4 {
+  background-color: #666;
+  color: #fff;
+}
+.column5 {
+  background-color: #555;
+  color: #fff;
+}
+.column6 {
+  background-color: #444;
+  color: #fff;
+}
 h1,
 .h1 {
   font-size: 120%;
