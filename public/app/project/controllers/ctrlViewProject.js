@@ -4,10 +4,10 @@ angular.module('app').controller('ctrlViewProject', function($scope, $routeParam
 	$scope.project = dbProject.getProject($routeParams.projectCode);
 
 	//Get the number of releases associated with the project
-	$scope.release = dbRelease.getReleaseCountForProject($routeParams.projectCode);
+	$scope.release = dbRelease.getReleaseCount($routeParams.projectCode);
 
     //Get the number of features associated with the project
-    $scope.feature = dbFeature.getAllFeaturesCount($routeParams.projectCode);
+    $scope.feature = dbFeature.getFeatureCount($routeParams.projectCode);
 
     //Get the number of user stories associated with the project
     $scope.userStory = dbUserStory.getUserStoryCount($routeParams.projectCode);

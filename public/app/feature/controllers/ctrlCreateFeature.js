@@ -1,14 +1,8 @@
 angular.module('app').controller('ctrlCreateFeature', function($scope, $routeParams, $location, dbFeature, dbProject, dbRelease) {
     
     var projectCode = $routeParams.projectCode;
-    var releaseCode = $routeParams.releaseCode;
 
     $scope.project = dbProject.getProject(projectCode);
-
-    if (releaseCode)
-    {
-        $scope.release = dbRelease.getRelease(projectCode, releaseCode);    
-    }
 
     $scope.create = function() {
         //Create the new feature object

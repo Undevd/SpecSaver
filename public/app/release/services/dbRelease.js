@@ -12,7 +12,7 @@ angular.module('app').factory('dbRelease', function(apiRelease) {
       return apiRelease.getOne({projectCode: projectCode, releaseCode: releaseCode});
     },
 
-    getReleaseCountForProject: function(projectCode) {
+    getReleaseCount: function(projectCode) {
       return apiRelease.countFor({projectCode: projectCode});
     },
 

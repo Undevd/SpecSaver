@@ -5,15 +5,15 @@ angular.module('app').factory('dbFeature', function(apiFeature) {
     },
     
     getAllFeatures: function(projectCode, releaseCode) {
-      return apiFeature.query({projectCode: projectCode, releaseCode: releaseCode});
-    },
-
-    getAllFeaturesCount: function(projectCode) {
-      return apiFeature.queryCount({projectCode: projectCode});
+      return apiFeature.getAll({projectCode: projectCode, releaseCode: releaseCode});
     },
 
     getFeature: function(projectCode, featureCode) {
-      return apiFeature.queryOne({projectCode: projectCode, featureCode: featureCode});
+      return apiFeature.getOne({projectCode: projectCode, featureCode: featureCode});
+    },
+
+    getFeatureCount: function(projectCode, releaseCode) {
+      return apiFeature.countFor({projectCode: projectCode, releaseCode: releaseCode});
     },
 
     updateFeature: function(newFeatureData) {

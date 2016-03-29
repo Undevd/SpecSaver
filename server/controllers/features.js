@@ -16,22 +16,30 @@ exports.createFeature = function(req, res) {
     });
 };
 
-exports.getAllFeatures = function(req, res) {
+exports.getAllFeaturesByProject = function(req, res) {
     Feature.find({projectCode: req.params.projectCode, releaseCode: req.params.releaseCode}).sort('name').exec(function(err, features) {
         res.send(features);
-    })
+    });
 };
 
-exports.getAllFeaturesCount = function(req, res) {
-    Feature.count({projectCode: req.params.projectCode}).exec(function(err, count) {
-        res.send({count: count});
-    })
+exports.getAllFeaturesByRelease = function(req, res) {
+    res.send([{}]);
 };
 
 exports.getFeature = function(req, res){
     Feature.findOne({code: req.params.featureCode, projectCode: req.params.projectCode}).exec(function(err, feature) {
         res.send(feature)
-    })
+    });
+};
+
+exports.getFeatureCountByProject = function(req, res) {
+    Feature.count({projectCode: req.params.projectCode}).exec(function(err, count) {
+        res.send({count: count});
+    });
+};
+
+exports.getFeatureCountByRelease = function(req, res) {
+    res.send({count: "TBC"});
 };
 
 exports.updateFeature = function(req, res) {

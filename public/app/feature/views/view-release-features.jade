@@ -11,10 +11,9 @@
                     span.glyphicon.glyphicon-apple.padr
                     span
                         a(ng-href="/p/{{project.code}}") {{project.name}}
-                    span(ng-show="release != null")
-                        span.padr :
-                        span
-                            a(ng-href="/p/{{project.code}}/r/{{release.code}}") {{release.name}}
+                    span.padr :
+                    span
+                        a(ng-href="/p/{{project.code}}/r/{{release.code}}") {{release.name}}
             table.table.table-hover.table-striped.table-condensed
                 tbody(ng-repeat="feature in features")
                     tr
