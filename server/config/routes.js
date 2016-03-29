@@ -37,11 +37,11 @@ module.exports = function(app) {
     app.post('/api/quotes', quotes.createQuote);
 
     // Release routes
-    app.get('/api/releases/query/:projectCode', releases.getAllReleases);
-    app.get('/api/releases/querycount/:projectCode', releases.getAllReleasesCount);
-    app.get('/api/releases/queryone/:projectCode/:releaseCode', releases.getRelease);
-    app.post('/api/releases/:projectCode', releases.createRelease);
-    app.put('/api/releases/update', releases.updateRelease);
+    app.get('/api/releases/count/for/:projectCode', releases.getReleaseCountForProject);
+    app.get('/api/releases/get/all/:projectCode', releases.getAllReleases);
+    app.get('/api/releases/get/one/:projectCode/:releaseCode', releases.getRelease);
+    app.post('/api/releases/*', releases.createRelease);
+    app.put('/api/releases/*', releases.updateRelease);
 
     // Test routes
     app.get('/api/tests', tests.getTests);

@@ -5,15 +5,15 @@ angular.module('app').factory('dbRelease', function(apiRelease) {
     },
     
     getAllReleases: function(projectCode) {
-      return apiRelease.query({projectCode: projectCode});
-    },
-
-    getAllReleasesCount: function(projectCode) {
-      return apiRelease.queryCount({projectCode: projectCode});
+      return apiRelease.getAll({projectCode: projectCode});
     },
 
     getRelease: function(projectCode, releaseCode) {
-      return apiRelease.queryOne({projectCode: projectCode, releaseCode: releaseCode});
+      return apiRelease.getOne({projectCode: projectCode, releaseCode: releaseCode});
+    },
+
+    getReleaseCountForProject: function(projectCode) {
+      return apiRelease.countFor({projectCode: projectCode});
     },
 
     updateRelease: function(newReleaseData) {

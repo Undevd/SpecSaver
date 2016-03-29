@@ -17,20 +17,20 @@ exports.createRelease = function(req, res) {
 };
 
 exports.getAllReleases = function(req, res) {
-    Release.find({ projectCode: req.params.projectCode }).sort('name').exec(function(err, releases) {
+    Release.find({projectCode: req.params.projectCode}).sort('name').exec(function(err, releases) {
         res.send(releases);
     })
 };
 
-exports.getAllReleasesCount = function(req, res) {
-    Release.count({ projectCode: req.params.projectCode }).exec(function(err, count) {
-        res.send({count: count});
+exports.getRelease = function(req, res) {
+    Release.findOne({code: req.params.releaseCode, projectCode: req.params.projectCode}).exec(function(err, release) {
+        res.send(release);
     })
 };
 
-exports.getRelease = function(req, res) {
-    Release.findOne({ code: req.params.releaseCode, projectCode: req.params.projectCode }).exec(function(err, release) {
-        res.send(release);
+exports.getReleaseCountForProject = function(req, res) {
+    Release.count({projectCode: req.params.projectCode}).exec(function(err, count) {
+        res.send({count: count});
     })
 };
 
