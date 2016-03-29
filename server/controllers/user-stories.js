@@ -4,7 +4,7 @@ exports.createUserStory = function(req, res) {
     var userStoryData = req.body;
 
     //Get the latest user story assigned to the feature in the project
-    userStoryData.code = UserStory.findOne({projectCode: req.params.projectCode, featureCode: req.params.featureCode}).sort('-code').exec(function(err, latestUserStory) {
+    UserStory.findOne({projectCode: userStoryData.projectCode, featureCode: userStoryData.featureCode}).sort('-code').exec(function(err, latestUserStory) {
         
         //Assign a new code to the user story, starting from 1 if none exists
         userStoryData.code = (latestUserStory == null? 1 : latestUserStory.code + 1);
@@ -16,7 +16,7 @@ exports.createUserStory = function(req, res) {
                     err = new Error('A duplicate exists');
                 }
                 res.status(400);
-                return res.send({reason:err.toString()});
+                return res.send({data: userStoryData, reason:err.toString()});
             }
 
             res.status(201);
