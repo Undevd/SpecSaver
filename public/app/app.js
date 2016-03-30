@@ -5,6 +5,8 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
     $routeProvider
         .when('/', { templateUrl: '/partials/main/main', controller: 'mvMainCtrl'})
 
+        .when('/404', {templateUrl: 'partials/error/views/404', controller: 'ctrl404'})
+
         .when('/p', { templateUrl: '/partials/project/views/view-all-projects', controller: "ctrlViewAllProjects"})
         .when('/p/:projectCode', { templateUrl: '/partials/project/views/view-project', controller: "ctrlViewProject"})
         .when('/p/:projectCode/r', { templateUrl: '/partials/release/views/view-all-releases', controller: "ctrlViewAllReleases" })
