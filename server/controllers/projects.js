@@ -24,7 +24,12 @@ exports.getAllProjects = function(req, res) {
 
 exports.getProject = function(req, res) {
     Project.findOne({ code: req.params.projectCode }).exec(function(err, project) {
-        res.send(project);
+        if (project != null) {
+            res.send(project);
+        }
+        else {
+            res.sendStatus(404);
+        }
     })
 }
 
