@@ -1,12 +1,12 @@
 doctype
-html
+html(ng-app='app')
     head
-        title SpecSaver - Maxtreme Testing
+        title(ng-bind="$root.title") SpecSaver
         base(href="/")
         link(rel="stylesheet", href="/vendor/bootstrap/dist/css/bootstrap.css")
         link(rel="stylesheet", href="/vendor/toastr/toastr.css")
         link(rel="stylesheet", href="/css/site.css")
-    body.ng-cloak(ng-app='app')
+    body.ng-cloak
         include currentUser
         .navbar.navbar-inverse.navbar-fixed-top
             .container
