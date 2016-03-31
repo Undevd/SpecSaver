@@ -1,19 +1,25 @@
-angular.module('app').controller('ctrlViewProject', function($scope, $location, $routeParams, dbFeature, dbProject, dbRelease, dbUserStory) {
+angular.module('app').controller('ctrlViewProject', function($scope, $rootScope, $location, $routeParams, dbFeature, dbProject, dbRelease, dbUserStory) {
     
+    //Get the route parameters
+    var projectCode = $routeParams.projectCode;
+
+    //Set the page title
+    $rootScope.title += projectCode;
+
 	//Get data related to the project
-	dbProject.getProject($routeParams.projectCode).$promise.then(function(project)
+	dbProject.getProject(projectCode).$promise.then(function(project)
     {
         //Store the project in the scope
         $scope.project = project;
 
         //Get the number of releases associated with the project
-        $scope.release = dbRelease.getReleaseCount($routeParams.projectCode);
+        $scope.release = dbRelease.getReleaseCount(projectCode);
 
         //Get the number of features associated with the project
-        $scope.feature = dbFeature.getFeatureCount($routeParams.projectCode);
+        $scope.feature = dbFeature.getFeatureCount(projectCode);
 
         //Get the number of user stories associated with the project
-        $scope.userStory = dbUserStory.getUserStoryCount($routeParams.projectCode);
+        $scope.userStory = dbUserStory.getUserStoryCount(projectCode);
 
         //Record whether a field is being edited
         $scope.edit = {};

@@ -1,8 +1,11 @@
-angular.module('app').controller('ctrlViewFeature', function($scope, $routeParams, dbFeature, dbProject, dbUserStory) {
+angular.module('app').controller('ctrlViewFeature', function($scope, $rootScope, $routeParams, dbFeature, dbProject, dbUserStory) {
     
-	//Get the project and feature IDs from the route
+	//Get the route parameters
 	var projectCode = $routeParams.projectCode;
 	var featureCode = $routeParams.featureCode;
+
+    //Set the page title
+    $rootScope.title += projectCode + '-' + featureCode;
 
 	//Data related to the project that the feature is associated with
 	$scope.project = dbProject.getProject(projectCode);

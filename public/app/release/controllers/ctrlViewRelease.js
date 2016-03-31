@@ -1,8 +1,11 @@
-angular.module('app').controller('ctrlViewRelease', function($scope, $routeParams, dbProject, dbRelease) {
+angular.module('app').controller('ctrlViewRelease', function($scope, $rootScope, $routeParams, dbProject, dbRelease) {
     
-	//Get the project and release IDs from the route
+	//Get the route parameters
 	var projectCode = $routeParams.projectCode;
 	var releaseCode = $routeParams.releaseCode;
+
+    //Set the page title
+    $rootScope.title += projectCode + '.' + releaseCode;
 
 	//Data related to the project that the release is associated with
 	$scope.project = dbProject.getProject(projectCode);

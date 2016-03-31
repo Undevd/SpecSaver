@@ -1,7 +1,12 @@
-angular.module('app').controller('ctrlCreateFeature', function($scope, $routeParams, $location, dbFeature, dbProject, dbRelease) {
+angular.module('app').controller('ctrlCreateFeature', function($scope, $rootScope, $routeParams, $location, dbFeature, dbProject, dbRelease) {
     
+    //Get the route parameters
     var projectCode = $routeParams.projectCode;
 
+    //Set the page title
+    $rootScope.title += projectCode;
+
+    //Get the project data
     $scope.project = dbProject.getProject(projectCode);
 
     $scope.create = function() {

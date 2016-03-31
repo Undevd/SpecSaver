@@ -1,6 +1,9 @@
-angular.module('app').controller('ctrlCreateRelease', function($scope, $location, $routeParams, dbProject, dbRelease) {
+angular.module('app').controller('ctrlCreateRelease', function($scope, $rootScope, $location, $routeParams, dbProject, dbRelease) {
     
     var projectCode = $routeParams.projectCode;
+
+    //Set the page title
+    $rootScope.title += projectCode;
 
     $scope.project = dbProject.getProject(projectCode);
 

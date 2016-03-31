@@ -1,12 +1,18 @@
-angular.module('app').controller('ctrlCreateUserStory', function($scope, $location, $routeParams, dbFeature, dbProject, dbUserStory) {
+angular.module('app').controller('ctrlCreateUserStory', function($scope, $rootScope, $location, $routeParams, dbFeature, dbProject, dbUserStory) {
     
+    //Get the route parameters
     var projectCode = $routeParams.projectCode;
     var featureCode = $routeParams.featureCode;
 
+    //Set the page title
+    $rootScope.title += projectCode + (featureCode ? ('-' + featureCode) : '');
+
+    //Get the project data
     $scope.project = dbProject.getProject(projectCode);
 
     if (featureCode)
     {
+        //Get the feature data
         $scope.feature = dbFeature.getFeature(projectCode, featureCode);
     }
 
