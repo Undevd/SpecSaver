@@ -31,8 +31,27 @@
                     label.col-md-2.control-label(for="description") Description
                     .col-md-10
                         textarea.form-control(name="description", type="text", placeholder="Brief project description", ng-model="description")
-                div(ng-repeat="user in users")
-                    button.btn.btn-success(ng-click="addMember()") {{user.username}}
+                .row
+                    .col-md-6
+                        .panel.panel-primary
+                            .panel-heading.text-center Available Users
+                            .panel-body
+                                .row(ng-repeat="user in users")
+                                    div(ng-hide="isMember(user.username)")
+                                        .col-md-3 {{user.username}}
+                                        .col-md-9
+                                            .pull-right
+                                                button.btn.btn-success(ng-click="addMember(user.username)") Add
+                    .col-md-6
+                        .panel.panel-primary
+                            .panel-heading.text-center Project Members
+                            .panel-body
+                                .row(ng-repeat="user in users")
+                                    div(ng-show="isMember(user.username)")
+                                        .col-md-3 {{user.username}}
+                                        .col-md-9
+                                            .pull-right
+                                                button.btn.btn-success(ng-click="removeMember(user.username)") Remove
                 .form-group(ng-show="error != null")
                     .alert.alert-danger.text-center(role="alert") {{error}}
                 .form-group

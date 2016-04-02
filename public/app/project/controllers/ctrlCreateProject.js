@@ -2,10 +2,28 @@ angular.module('app').controller('ctrlCreateProject', function($scope, $location
     
     $scope.users = userSvc.query();
     
+    var admins = [identitySvc.currentUser.username];
+    var members = [identitySvc.currentUser.username];
+    
+    $scope.addMember = function(username) {
+        members.push(username);
+    },
+    
+    $scope.removeMember = function(username) {
+        var index = members.indexOf(username);
+        members.splice(index, 1);
+    },
+    
+    $scope.isMember = function(username) {
+        if(members.indexOf(username) > -1) {
+            return true;
+        } else {
+            return false;
+        }
+    },
+    
     $scope.submit = function() {
         //Create the new project object
-        var admins = [identitySvc.currentUser.username];
-        var members = [identitySvc.currentUser.username];
         var newProject = {
             name: $scope.name,
             code: $scope.code,
