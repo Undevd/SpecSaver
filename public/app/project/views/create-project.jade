@@ -38,20 +38,24 @@
                             .panel-body
                                 .row(ng-repeat="user in users")
                                     div(ng-hide="isMember(user.username)")
-                                        .col-md-3 {{user.username}}
-                                        .col-md-9
+                                        .col-md-5 {{user.username}}
+                                        .col-md-5 {{user.firstname + ' ' + user.lastname}}
+                                        .col-md-2
                                             .pull-right
-                                                button.btn.btn-success(ng-click="addMember(user.username)") Add
+                                                button.btn.btn-primary(ng-click="addMember(user.username)")
+                                                    span.glyphicon.glyphicon-plus
                     .col-md-6
                         .panel.panel-primary
                             .panel-heading.text-center Project Members
                             .panel-body
                                 .row(ng-repeat="user in users")
                                     div(ng-show="isMember(user.username)")
-                                        .col-md-3 {{user.username}}
-                                        .col-md-9
+                                        .col-md-5 {{user.username}}
+                                        .col-md-5 {{user.firstname + ' ' + user.lastname}}
+                                        .col-md-2
                                             .pull-right
-                                                button.btn.btn-success(ng-click="removeMember(user.username)") Remove
+                                                button.btn.btn-danger(ng-click="removeMember(user.username)")
+                                                    span.glyphicon.glyphicon-minus
                 .form-group(ng-show="error != null")
                     .alert.alert-danger.text-center(role="alert") {{error}}
                 .form-group
