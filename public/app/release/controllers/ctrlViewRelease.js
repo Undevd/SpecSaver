@@ -1,4 +1,4 @@
-angular.module('app').controller('ctrlViewRelease', function($scope, $rootScope, $routeParams, dbProject, dbRelease) {
+angular.module('app').controller('ctrlViewRelease', function($scope, $rootScope, $location, $routeParams, dbProject, dbRelease) {
     
 	//Get the route parameters
 	var projectCode = $routeParams.projectCode;
@@ -7,41 +7,49 @@ angular.module('app').controller('ctrlViewRelease', function($scope, $rootScope,
     //Set the page title
     $rootScope.title += projectCode + '.' + releaseCode;
 
-	//Data related to the project that the release is associated with
-	$scope.project = dbProject.getProject(projectCode);
+	//Get data related to the release
+	dbRelease.getRelease(projectCode, releaseCode).$promise.then(function(data) {
+        
+        //Store the release in the scope
+        $scope.release = data.release;
 
-	//Data related to the release
-	$scope.release = dbRelease.getRelease(projectCode, releaseCode);
+        //Store the project in the scope
+        $scope.project = data.project;
 
-	//Record whether a field is being edited
-	$scope.edit = {};
+        //Record whether a field is being edited
+        $scope.edit = {};
 
-	//Store the old value of a field as it is being edited
-	$scope.oldData = {};
+        //Store the old value of a field as it is being edited
+        $scope.oldData = {};
 
-	$scope.showEdit = function(field, show) {
-        if (show) {
-	        //Store the old data
-	        $scope.oldData[field] = $scope.release[field];
-    	}
+        $scope.showEdit = function(field, show) {
+            if (show) {
+                //Store the old data
+                $scope.oldData[field] = $scope.release[field];
+            }
 
-        //Show the edit fields
-        $scope.edit[field] = show;
-    }
+            //Show the edit fields
+            $scope.edit[field] = show;
+        }
 
-    $scope.cancelEdit = function(field) {
-    	//Reset the value
-    	$scope.release[field] = $scope.oldData[field];
+        $scope.cancelEdit = function(field) {
+            //Reset the value
+            $scope.release[field] = $scope.oldData[field];
 
-    	//Stop editing
-    	$scope.showEdit(field, false);
-    }
+            //Stop editing
+            $scope.showEdit(field, false);
+        }
 
-    $scope.submitEdit = function(field) {
-    	//Save the release
-    	dbRelease.updateRelease($scope.release);
+        $scope.submitEdit = function(field) {
+            //Save the release
+            dbRelease.updateRelease($scope.release);
 
-    	//Stop editing
-    	$scope.showEdit(field, false);
-    }
+            //Stop editing
+            $scope.showEdit(field, false);
+        }
+    }, function(error) {
+
+        //Redirect to the error page
+        $location.path('/' + error.status);
+    });
 });
