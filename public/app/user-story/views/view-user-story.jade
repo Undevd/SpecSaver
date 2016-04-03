@@ -16,11 +16,11 @@
                     span User Story {{userStory.code}}
             div(ng-show="!edit.asA")
                 a.edit(ng-click="showEdit('asA', true)" ng-mouseleave="hover.asA = false" ng-mouseover="hover.asA = true")
-                    span(ng-show="userStory.asA") As a {{userStory.asA}}
+                    span(ng-show="userStory.asA") As a{{userStory.asA ? (['a', 'e', 'i', 'o', 'u'].indexOf(userStory.asA.toLowerCase()[0]) !== -1 ? 'n' : '') : ''}} {{userStory.asA}}
                     span.glyphicon.glyphicon-pencil.small(ng-show="hover.asA")
             div(ng-show="edit.asA")
                 form(name="asAForm")
-                    span As a
+                    span As a{{userStory.asA ? (['a', 'e', 'i', 'o', 'u'].indexOf(userStory.asA.toLowerCase()[0]) !== -1 ? 'n' : '') : ''}}
                     textarea.form-control(name="userStory.asA" ng-model="userStory.asA" type="text" placeholder="As a")
                     button.btn.btn-success(ng-click="submitEdit('asA')", ng-disabled="asAForm.$invalid")
                         span.glyphicon.glyphicon-ok
