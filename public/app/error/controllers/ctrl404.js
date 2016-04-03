@@ -1,2 +1,2 @@
-angular.module('app').controller('ctrl404', function($scope, $location, $routeParams) {
+angular.module('app').controller('ctrl404', function() {
 });

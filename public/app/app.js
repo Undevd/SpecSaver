@@ -6,7 +6,8 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
     $routeProvider
         .when('/', { templateUrl: '/partials/main/main', controller: 'mvMainCtrl'})
 
-        .when('/404', {templateUrl: 'partials/error/views/404', controller: 'ctrl404', title: '404'})
+        .when('/400', {templateUrl: 'partials/error/views/400', controller: 'ctrl400', title: 'Bad request'})
+        .when('/404', {templateUrl: 'partials/error/views/404', controller: 'ctrl404', title: 'Page not found'})
 
         .when('/p', {templateUrl: '/partials/project/views/view-all-projects', controller: "ctrlViewAllProjects", title: 'Projects'})
         .when('/p/:projectCode', {templateUrl: '/partials/project/views/view-project', controller: "ctrlViewProject", title: 'Project: '})
@@ -31,7 +32,9 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
         .when('/test', {templateUrl: '/partials/test/test', controller: "mvTestCtrl", title: 'Create test'})
         .when('/testStep', {templateUrl: '/partials/testStep/testStep', controller: "mvTestStepCtrl", title: 'Create test step'})
         .when('/vote/cast-vote', {templateUrl: '/partials/vote/cast-vote', controller: "mvVoteCtrl", title: 'Create vote'})
-        .when('/vote/display-results', {templateUrl: '/partials/vote/display-results', controller: "mvResultCtrl", title: 'View results'});
+        .when('/vote/display-results', {templateUrl: '/partials/vote/display-results', controller: "mvResultCtrl", title: 'View results'})
+
+        .otherwise({redirectTo: '/404'});
 });
 
 angular.module('app').run(function($rootScope) {
@@ -40,7 +43,7 @@ angular.module('app').run(function($rootScope) {
 
     //Set the title to that of the current route
     $rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
-        if (current.$$route.title) {
+        if (current.$$route && current.$$route.title) {
             $rootScope.title = 'SpecSaver: ' + current.$$route.title;
         }
         else {
