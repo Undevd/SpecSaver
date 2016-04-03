@@ -5,9 +5,9 @@ angular.module('app').factory('apiProject', function($resource, identitySvc) {
         update: {method: 'PUT', isArray: false}
     });
     
-    projectResource.prototype.isCurrentUserMember = function() {
+    projectResource.prototype.isAdmin = function() {
         if (identitySvc.currentUser !== undefined) {
-            return this.members && this.members.indexOf(identitySvc.currentUser.username) > -1;
+            return this.admins && this.admins.indexOf(identitySvc.currentUser.username) > -1;
         } else {
             return false;
         }
@@ -15,7 +15,7 @@ angular.module('app').factory('apiProject', function($resource, identitySvc) {
     
     projectResource.prototype.isMember = function() {
         if (identitySvc.currentUser !== undefined) {
-            return this.admins && this.admins.indexOf(identitySvc.currentUser.username) > -1;
+            return this.members && this.members.indexOf(identitySvc.currentUser.username) > -1;
         } else {
             return false;
         }
