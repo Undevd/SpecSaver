@@ -1,4 +1,5 @@
 var mongoose = require('mongoose'),
+    acceptanceTestModel = require('../models/AcceptanceTest'),
     quoteModel = require('../models/Quote'),
     voteModel = require('../models/Vote'),
     featureModel = require('../models/Feature'),

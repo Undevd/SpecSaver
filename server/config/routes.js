@@ -1,4 +1,5 @@
 var auth = require('./auth'),
+    acceptanceTests = require('../controllers/acceptance-tests'),
     features = require('../controllers/features'),
     projects = require('../controllers/projects'),
     quotes = require('../controllers/quotes'),
@@ -18,6 +19,15 @@ module.exports = function(app) {
         res.end();
     });
     
+    // Acceptance Test routes
+    app.get('/api/acceptance-tests/count/for/:projectCode/:featureCode/:userStoryCode', acceptanceTests.getAcceptanceTestCountForUserStory);
+    app.get('/api/acceptance-tests/count/for/:projectCode/:featureCode', acceptanceTests.getAcceptanceTestCountForFeature);
+    app.get('/api/acceptance-tests/count/for/:projectCode', acceptanceTests.getAcceptanceTestCountForProject);
+    app.get('/api/acceptance-tests/get/all/:projectCode/:featureCode', acceptanceTests.getAllAcceptanceTests);
+    app.get('/api/acceptance-tests/get/one/:projectCode/:featureCode/:acceptanceTestCode', acceptanceTests.getAcceptanceTest);
+    app.post('/api/acceptance-tests/*', acceptanceTests.createAcceptanceTest);
+    app.put('/api/acceptance-tests/*', acceptanceTests.updateAcceptanceTest);
+
     // Feature routes
     app.get('/api/features/count/for/:projectCode/:releaseCode', features.getFeatureCountByRelease);
     app.get('/api/features/count/for/:projectCode', features.getFeatureCountByProject);

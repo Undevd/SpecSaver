@@ -1,0 +1,46 @@
+.container
+    .well
+        form.form-horizontal(name="acceptanceTestForm")
+            fieldset
+                legend.colour5
+                    h1
+                        span Acceptance Test
+                        span.pull-right {{project.code}}-{{feature.code}}
+                    h2
+                        span.glyphicon.glyphicon-grain.padr
+                        span
+                            a(ng-href="/p/{{project.code}}") {{project.name}}
+                        span.padr :
+                        span
+                            a(ng-href="/p/{{project.code}}/f/{{feature.code}}") {{feature.name}}
+                .form-group
+                    .col-md-2.control-label
+                        span.glyphicon.glyphicon-asterisk.text-danger.padr
+                        label(for="given") Given
+                    .col-md-10
+                        input.form-control(name="given", type="text", placeholder="Given an initial condition", ng-model="given", required)
+                .form-group
+                    .col-md-2.control-label
+                        span.glyphicon.glyphicon-asterisk.text-danger.padr
+                        label(for="when") When
+                    .col-md-10
+                        input.form-control(name="when", type="text", placeholder="When a key action is performed", ng-model="when", required)
+                .form-group
+                    .col-md-2.control-label
+                        span.glyphicon.glyphicon-asterisk.text-danger.padr
+                        label(for="then") Then
+                    .col-md-10
+                        input.form-control(name="then", type="text", placeholder="Then something observable happens", ng-model="then", required)
+                .form-group(ng-show="error != null")
+                    .alert.alert-danger.text-center(role="alert") {{error}}
+                .form-group
+                    .col-md-10.col-md-offset-2
+                        .pull-right
+                            span.padr
+                                button.btn.btn-success(ng-click="submit()", ng-disabled="acceptanceTestForm.$invalid")
+                                    span.glyphicon.glyphicon-ok.padr
+                                    span Create
+                            span
+                                a.btn.btn-default(ng-href="/p/{{project.code}}/f/{{feature.code}}/a")
+                                    span.glyphicon.glyphicon-remove.padr
+                                    span Cancel
