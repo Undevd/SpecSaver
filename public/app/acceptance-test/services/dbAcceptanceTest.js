@@ -4,7 +4,7 @@ angular.module('app').factory('dbAcceptanceTest', function(apiAcceptanceTest) {
       return new apiAcceptanceTest(newAcceptanceTestData).$save();
     },
     
-    getAllUserStories: function(projectCode, featureCode, userStoryCode) {
+    getAllAcceptanceTests: function(projectCode, featureCode, userStoryCode) {
       return apiAcceptanceTest.getAll({projectCode: projectCode, featureCode: featureCode, userStoryCode: userStoryCode});
     },
 

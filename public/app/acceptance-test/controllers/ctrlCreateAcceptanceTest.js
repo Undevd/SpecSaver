@@ -5,7 +5,7 @@ angular.module('app').controller('ctrlCreateAcceptanceTest', function($scope, $r
     var featureCode = $routeParams.featureCode;
 
     //Set the page title
-    $rootScope.title += projectCode + '-' + featureCode + '-' + userStoryCode;
+    $rootScope.title += projectCode + '-' + featureCode;
 
     //Get the project data
     $scope.project = dbProject.getProject(projectCode);

@@ -16,7 +16,7 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
         .when('/p/:projectCode/r/:releaseCode/f', {templateUrl: '/partials/feature/views/view-release-features', controller: "ctrlViewReleaseFeatures", title: 'Features: '})
         .when('/p/:projectCode/f', {templateUrl: '/partials/feature/views/view-project-features', controller: "ctrlViewProjectFeatures" , title: 'Features: '})
         .when('/p/:projectCode/f/:featureCode', {templateUrl: '/partials/feature/views/view-feature', controller: "ctrlViewFeature", title: 'Feature: '})
-        .when('/p/:projectCode/f/:featureCode/a', {templateUrl: '/partials/acceptance-test/views/view-feature-acceptance-tests', controller: "ctrlViewUserStoryAcceptanceTests", title: 'Acceptance tests: '})
+        .when('/p/:projectCode/f/:featureCode/a', {templateUrl: '/partials/acceptance-test/views/view-feature-acceptance-tests', controller: "ctrlViewFeatureAcceptanceTests", title: 'Acceptance tests: '})
         .when('/p/:projectCode/f/:featureCode/a/:acceptanceTestCode', {templateUrl: '/partials/acceptance-test/views/view-acceptance-test', controller: "ctrlViewAcceptanceTest", title: 'Acceptance test: '})
         .when('/p/:projectCode/f/:featureCode/u', {templateUrl: '/partials/user-story/views/view-feature-user-stories', controller: "ctrlViewFeatureUserStories", title: 'User stories: '})
         .when('/p/:projectCode/f/:featureCode/u/:userStoryCode', {templateUrl: '/partials/user-story/views/view-user-story', controller: "ctrlViewUserStory", title: 'User story: '})
