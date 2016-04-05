@@ -22,7 +22,7 @@ exports.createUserStory = function(req, res) {
             res.status(201);
             res.send(userStory);
         });
-    })
+    });
 };
 
 exports.getAllUserStories = function(req, res) {
