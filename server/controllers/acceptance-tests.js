@@ -44,8 +44,11 @@ exports.createAcceptanceTest = function(req, res) {
 
 exports.getAllAcceptanceTests = function(req, res) {
 
-    //Not implemented
-    res.sendStatus(501);
+    //Get all acceptance tests associated with the feature
+    AcceptanceTest.find({projectCode: req.params.projectCode, featureCode: req.params.featureCode}, '-_id code given then when').sort('code').exec(function(err, acceptanceTests) {
+        res.send(acceptanceTests);
+    });
+
 };
 
 exports.getAcceptanceTest = function(req, res) {

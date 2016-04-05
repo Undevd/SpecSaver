@@ -8,7 +8,7 @@ angular.module('app').controller('ctrlViewFeatureAcceptanceTests', function($sco
     $rootScope.title += projectCode + '-' + featureCode;
 
     //Get the acceptance tests associated with the feature
-    $scope.userStories = dbAcceptanceTest.getAllAcceptanceTests(projectCode, featureCode);
+    $scope.acceptanceTests = dbAcceptanceTest.getAllAcceptanceTests(projectCode, featureCode);
 
     //Get the project data
     $scope.project = dbProject.getProject(projectCode);
