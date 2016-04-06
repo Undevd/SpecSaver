@@ -9,6 +9,8 @@
                     h2
                         span.glyphicon.glyphicon-th-list.padr
                         span {{name}}
+                .form-group(ng-show="error")
+                    .alert.alert-danger.text-center(role="alert") {{error}}
                 .form-group
                     .col-md-2.control-label
                         span.glyphicon.glyphicon-asterisk.text-danger.padr
@@ -56,7 +58,7 @@
                                             .pull-right
                                                 button.btn.btn-danger(ng-click="removeMember(user.username)")
                                                     span.glyphicon.glyphicon-minus
-                .form-group(ng-show="error != null")
+                .form-group(ng-show="error")
                     .alert.alert-danger.text-center(role="alert") {{error}}
                 .form-group
                     .col-md-10.col-md-offset-2

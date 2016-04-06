@@ -6,7 +6,7 @@ exports.createProject = function(request, response) {
     //Create the project
     Project.create(request.body, function(error, project) {
 
-        //If an error occurs
+        //If an error occurred
         if(error) {
 
             //If the error code was 11000
@@ -27,9 +27,23 @@ exports.createProject = function(request, response) {
     });
 }
 
-exports.getAllProjects = function(req, res) {
-    Project.find({}).sort('name').exec(function(err, projects) {
-        res.send(projects);
+//Gets all created projects
+exports.getAllProjects = function(request, response) {
+
+    //Get all projects sorted by name
+    Project.find({}, '-_id admins code description members name').sort('name').exec(function(error, projects) {
+
+        //If an error occurred
+        if (error) {
+
+            //Set the error status and send the error message
+            response.status(400).send({code: error.code, message: error.errmsg});
+        }
+        else {
+            
+            //Set the success status and send the projects
+            response.status(200).send(projects);
+        }
     })
 }
 

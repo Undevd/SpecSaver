@@ -1,19 +1,19 @@
 angular.module('app').factory('dbProject', function(apiProject) {
-  return {
-    createProject: function(newProjectData) {
-      return new apiProject(newProjectData).$save();
-    },
-    
-    getAllProjects: function() {
-      return apiProject.query();
-    },
+	return {
+		createProject: function(newProjectData) {
+			return new apiProject(newProjectData).$save();
+		},
 
-    getProject: function(projectCode) {
-      return apiProject.queryOne({projectCode: projectCode});
-    },
+		getAllProjects: function() {
+			return apiProject.getAll();
+		},
 
-    updateProject: function(newProjectData) {
-      return apiProject.update(newProjectData);
-    }
-  }
+		getProject: function(projectCode) {
+			return apiProject.getOne({projectCode: projectCode});
+		},
+
+		updateProject: function(newProjectData) {
+			return apiProject.update(newProjectData);
+		}
+	};
 });
