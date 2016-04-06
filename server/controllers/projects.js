@@ -3,8 +3,20 @@ var Project = require('mongoose').model('Project');
 //Creates a new project
 exports.createProject = function(request, response) {
 
+    //Get the project data from the request
+    var projectData = request.body;
+
+    //Sanitise the data
+    var newProjectData = {
+        name: projectData.name,
+        code: projectData.code,
+        description: projectData.description,
+        admins: projectData.admins,
+        members: projectData.members
+    };
+
     //Create the project
-    Project.create(request.body, function(error, project) {
+    Project.create(newProjectData, function(error, project) {
 
         //If an error occurred
         if(error) {
@@ -47,26 +59,66 @@ exports.getAllProjects = function(request, response) {
     })
 }
 
-exports.getProject = function(req, res) {
-    Project.findOne({ code: req.params.projectCode }).exec(function(err, project) {
-        if (project != null) {
-            res.send(project);
+//Gets the project with the supplied project code
+exports.getProject = function(request, response) {
+
+    //Find the project by code
+    Project.findOne({code: request.params.projectCode}, '-_id admins code description members name').exec(function(error, project) {
+
+        //If an error occurred
+        if (error) {
+
+            //Set the error status and send the error message
+            response.status(400).send({code: error.code, message: error.errmsg});
+        }
+        //Else if the project wasn't found
+        else if (!project) {
+
+            //Set the error status and send the error message
+            response.status(404).send({code: 404, message: 'Project not found'});
         }
         else {
-            res.sendStatus(404);
+
+            //Set the success status and send the project
+            response.status(200).send(project);
         }
     })
 }
 
-exports.updateProject = function(req, res) {
-    var projectData = req.body;
-    Project.findOneAndUpdate({code: projectData.code}, projectData, function(err, project) {
-        if(err) {
-            res.status(400);
-            return res.send({reason:err.toString()});
-        }
+//Updates the project with the supplied project code
+exports.updateProject = function(request, response) {
+    
+    //Get the project data from the request
+    var projectData = request.body;
 
-        res.status(200);
-        res.send(project);
+    //Sanitise the data
+    var newProjectData = {
+        name: projectData.name,
+        code: projectData.code,
+        description: projectData.description,
+        admins: projectData.admins,
+        members: projectData.members
+    };
+
+    //Find the project by code and update it
+    Project.findOneAndUpdate({code: newProjectData.code}, newProjectData, function(error, project) {
+
+        //If an error occurred
+        if (error) {
+
+            //Set the error status and send the error message
+            response.status(400).send({code: error.code, message: error.errmsg});
+        }
+        //Else if the project wasn't found
+        else if (!project) {
+
+            //Set the error status and send the error message
+            response.status(404).send({code: 404, message: 'Project not found'});
+        }
+        else {
+
+            //Set and send the success status
+            response.sendStatus(200);
+        }
     });
 };
