@@ -1,18 +1,29 @@
 var Project = require('mongoose').model('Project');
 
-exports.createProject = function(req, res) {
-    var projectData = req.body;
-    Project.create(projectData, function(err, project) {
-        if(err) {
-            if(err.toString().indexOf('E11000') > -1) {
-                err = new Error('A duplicate exists');
-            }
-            res.status(400);
-            return res.send({reason:err.toString()});
-        }
+//Creates a new project
+exports.createProject = function(request, response) {
 
-        res.status(201);
-        res.send(project);
+    //Create the project
+    Project.create(request.body, function(error, project) {
+
+        //If an error occurs
+        if(error) {
+
+            //If the error code was 11000
+            if (error.code == 11000) {
+
+                //Update the error message to be more user friendly
+                error.errmsg = 'A project with the same code already exists.';
+            }
+
+            //Set the error status and send the error message
+            response.status(400).send({code: error.code, message: error.errmsg});
+        }
+        else {
+
+            //Set the success status and send the new project code
+            response.status(201).send({code: project.code});
+        }
     });
 }
 

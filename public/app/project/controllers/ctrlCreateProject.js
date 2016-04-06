@@ -22,8 +22,10 @@ angular.module('app').controller('ctrlCreateProject', function($scope, $location
         }
     },
     
+    //Submits the new project to the server
     $scope.submit = function() {
-        //Create the new project object
+
+        //Create the new project object with data from the form
         var newProject = {
             name: $scope.name,
             code: $scope.code,
@@ -31,17 +33,17 @@ angular.module('app').controller('ctrlCreateProject', function($scope, $location
             admins: admins,
             members: members
         };
-
-        //Clear any previous errors
-        $scope.error = null;
-
-        //Create the project in the database
+        
+        //Send the project to the server
         dbProject.createProject(newProject).then(function(project) {
+
             //Redirect to view the new project
             $location.path('/p/' + project.code);
+
         }, function(error) {
+
             //Add the error message to the scope
-            $scope.error = error.data.reason;
+            $scope.error = error.data.message;
         });
     }
 });
