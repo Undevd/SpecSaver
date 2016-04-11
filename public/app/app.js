@@ -8,6 +8,7 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
 
         .when('/400', {templateUrl: 'partials/error/views/400', controller: 'ctrl400', title: 'Bad request'})
         .when('/404', {templateUrl: 'partials/error/views/404', controller: 'ctrl404', title: 'Page not found'})
+        .when('/500', {templateUrl: 'partials/error/views/500', controller: 'ctrl500', title: 'Something went wrong'})
 
         .when('/p', {templateUrl: '/partials/project/views/view-all-projects', controller: "ctrlViewAllProjects", title: 'Projects'})
         .when('/p/:projectCode', {templateUrl: '/partials/project/views/view-project', controller: "ctrlViewProject", title: 'Project: '})
