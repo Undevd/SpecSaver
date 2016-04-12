@@ -1,4 +1,4 @@
-angular.module('app').controller('ctrlViewFeature', function($scope, $rootScope, $routeParams, dbFeature, dbProject, dbUserStory) {
+angular.module('app').controller('ctrlViewFeature', function($scope, $rootScope, $location, $routeParams, dbFeature, dbUserStory) {
     
 	//Get the route parameters
 	var projectCode = $routeParams.projectCode;
@@ -7,11 +7,18 @@ angular.module('app').controller('ctrlViewFeature', function($scope, $rootScope,
     //Set the page title
     $rootScope.title += projectCode + '-' + featureCode;
 
-	//Data related to the project that the feature is associated with
-	$scope.project = dbProject.getProject(projectCode);
+    //Get the feature data
+    dbFeature.getFeature(projectCode, featureCode).$promise.then(function(data) {
 
-	//Data related to the feature
-	$scope.feature = dbFeature.getFeature(projectCode, featureCode);
+        //Store the data in the scope
+        $scope.project = data.project;
+        $scope.feature = data.feature;
+        
+    }, function(error) {
+        
+        //Redirect to the error page
+        $location.path('/' + error.status);
+    });
 
     //Get the number of user stories associated with the feature
     $scope.userStory = dbUserStory.getUserStoryCount(projectCode, featureCode);
@@ -22,29 +29,37 @@ angular.module('app').controller('ctrlViewFeature', function($scope, $rootScope,
 	//Store the old value of a field as it is being edited
 	$scope.oldData = {};
 
+    //Shows or hides the form used to edit the field
 	$scope.showEdit = function(field, show) {
+
+        //If the form should be shown
         if (show) {
+
 	        //Store the old data
 	        $scope.oldData[field] = $scope.feature[field];
     	}
 
         //Show the edit fields
         $scope.edit[field] = show;
-    }
+    };
 
+    //Cancels editing the field and hides the form
     $scope.cancelEdit = function(field) {
+
     	//Reset the value
     	$scope.feature[field] = $scope.oldData[field];
 
     	//Stop editing
     	$scope.showEdit(field, false);
-    }
+    };
 
+    //Submits the edits made to the field to the server
     $scope.submitEdit = function(field) {
+
         //Save the feature
     	dbFeature.updateFeature($scope.feature);
 
     	//Stop editing
     	$scope.showEdit(field, false);
-    }
+    };
 });

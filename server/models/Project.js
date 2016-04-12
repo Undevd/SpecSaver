@@ -41,6 +41,42 @@ projectSchema.statics.createProject = function createProject(newProjectData) {
     });
 }
 
+//Checks whether the project with the supplied code exists
+projectSchema.statics.exists = function exists(projectCode) {
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+
+        //Find the number of projects by code
+        mongoose.model('Project').count({code: projectCode}).exec(function(error, count) {
+
+            //If an error occurred
+            if (error) {
+
+                //Return the error
+                reject(error);
+            }
+            //Else if the project couldn't be found
+            else if (!count) {
+
+                //Return a 404 error
+                reject({code: 404, errmsg: 'Project not found'});
+            }
+            //Else if multiple projects were found
+            else if (count > 1) {
+
+                //Return a 400 error
+                reject({code: 400, errmsg: 'Multiple projects found with the same code'});
+            }
+            else {
+
+                //Otherwise, return successfully
+                resolve();
+            }
+        });
+    });
+};
+
 //Gets all created projects
 projectSchema.statics.getAllProjects = function getAllProjects() {
 
@@ -118,7 +154,7 @@ projectSchema.statics.updateProject = function updateProject(newProjectData) {
             }
             else {
 
-                //Otherwise, return nothing
+                //Otherwise, return successfully
                 resolve();
             }
         });

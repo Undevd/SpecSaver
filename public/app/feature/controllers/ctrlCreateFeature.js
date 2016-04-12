@@ -1,4 +1,4 @@
-angular.module('app').controller('ctrlCreateFeature', function($scope, $rootScope, $routeParams, $location, dbFeature, dbProject, dbRelease) {
+angular.module('app').controller('ctrlCreateFeature', function($scope, $rootScope, $routeParams, $location, dbFeature, dbProject) {
     
     //Get the route parameters
     var projectCode = $routeParams.projectCode;
@@ -9,8 +9,10 @@ angular.module('app').controller('ctrlCreateFeature', function($scope, $rootScop
     //Get the project data
     $scope.project = dbProject.getProject(projectCode);
 
+    //Submits the new feature to the server
     $scope.create = function() {
-        //Create the new feature object
+
+        //Create the new feature object with data from the form
         var newFeature = {
             name: $scope.name,
             code: $scope.code,
@@ -18,16 +20,16 @@ angular.module('app').controller('ctrlCreateFeature', function($scope, $rootScop
             projectCode: projectCode
         };
 
-        //Clear any previous errors
-        $scope.error = null;
-
-        //Create the feature in the database
+        //Send the feature to the server
         dbFeature.createFeature(newFeature).then(function(feature) {
+
             //Redirect to view the new feature
             $location.path('/p/' + feature.projectCode + '/f/' + feature.code);
+
         }, function(error) {
+
             //Add the error message to the scope
-            $scope.error = error.data.reason;
+            $scope.error = error.data.message;
         });
     }
 });

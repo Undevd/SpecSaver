@@ -19,5 +19,5 @@ angular.module('app').controller('ctrlViewAllReleases', function($scope, $rootSc
         
         //Redirect to the error page
         $location.path('/' + error.status);
-    })
+    });
 });
