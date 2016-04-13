@@ -13,16 +13,6 @@
                         span.padr :
                         span
                             a(ng-href="/p/{{project.code}}/f/{{feature.code}}") {{feature.name}}
-                .form-group.padb(ng-show="!feature.code || userStoryForm.featureCode.$dirty")
-                    .col-md-2.control-label
-                        span.glyphicon.glyphicon-asterisk.text-danger.padr
-                        label(for="feature.code") Feature
-                    .col-md-10
-                        .input-group
-                            span.input-group-addon(id="codeAddon")
-                                a(href="#")
-                                    span.glyphicon.glyphicon-search
-                            input.form-control(name="feature.code", type="text", placeholder="Search", ng-model="feature.code", readonly, required, aria-describedby="codeAddon")
                 .form-group
                     .col-md-2.control-label
                         span.glyphicon.glyphicon-asterisk.text-danger.padr

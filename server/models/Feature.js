@@ -48,6 +48,42 @@ featureSchema.statics.createFeature = function createFeature(newFeatureData) {
     });
 };
 
+//Checks whether the feature with the supplied code exists
+featureSchema.statics.exists = function exists(projectCode, featureCode) {
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+
+        //Find the number of features by code
+        mongoose.model('Feature').count({code: featureCode, projectCode: projectCode}).exec(function(error, count) {
+
+            //If an error occurred
+            if (error) {
+
+                //Return the error
+                reject(error);
+            }
+            //Else if the feature couldn't be found
+            else if (!count) {
+
+                //Return a 404 error
+                reject({code: 404, errmsg: 'Feature not found'});
+            }
+            //Else if multiple features were found
+            else if (count > 1) {
+
+                //Return a 400 error
+                reject({code: 400, errmsg: 'Multiple features found with the same code'});
+            }
+            else {
+
+                //Otherwise, return successfully
+                resolve();
+            }
+        });
+    });
+};
+
 //Gets all features by project code
 featureSchema.statics.getAllFeaturesByProject = function getAllFeaturesByProject(projectCode) {
 
@@ -78,7 +114,7 @@ featureSchema.statics.getFeature = function getFeature(projectCode, featureCode)
     //Return a promise
     return new Promise(function(resolve, reject) {
 
-        //Find the features by project code
+        //Find the feature
         mongoose.model('Feature').findOne({code: featureCode, projectCode: projectCode}, '-_id code description name projectCode').exec(function(error, feature) {
 
             //If an error occurred

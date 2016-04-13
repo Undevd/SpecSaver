@@ -1,4 +1,4 @@
-angular.module('app').controller('ctrlViewFeatureUserStories', function($scope, $rootScope, $routeParams, dbFeature, dbProject, dbUserStory) {
+angular.module('app').controller('ctrlViewFeatureUserStories', function($scope, $rootScope, $location, $routeParams, dbUserStory) {
     
     //Get the route parameters
     var projectCode = $routeParams.projectCode;
@@ -7,12 +7,17 @@ angular.module('app').controller('ctrlViewFeatureUserStories', function($scope, 
     //Set the page title
     $rootScope.title += projectCode + '-' + featureCode;
 
-    //Get the user stories associated with the feature
-    $scope.userStories = dbUserStory.getAllUserStories(projectCode, featureCode);
+    //Get the user stories data
+    dbUserStory.getAllUserStories(projectCode, featureCode).$promise.then(function(data) {
 
-    //Get the project data
-    $scope.project = dbProject.getProject(projectCode);
-
-    //Get the feature data
-    $scope.feature = dbFeature.getFeature(projectCode, featureCode);
+        //Store the data in the scope
+        $scope.project = data.project;
+        $scope.feature = data.feature;
+        $scope.userStories = data.userStories;
+        
+    }, function(error) {
+        
+        //Redirect to the error page
+        $location.path('/' + error.status);
+    });
 });

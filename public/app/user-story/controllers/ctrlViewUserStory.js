@@ -1,4 +1,4 @@
-angular.module('app').controller('ctrlViewUserStory', function($scope, $rootScope, $routeParams, dbFeature, dbProject, dbUserStory) {
+angular.module('app').controller('ctrlViewUserStory', function($scope, $rootScope, $routeParams, dbUserStory) {
     
 	//Get the route parameters
 	var projectCode = $routeParams.projectCode;
@@ -8,14 +8,19 @@ angular.module('app').controller('ctrlViewUserStory', function($scope, $rootScop
     //Set the page title
     $rootScope.title += projectCode + '-' + featureCode + '-' + userStoryCode;
 
-	//Data related to the project that the user story is associated with
-	$scope.project = dbProject.getProject(projectCode);
+    //Get the user story data
+    dbUserStory.getUserStory(projectCode, featureCode, userStoryCode).$promise.then(function(data) {
 
-	//Data related to the project that the user story is associated with
-	$scope.feature = dbFeature.getFeature(projectCode, featureCode);
-
-    //Data related to the user story
-    $scope.userStory = dbUserStory.getUserStory(projectCode, featureCode, userStoryCode);
+        //Store the data in the scope
+        $scope.project = data.project;
+        $scope.feature = data.feature;
+        $scope.userStory = data.userStory;
+        
+    }, function(error) {
+        
+        //Redirect to the error page
+        $location.path('/' + error.status);
+    });
 
 	//Record whether a field is being edited
 	$scope.edit = {};
@@ -23,8 +28,12 @@ angular.module('app').controller('ctrlViewUserStory', function($scope, $rootScop
 	//Store the old value of a field as it is being edited
 	$scope.oldData = {};
 
+    //Shows or hides the form used to edit the field
 	$scope.showEdit = function(field, show) {
+
+        //If the form should be shown
         if (show) {
+
 	        //Store the old data
 	        $scope.oldData[field] = $scope.userStory[field];
     	}
@@ -33,7 +42,9 @@ angular.module('app').controller('ctrlViewUserStory', function($scope, $rootScop
         $scope.edit[field] = show;
     }
 
+    //Cancels editing the field and hides the form
     $scope.cancelEdit = function(field) {
+
     	//Reset the value
     	$scope.userStory[field] = $scope.oldData[field];
 
@@ -41,8 +52,9 @@ angular.module('app').controller('ctrlViewUserStory', function($scope, $rootScop
     	$scope.showEdit(field, false);
     }
 
+    //Submits the edits made to the field to the server
     $scope.submitEdit = function(field) {
-        console.log($scope.userStory);
+
         //Save the user story
     	dbUserStory.updateUserStory($scope.userStory);
 

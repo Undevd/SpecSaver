@@ -1,40 +1,84 @@
+var Feature = require('mongoose').model('Feature');
+var Project = require('mongoose').model('Project');
 var UserStory = require('mongoose').model('UserStory');
 
-exports.createUserStory = function(req, res) {
-    var userStoryData = req.body;
+//Creates a new user story
+exports.createUserStory = function(request, response) {
+    
+    //Get the user story data from the request
+    var userStoryData = request.body;
 
-    //Get the latest user story assigned to the feature in the project
-    UserStory.findOne({projectCode: userStoryData.projectCode, featureCode: userStoryData.featureCode}).sort('-code').exec(function(err, latestUserStory) {
-        
-        //Assign a new code to the user story, starting from 1 if none exists
-        userStoryData.code = (latestUserStory == null? 1 : latestUserStory.code + 1);
+    //Sanitise the data
+    var newUserStoryData = {
+        asA: userStoryData.asA,
+        iCan: userStoryData.iCan,
+        code: null,
+        soThat: userStoryData.soThat,
+        projectCode: userStoryData.projectCode,
+        featureCode: userStoryData.featureCode
+    };
 
-        //Create the user story
-        UserStory.create(userStoryData, function(err, userStory) {
-            if(err) {
-                if(err.toString().indexOf('E11000') > -1) {
-                    err = new Error('A duplicate exists');
-                }
-                res.status(400);
-                return res.send({data: userStoryData, reason:err.toString()});
-            }
+    //Create the user story
+    UserStory.createUserStory(newUserStoryData).then(function(data) {
 
-            res.status(201);
-            res.send(userStory);
-        });
+        //Set the success status and send the new user story, feature, and project codes
+        response.status(201).send(data);
+
+    }, function(error) {
+
+        //Set the error status and send the error message
+        response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
     });
 };
 
-exports.getAllUserStories = function(req, res) {
-    UserStory.find({projectCode: req.params.projectCode, featureCode: req.params.featureCode}).sort('code').exec(function(err, userStories) {
-        res.send(userStories);
-    })
+//Gets all user stories by feature code
+exports.getAllUserStories = function(request, response) {
+
+    //Get the project
+    var project = Project.getProject(request.params.projectCode);
+
+    //Get the feature
+    var feature = Feature.getFeature(request.params.projectCode, request.params.featureCode);
+
+    //Get the user stories
+    var userStories = UserStory.getAllUserStories(request.params.projectCode, request.params.featureCode);
+
+    //If all the promises are successful
+    Promise.all([project, feature, userStories]).then(function(data) {
+        
+        //Set the success status and send the project, feature, and user stories data
+        response.status(200).send({project: data[0], feature: data[1], userStories: data[2]});
+
+    }, function(error) {
+        
+        //Otherwise, set the error status and send the error message
+        response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
+    });
 };
 
-exports.getUserStory = function(req, res) {
-    UserStory.findOne({code: req.params.userStoryCode, projectCode: req.params.projectCode, featureCode: req.params.featureCode}).exec(function(err, userStory) {
-        res.send(userStory);
-    })
+//Gets the user story with the supplied user story code
+exports.getUserStory = function(request, response) {
+
+    //Get the project
+    var project = Project.getProject(request.params.projectCode);
+
+    //Get the feature
+    var feature = Feature.getFeature(request.params.projectCode, request.params.featureCode);
+
+    //Get the user story
+    var userStory = UserStory.getUserStory(request.params.projectCode, request.params.featureCode, request.params.userStoryCode);
+
+    //If all the promises are successful
+    Promise.all([project, feature, userStory]).then(function(data) {
+        
+        //Set the success status and send the project, feature, and user story data
+        response.status(200).send({project: data[0], feature: data[1], userStory: data[2]});
+
+    }, function(error) {
+        
+        //Otherwise, set the error status and send the error message
+        response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
+    });
 };
 
 exports.getUserStoryCountForFeature = function(req, res) {
@@ -55,15 +99,31 @@ exports.getUserStoryCountGroupedByFeature = function(req, res) {;
     });
 };
 
-exports.updateUserStory = function(req, res) {
-    var userStoryData = req.body;
-    UserStory.findOneAndUpdate({code: userStoryData.code, projectCode: userStoryData.projectCode, featureCode: userStoryData.featureCode}, userStoryData, function(err, userStory) {
-        if(err) {
-            res.status(400);
-            return res.send({reason:err.toString()});
-        }
+//Updates an existing user story
+exports.updateUserStory = function(request, response) {
+    
+    //Get the user story data from the request
+    var userStoryData = request.body;
 
-        res.status(200);
-        res.send(userStory);
+    //Sanitise the data
+    var newUserStoryData = {
+        asA: userStoryData.asA,
+        code: userStoryData.code,
+        iCan: userStoryData.iCan,
+        soThat: userStoryData.soThat,
+        projectCode: userStoryData.projectCode,
+        featureCode: userStoryData.featureCode
+    };
+
+    //Update the user story
+    UserStory.updateUserStory(newUserStoryData).then(function() {
+
+        //Set and send the success status
+        response.sendStatus(200);
+
+    }, function(error) {
+
+        //Set the error status and send the error message
+        response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
     });
 };
