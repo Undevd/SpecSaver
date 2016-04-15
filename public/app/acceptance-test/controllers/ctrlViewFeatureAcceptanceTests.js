@@ -1,4 +1,4 @@
-angular.module('app').controller('ctrlViewFeatureAcceptanceTests', function($scope, $rootScope, $routeParams, dbAcceptanceTest, dbFeature, dbProject) {
+angular.module('app').controller('ctrlViewFeatureAcceptanceTests', function($scope, $rootScope, $routeParams, dbAcceptanceTest) {
     
     //Get the route parameters
     var projectCode = $routeParams.projectCode;
@@ -7,12 +7,17 @@ angular.module('app').controller('ctrlViewFeatureAcceptanceTests', function($sco
     //Set the page title
     $rootScope.title += projectCode + '-' + featureCode;
 
-    //Get the acceptance tests associated with the feature
-    $scope.acceptanceTests = dbAcceptanceTest.getAllAcceptanceTests(projectCode, featureCode);
+    //Get the acceptance tests data
+    dbAcceptanceTest.getAllAcceptanceTests(projectCode, featureCode).$promise.then(function(data) {
 
-    //Get the project data
-    $scope.project = dbProject.getProject(projectCode);
-
-    //Get the feature data
-    $scope.feature = dbFeature.getFeature(projectCode, featureCode);
+        //Store the data in the scope
+        $scope.project = data.project;
+        $scope.feature = data.feature;
+        $scope.acceptanceTests = data.acceptanceTests;
+        
+    }, function(error) {
+        
+        //Redirect to the error page
+        $location.path('/' + error.status);
+    });
 });

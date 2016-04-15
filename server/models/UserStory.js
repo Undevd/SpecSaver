@@ -93,7 +93,7 @@ userStorySchema.statics.getNextCode = function getNextCode(projectCode, featureC
     return new Promise(function(resolve, reject) {
 
     	//Find the latest user story
-		UserStory.findOne({projectCode: projectCode, featureCode: featureCode}).sort('-code').exec(function(error, latestUserStory) {
+		mongoose.model('UserStory').findOne({projectCode: projectCode, featureCode: featureCode}).sort('-code').exec(function(error, latestUserStory) {
 	        
             //If an error occurred
             if(error) {

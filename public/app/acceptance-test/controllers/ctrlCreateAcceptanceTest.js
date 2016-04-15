@@ -1,4 +1,4 @@
-angular.module('app').controller('ctrlCreateAcceptanceTest', function($scope, $rootScope, $location, $routeParams, dbAcceptanceTest, dbFeature, dbProject) {
+angular.module('app').controller('ctrlCreateAcceptanceTest', function($scope, $rootScope, $location, $routeParams, dbAcceptanceTest, dbFeature) {
     
     //Get the route parameters
     var projectCode = $routeParams.projectCode;
@@ -7,13 +7,22 @@ angular.module('app').controller('ctrlCreateAcceptanceTest', function($scope, $r
     //Set the page title
     $rootScope.title += projectCode + '-' + featureCode;
 
-    //Get the project data
-    $scope.project = dbProject.getProject(projectCode);
-
     //Get the feature data
-    $scope.feature = dbFeature.getFeature(projectCode, featureCode);
+    dbFeature.getFeature(projectCode, featureCode).$promise.then(function(data) {
 
+        //Store the data in the scope
+        $scope.project = data.project;
+        $scope.feature = data.feature;
+        
+    }, function(error) {
+        
+        //Redirect to the error page
+        $location.path('/' + error.status);
+    });
+
+    //Submits the new acceptance test to the server
     $scope.submit = function() {
+
         //Create the new acceptance test object
         var newAcceptanceTest = {
             code: null,
@@ -22,21 +31,18 @@ angular.module('app').controller('ctrlCreateAcceptanceTest', function($scope, $r
             then: $scope.then,
             projectCode: projectCode,
             featureCode: $scope.feature.code
-        };
-
-        //Clear any previous errors
-        $scope.error = null;        
+        };     
 
         //Create the acceptance test in the database
         dbAcceptanceTest.createAcceptanceTest(newAcceptanceTest).then(function(acceptanceTest) {
 
           //Redirect to view the new acceptance test
-          $location.path('/p/' + newAcceptanceTest.projectCode + '/f/' + newAcceptanceTest.featureCode + '/a/' + newAcceptanceTest.code);
+          $location.path('/p/' + acceptanceTest.projectCode + '/f/' + acceptanceTest.featureCode + '/a/' + acceptanceTest.code);
 
         }, function(error) {
 
-            //Add the error message to the scope
-            $scope.error = error.data.reason;
+           //Add the error message to the scope
+            $scope.error = error.data.message;
         });
     }
 });

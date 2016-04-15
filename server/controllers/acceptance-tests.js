@@ -1,79 +1,84 @@
 var AcceptanceTest = require('mongoose').model('AcceptanceTest');
+var Feature = require('mongoose').model('Feature');
+var Project = require('mongoose').model('Project');
 
-exports.createAcceptanceTest = function(req, res) {
+//Creates a new acceptance test
+exports.createAcceptanceTest = function(request, response) {
     
     //Get the acceptance test data from the request
-    var acceptanceTestData = req.body;
+    var acceptanceTestData = request.body;
 
-    //Get the latest acceptance test assigned to the feature in the project
-    AcceptanceTest.findOne({projectCode: acceptanceTestData.projectCode, featureCode: acceptanceTestData.featureCode}).sort('-code').exec(function(error, latestAcceptanceTest) {
+    //Sanitise the data
+    var newAcceptanceTestData = {
+        code: null,
+        given: acceptanceTestData.given,
+        when: acceptanceTestData.when,
+        then: acceptanceTestData.then,
+        projectCode: acceptanceTestData.projectCode,
+        featureCode: acceptanceTestData.featureCode
+    };
 
-        //Assign a new code to the acceptance test, starting from 1 if none exists
-        acceptanceTestData.code = (latestAcceptanceTest == null? 1 : latestAcceptanceTest.code + 1);
+    //Create the acceptance test
+    AcceptanceTest.createAcceptanceTest(newAcceptanceTestData).then(function(data) {
 
-        //Create the acceptance test
-        AcceptanceTest.create(acceptanceTestData, function(error, acceptanceTest) {
+        //Set the success status and send the new acceptance test, feature, and project codes
+        response.status(201).send(data);
 
-            //If an error occurred
-            if(error) {
+    }, function(error) {
 
-                //If the error was E11000
-                if(error.toString().indexOf('E11000') > -1) {
-
-                    //Update the error message
-                    error = new Error('A duplicate exists');
-                }
-
-                //Set the error status
-                res.status(400);
-
-                //Send the error message
-                res.send({reason:error.toString()});
-            }
-            else {
-
-                //Set the success status
-                res.status(201);
-
-                //Send the added acceptance test
-                res.send(acceptanceTest);
-            }
-        });
+        //Set the error status and send the error message
+        response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
     });
 };
 
-exports.getAllAcceptanceTests = function(req, res) {
+//Gets all acceptance tests by feature code
+exports.getAllAcceptanceTests = function(request, response) {
 
-    //Get all acceptance tests associated with the feature
-    AcceptanceTest.find({projectCode: req.params.projectCode, featureCode: req.params.featureCode}, '-_id code given then when').sort('code').exec(function(err, acceptanceTests) {
-        res.send(acceptanceTests);
+    //Get the project
+    var project = Project.getProject(request.params.projectCode);
+
+    //Get the feature
+    var feature = Feature.getFeature(request.params.projectCode, request.params.featureCode);
+
+    //Get the acceptance tests
+    var acceptanceTests = AcceptanceTest.getAllAcceptanceTests(request.params.projectCode, request.params.featureCode);
+
+    //If all the promises are successful
+    Promise.all([project, feature, acceptanceTests]).then(function(data) {
+        
+        //Set the success status and send the project, feature, and acceptance tests data
+        response.status(200).send({project: data[0], feature: data[1], acceptanceTests: data[2]});
+
+    }, function(error) {
+        
+        //Otherwise, set the error status and send the error message
+        response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
     });
-
 };
 
-exports.getAcceptanceTest = function(req, res) {
+//Gets the acceptance test with the supplied acceptance test code
+exports.getAcceptanceTest = function(request, response) {
 
-    //Get the acceptance test data
-    AcceptanceTest.findOne({code: req.params.acceptanceTestCode, projectCode: req.params.projectCode, featureCode: req.params.featureCode}, '-_id code given then when').exec(function(error, acceptanceTest) {
+    //Get the project
+    var project = Project.getProject(request.params.projectCode);
 
-        //If an error occurred
-        if (error) {
+    //Get the feature
+    var feature = Feature.getFeature(request.params.projectCode, request.params.featureCode);
 
-            //Send a 400 error
-            res.sendStatus(400);
-        }
-        //Else if the acceptance test wasn't found
-        else if (acceptanceTest == null) {
+    //Get the acceptance test
+    var acceptanceTest = AcceptanceTest.getAcceptanceTest(request.params.projectCode, request.params.featureCode, request.params.acceptanceTestCode);
 
-            //Send a 404 error
-            res.sendStatus(404);
-        }
-        else {
+    //If all the promises are successful
+    Promise.all([project, feature, acceptanceTest]).then(function(data) {
+        
+        //Set the success status and send the project, feature, and acceptance test data
+        response.status(200).send({project: data[0], feature: data[1], acceptanceTest: data[2]});
 
-            //Otherwise, send the acceptance test data
-            res.send({acceptanceTest: acceptanceTest});
-        }
-    })
+    }, function(error) {
+        
+        //Otherwise, set the error status and send the error message
+        response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
+    });
 };
 
 exports.getAcceptanceTestCountForFeature = function(req, res) {
@@ -102,30 +107,37 @@ exports.getAcceptanceTestCountForUserStory = function(req, res) {
     res.sendStatus(501);
 };
 
-exports.updateAcceptanceTest = function(req, res) {
+exports.getAcceptanceTestCountGroupedByFeature = function(req, res) {;
+    AcceptanceTest.aggregate([{$match: {projectCode: req.params.projectCode}}, {$group: {_id: "$featureCode", total: {$sum: 1}}}]).sort('_id').exec(function(err, result) {
+        res.send(result);
+    });
+};
+
+//Updates an existing acceptance test
+exports.updateAcceptanceTest = function(request, response) {
     
     //Get the acceptance test data from the request
-    var acceptanceTestData = req.body;
+    var acceptanceTestData = request.body;
 
-    //Get the existing acceptance test and update it
-    AcceptanceTest.findOneAndUpdate({code: acceptanceTestData.code, projectCode: acceptanceTestData.projectCode, featureCode: acceptanceTestData.featureCode}, releaseData, function(error, acceptanceTest) {
-        
-        //If an error occurred
-        if(error) {
+    //Sanitise the data
+    var newAcceptanceTestData = {
+        code: null,
+        given: acceptanceTestData.given,
+        when: acceptanceTestData.when,
+        then: acceptanceTestData.then,
+        projectCode: acceptanceTestData.projectCode,
+        featureCode: acceptanceTestData.featureCode
+    };
 
-            //Set the error status
-            res.status(400);
+    //Update the acceptance test
+    AcceptanceTest.updateAcceptanceTest(newAcceptanceTestData).then(function() {
 
-            //Send the error message
-            return res.send({reason: error.toString()});
-        }
-        else {
+        //Set and send the success status
+        response.sendStatus(200);
 
-            //Set the success status
-            res.status(200);
+    }, function(error) {
 
-            //Send the updated acceptance test
-            res.send(acceptanceTest);
-        }
+        //Set the error status and send the error message
+        response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
     });
 };
