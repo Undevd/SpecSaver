@@ -121,7 +121,7 @@ exports.updateAcceptanceTest = function(request, response) {
 
     //Sanitise the data
     var newAcceptanceTestData = {
-        code: null,
+        code: acceptanceTestData.code,
         given: acceptanceTestData.given,
         when: acceptanceTestData.when,
         then: acceptanceTestData.then,

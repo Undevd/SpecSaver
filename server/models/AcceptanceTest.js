@@ -62,6 +62,30 @@ acceptanceTestSchema.statics.createAcceptanceTest = function createAcceptanceTes
     });
 };
 
+//Gets the acceptance test with the supplied acceptance test code
+acceptanceTestSchema.statics.getAcceptanceTest = function getAcceptanceTest(projectCode, featureCode, acceptanceTestCode) {
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+
+        //Find the acceptance test
+        mongoose.model('AcceptanceTest').findOne({code: acceptanceTestCode, projectCode: projectCode, featureCode: featureCode}, '-_id code featureCode given projectCode then when').exec(function(error, acceptanceTest) {
+
+            //If an error occurred
+            if (error) {
+
+                //Return the error
+                reject(error);
+            }
+            else {
+
+                //Otherwise, return the acceptance test
+                resolve(acceptanceTest);
+            }
+        });
+    });
+};
+
 //Gets all acceptance tests by feature code
 acceptanceTestSchema.statics.getAllAcceptanceTests = function getAllAcceptanceTests(projectCode, featureCode) {
 
@@ -107,30 +131,6 @@ acceptanceTestSchema.statics.getNextCode = function getNextCode(projectCode, fea
 		        resolve(latestAcceptanceTest == null? 1 : latestAcceptanceTest.code + 1);
 	    	}
 	  	});
-    });
-};
-
-//Gets the acceptance test with the supplied acceptance test code
-acceptanceTestSchema.statics.getUserStory = function getUserStory(projectCode, featureCode, acceptanceTestCode) {
-
-    //Return a promise
-    return new Promise(function(resolve, reject) {
-
-        //Find the acceptance test
-        mongoose.model('AcceptanceTest').findOne({code: acceptanceTestCode, projectCode: projectCode, featureCode: featureCode}, '-_id code featureCode given projectCode then when').exec(function(error, acceptanceTest) {
-
-            //If an error occurred
-            if (error) {
-
-                //Return the error
-                reject(error);
-            }
-            else {
-
-                //Otherwise, return the acceptance test
-                resolve(acceptanceTest);
-            }
-        });
     });
 };
 
