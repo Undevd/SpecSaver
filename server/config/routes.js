@@ -43,7 +43,7 @@ module.exports = function(app) {
     app.post('/api/quotes', quotes.createQuote);
 
     // Release routes
-    app.get('/api/releases/all/:projectCode', releases.getAllReleases);
+    app.get('/api/releases/all/:projectCode', releases.getAllReleasesByProject);
     app.get('/api/releases/one/:projectCode/:releaseCode', releases.getRelease);
     app.post('/api/releases/*', releases.createRelease);
     app.put('/api/releases/*', releases.updateRelease);

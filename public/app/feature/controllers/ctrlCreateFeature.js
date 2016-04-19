@@ -13,7 +13,7 @@ angular.module('app').controller('ctrlCreateFeature', function($scope, $rootScop
         $scope.project = data.project;
 
         //Submits the new feature to the server
-        $scope.create = function() {
+        $scope.submit = function() {
 
             //Create the new feature object with data from the form
             var newFeature = {

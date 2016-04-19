@@ -1,119 +1,100 @@
 var Project = require('mongoose').model('Project');
 var Release = require('mongoose').model('Release');
 
-exports.createRelease = function(req, res) {
-    var releaseData = req.body;
-    Release.create(releaseData, function(err, release) {
-        if(err) {
-            if(err.toString().indexOf('E11000') > -1) {
-                err = new Error('A duplicate exists');
-            }
-            res.status(400);
-            return res.send({reason:err.toString()});
-        }
+//Creates a new release
+exports.createRelease = function(request, response) {
 
-        res.status(201);
-        res.send(release);
+    //Get the release data from the request
+    var releaseData = request.body;
+
+    //Sanitise the data
+    var newReleaseData = {
+        name: releaseData.name,
+        code: releaseData.code,
+        description: releaseData.description,
+        projectCode: releaseData.projectCode
+    };
+
+    //Create the release
+    Release.createRelease(newReleaseData).then(function(data) {
+
+        //Set the success status and send the new release and project codes
+        response.status(201).send(data);
+
+    }, function(error) {
+
+        //Set the error status and send the error message
+        response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
     });
 };
 
-exports.getAllReleases = function(req, res) {
+//Gets all created releases by project
+exports.getAllReleasesByProject = function(request, response) {
 
-    //Get all releases associated with the project code
-    Release.find({projectCode: req.params.projectCode}, '-_id code description name').sort('name').exec(function(error, releases) {
+    //Get the project
+    var project = Project.getProject(request.params.projectCode);
+
+    //Get the releases
+    var releases = Release.getAllReleasesByProject(request.params.projectCode);
+
+    //If all the promises are successful
+    Promise.all([project, releases]).then(function(data) {
         
-        //If an error occurred
-        if (error) {
+        //Set the success status and send the project and releases data
+        response.status(200).send({project: data[0], releases: data[1]});
 
-            //Send a 400 error
-            res.sendStatus(400);
-        }
-        else {
-            
-            //Get the project data associated with the releases
-            Project.findOne({code: req.params.projectCode}, '-_id code name').exec(function(error, project) {
-
-                //If an error occurred
-                if (error) {
-                     
-                     //Send a 400 error
-                    res.sendStatus(400);
-                }
-                //Else if the project wasn't found
-                else if (project == null) {
-
-                    //Send a 404 error
-                    res.sendStatus(404);
-                }
-                else {
-
-                    //Otherwise, Send the project and release data
-                    res.send({project: project, releases: releases});
-                }
-            });
-        }
-    })
-};
-
-exports.getRelease = function(req, res) {
-
-    //Get the release data
-    Release.findOne({code: req.params.releaseCode, projectCode: req.params.projectCode}, '-_id code description name').exec(function(error, release) {
-
-        //If an error occurred
-        if (error) {
-
-            //Send a 400 error
-            res.sendStatus(400);
-        }
-        //Else if the release wasn't found
-        else if (release == null) {
-
-            //Send a 404 error
-            res.sendStatus(404);
-        }
-        else {
-
-            //Get the project data associated with the release
-            Project.findOne({code: req.params.projectCode}, '-_id code name').exec(function(error, project) {
-
-                //If an error occurred
-                if (error) {
-                    
-                    //Send a 400 error
-                    res.sendStatus(400);
-                }
-                //Else if the project wasn't found
-                else if (project == null) {
-
-                    //Send a 404 error
-                    res.sendStatus(404);
-                }
-                else {
-
-                    //Send the project and release data
-                    res.send({project: project, release: release});
-                }
-            })
-        }
-    })
-};
-
-exports.getReleaseCountForProject = function(req, res) {
-    Release.count({projectCode: req.params.projectCode}).exec(function(err, count) {
-        res.send({count: count});
+    }, function(error) {
+        
+        //Otherwise, set the error status and send the error message
+        response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
     });
 };
 
-exports.updateRelease = function(req, res) {
-    var releaseData = req.body;
-    Release.findOneAndUpdate({code: releaseData.code, projectCode: releaseData.projectCode}, releaseData, function(err, release) {
-        if(err) {
-            res.status(400);
-            return res.send({reason:err.toString()});
-        }
+//Gets the release with the supplied release code
+exports.getRelease = function(request, response) {
 
-        res.status(200);
-        res.send(release);
+    //Get the project
+    var project = Project.getProject(request.params.projectCode);
+
+    //Get the release
+    var release = Release.getRelease(request.params.projectCode, request.params.releaseCode);
+
+    //If all the promises are successful
+    Promise.all([project, release]).then(function(data) {
+        
+        //Set the success status and send the project and release data
+        response.status(200).send({project: data[0], release: data[1]});
+
+    }, function(error) {
+        
+        //Otherwise, set the error status and send the error message
+        response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
+    });
+};
+
+//Updates an existing release
+exports.updateRelease = function(request, response) {
+    
+    //Get the release data from the request
+    var releaseData = request.body;
+
+    //Sanitise the data
+    var newReleaseData = {
+        name: releaseData.name,
+        code: releaseData.code,
+        description: releaseData.description,
+        projectCode: releaseData.projectCode
+    };
+
+    //Update the release
+    Release.updateRelease(newReleaseData).then(function() {
+
+        //Set and send the success status
+        response.sendStatus(200);
+
+    }, function(error) {
+
+        //Set the error status and send the error message
+        response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
     });
 };

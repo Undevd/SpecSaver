@@ -7,14 +7,12 @@ angular.module('app').controller('ctrlViewRelease', function($scope, $rootScope,
     //Set the page title
     $rootScope.title += projectCode + '.' + releaseCode;
 
-	//Get data related to the release
+	//Get the release data
 	dbRelease.getRelease(projectCode, releaseCode).$promise.then(function(data) {
         
-        //Store the release in the scope
-        $scope.release = data.release;
-
-        //Store the project in the scope
+        //Store the data in the scope
         $scope.project = data.project;
+        $scope.release = data.release;
 
         //Record whether a field is being edited
         $scope.edit = {};
@@ -22,8 +20,12 @@ angular.module('app').controller('ctrlViewRelease', function($scope, $rootScope,
         //Store the old value of a field as it is being edited
         $scope.oldData = {};
 
+        //Shows or hides the form used to edit the field
         $scope.showEdit = function(field, show) {
+
+            //If the form should be shown
             if (show) {
+
                 //Store the old data
                 $scope.oldData[field] = $scope.release[field];
             }
@@ -32,7 +34,9 @@ angular.module('app').controller('ctrlViewRelease', function($scope, $rootScope,
             $scope.edit[field] = show;
         }
 
+        //Cancels editing the field and hides the form
         $scope.cancelEdit = function(field) {
+
             //Reset the value
             $scope.release[field] = $scope.oldData[field];
 
@@ -40,7 +44,9 @@ angular.module('app').controller('ctrlViewRelease', function($scope, $rootScope,
             $scope.showEdit(field, false);
         }
 
+        //Submits the edits made to the field to the server
         $scope.submitEdit = function(field) {
+            
             //Save the release
             dbRelease.updateRelease($scope.release);
 

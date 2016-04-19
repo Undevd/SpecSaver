@@ -6,14 +6,12 @@ angular.module('app').controller('ctrlViewAllReleases', function($scope, $rootSc
 	//Set the page title
     $rootScope.title += projectCode;
 
-    //Get data related to the releases
+    //Get the releases associated with the project
     dbRelease.getAllReleases(projectCode).$promise.then(function(data) {
 
-        //Store the releases in the scope
-        $scope.releases = data.releases;
-
-        //Store the project in the scope
+        //Store the data in the scope
         $scope.project = data.project;
+        $scope.releases = data.releases;
 
     }, function(error) {
         

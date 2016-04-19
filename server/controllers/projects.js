@@ -1,6 +1,7 @@
 var AcceptanceTest = require('mongoose').model('AcceptanceTest');
 var Feature = require('mongoose').model('Feature');
 var Project = require('mongoose').model('Project');
+var Release = require('mongoose').model('Release');
 var UserStory = require('mongoose').model('UserStory');
 
 //Creates a new project
@@ -53,6 +54,9 @@ exports.getProject = function(request, response) {
     //Get the project
     var project = Project.getProject(request.params.projectCode);
 
+    //Get the release statistics
+    var releaseStats = Release.getReleaseStatsForProject(request.params.projectCode);
+
     //Get the feature statistics
     var featureStats = Feature.getFeatureStatsForProject(request.params.projectCode);
 
@@ -63,10 +67,10 @@ exports.getProject = function(request, response) {
     var acceptanceTestStats = AcceptanceTest.getAcceptanceTestStatsForProject(request.params.projectCode);
 
     //If all the promises are successful
-    Promise.all([project, featureStats, userStoryStats, acceptanceTestStats]).then(function(data) {
+    Promise.all([project, releaseStats, featureStats, userStoryStats, acceptanceTestStats]).then(function(data) {
         
         //Set the success status and send the project and features data
-        response.status(200).send({project: data[0], stats: {feature: data[1], userStory: data[2], acceptanceTest: data[3]}});
+        response.status(200).send({project: data[0], stats: {release: data[1], feature: data[2], userStory: data[3], acceptanceTest: data[4]}});
 
     }, function(error) {
         
