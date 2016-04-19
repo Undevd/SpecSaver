@@ -7,29 +7,33 @@ angular.module('app').controller('ctrlCreateFeature', function($scope, $rootScop
     $rootScope.title += projectCode;
 
     //Get the project data
-    $scope.project = dbProject.getProject(projectCode);
+    dbProject.getProject(projectCode).$promise.then(function(data) {
 
-    //Submits the new feature to the server
-    $scope.create = function() {
+        //Store the data in the scope
+        $scope.project = data.project;
 
-        //Create the new feature object with data from the form
-        var newFeature = {
-            name: $scope.name,
-            code: $scope.code,
-            description: $scope.description,
-            projectCode: projectCode
-        };
+        //Submits the new feature to the server
+        $scope.create = function() {
 
-        //Send the feature to the server
-        dbFeature.createFeature(newFeature).then(function(feature) {
+            //Create the new feature object with data from the form
+            var newFeature = {
+                name: $scope.name,
+                code: $scope.code,
+                description: $scope.description,
+                projectCode: projectCode
+            };
 
-            //Redirect to view the new feature
-            $location.path('/p/' + feature.projectCode + '/f/' + feature.code);
+            //Send the feature to the server
+            dbFeature.createFeature(newFeature).then(function(feature) {
 
-        }, function(error) {
+                //Redirect to view the new feature
+                $location.path('/p/' + feature.projectCode + '/f/' + feature.code);
 
-            //Add the error message to the scope
-            $scope.error = error.data.message;
-        });
-    }
+            }, function(error) {
+
+                //Add the error message to the scope
+                $scope.error = error.data.message;
+            });
+        }
+    });
 });

@@ -81,24 +81,6 @@ exports.getUserStory = function(request, response) {
     });
 };
 
-exports.getUserStoryCountForFeature = function(req, res) {
-    UserStory.count({projectCode: req.params.projectCode, featureCode: req.params.featureCode}).exec(function(err, count) {
-        res.send({count: count});
-    });
-};
-
-exports.getUserStoryCountForProject = function(req, res) {
-    UserStory.count({projectCode: req.params.projectCode}).exec(function(err, count) {
-        res.send({count: count});
-    });
-};
-
-exports.getUserStoryCountGroupedByFeature = function(req, res) {;
-    UserStory.aggregate([{$match: {projectCode: req.params.projectCode}}, {$group: {_id: "$featureCode", total: {$sum: 1}}}]).sort('_id').exec(function(err, result) {
-        res.send(result);
-    });
-};
-
 //Updates an existing user story
 exports.updateUserStory = function(request, response) {
     

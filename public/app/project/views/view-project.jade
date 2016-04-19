@@ -35,28 +35,28 @@
                         .box Releases
                         .box
                             span.glyphicon.glyphicon-gift(aria-label="Gift icon")
-                        .box {{release.count}}
+                        .box {{stats.release.total}}
                 .col-md-2.colour3.padn
                     a.btn.btn-block.colour3(ng-href="/p/{{project.code}}/f")
                         .box Features
                         .box
                             span.glyphicon.glyphicon-apple(aria-label="Apple icon")
-                        .box {{feature.count}}
+                        .box {{stats.feature.total}}
                 .col-md-2.colour4.padn
                     a.btn.btn-block.colour4(ng-href="/p/{{project.code}}/u")
                         .box User Stories
                         .box
                             span.glyphicon.glyphicon-tree-deciduous(aria-label="Tree icon")
-                        .box {{userStory.count}}
+                        .box {{stats.userStory.total}}
                 .col-md-2.colour5.padn
                     a.btn.btn-block.colour5(ng-href="/p/{{project.code}}/a")
                         .box Acceptance Tests
                         .box
                             span.glyphicon.glyphicon-grain(aria-label="Branch icon")
-                        .box 0
+                        .box {{stats.acceptanceTest.total}}
                 .col-md-2.colour6.padn
                     a.btn.btn-block.colour6(href="#")
                         .box System Tests
                         .box
                             span.glyphicon.glyphicon-leaf(aria-label="Leaf icon")
-                        .box 0
+                        .box {{stats.systemTest.total}}

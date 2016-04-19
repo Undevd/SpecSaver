@@ -1,4 +1,7 @@
+var AcceptanceTest = require('mongoose').model('AcceptanceTest');
+var Feature = require('mongoose').model('Feature');
 var Project = require('mongoose').model('Project');
+var UserStory = require('mongoose').model('UserStory');
 
 //Creates a new project
 exports.createProject = function(request, response) {
@@ -47,15 +50,27 @@ exports.getAllProjects = function(request, response) {
 //Gets the project with the supplied project code
 exports.getProject = function(request, response) {
 
-    //Get the project by code
-    Project.getProject(request.params.projectCode).then(function(project) {
+    //Get the project
+    var project = Project.getProject(request.params.projectCode);
 
-        //Set the success status and send the project
-        response.status(200).send(project);
+    //Get the feature statistics
+    var featureStats = Feature.getFeatureStatsForProject(request.params.projectCode);
+
+    //Get the user story statistics
+    var userStoryStats = UserStory.getUserStoryStatsForProject(request.params.projectCode);
+
+    //Get the acceptance test statistics
+    var acceptanceTestStats = AcceptanceTest.getAcceptanceTestStatsForProject(request.params.projectCode);
+
+    //If all the promises are successful
+    Promise.all([project, featureStats, userStoryStats, acceptanceTestStats]).then(function(data) {
+        
+        //Set the success status and send the project and features data
+        response.status(200).send({project: data[0], stats: {feature: data[1], userStory: data[2], acceptanceTest: data[3]}});
 
     }, function(error) {
-
-        //Set the error status and send the error message
+        
+        //Otherwise, set the error status and send the error message
         response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
     });
 }

@@ -12,10 +12,6 @@ angular.module('app').factory('dbFeature', function(apiFeature) {
       return apiFeature.getOne({projectCode: projectCode, featureCode: featureCode});
     },
 
-    getFeatureCount: function(projectCode, releaseCode) {
-      return apiFeature.countFor({projectCode: projectCode, releaseCode: releaseCode});
-    },
-
     updateFeature: function(newFeatureData) {
       return apiFeature.update(newFeatureData);
     }

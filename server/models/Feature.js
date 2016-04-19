@@ -132,6 +132,29 @@ featureSchema.statics.getFeature = function getFeature(projectCode, featureCode)
     });
 };
 
+//Gets overall statistics for features associated with the project
+featureSchema.statics.getFeatureStatsForProject = function getFeatureStatsForProject(projectCode) {
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+        
+        //Count the number of features associated with the project
+        var projectCount = mongoose.model('Feature').count({projectCode: projectCode}).exec();
+
+        //If all the promises are successful
+        Promise.all([projectCount]).then(function(data) {
+
+            //Return the statistics
+            resolve({total: data[0]});
+
+        }, function(error) {
+            
+            //Return the error
+            reject(error);
+        });
+    });
+};
+
 //Updates an existing feature
 featureSchema.statics.updateFeature = function updateFeature(newFeatureData) {
     

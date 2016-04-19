@@ -86,6 +86,56 @@ acceptanceTestSchema.statics.getAcceptanceTest = function getAcceptanceTest(proj
     });
 };
 
+//Gets overall statistics for acceptance test associated with the feature
+acceptanceTestSchema.statics.getAcceptanceTestStatsForFeature = function getAcceptanceTestStatsForFeature(projectCode, featureCode) {
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+        
+        //Count the number of acceptance tests associated with the feature
+        var featureCount = mongoose.model('AcceptanceTest').count({projectCode: projectCode, featureCode: featureCode}).exec();
+
+        //If all the promises are successful
+        Promise.all([featureCount]).then(function(data) {
+
+            //Return the statistics
+            resolve({total: data[0]});
+
+        }, function(error) {
+            
+            //Return the error
+            reject(error);
+        });
+    });
+};
+
+//Gets overall statistics for acceptance tests associated with the project
+acceptanceTestSchema.statics.getAcceptanceTestStatsForProject = function getAcceptanceTestStatsForProject(projectCode) {
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+        
+        //Count the number of acceptance tests associated with the project
+        var projectCount = mongoose.model('AcceptanceTest').count({projectCode: projectCode}).exec();
+
+        //Aggregate the number of acceptance tests associated with the features in the project
+        var featureCount = mongoose.model('AcceptanceTest').aggregate([{$match: {projectCode: projectCode}},
+            {$group: {_id: "$featureCode", total: {$sum: 1}}}]).sort('_id').exec();
+
+        //If all the promises are successful
+        Promise.all([projectCount, featureCount]).then(function(data) {
+
+            //Return the statistics
+            resolve({total: data[0], feature: data[1]});
+
+        }, function(error) {
+            
+            //Return the error
+            reject(error);
+        });
+    });
+};
+
 //Gets all acceptance tests by feature code
 acceptanceTestSchema.statics.getAllAcceptanceTests = function getAllAcceptanceTests(projectCode, featureCode) {
 

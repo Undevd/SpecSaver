@@ -12,10 +12,6 @@ angular.module('app').factory('dbRelease', function(apiRelease) {
       return apiRelease.getOne({projectCode: projectCode, releaseCode: releaseCode});
     },
 
-    getReleaseCount: function(projectCode) {
-      return apiRelease.countFor({projectCode: projectCode});
-    },
-
     updateRelease: function(newReleaseData) {
       return apiRelease.update(newReleaseData);
     }

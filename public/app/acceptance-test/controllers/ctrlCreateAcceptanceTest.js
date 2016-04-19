@@ -13,36 +13,35 @@ angular.module('app').controller('ctrlCreateAcceptanceTest', function($scope, $r
         //Store the data in the scope
         $scope.project = data.project;
         $scope.feature = data.feature;
-        
+
+        //Submits the new acceptance test to the server
+        $scope.submit = function() {
+
+            //Create the new acceptance test object
+            var newAcceptanceTest = {
+                code: null,
+                given: $scope.given,
+                when: $scope.when,
+                then: $scope.then,
+                projectCode: projectCode,
+                featureCode: $scope.feature.code
+            };     
+
+            //Create the acceptance test in the database
+            dbAcceptanceTest.createAcceptanceTest(newAcceptanceTest).then(function(acceptanceTest) {
+
+              //Redirect to view the new acceptance test
+              $location.path('/p/' + acceptanceTest.projectCode + '/f/' + acceptanceTest.featureCode + '/a/' + acceptanceTest.code);
+
+            }, function(error) {
+
+               //Add the error message to the scope
+                $scope.error = error.data.message;
+            });
+        };
     }, function(error) {
         
         //Redirect to the error page
         $location.path('/' + error.status);
     });
-
-    //Submits the new acceptance test to the server
-    $scope.submit = function() {
-
-        //Create the new acceptance test object
-        var newAcceptanceTest = {
-            code: null,
-            given: $scope.given,
-            when: $scope.when,
-            then: $scope.then,
-            projectCode: projectCode,
-            featureCode: $scope.feature.code
-        };     
-
-        //Create the acceptance test in the database
-        dbAcceptanceTest.createAcceptanceTest(newAcceptanceTest).then(function(acceptanceTest) {
-
-          //Redirect to view the new acceptance test
-          $location.path('/p/' + acceptanceTest.projectCode + '/f/' + acceptanceTest.featureCode + '/a/' + acceptanceTest.code);
-
-        }, function(error) {
-
-           //Add the error message to the scope
-            $scope.error = error.data.message;
-        });
-    }
 });

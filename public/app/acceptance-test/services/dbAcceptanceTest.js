@@ -12,14 +12,6 @@ angular.module('app').factory('dbAcceptanceTest', function(apiAcceptanceTest) {
       return apiAcceptanceTest.getOne({projectCode: projectCode, featureCode: featureCode, acceptanceTestCode: acceptanceTestCode});
     },
 
-    getAcceptanceTestCount: function(projectCode, featureCode, userStoryCode) {
-      return apiAcceptanceTest.countFor({projectCode: projectCode, featureCode: featureCode, userStoryCode: userStoryCode});
-    },
-
-    getAcceptanceTestCountGrouped: function(projectCode, featureCode) {
-      return apiAcceptanceTest.countGrouped({projectCode: projectCode, featureCode: featureCode});
-    },
-
     updateAcceptanceTest: function(newAcceptanceTestData) {
       return apiAcceptanceTest.update(newAcceptanceTestData);
     }

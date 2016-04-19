@@ -12,14 +12,6 @@ angular.module('app').factory('dbUserStory', function(apiUserStory) {
       return apiUserStory.getOne({projectCode: projectCode, featureCode: featureCode, userStoryCode: userStoryCode});
     },
 
-    getUserStoryCount: function(projectCode, featureCode) {
-      return apiUserStory.countFor({projectCode: projectCode, featureCode: featureCode});
-    },
-
-    getUserStoryCountGrouped: function(projectCode) {
-      return apiUserStory.countGrouped({projectCode: projectCode});
-    },
-
     updateUserStory: function(newUserStoryData) {
       return apiUserStory.update(newUserStoryData);
     }

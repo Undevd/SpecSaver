@@ -1,4 +1,4 @@
-angular.module('app').controller('ctrlViewProjectUserStories', function($scope, $rootScope, $routeParams, dbFeature, dbProject, dbUserStory) {
+angular.module('app').controller('ctrlViewProjectUserStories', function($scope, $rootScope, $routeParams, dbProject) {
     
     //Get the route parameters
     var projectCode = $routeParams.projectCode;
@@ -6,9 +6,11 @@ angular.module('app').controller('ctrlViewProjectUserStories', function($scope, 
     //Set the page title
     $rootScope.title += projectCode;
 
-    //Get the number of user stories grouped by feature
-    $scope.features = dbUserStory.getUserStoryCountGrouped(projectCode);
-
     //Get the project associated with the user stories
-    $scope.project = dbProject.getProject(projectCode);
+    dbProject.getProject(projectCode).$promise.then(function(data) {
+
+    	//Store the data in the scope
+    	$scope.project = data.project;
+    	$scope.stats = data.stats;
+    });
 });

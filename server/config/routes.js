@@ -20,26 +20,21 @@ module.exports = function(app) {
     });
     
     // Acceptance Test routes
-    app.get('/api/acceptance-tests/count/for/:projectCode/:featureCode/:userStoryCode', acceptanceTests.getAcceptanceTestCountForUserStory);
-    app.get('/api/acceptance-tests/count/for/:projectCode/:featureCode', acceptanceTests.getAcceptanceTestCountForFeature);
-    app.get('/api/acceptance-tests/count/for/:projectCode', acceptanceTests.getAcceptanceTestCountForProject);
-    app.get('/api/acceptance-tests/get/all/:projectCode/:featureCode', acceptanceTests.getAllAcceptanceTests);
-    app.get('/api/acceptance-tests/get/one/:projectCode/:featureCode/:acceptanceTestCode', acceptanceTests.getAcceptanceTest);
+    app.get('/api/acceptance-tests/all/:projectCode/:featureCode', acceptanceTests.getAllAcceptanceTests);
+    app.get('/api/acceptance-tests/one/:projectCode/:featureCode/:acceptanceTestCode', acceptanceTests.getAcceptanceTest);
     app.post('/api/acceptance-tests/*', acceptanceTests.createAcceptanceTest);
     app.put('/api/acceptance-tests/*', acceptanceTests.updateAcceptanceTest);
 
     // Feature routes
-    app.get('/api/features/count/for/:projectCode/:releaseCode', features.getFeatureCountByRelease);
-    app.get('/api/features/count/for/:projectCode', features.getFeatureCountByProject);
-    app.get('/api/features/get/all/:projectCode/:releaseCode', features.getAllFeaturesByRelease);
-    app.get('/api/features/get/all/:projectCode', features.getAllFeaturesByProject);
-    app.get('/api/features/get/one/:projectCode/:featureCode', features.getFeature);
+    app.get('/api/features/all/:projectCode/:releaseCode', features.getAllFeaturesByRelease);
+    app.get('/api/features/all/:projectCode', features.getAllFeaturesByProject);
+    app.get('/api/features/one/:projectCode/:featureCode', features.getFeature);
     app.post('/api/features/*', features.createFeature);
     app.put('/api/features/*', features.updateFeature);
 
     // Project routes
-    app.get('/api/projects/:projectCode', projects.getProject);
-    app.get('/api/projects', projects.getAllProjects);
+    app.get('/api/projects/all', projects.getAllProjects);
+    app.get('/api/projects/one/:projectCode', projects.getProject);
     app.post('/api/projects', projects.createProject);
     app.put('/api/projects', projects.updateProject);
 
@@ -48,9 +43,8 @@ module.exports = function(app) {
     app.post('/api/quotes', quotes.createQuote);
 
     // Release routes
-    app.get('/api/releases/count/for/:projectCode', releases.getReleaseCountForProject);
-    app.get('/api/releases/get/all/:projectCode', releases.getAllReleases);
-    app.get('/api/releases/get/one/:projectCode/:releaseCode', releases.getRelease);
+    app.get('/api/releases/all/:projectCode', releases.getAllReleases);
+    app.get('/api/releases/one/:projectCode/:releaseCode', releases.getRelease);
     app.post('/api/releases/*', releases.createRelease);
     app.put('/api/releases/*', releases.updateRelease);
 
@@ -66,11 +60,8 @@ module.exports = function(app) {
     app.get('/api/users', users.getUsers);
     
     // User Story routes
-    app.get('/api/user-stories/count/for/:projectCode/:featureCode', userStories.getUserStoryCountForFeature);
-    app.get('/api/user-stories/count/for/:projectCode', userStories.getUserStoryCountForProject);
-    app.get('/api/user-stories/count/grouped/:projectCode', userStories.getUserStoryCountGroupedByFeature);
-    app.get('/api/user-stories/get/all/:projectCode/:featureCode', userStories.getAllUserStories);
-    app.get('/api/user-stories/get/one/:projectCode/:featureCode/:userStoryCode', userStories.getUserStory);
+    app.get('/api/user-stories/all/:projectCode/:featureCode', userStories.getAllUserStories);
+    app.get('/api/user-stories/one/:projectCode/:featureCode/:userStoryCode', userStories.getUserStory);
     app.post('/api/user-stories/*', userStories.createUserStory);
     app.put('/api/user-stories/*', userStories.updateUserStory);
 

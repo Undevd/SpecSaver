@@ -1,5 +1,7 @@
+var AcceptanceTest = require('mongoose').model('AcceptanceTest');
 var Feature = require('mongoose').model('Feature');
 var Project = require('mongoose').model('Project');
+var UserStory = require('mongoose').model('UserStory');
 
 //Creates a new feature
 exports.createFeature = function(request, response) {
@@ -66,27 +68,23 @@ exports.getFeature = function(request, response) {
     //Get the feature
     var feature = Feature.getFeature(request.params.projectCode, request.params.featureCode);
 
+    //Get the user story statistics
+    var userStoryStats = UserStory.getUserStoryStatsForFeature(request.params.projectCode, request.params.featureCode);
+
+    //Get the acceptance test statistics
+    var acceptanceTestStats = AcceptanceTest.getAcceptanceTestStatsForFeature(request.params.projectCode, request.params.featureCode);
+
     //If all the promises are successful
-    Promise.all([project, feature]).then(function(data) {
+    Promise.all([project, feature, userStoryStats, acceptanceTestStats]).then(function(data) {
         
         //Set the success status and send the project and features data
-        response.status(200).send({project: data[0], feature: data[1]});
+        response.status(200).send({project: data[0], feature: data[1], stats: {userStory: data[2], acceptanceTest: data[3]}});
 
     }, function(error) {
         
         //Otherwise, set the error status and send the error message
         response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
     });
-};
-
-exports.getFeatureCountByProject = function(request, response) {
-    Feature.count({projectCode: request.params.projectCode}).exec(function(error, count) {
-        response.send({count: count});
-    });
-};
-
-exports.getFeatureCountByRelease = function(request, response) {
-    response.send({count: "TBC"});
 };
 
 //Updates an existing feature

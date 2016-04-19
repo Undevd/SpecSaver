@@ -134,6 +134,56 @@ userStorySchema.statics.getUserStory = function getUserStory(projectCode, featur
     });
 };
 
+//Gets overall statistics for user stories associated with the feature
+userStorySchema.statics.getUserStoryStatsForFeature = function getUserStoryStatsForFeature(projectCode, featureCode) {
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+        
+        //Count the number of user stories associated with the feature
+        var featureCount = mongoose.model('UserStory').count({projectCode: projectCode, featureCode: featureCode}).exec();
+
+        //If all the promises are successful
+        Promise.all([featureCount]).then(function(data) {
+
+            //Return the statistics
+            resolve({total: data[0]});
+
+        }, function(error) {
+            
+            //Return the error
+            reject(error);
+        });
+    });
+};
+
+//Gets overall statistics for user stories associated with the project
+userStorySchema.statics.getUserStoryStatsForProject = function getUserStoryStatsForProject(projectCode) {
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+        
+        //Count the number of user stories associated with the project
+        var projectCount = mongoose.model('UserStory').count({projectCode: projectCode}).exec();
+
+        //Aggregate the number of user stories associated with the features in the project
+        var featureCount = mongoose.model('UserStory').aggregate([{$match: {projectCode: projectCode}},
+            {$group: {_id: "$featureCode", total: {$sum: 1}}}]).sort('_id').exec();
+
+        //If all the promises are successful
+        Promise.all([projectCount, featureCount]).then(function(data) {
+
+            //Return the statistics
+            resolve({total: data[0], feature: data[1]});
+
+        }, function(error) {
+            
+            //Return the error
+            reject(error);
+        });
+    });
+};
+
 //Updates an existing user story
 userStorySchema.statics.updateUserStory = function updateUserStory(newUserStoryData) {
     

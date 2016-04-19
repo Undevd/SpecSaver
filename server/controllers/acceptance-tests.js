@@ -81,38 +81,6 @@ exports.getAcceptanceTest = function(request, response) {
     });
 };
 
-exports.getAcceptanceTestCountForFeature = function(req, res) {
-
-    //Count the number of acceptance tests associated with the feature
-    AcceptanceTest.count({projectCode: req.params.projectCode, featureCode: req.params.featureCode}).exec(function(error, count) {
-        
-        //Send the total count
-        res.send({count: count});
-    });
-};
-
-exports.getAcceptanceTestCountForProject = function(req, res) {
-
-    //Count the number of acceptance tests associated with the project
-    AcceptanceTest.count({projectCode: req.params.projectCode}).exec(function(error, count) {
-
-        //Send the total count
-        res.send({count: count});
-    });
-};
-
-exports.getAcceptanceTestCountForUserStory = function(req, res) {
-
-    //Not implemented
-    res.sendStatus(501);
-};
-
-exports.getAcceptanceTestCountGroupedByFeature = function(req, res) {;
-    AcceptanceTest.aggregate([{$match: {projectCode: req.params.projectCode}}, {$group: {_id: "$featureCode", total: {$sum: 1}}}]).sort('_id').exec(function(err, result) {
-        res.send(result);
-    });
-};
-
 //Updates an existing acceptance test
 exports.updateAcceptanceTest = function(request, response) {
     
