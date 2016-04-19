@@ -1,0 +1,17 @@
+.container
+    .well
+        fieldset
+            legend.colour5
+                h1
+                    span Acceptance Tests
+                h2
+                    span.glyphicon.glyphicon-grain.padr
+                    span
+                        a(ng-href="/p/{{project.code}}") {{project.name}}
+            .padb
+                .col-md-2.padn(ng-class="'column' + ($index % 12 > 5 ? (6 - ($index % 6)) : (($index % 6) + 1))" ng-repeat="feature in stats.acceptanceTest.feature")
+                    a.btn.btn-block(ng-href="/p/{{project.code}}/f/{{feature._id}}/u")
+                        .box {{feature._id}}
+                        .box
+                            span.glyphicon.glyphicon-grain(aria-label="Branch icon")
+                        .box {{feature.total}}
