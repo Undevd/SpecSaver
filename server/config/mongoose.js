@@ -1,15 +1,14 @@
 var mongoose = require('mongoose'),
     acceptanceTestModel = require('../models/AcceptanceTest'),
-    quoteModel = require('../models/Quote'),
-    voteModel = require('../models/Vote'),
     featureModel = require('../models/Feature'),
-    releaseModel = require('../models/Release'),
-    voteModel = require('../models/Vote'),
-    testModel = require('../models/Test'),
     projectModel = require('../models/Project'),
+    quoteModel = require('../models/Quote'),
+    releaseModel = require('../models/Release'),
+    systemTestModel = require('../models/SystemTest'),
     testStepModel = require('../models/TestStep'),
     userModel = require('../models/User'),
-    userStoryModel = require('../models/UserStory');
+    userStoryModel = require('../models/UserStory'),
+    voteModel = require('../models/Vote');
     
 module.exports = function(config) {
     mongoose.connect(config.db);

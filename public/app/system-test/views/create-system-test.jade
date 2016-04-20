@@ -1,25 +1,39 @@
 .container
     .well
-        form.form-horizontal(name="testForm")
+        form.form-horizontal(name="systemTestForm")
             fieldset
-                legend Create Test
+                legend.colour6
+                    h1
+                        span System Test
+                        span.pull-right {{project.code}}
+                    h2
+                        span.glyphicon.glyphicon-leaf.padr
+                        span
+                            a(ng-href="/p/{{project.code}}") {{project.name}}
+                        span.padr :
+                        span {{name}}
                 .form-group
                     .col-md-2.control-label
-                        span.glyphicon.glyphicon-asterisk.text-danger
+                        span.glyphicon.glyphicon-asterisk.text-danger.padr
                         label(for="name") Name
                     .col-md-10
-                        input.form-control(name="name", type="text", ng-model="name", required, placeholder="Test name")
-                        .alert.alert-danger(role="alert", ng-show="testForm.name.$invalid && testForm.name.$dirty") Please enter a test
+                        input.form-control(name="name", type="text", placeholder="Please enter a system test name...", ng-model="name", required)
+                        .alert.alert-danger(role="alert", ng-show="systemTestForm.name.$invalid && systemTestForm.name.$dirty") Please enter a name
                 .form-group
-                    .col-md-2.control-label
-                        label(for="name") Description
+                    label.col-md-2.control-label(for="description") Description
                     .col-md-10
-                        textarea.form-control(name="description", type="text", ng-model="description", placeholder="Description")
-                 .form-group
+                        textarea.form-control(name="description", type="text", placeholder="Please enter a system test description...", ng-model="description", required)
+                        .alert.alert-danger(role="alert", ng-show="systemTestForm.description.$invalid && systemTestForm.description.$dirty") Please enter a description
+                .form-group(ng-show="error != null")
+                    .alert.alert-danger.text-center(role="alert") {{error}}                        
+                .form-group
                     .col-md-10.col-md-offset-2
                         .pull-right
-                            button.btn.btn-success(ng-click="submit()", ng-disabled="testForm.$invalid")
-                                span.glyphicon.glyphicon-ok
-                                span &nbsp; Submit
-                            | &nbsp;
-                            a.btn.btn-default(href="/") Cancel
+                            span.padr
+                                button.btn.btn-success(ng-click="submit()", ng-disabled="systemTestForm.$invalid")
+                                    span.glyphicon.glyphicon-ok.padr
+                                    span Create
+                            span
+                                a.btn.btn-default(ng-href="/p/{{project.code}}/s")
+                                    span.glyphicon.glyphicon-remove.padr
+                                    span Cancel
