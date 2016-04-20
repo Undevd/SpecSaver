@@ -1,4 +1,4 @@
-angular.module('app').controller('mvTestCtrl', function($scope, $location, dbOps) {
+angular.module('app').controller('ctrlCreateSystemTest', function($scope, $location, dbOps) {
 	$scope.submit = function() {
         var newTest = {
             name: $scope.name,

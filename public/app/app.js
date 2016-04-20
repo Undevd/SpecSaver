@@ -31,7 +31,7 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
         .when('/c/p/:projectCode/f/:featureCode/u', {templateUrl: '/partials/user-story/views/create-user-story', controller: "ctrlCreateUserStory", title: 'Create user story: '})
 
         .when('/quote', {templateUrl: '/partials/quote/quote', controller: "mvQuoteCtrl", title: 'Create quote'})
-        .when('/test', {templateUrl: '/partials/test/test', controller: "mvTestCtrl", title: 'Create test'})
+        .when('/test', {templateUrl: '/partials/system-test/views/create-system-test', controller: "ctrlCreateSystemTest", title: 'Create system test'})
         .when('/testStep', {templateUrl: '/partials/testStep/testStep', controller: "mvTestStepCtrl", title: 'Create test step'})
         .when('/vote/cast-vote', {templateUrl: '/partials/vote/cast-vote', controller: "mvVoteCtrl", title: 'Create vote'})
         .when('/vote/display-results', {templateUrl: '/partials/vote/display-results', controller: "mvResultCtrl", title: 'View results'})

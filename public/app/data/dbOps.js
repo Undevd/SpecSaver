@@ -1,4 +1,4 @@
-angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvVote, mvTest, mvTestStep) {
+angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvVote, apiSystemTest, mvTestStep) {
   return {
     createQuote: function(newQuoteData) {
       var newQuote = new mvQuote(newQuoteData);
@@ -14,7 +14,7 @@ angular.module('app').factory('dbOps', function($http, $q, mvQuote, mvVote, mvTe
     },
 
     createTest: function(newTestData) {
-      var newTest = new mvTest(newTestData);
+      var newTest = new apiSystemTest(newTestData);
       var dfd = $q.defer();
 
       newTest.$save().then(function() {
