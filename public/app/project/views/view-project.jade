@@ -1,62 +1,53 @@
 .container(ng-show="project")
-    .well
-        fieldset
-            legend.colour1
-                h1
-                    span Project
-                    span.pull-right {{project.code}}
-                h2
-                    span.glyphicon.glyphicon-th-list.padr
-                    span(ng-show="!edit.name")
-                        a.edit(ng-click="showEdit('name', true)" ng-mouseleave="hover.name = false" ng-mouseover="hover.name = true") {{project.name}}
-                    span.glyphicon.glyphicon-pencil.small(ng-show="hover.name")
-                    span(ng-show="edit.name")
-                        form(name="nameForm")
-                            input.form-control(name="project.name" ng-model="project.name" type="text" placeholder="Name" required)
-                            button.btn.btn-success(ng-click="submitEdit('name')", ng-disabled="nameForm.$invalid")
-                                span.glyphicon.glyphicon-ok
-                            a.btn.btn-default(ng-click="cancelEdit('name')")
-                                span.glyphicon.glyphicon-remove
-            .padb(ng-show="!edit.description")
-                a.edit(ng-click="showEdit('description', true)" ng-mouseleave="hover.description = false" ng-mouseover="hover.description = true")
-                    span(ng-show="project.description") {{project.description}}
-                    span.glyphicon.glyphicon-pencil.small(ng-show="hover.description")
-                    em(ng-cloak ng-show="!project.description") Click to add a description
-            .padb(ng-show="edit.description")
-                form(name="descriptionForm")
-                    textarea.form-control(name="project.description" ng-model="project.description" type="text" placeholder="Description")
-                    button.btn.btn-success(ng-click="submitEdit('description')", ng-disabled="descriptionForm.$invalid")
+    legend.colour1
+        span.pull-right {{project.code}}
+        h1 Project
+        h2
+            span(ng-show="!edit.name")
+                a.edit(ng-click="showEdit('name', true)" ng-mouseleave="hover.name = false" ng-mouseover="hover.name = true") {{project.name}}
+            span.glyphicon.glyphicon-pencil.small(ng-show="hover.name")
+            span(ng-show="edit.name")
+                form(name="nameForm")
+                    input.form-control(name="project.name" ng-model="project.name" type="text" placeholder="Name" required)
+                    button.btn.btn-success(ng-click="submitEdit('name')", ng-disabled="nameForm.$invalid")
                         span.glyphicon.glyphicon-ok
-                    a.btn.btn-default(ng-click="cancelEdit('description')")
+                    a.btn.btn-default(ng-click="cancelEdit('name')")
                         span.glyphicon.glyphicon-remove
-            .padb
-                .col-md-2.colour2.padn
-                    a.btn.btn-block.colour2(ng-href="/p/{{project.code}}/r")
-                        .box Releases
-                        .box
-                            span.glyphicon.glyphicon-gift(aria-label="Gift icon")
-                        .box {{stats.release.total}}
-                .col-md-2.colour3.padn
-                    a.btn.btn-block.colour3(ng-href="/p/{{project.code}}/f")
-                        .box Features
-                        .box
-                            span.glyphicon.glyphicon-apple(aria-label="Apple icon")
-                        .box {{stats.feature.total}}
-                .col-md-2.colour4.padn
-                    a.btn.btn-block.colour4(ng-href="/p/{{project.code}}/u")
-                        .box User Stories
-                        .box
-                            span.glyphicon.glyphicon-tree-deciduous(aria-label="Tree icon")
-                        .box {{stats.userStory.total}}
-                .col-md-2.colour5.padn
-                    a.btn.btn-block.colour5(ng-href="/p/{{project.code}}/a")
-                        .box Acceptance Tests
-                        .box
-                            span.glyphicon.glyphicon-grain(aria-label="Branch icon")
-                        .box {{stats.acceptanceTest.total}}
-                .col-md-2.colour6.padn
-                    a.btn.btn-block.colour6(href="/p/{{project.code}}/s")
-                        .box System Tests
-                        .box
-                            span.glyphicon.glyphicon-leaf(aria-label="Leaf icon")
-                        .box {{stats.systemTest.total}}
+    nav.table
+        .col-md-2.colour1.padn
+            a.box.btn.btn-block.colour1(ng-href="/p")
+                span.glyphicon.glyphicon-th-list.padr(aria-label="List icon")
+                span.small Projects
+        .col-md-2.column1.padn
+            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/r")
+                span.glyphicon.glyphicon-gift.padr(aria-label="Gift icon")
+                span.small Releases
+        .col-md-2.column1.padn
+            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/f")
+                span.glyphicon.glyphicon-apple.padr(aria-label="Apple icon")
+                span.small Features
+        .col-md-2.column1.padn
+            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/u")
+                span.glyphicon.glyphicon-tree-deciduous.padr(aria-label="Tree icon")
+                span.small User Stories
+        .col-md-2.column1.padn
+            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/a")
+                span.glyphicon.glyphicon-grain.padr(aria-label="Branch icon")
+                span.small Acceptance Tests
+        .col-md-2.column1.padn
+            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/s")
+                span.glyphicon.glyphicon-leaf.padr(aria-label="Leaf icon")
+                span.small System Tests
+    .well
+        div(ng-show="!edit.description")
+            a.edit(ng-click="showEdit('description', true)" ng-mouseleave="hover.description = false" ng-mouseover="hover.description = true")
+                span(ng-show="project.description") {{project.description}}
+                span.glyphicon.glyphicon-pencil.small(ng-show="hover.description")
+                em(ng-cloak ng-show="!project.description") Click to add a description
+        div(ng-show="edit.description")
+            form(name="descriptionForm")
+                textarea.form-control(name="project.description" ng-model="project.description" type="text" placeholder="Description")
+                button.btn.btn-success(ng-click="submitEdit('description')", ng-disabled="descriptionForm.$invalid")
+                    span.glyphicon.glyphicon-ok
+                a.btn.btn-default(ng-click="cancelEdit('description')")
+                    span.glyphicon.glyphicon-remove

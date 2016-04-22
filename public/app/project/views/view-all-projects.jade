@@ -1,51 +1,53 @@
 .container(ng-show="projects")
-    .well
-        fieldset
-            legend.colour1
-                h1 Projects
-                    a.btn.btn-default.pull-right(href="/c/p")
-                        span.glyphicon.glyphicon-plus.padr
-                        span Create
-                h2
-                    span.glyphicon.glyphicon-th-list.padr
-                    span
-                        em Select a project
-
-            table.table.table-hover.table-striped.table-condensed
-                tbody(ng-repeat="project in projects")
-                    tr(ng-show="project.isMember()")
-                        td
-                            a(href="/p/{{project.code}}") {{project.name}}
-                        td {{project.description | limitTo: 100}}{{project.description.length &gt; 100 ? '...' : ''}}
-                        td
-                            .dropdown.pull-right
-                                a.btn.btn-default(ng-href="/p/{{project.code}}")
-                                    span.glyphicon.glyphicon-th-list
-                                button.btn.btn-default.dropdown-toggle(aria-haspopup="true", aria-expanded="true", data-toggle="dropdown", type="button")
-                                    span.caret
-                                ul.dropdown-menu
-                                    li
-                                        a(ng-href="/p/{{project.code}}")
-                                            span.glyphicon.glyphicon-th-list.padr
-                                            span Manage
-                                    li.divider(role="separator")
-                                    li
-                                        a(ng-href="/p/{{project.code}}/r")
-                                            span.glyphicon.glyphicon-gift.padr
-                                            span Releases
-                                    li
-                                        a(ng-href="/p/{{project.code}}/f")
-                                            span.glyphicon.glyphicon-apple.padr
-                                            span Features
-                                    li
-                                        a(ng-href="/p/{{project.code}}/u")
-                                            span.glyphicon.glyphicon-tree-deciduous.padr
-                                            span User Stories
-                                    li
-                                        a(ng-href="/p/{{project.code}}/a")
-                                            span.glyphicon.glyphicon-grain.padr
-                                            span Acceptance Tests
-                                    li
-                                        a(href="#")
-                                            span.glyphicon.glyphicon-leaf.padr
-                                            span System Tests
+    legend.colour1
+        a.btn.btn-default.pull-right(href="/c/p")
+            span.glyphicon.glyphicon-plus.padr
+            span Create
+        h1 Projects
+        h2 All
+    nav.table
+        .col-md-2.colour1.padn
+            a.box.btn.btn-block.colour1(ng-href="/p")
+                span.glyphicon.glyphicon-th-list.padr(aria-label="List icon")
+                span.small Projects
+        .col-md-10.column1.padn
+            a.box.btn.btn-block.column1(ng-href="/")
+                span.glyphicon.glyphicon-home.padr(aria-label="Home icon")
+    table.table.table-hover.table-striped.table-condensed
+        tbody(ng-repeat="project in projects")
+            tr(ng-show="project.isMember()")
+                td
+                    a(href="/p/{{project.code}}") {{project.name}}
+                td {{project.description | limitTo: 100}}{{project.description.length &gt; 100 ? '...' : ''}}
+                td
+                    .dropdown.pull-right
+                        a.btn.btn-default(ng-href="/p/{{project.code}}")
+                            span.glyphicon.glyphicon-th-list
+                        button.btn.btn-default.dropdown-toggle(aria-haspopup="true", aria-expanded="true", data-toggle="dropdown", type="button")
+                            span.caret
+                        ul.dropdown-menu
+                            li
+                                a(ng-href="/p/{{project.code}}")
+                                    span.glyphicon.glyphicon-th-list.padr
+                                    span Manage
+                            li.divider(role="separator")
+                            li
+                                a(ng-href="/p/{{project.code}}/r")
+                                    span.glyphicon.glyphicon-gift.padr
+                                    span Releases
+                            li
+                                a(ng-href="/p/{{project.code}}/f")
+                                    span.glyphicon.glyphicon-apple.padr
+                                    span Features
+                            li
+                                a(ng-href="/p/{{project.code}}/u")
+                                    span.glyphicon.glyphicon-tree-deciduous.padr
+                                    span User Stories
+                            li
+                                a(ng-href="/p/{{project.code}}/a")
+                                    span.glyphicon.glyphicon-grain.padr
+                                    span Acceptance Tests
+                            li
+                                a(href="/p/{{project.code}}/s")
+                                    span.glyphicon.glyphicon-leaf.padr
+                                    span System Tests

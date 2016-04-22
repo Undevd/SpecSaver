@@ -12,6 +12,9 @@ body {
   font-size: 120%;
   padding: 0.5em 0 0.5em 0;
 }
+.centre {
+  text-align: center;
+}
 .colour1 {
   background-color: #ac7ea9;
   color: #fff;
@@ -97,8 +100,12 @@ footer img {
   width: 10pc;
   height: 10pc;
 }
-.pad,
 legend {
+  border-bottom: 0;
+  margin-bottom: 0;
+  padding: 1em;
+}
+.pad {
   padding: 1em;
 }
 .padb {
@@ -137,9 +144,15 @@ legend {
 .navbar-form button {
   margin-left: 10px;
 }
+.right {
+  text-align: right;
+}
 small,
 .small {
   color: inherit !important;
+}
+.table {
+  display: table;
 }
 .toast-top-right {
   top: 70px;
