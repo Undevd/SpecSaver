@@ -12,9 +12,8 @@
             .col-md-10.column1.padn
                 a.box.btn.btn-block.column1(ng-href="/")
                     span.glyphicon.glyphicon-home.padr(aria-label="Home icon")
+        .alert.alert-danger.text-center(ng-show="error" role="alert") {{error}}
         .well
-            .form-group(ng-show="error")
-                .alert.alert-danger.text-center(role="alert") {{error}}
             .form-group
                 .col-md-2.control-label
                     span.glyphicon.glyphicon-asterisk.text-danger.padr
@@ -62,16 +61,14 @@
                                     .pull-right
                                         button.btn.btn-danger(ng-click="removeMember(user.username)")
                                             span.glyphicon.glyphicon-minus
-        .form-group(ng-show="error")
-            .alert.alert-danger.text-center(role="alert") {{error}}
-        .form-group
-            .col-md-10.col-md-offset-2
-                .pull-right
-                    span.padr
-                        button.btn.btn-success(ng-click="submit()", ng-disabled="projectForm.$invalid")
-                            span.glyphicon.glyphicon-ok.padr
-                            span Create
-                    span
-                        a.btn.btn-default(href="/p")
-                            span.glyphicon.glyphicon-remove.padr
-                            span Cancel
+        .alert.alert-danger.text-center(ng-show="error" role="alert") {{error}}
+        .col-md-10.col-md-offset-2
+            .pull-right
+                span.padr
+                    button.btn.btn-success(ng-click="submit()", ng-disabled="projectForm.$invalid")
+                        span.glyphicon.glyphicon-ok.padr
+                        span Create
+                span
+                    a.btn.btn-default(href="/p")
+                        span.glyphicon.glyphicon-remove.padr
+                        span Cancel
