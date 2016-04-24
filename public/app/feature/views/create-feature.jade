@@ -1,55 +1,76 @@
 .container
-    .well
-        form.form-horizontal(name="featureForm")
-            fieldset
-                legend.colour3
-                    h1
-                        span Feature
-                        span.pull-right {{project.code}}-{{code}}
-                    h2
-                        span.glyphicon.glyphicon-apple.padr
-                        span
-                            a(ng-href="/p/{{project.code}}") {{project.name}}
-                        span(ng-show="release != null")
-                            span.padr :
-                            span
-                                a(ng-href="/p/{{project.code}}/r/{{release.code}}") {{release.name}}
-                        span.padr :
-                        span {{name}}
-                .form-group
-                    .col-md-2.control-label
-                        span.glyphicon.glyphicon-asterisk.text-danger.padr
-                        label(for="name") Name
-                    .col-md-10
-                        input.form-control(name="name", type="text", placeholder="Please enter a feature name...", ng-model="name", required)
-                        .alert.alert-danger(role="alert", ng-show="featureForm.name.$invalid && featureForm.name.$dirty") Please enter a name
-                .form-group
-                    .col-md-2.control-label
-                        span.glyphicon.glyphicon-asterisk.text-danger.padr
-                        label(for="code") Code
-                    .col-md-10
-                        input.form-control(name="code", type="text", placeholder="Feature code (used in URLs)", ng-model="code", ng-pattern="/^[a-zA-Z0-9.]+$/" required)
-                        .alert.alert-danger(role="alert", ng-show="featureForm.code.$invalid && featureForm.code.$dirty") The project code may only contain the following characters:
-                            ul
-                                li Lowercase: a-z
-                                li Uppercase: A-Z
-                                li Digit: 0-9
-                                li Full stop: .
-                .form-group
-                    label.col-md-2.control-label(for="description") Description
-                    .col-md-10
-                        textarea.form-control(name="description", type="text", placeholder="Please enter a feature description...", ng-model="description", required)
-                        .alert.alert-danger(role="alert", ng-show="featureForm.description.$invalid && featureForm.description.$dirty") Please enter a name
-                .form-group(ng-show="error != null")
-                    .alert.alert-danger.text-center(role="alert") {{error}}                        
-                .form-group
-                    .col-md-10.col-md-offset-2
-                        .pull-right
-                            span.padr
-                                button.btn.btn-success(ng-click="submit()", ng-disabled="featureForm.$invalid")
-                                    span.glyphicon.glyphicon-ok.padr
-                                    span Create
-                            span
-                                a.btn.btn-default(ng-href="/p/{{project.code}}/f")
-                                    span.glyphicon.glyphicon-remove.padr
-                                    span Cancel
+    form.form-horizontal(name="featureForm")
+        legend.colour3
+            span.pull-right {{project.code}}-{{code}}
+            h1 Feature
+            h2
+                span
+                    a(ng-href="/p/{{project.code}}") {{project.name}}
+                span(ng-show="release")
+                    span.padr :
+                    span
+                        a(ng-href="/p/{{project.code}}/r/{{release.code}}") {{release.name}}
+                span.padr :
+                span {{name}}
+        nav.table
+            .col-md-2.column1.padn
+                a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}")
+                    span.glyphicon.glyphicon-th-list.padr(aria-label="List icon")
+                    span.small Project
+            .col-md-2.column1.padn
+                a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/r")
+                    span.glyphicon.glyphicon-gift.padr(aria-label="Gift icon")
+                    span.small Releases
+            .col-md-2.colour3.padn
+                a.box.btn.btn-block.colour3(ng-href="/p/{{project.code}}/f")
+                    span.glyphicon.glyphicon-apple.padr(aria-label="Apple icon")
+                    span.small Features
+            .col-md-2.column1.padn
+                a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/u")
+                    span.glyphicon.glyphicon-tree-deciduous.padr(aria-label="Tree icon")
+                    span.small User Stories
+            .col-md-2.column1.padn
+                a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/a")
+                    span.glyphicon.glyphicon-grain.padr(aria-label="Branch icon")
+                    span.small Acceptance Tests
+            .col-md-2.column1.padn
+                a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/s")
+                    span.glyphicon.glyphicon-leaf.padr(aria-label="Leaf icon")
+                    span.small System Tests
+        .alert.alert-danger.text-center(ng-show="error" role="alert") {{error}}
+        .well
+            .form-group
+                .col-md-2.control-label
+                    span.glyphicon.glyphicon-asterisk.text-danger.padr
+                    label(for="name") Name
+                .col-md-10
+                    input.form-control(name="name", type="text", placeholder="Please enter a feature name...", ng-model="name", required)
+                    .alert.alert-danger(role="alert", ng-show="featureForm.name.$invalid && featureForm.name.$dirty") Please enter a name
+            .form-group
+                .col-md-2.control-label
+                    span.glyphicon.glyphicon-asterisk.text-danger.padr
+                    label(for="code") Code
+                .col-md-10
+                    input.form-control(name="code", type="text", placeholder="Feature code (used in URLs)", ng-model="code", ng-pattern="/^[a-zA-Z0-9.]+$/" required)
+                    .alert.alert-danger(role="alert", ng-show="featureForm.code.$invalid && featureForm.code.$dirty") The project code may only contain the following characters:
+                        ul
+                            li Lowercase: a-z
+                            li Uppercase: A-Z
+                            li Digit: 0-9
+                            li Full stop: .
+            .form-group
+                label.col-md-2.control-label(for="description") Description
+                .col-md-10
+                    textarea.form-control(name="description", type="text", placeholder="Please enter a feature description...", ng-model="description", required)
+                    .alert.alert-danger(role="alert", ng-show="featureForm.description.$invalid && featureForm.description.$dirty") Please enter a name
+        .alert.alert-danger.text-center(ng-show="error" role="alert") {{error}}
+        .col-md-10.col-md-offset-2
+            .pull-right
+                span.padr
+                    button.btn.btn-success(ng-click="submit()", ng-disabled="featureForm.$invalid")
+                        span.glyphicon.glyphicon-ok.padr
+                        span Create
+                span
+                    a.btn.btn-default(ng-href="/p/{{project.code}}/f")
+                        span.glyphicon.glyphicon-remove.padr
+                        span Cancel
