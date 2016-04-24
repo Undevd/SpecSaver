@@ -1,59 +1,74 @@
-.container
+.container(ng-show="project")
+    legend.colour5
+        span.pull-right {{project.code}}-{{feature.code}}-{{acceptanceTest.code}}
+        h1 Acceptance Test
+        h2
+            span
+                a(ng-href="/p/{{project.code}}") {{project.name}}
+            span.padr :
+            span
+                a(ng-href="/p/{{project.code}}/f/{{feature.code}}") {{feature.name}}
+            span.padr :
+            span User Story {{acceptanceTest.code}}
+    nav.table
+        .col-md-2.column1.padn
+            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}")
+                span.glyphicon.glyphicon-th-list.padr(aria-label="List icon")
+                span.small Project
+        .col-md-2.column1.padn
+            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/r")
+                span.glyphicon.glyphicon-gift.padr(aria-label="Gift icon")
+                span.small Releases
+        .col-md-2.column1.padn
+            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/f/{{feature.code}}")
+                span.glyphicon.glyphicon-apple.padr(aria-label="Apple icon")
+                span.small Feature
+        .col-md-2.column1.padn
+            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/f/{{feature.code}}/u")
+                span.glyphicon.glyphicon-tree-deciduous.padr(aria-label="Tree icon")
+                span.small User Stories
+        .col-md-2.colour5.padn
+            a.box.btn.btn-block.colour5(ng-href="/p/{{project.code}}/f/{{feature.code}}/a")
+                span.glyphicon.glyphicon-grain.padr(aria-label="Branch icon")
+                span.small Acceptance Tests
+        .col-md-2.column1.padn
+            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/f/{{feature.code}}/s")
+                span.glyphicon.glyphicon-leaf.padr(aria-label="Leaf icon")
+                span.small System Tests
     .well
-        fieldset
-            legend.colour5
-                h1
-                    span Acceptance Test
-                    span.pull-right {{project.code}}-{{feature.code}}-{{acceptanceTest.code}}
-                h2
-                    span.glyphicon.glyphicon-grain.padr
-                    span
-                        a(ng-href="/p/{{project.code}}") {{project.name}}
-                    span.padr :
-                    span
-                        a(ng-href="/p/{{project.code}}/f/{{feature.code}}") {{feature.name}}
-                    span.padr :
-                    span User Story {{acceptanceTest.code}}
-            div(ng-show="!edit.given")
-                a.edit(ng-click="showEdit('given', true)" ng-mouseleave="hover.given = false" ng-mouseover="hover.given = true")
-                    span(ng-show="acceptanceTest.given") Given {{acceptanceTest.given}}
-                    span.glyphicon.glyphicon-pencil.small(ng-show="hover.given")
-            div(ng-show="edit.given")
-                form(name="givenForm")
-                    span Given
-                    textarea.form-control(name="acceptanceTest.given" ng-model="acceptanceTest.given" type="text" placeholder="Given")
-                    button.btn.btn-success(ng-click="submitEdit('given')", ng-disabled="givenForm.$invalid")
-                        span.glyphicon.glyphicon-ok
-                    a.btn.btn-default(ng-click="cancelEdit('given')")
-                        span.glyphicon.glyphicon-remove
-            div(ng-show="!edit.when")
-                a.edit(ng-click="showEdit('when', true)" ng-mouseleave="hover.when = false" ng-mouseover="hover.when = true")
-                    span(ng-show="acceptanceTest.when") When {{acceptanceTest.when}}
-                    span.glyphicon.glyphicon-pencil.small(ng-show="hover.when")
-            div(ng-show="edit.when")
-                form(name="whenForm")
-                    span When
-                    textarea.form-control(name="acceptanceTest.when" ng-model="acceptanceTest.when" type="text" placeholder="When")
-                    button.btn.btn-success(ng-click="submitEdit('when')", ng-disabled="whenForm.$invalid")
-                        span.glyphicon.glyphicon-ok
-                    a.btn.btn-default(ng-click="cancelEdit('when')")
-                        span.glyphicon.glyphicon-remove
-            .padb(ng-show="!edit.then")
-                a.edit(ng-click="showEdit('then', true)" ng-mouseleave="hover.then = false" ng-mouseover="hover.then = true")
-                    span(ng-show="acceptanceTest.then") Then {{acceptanceTest.then}}
-                    span.glyphicon.glyphicon-pencil.small(ng-show="hover.then")
-            .padb(ng-show="edit.then")
-                form(name="thenForm")
-                    span Then
-                    textarea.form-control(name="acceptanceTest.then" ng-model="acceptanceTest.then" type="text" placeholder="Then")
-                    button.btn.btn-success(ng-click="submitEdit('then')", ng-disabled="thenForm.$invalid")
-                        span.glyphicon.glyphicon-ok
-                    a.btn.btn-default(ng-click="cancelEdit('then')")
-                        span.glyphicon.glyphicon-remove                            
-            .padb
-                .col-md-2.colour6.padn
-                    a.btn.btn-block.colour6(href="#")
-                        .box System Tests
-                        .box
-                            span.glyphicon.glyphicon-leaf(aria-label="Leaf icon")
-                        .box 0
+        div(ng-show="!edit.given")
+            a.edit(ng-click="showEdit('given', true)" ng-mouseleave="hover.given = false" ng-mouseover="hover.given = true")
+                span(ng-show="acceptanceTest.given") Given {{acceptanceTest.given}}
+                span.glyphicon.glyphicon-pencil.small(ng-show="hover.given")
+        div(ng-show="edit.given")
+            form(name="givenForm")
+                span Given
+                textarea.form-control(name="acceptanceTest.given" ng-model="acceptanceTest.given" type="text" placeholder="Given")
+                button.btn.btn-success(ng-click="submitEdit('given')", ng-disabled="givenForm.$invalid")
+                    span.glyphicon.glyphicon-ok
+                a.btn.btn-default(ng-click="cancelEdit('given')")
+                    span.glyphicon.glyphicon-remove
+        div(ng-show="!edit.when")
+            a.edit(ng-click="showEdit('when', true)" ng-mouseleave="hover.when = false" ng-mouseover="hover.when = true")
+                span(ng-show="acceptanceTest.when") When {{acceptanceTest.when}}
+                span.glyphicon.glyphicon-pencil.small(ng-show="hover.when")
+        div(ng-show="edit.when")
+            form(name="whenForm")
+                span When
+                textarea.form-control(name="acceptanceTest.when" ng-model="acceptanceTest.when" type="text" placeholder="When")
+                button.btn.btn-success(ng-click="submitEdit('when')", ng-disabled="whenForm.$invalid")
+                    span.glyphicon.glyphicon-ok
+                a.btn.btn-default(ng-click="cancelEdit('when')")
+                    span.glyphicon.glyphicon-remove
+        div(ng-show="!edit.then")
+            a.edit(ng-click="showEdit('then', true)" ng-mouseleave="hover.then = false" ng-mouseover="hover.then = true")
+                span(ng-show="acceptanceTest.then") Then {{acceptanceTest.then}}
+                span.glyphicon.glyphicon-pencil.small(ng-show="hover.then")
+        div(ng-show="edit.then")
+            form(name="thenForm")
+                span Then
+                textarea.form-control(name="acceptanceTest.then" ng-model="acceptanceTest.then" type="text" placeholder="Then")
+                button.btn.btn-success(ng-click="submitEdit('then')", ng-disabled="thenForm.$invalid")
+                    span.glyphicon.glyphicon-ok
+                a.btn.btn-default(ng-click="cancelEdit('then')")
+                    span.glyphicon.glyphicon-remove
