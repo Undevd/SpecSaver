@@ -1,17 +1,38 @@
-.container
-    .well
-        fieldset
-            legend.colour4
-                h1
-                    span User Stories
-                h2
-                    span.glyphicon.glyphicon-tree-deciduous.padr
-                    span
-                        a(ng-href="/p/{{project.code}}") {{project.name}}
-            .padb
-                .col-md-2.padn(ng-class="'column' + ($index % 12 > 5 ? (6 - ($index % 6)) : (($index % 6) + 1))" ng-repeat="feature in stats.userStory.feature")
-                    a.btn.btn-block(ng-href="/p/{{project.code}}/f/{{feature._id}}/u")
-                        .box {{feature._id}}
-                        .box
-                            span.glyphicon.glyphicon-tree-deciduous(aria-label="Tree icon")
-                        .box {{feature.total}}
+.container(ng-show="project")
+    legend.colour4
+        h1 User Stories
+        h2
+            a(ng-href="/p/{{project.code}}") {{project.name}}
+    nav.table
+        .col-md-2.column1.padn
+            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}")
+                span.glyphicon.glyphicon-th-list.padr(aria-label="List icon")
+                span.small Project
+        .col-md-2.column1.padn
+            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/r")
+                span.glyphicon.glyphicon-gift.padr(aria-label="Gift icon")
+                span.small Releases
+        .col-md-2.column1.padn
+            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/f")
+                span.glyphicon.glyphicon-apple.padr(aria-label="Apple icon")
+                span.small Features
+        .col-md-2.colour4.padn
+            a.box.btn.btn-block.colour4(ng-href="/p/{{project.code}}/u")
+                span.glyphicon.glyphicon-tree-deciduous.padr(aria-label="Tree icon")
+                span.small User Stories
+        .col-md-2.column1.padn
+            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/a")
+                span.glyphicon.glyphicon-grain.padr(aria-label="Branch icon")
+                span.small Acceptance Tests
+        .col-md-2.column1.padn
+            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/s")
+                span.glyphicon.glyphicon-leaf.padr(aria-label="Leaf icon")
+                span.small System Tests
+    .alert.alert-info.text-center(ng-show="!stats.userStory.feature") No user stories found - select a feature to create one
+    div
+        .col-md-2.padn(ng-class="'column' + ($index % 12 > 5 ? (6 - ($index % 6)) : (($index % 6) + 1))" ng-repeat="feature in stats.userStory.feature")
+            a.btn.btn-block(ng-href="/p/{{project.code}}/f/{{feature._id}}/u")
+                .box {{feature._id}}
+                .box
+                    span.glyphicon.glyphicon-tree-deciduous(aria-label="Tree icon")
+                .box {{feature.total}}

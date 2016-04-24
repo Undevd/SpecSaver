@@ -1,45 +1,67 @@
-.container
-    .well
-        fieldset
-            legend.colour4
-                h1
-                    span User Stories
-                    a.btn.btn-default.pull-right(ng-href="/c/p/{{project.code}}/f/{{feature.code}}/u")
-                        span.glyphicon.glyphicon-plus.padr
-                        span Create
-                h2
-                    span.glyphicon.glyphicon-tree-deciduous.padr
-                    span
-                        a(ng-href="/p/{{project.code}}") {{project.name}}
-                    span.padr :
-                    span
-                        a(ng-href="/p/{{project.code}}/f/{{feature.code}}") {{feature.name}}
-            table.table.table-hover.table-striped.table-condensed
-                tbody(ng-repeat="userStory in userStories")
-                    tr
-                        td
-                            a(ng-href="/p/{{project.code}}/f/{{feature.code}}/u/{{userStory.code}}") {{userStory.code}}
-                        td
-                            div As a{{userStory.asA ? (['a', 'e', 'i', 'o', 'u'].indexOf(userStory.asA.toLowerCase()[0]) !== -1 ? 'n' : '') : ''}} {{userStory.asA}}
-                            div I can {{userStory.iCan}}
-                            div So that {{userStory.soThat}}
-                        td
-                            .dropdown.pull-right
-                                a.btn.btn-default(ng-href="/p/{{project.code}}/f/{{feature.code}}/u/{{userStory.code}}")
-                                    span.glyphicon.glyphicon-tree-deciduous
-                                button.btn.btn-default.dropdown-toggle(aria-haspopup="true", aria-expanded="true", data-toggle="dropdown", type="button")
-                                    span.caret
-                                ul.dropdown-menu
-                                    li
-                                        a(ng-href="/p/{{project.code}}/f/{{feature.code}}/u/{{userStory.code}}")
-                                            span.glyphicon.glyphicon-tree-deciduous.padr
-                                            span Manage
-                                    li.divider(role="separator")
-                                    li
-                                        a(ng-href="/p/{{project.code}}/f/{{feature.code}}/u/{{userStory.code}}/a")
-                                            span.glyphicon.glyphicon-grain.padr
-                                            span Acceptance Tests
-                                    li
-                                        a(href="#")
-                                            span.glyphicon.glyphicon-leaf.padr
-                                            span System Tests
+.container(ng-show="project")
+    legend.colour4
+        a.btn.btn-default.pull-right(ng-href="/c/p/{{project.code}}/f/{{feature.code}}/u")
+            span.glyphicon.glyphicon-plus.padr
+            span Create
+        h1 User Stories
+        h2
+            span
+                a(ng-href="/p/{{project.code}}") {{project.name}}
+            span.padr :
+            span
+                a(ng-href="/p/{{project.code}}/f/{{feature.code}}") {{feature.name}}
+    nav.table
+        .col-md-2.column1.padn
+            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}")
+                span.glyphicon.glyphicon-th-list.padr(aria-label="List icon")
+                span.small Project
+        .col-md-2.column1.padn
+            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/r")
+                span.glyphicon.glyphicon-gift.padr(aria-label="Gift icon")
+                span.small Releases
+        .col-md-2.column1.padn
+            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/f/{{feature.code}}")
+                span.glyphicon.glyphicon-apple.padr(aria-label="Apple icon")
+                span.small Feature
+        .col-md-2.colour4.padn
+            a.box.btn.btn-block.colour4(ng-href="/p/{{project.code}}/f/{{feature.code}}/u")
+                span.glyphicon.glyphicon-tree-deciduous.padr(aria-label="Tree icon")
+                span.small User Stories
+        .col-md-2.column1.padn
+            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/f/{{feature.code}}/a")
+                span.glyphicon.glyphicon-grain.padr(aria-label="Branch icon")
+                span.small Acceptance Tests
+        .col-md-2.column1.padn
+            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/f/{{feature.code}}/s")
+                span.glyphicon.glyphicon-leaf.padr(aria-label="Leaf icon")
+                span.small System Tests
+    .alert.alert-info.text-center(ng-show="!userStories.length") No user stories found
+    table.table.table-hover.table-striped.table-condensed
+        tbody(ng-repeat="userStory in userStories")
+            tr
+                td
+                    a(ng-href="/p/{{project.code}}/f/{{feature.code}}/u/{{userStory.code}}") {{userStory.code}}
+                td
+                    div As a{{userStory.asA ? (['a', 'e', 'i', 'o', 'u'].indexOf(userStory.asA.toLowerCase()[0]) !== -1 ? 'n' : '') : ''}} {{userStory.asA}}
+                    div I can {{userStory.iCan}}
+                    div So that {{userStory.soThat}}
+                td
+                    .dropdown.pull-right
+                        a.btn.btn-default(ng-href="/p/{{project.code}}/f/{{feature.code}}/u/{{userStory.code}}")
+                            span.glyphicon.glyphicon-tree-deciduous
+                        button.btn.btn-default.dropdown-toggle(aria-haspopup="true", aria-expanded="true", data-toggle="dropdown", type="button")
+                            span.caret
+                        ul.dropdown-menu
+                            li
+                                a(ng-href="/p/{{project.code}}/f/{{feature.code}}/u/{{userStory.code}}")
+                                    span.glyphicon.glyphicon-tree-deciduous.padr
+                                    span Manage
+                            li.divider(role="separator")
+                            li
+                                a(ng-href="/p/{{project.code}}/f/{{feature.code}}/u/{{userStory.code}}/a")
+                                    span.glyphicon.glyphicon-grain.padr
+                                    span Acceptance Tests
+                            li
+                                a(ng-href="/p/{{project.code}}/f/{{feature.code}}/u/{{userStory.code}}/s")
+                                    span.glyphicon.glyphicon-leaf.padr
+                                    span System Tests
