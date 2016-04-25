@@ -5,7 +5,7 @@ var auth = require('./auth'),
     quotes = require('../controllers/quotes'),
     releases = require('../controllers/releases'),
     systemTests = require('../controllers/system-tests'),
-    testSteps = require('../controllers/testSteps'),
+    testSteps = require('../controllers/test-steps'),
     users = require('../controllers/users'),
     userStories = require('../controllers/user-stories'),
     votes = require('../controllers/votes');
@@ -55,8 +55,10 @@ module.exports = function(app) {
     app.put('/api/system-tests/*', systemTests.updateSystemTest);
     
     // Test Step routes
-    app.get('/api/testSteps', testSteps.getTestSteps);
-    app.post('/api/testSteps', testSteps.createTestStep);
+    //app.get('/api/test-steps/all/:projectCode', testSteps.getAllTestStepsByProject);
+    //app.get('/api/test-steps/one/:projectCode/:releaseCode', testSteps.getTestStep);
+    app.post('/api/test-steps/*', testSteps.createTestStep);
+    //app.put('/api/test-steps/*', testSteps.updateTestStep);
     
     // User routes
     app.get('/api/users', users.getUsers);
