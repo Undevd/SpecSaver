@@ -27,7 +27,7 @@ angular.module('app').controller('ctrlCreateSystemTest', function($scope, $rootS
             dbSystemTest.createSystemTest(newSystemTest).then(function(systemTest) {
 
                 //Redirect to view the new systemTest
-                $location.path('/p/' + systemTest.projectCode + '/f/' + systemTest.code);
+                $location.path('/p/' + systemTest.projectCode + '/s/' + systemTest.code);
 
             }, function(error) {
 

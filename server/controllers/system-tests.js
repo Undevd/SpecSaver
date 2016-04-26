@@ -10,7 +10,7 @@ exports.createSystemTest = function(request, response) {
     //Sanitise the data
     var newSystemTestData = {
         name: systemTestData.name,
-        code: systemTestData.code,
+        code: null,
         description: systemTestData.description,
         projectCode: systemTestData.projectCode
     };

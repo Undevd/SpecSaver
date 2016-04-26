@@ -15,10 +15,19 @@ systemTestSchema.statics.createSystemTest = function createSystemTest(newSystemT
     //Return a promise
     return new Promise(function(resolve, reject) {
 
-        //If the project exists
-        mongoose.model('Project').exists(newSystemTestData.projectCode).then(function() {
+        //Check if the project exists
+        var projectExists = mongoose.model('Project').exists(newSystemTestData.projectCode);
 
-            //Create the system test
+        //Find the newest system test
+        var systemTestCode = mongoose.model('SystemTest').getNextCode(newSystemTestData.projectCode);
+
+        //If all the promises are successful
+        Promise.all([projectExists, systemTestCode]).then(function(data) {
+            
+            //Set the system test code
+            newSystemTestData.code = data[1];
+
+            //Create the acceptance test
             mongoose.model('SystemTest').create(newSystemTestData, function(error, systemTest) {
 
                 //If an error occurred
@@ -41,7 +50,7 @@ systemTestSchema.statics.createSystemTest = function createSystemTest(newSystemT
                 }
             });
         }, function(error) {
-
+            
             //Return the error
             reject(error);
         });
@@ -127,6 +136,30 @@ systemTestSchema.statics.getSystemTest = function getSystemTest(projectCode, sys
 
                 //Otherwise, return the systemTest
                 resolve(systemTest);
+            }
+        });
+    });
+};
+
+//Gets the next unassigned code for a new system test
+systemTestSchema.statics.getNextCode = function getNextCode(projectCode) {
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+
+        //Find the latest system test
+        mongoose.model('SystemTest').findOne({projectCode: projectCode}).sort('-code').exec(function(error, latestSystemTest) {
+            
+            //If an error occurred
+            if(error) {
+
+                //Return the error
+                reject(error);
+            }
+            else {
+
+                //Return a new code for the system test, starting from 1 if none exists
+                resolve(latestSystemTest == null? 1 : latestSystemTest.code + 1);
             }
         });
     });

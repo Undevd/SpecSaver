@@ -50,7 +50,7 @@ module.exports = function(app) {
 
     // System Test routes
     app.get('/api/system-tests/all/:projectCode', systemTests.getAllSystemTestsByProject);
-    app.get('/api/system-tests/one/:projectCode/:releaseCode', systemTests.getSystemTest);
+    app.get('/api/system-tests/one/:projectCode/:systemTestCode', systemTests.getSystemTest);
     app.post('/api/system-tests/*', systemTests.createSystemTest);
     app.put('/api/system-tests/*', systemTests.updateSystemTest);
     
