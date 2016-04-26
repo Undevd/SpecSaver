@@ -40,7 +40,7 @@
         tbody(ng-repeat="acceptanceTest in acceptanceTests")
             tr
                 td
-                    a(ng-href="/p/{{project.code}}/f/{{feature.code}}/a/{{acceptanceTest.code}}") {{acceptanceTest.code}}
+                    a(ng-href="/p/{{project.code}}/f/{{feature.code}}/a/{{acceptanceTest.code}}") A{{acceptanceTest.code}}
                 td
                     div Given {{acceptanceTest.given}}
                     div When {{acceptanceTest.when}}

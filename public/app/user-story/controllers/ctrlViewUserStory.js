@@ -6,7 +6,7 @@ angular.module('app').controller('ctrlViewUserStory', function($scope, $rootScop
     var userStoryCode = $routeParams.userStoryCode;
 
     //Set the page title
-    $rootScope.title += projectCode + '-' + featureCode + '-' + userStoryCode;
+    $rootScope.title += projectCode + '-' + featureCode + '-U' + userStoryCode;
 
     //Get the user story data
     dbUserStory.getUserStory(projectCode, featureCode, userStoryCode).$promise.then(function(data) {

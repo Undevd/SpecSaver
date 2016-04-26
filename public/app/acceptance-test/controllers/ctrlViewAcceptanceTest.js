@@ -6,7 +6,7 @@ angular.module('app').controller('ctrlViewAcceptanceTest', function($scope, $roo
     var acceptanceTestCode = $routeParams.acceptanceTestCode;
 
     //Set the page title
-    $rootScope.title += projectCode + '-' + featureCode + '-' + acceptanceTestCode;
+    $rootScope.title += projectCode + '-' + featureCode + '-A' + acceptanceTestCode;
 
     //Get the acceptance test data
     dbAcceptanceTest.getAcceptanceTest(projectCode, featureCode, acceptanceTestCode).$promise.then(function(data) {

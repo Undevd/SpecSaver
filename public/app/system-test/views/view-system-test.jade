@@ -1,10 +1,12 @@
 .container(ng-show="project")
     legend.colour6
-        span.pull-right {{project.code}}-{{systemTest.code}}
+        span.pull-right {{project.code}}-S{{systemTest.code}}
         h1 System Test
         h2
             span
                 a(ng-href="/p/{{project.code}}") {{project.name}}
+            span.padr :
+            span System Test {{systemTest.code}}
             span.padr :
             span(ng-show="!edit.name")
                 a.edit(ng-click="showEdit('name', true)" ng-mouseleave="hover.name = false" ng-mouseover="hover.name = true") {{systemTest.name}}

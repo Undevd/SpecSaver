@@ -36,7 +36,8 @@
         tbody(ng-repeat="systemTest in systemTests")
             tr
                 td
-                    a(ng-href="/p/{{project.code}}/s/{{systemTest.code}}") {{systemTest.name}}
+                    a(ng-href="/p/{{project.code}}/s/{{systemTest.code}}") S{{systemTest.code}}
+                td {{systemTest.name}}
                 td {{systemTest.description | limitTo: 100}}{{systemTest.description.length &gt; 100 ? '...' : ''}}
                 td
                     .dropdown.pull-right

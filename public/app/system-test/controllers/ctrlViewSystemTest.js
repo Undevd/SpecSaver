@@ -5,7 +5,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
 	var systemTestCode = $routeParams.systemTestCode;
 
     //Set the page title
-    $rootScope.title += projectCode + '-' + systemTestCode;
+    $rootScope.title += projectCode + '-S' + systemTestCode;
 
     //Get the systemTest data
     dbSystemTest.getSystemTest(projectCode, systemTestCode).$promise.then(function(data) {

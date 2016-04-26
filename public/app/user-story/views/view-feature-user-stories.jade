@@ -40,7 +40,7 @@
         tbody(ng-repeat="userStory in userStories")
             tr
                 td
-                    a(ng-href="/p/{{project.code}}/f/{{feature.code}}/u/{{userStory.code}}") {{userStory.code}}
+                    a(ng-href="/p/{{project.code}}/f/{{feature.code}}/u/{{userStory.code}}") U{{userStory.code}}
                 td
                     div As a{{userStory.asA ? (['a', 'e', 'i', 'o', 'u'].indexOf(userStory.asA.toLowerCase()[0]) !== -1 ? 'n' : '') : ''}} {{userStory.asA}}
                     div I can {{userStory.iCan}}
