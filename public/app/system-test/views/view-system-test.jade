@@ -56,3 +56,44 @@
                     span.glyphicon.glyphicon-ok
                 a.btn.btn-default(ng-click="cancelEdit('description')")
                     span.glyphicon.glyphicon-remove
+    .alert.alert-info.text-center(ng-show="!testSteps.length") No test steps found
+    .table
+        span
+            button.box.btn.colour6.padlr(data-target="#ModalAdd" data-toggle="modal")
+                span.glyphicon.glyphicon-plus(aria-label="Add icon")
+    .fade.modal(id="ModalAdd" role="dialog" ngshow="add")
+        .modal-dialog.modal-lg
+            .modal-content
+                .modal-header
+                    legend.colour6
+                        button.close(type="button" data-dismiss="modal" aria-label="Close")
+                            span(aria-hidden="true") &times;
+                        h4.h1.modal-title Test Step
+                .modal-body
+                    .row.padb
+                        .col-md-1
+                            button.box.btn.padlr
+                                span.glyphicon.glyphicon-search(aria-label="Search icon")
+                        .col-md-2
+                            select.form-control
+                                option(disabled="disabled" selected="selected" hidden="hidden" value="") Type
+                                option(value="Given") Given
+                                option(value="When") When
+                                option(value="Then") Then
+                        .col-md-9
+                            input.form-control(type="text")
+                    .row
+                        .col-md-12
+                            span Results
+                    .row
+                        .col-md-12
+                            select.form-control
+                .modal-footer
+                    span.padr
+                        button.btn.btn-success(ng-click="", ng-disabled="")
+                            span.glyphicon.glyphicon-ok.padr
+                            span Add
+                    span
+                        a.btn.btn-default(data-dismiss="modal")
+                            span.glyphicon.glyphicon-remove.padr
+                            span Cancel

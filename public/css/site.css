@@ -73,6 +73,11 @@ h2,
   font-size: 90%;
   margin: 0;
 }
+h3,
+.h3 {
+  font-size: 80%;
+  margin: 0;
+}
 .nav a.btn {
   color: #fff !important;
 }
