@@ -38,14 +38,14 @@
     .alert.alert-info.text-center(ng-show="!userStories.length") No user stories found
     table.table.table-hover.table-striped.table-condensed
         tbody(ng-repeat="userStory in userStories")
-            tr
-                td
+            tr.row
+                td.col-md-2
                     a(ng-href="/p/{{project.code}}/f/{{feature.code}}/u/{{userStory.code}}") U{{userStory.code}}
-                td
+                td.col-md-8
                     div As a{{userStory.asA ? (['a', 'e', 'i', 'o', 'u'].indexOf(userStory.asA.toLowerCase()[0]) !== -1 ? 'n' : '') : ''}} {{userStory.asA}}
                     div I can {{userStory.iCan}}
                     div So that {{userStory.soThat}}
-                td
+                td.col-md-2
                     .dropdown.pull-right
                         a.btn.btn-default(ng-href="/p/{{project.code}}/f/{{feature.code}}/u/{{userStory.code}}")
                             span.glyphicon.glyphicon-tree-deciduous

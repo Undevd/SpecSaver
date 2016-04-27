@@ -16,11 +16,11 @@
     .alert.alert-info.text-center(ng-show="!projects.length") No releases found
     table.table.table-hover.table-striped.table-condensed(ng-show="projects.length")
         tbody(ng-repeat="project in projects")
-            tr(ng-show="project.isMember()")
-                td
+            tr.row(ng-show="project.isMember()")
+                td.col-md-5
                     a(href="/p/{{project.code}}") {{project.name}}
-                td {{project.description | limitTo: 100}}{{project.description.length &gt; 100 ? '...' : ''}}
-                td
+                td.col-md-5 {{project.description | limitTo: 100}}{{project.description.length &gt; 100 ? '...' : ''}}
+                td.col-md-2
                     .dropdown.pull-right
                         a.btn.btn-default(ng-href="/p/{{project.code}}")
                             span.glyphicon.glyphicon-th-list
