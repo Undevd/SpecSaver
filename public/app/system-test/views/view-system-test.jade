@@ -71,23 +71,28 @@
                         h4.h1.modal-title Test Step
                 .modal-body
                     .row.padb
-                        .col-md-1
-                            button.box.btn.padlr
-                                span.glyphicon.glyphicon-search(aria-label="Search icon")
-                        .col-md-2
-                            select.form-control
-                                option(disabled="disabled" selected="selected" hidden="hidden" value="") Type
-                                option(value="Given") Given
-                                option(value="When") When
-                                option(value="Then") Then
-                        .col-md-9
-                            input.form-control(type="text")
+                        form.form-horizontal(name="testStepForm")
+                            .col-md-1
+                                button.box.btn.padlr(ng-click="searchForTestStep()" ng-disabled="testStepForm.$invalid")
+                                    span.glyphicon.glyphicon-search(aria-label="Search icon")
+                            .col-md-2
+                                select.form-control(name="type" ng-model="type" required)
+                                    option(disabled="disabled" selected="selected" hidden="hidden" value="") Type
+                                    option(value="Given") Given
+                                    option(value="When") When
+                                    option(value="Then") Then
+                            .col-md-9
+                                input.form-control(name="step" ng-model="step" required type="text")
+                    .row(ng-show="searchResults")
+                        .col-md-12
+                            span(ng-show="searchResults.length") Results
+                            span(ng-show="!searchResults.length") No results found
                     .row
                         .col-md-12
-                            span Results
-                    .row
-                        .col-md-12
-                            select.form-control
+                            select.form-control(name="testStep" ng-model="testStep" ng-repeat="searchResult in searchResults")
+                                option(disabled="disabled" selected="selected" hidden="hidden" value="") Select result...
+                                option(value="{{searchResult.code}}") {{searchResult.type}} {{searchResult.step}}
+
                 .modal-footer
                     span.padr
                         button.btn.btn-success(ng-click="", ng-disabled="")

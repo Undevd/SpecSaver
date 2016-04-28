@@ -1,4 +1,4 @@
-angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootScope, $location, $routeParams, dbSystemTest) {
+angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootScope, $location, $routeParams, dbSystemTest, dbTestStep) {
     
 	//Get the route parameters
 	var projectCode = $routeParams.projectCode;
@@ -53,7 +53,21 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
 
             //Stop editing
             $scope.showEdit(field, false);
-        };  
+        };
+
+        //Store test step search results
+        $scope.$searchResults = [{}];
+
+        //Searches for matching steps
+        $scope.searchForTestStep = function() {
+
+            //Search for a match
+            dbTestStep.searchForTestStep(projectCode, $scope.type, $scope.step).$promise.then(function(results) {
+
+                //Add the search results to the scope
+                $scope.searchResults = results;
+            });
+        }
     }, function(error) {
         
         //Redirect to the error page

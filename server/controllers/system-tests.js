@@ -15,7 +15,7 @@ exports.createSystemTest = function(request, response) {
         projectCode: systemTestData.projectCode
     };
 
-    //Create the systemTest
+    //Create the system test
     SystemTest.createSystemTest(newSystemTestData).then(function(data) {
 
         //Set the success status and send the new system test and project codes
