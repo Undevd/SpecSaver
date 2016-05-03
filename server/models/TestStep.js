@@ -28,15 +28,15 @@ testStepSchema.statics.addTestStep = function addTestStep(newTestStepData) {
             var systemTestData = data[0];
 
             //If there is at least one test step in the system test
-            if (systemTestData.testSteps) {
+            if (systemTestData.testStepCodes) {
 
                 //Add the test step to the required position
-                systemTestData.testSteps.splice(newTestStepData.position, 0, newTestStepData.code);
+                systemTestData.testStepCodes.splice(newTestStepData.position, 0, newTestStepData.code);
             }
             else {
 
                 //Create a new set of test steps, initially containing the single test step code
-                systemTestData.testSteps = [newTestStepData.code];
+                systemTestData.testStepCodes = [newTestStepData.code];
             }
 
             //Update the system test

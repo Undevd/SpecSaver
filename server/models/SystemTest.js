@@ -5,7 +5,7 @@ var systemTestSchema = mongoose.Schema({
     code: {type: String, required: '{PATH} is required'},
     description: {type:String},
     projectCode: {type:String, required: '{PATH} is required'},
-    testSteps: {type: [String]}
+    testStepCodes: {type: [String]}
 });
 
 systemTestSchema.index({code: 1, projectCode: 1}, {unique: true});
@@ -125,7 +125,7 @@ systemTestSchema.statics.getSystemTest = function getSystemTest(projectCode, sys
     return new Promise(function(resolve, reject) {
 
         //Find the systemTest
-        mongoose.model('SystemTest').findOne({code: systemTestCode, projectCode: projectCode}, '-_id code description name projectCode testSteps').exec(function(error, systemTest) {
+        mongoose.model('SystemTest').findOne({code: systemTestCode, projectCode: projectCode}, '-_id code description name projectCode testStepCodes').exec(function(error, systemTest) {
 
             //If an error occurred
             if (error) {
