@@ -4,7 +4,8 @@ var systemTestSchema = mongoose.Schema({
     name: {type:String, required:'{PATH} is required'},
     code: {type: String, required: '{PATH} is required'},
     description: {type:String},
-    projectCode: {type:String, required: '{PATH} is required'}
+    projectCode: {type:String, required: '{PATH} is required'},
+    testSteps: {type: [String]}
 });
 
 systemTestSchema.index({code: 1, projectCode: 1}, {unique: true});
@@ -27,7 +28,7 @@ systemTestSchema.statics.createSystemTest = function createSystemTest(newSystemT
             //Set the system test code
             newSystemTestData.code = data[1];
 
-            //Create the acceptance test
+            //Create the system test
             mongoose.model('SystemTest').create(newSystemTestData, function(error, systemTest) {
 
                 //If an error occurred
@@ -124,7 +125,7 @@ systemTestSchema.statics.getSystemTest = function getSystemTest(projectCode, sys
     return new Promise(function(resolve, reject) {
 
         //Find the systemTest
-        mongoose.model('SystemTest').findOne({code: systemTestCode, projectCode: projectCode}, '-_id code description name projectCode').exec(function(error, systemTest) {
+        mongoose.model('SystemTest').findOne({code: systemTestCode, projectCode: projectCode}, '-_id code description name projectCode testSteps').exec(function(error, systemTest) {
 
             //If an error occurred
             if (error) {
@@ -134,7 +135,7 @@ systemTestSchema.statics.getSystemTest = function getSystemTest(projectCode, sys
             }
             else {
 
-                //Otherwise, return the systemTest
+                //Otherwise, return the system test
                 resolve(systemTest);
             }
         });
@@ -207,7 +208,7 @@ systemTestSchema.statics.updateSystemTest = function updateSystemTest(newSystemT
             else if (!systemTest) {
 
                 //Return a 404 error
-                reject({code: 404, errmsg: 'SystemTest not found'});
+                reject({code: 404, errmsg: 'System test not found'});
             }
             else {
 

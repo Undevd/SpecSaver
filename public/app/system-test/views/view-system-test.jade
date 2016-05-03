@@ -59,46 +59,78 @@
     .alert.alert-info.text-center(ng-show="!testSteps.length") No test steps found
     .table
         span
-            button.box.btn.colour6.padlr(data-target="#ModalAdd" data-toggle="modal")
+            button.box.btn.colour6.padlr(data-target="#ModalAdd" data-toggle="modal" ng-click="setNewTestStepPosition(0)")
                 span.glyphicon.glyphicon-plus(aria-label="Add icon")
     .fade.modal(id="ModalAdd" role="dialog" ngshow="add")
         .modal-dialog.modal-lg
             .modal-content
                 .modal-header
                     legend.colour6
-                        button.close(type="button" data-dismiss="modal" aria-label="Close")
+                        button.close(aria-label="Close" data-target="#ModalAdd" data-dismiss="modal" id="ModalAddCloseButton" type="button")
                             span(aria-hidden="true") &times;
                         h4.h1.modal-title Test Step
                 .modal-body
+                    .alert.alert-danger.text-center(ng-show="testStepError" role="alert") {{testStepError}}
+                    .collapse(aria-expanded="false" id="help")
+                        .row.padb
+                            .col-md-12
+                                legend.column1
+                                    h5.h2 Placeholders
+                        .row.padb
+                            .col-md-12
+                                p Using placeholders allows you to re-use the same steps with different values.
+                        .row.padb
+                            .col-md-12
+                                strong Arguments
+                                pre '{argument name}'
+                                p e.g. When I click#{' '}
+                                    code '{button}'
+                        .row.padb
+                            .col-md-12
+                                strong Tables
+                                pre '|column 1 name|column 2 name|...|'
+                                p e.g. When I enter the following information:#{' '}
+                                    code '|field|value|'
+                        .row.padb
+                            .col-md-12
+                                legend.column1
                     .row.padb
                         form.form-horizontal(name="testStepForm")
                             .col-md-1
                                 button.box.btn.padlr(ng-click="searchForTestStep()" ng-disabled="testStepForm.$invalid")
                                     span.glyphicon.glyphicon-search(aria-label="Search icon")
                             .col-md-2
-                                select.form-control(name="type" ng-model="type" required)
+                                select.form-control(name="newTestStep.type" ng-model="newTestStep.type" required)
                                     option(disabled="disabled" selected="selected" hidden="hidden" value="") Type
                                     option(value="Given") Given
                                     option(value="When") When
                                     option(value="Then") Then
                             .col-md-9
-                                input.form-control(name="step" ng-model="step" required type="text")
+                                .input-group
+                                    input.form-control(name="newTestStep.step" ng-model="newTestStep.step" required type="text")
+                                    span.input-group-btn
+                                        button.btn.btn-default(data-target="#help" data-toggle="collapse" type="button")
+                                            span.glyphicon.glyphicon-question-sign
                     .row(ng-show="searchResults")
                         .col-md-12
                             span(ng-show="searchResults.length") Results
-                            span(ng-show="!searchResults.length") No results found
+                            span(ng-show="!searchResults.length") No results found {{searchResultsTime | date: '(HH:mm:ss)'}}
                     .row
                         .col-md-12
-                            select.form-control(name="testStep" ng-model="testStep" ng-repeat="searchResult in searchResults")
-                                option(disabled="disabled" selected="selected" hidden="hidden" value="") Select result...
+                            select.form-control(name="newTestStep.code" ng-model="newTestStep.code" ng-repeat="searchResult in searchResults")
+                                option(value="") Select result...
                                 option(value="{{searchResult.code}}") {{searchResult.type}} {{searchResult.step}}
-
+                    .alert.alert-danger.text-center(ng-show="testStepError" role="alert") {{testStepError}}
                 .modal-footer
                     span.padr
-                        button.btn.btn-success(ng-click="", ng-disabled="")
-                            span.glyphicon.glyphicon-ok.padr
+                        button.btn.btn-success(ng-click="addTestStep()", ng-disabled="!newTestStep.code")
+                            span.glyphicon.glyphicon-plus.padr
                             span Add
+                    span.padr
+                        button.btn.btn-success(ng-click="createTestStep()", ng-disabled="newTestStep.code || testStepForm.$invalid")
+                            span.glyphicon.glyphicon-ok.padr
+                            span Create
                     span
-                        a.btn.btn-default(data-dismiss="modal")
+                        a.btn.btn-default(data-dismiss="modal" data-target="#ModalAdd")
                             span.glyphicon.glyphicon-remove.padr
                             span Cancel

@@ -59,6 +59,7 @@ module.exports = function(app) {
     //app.get('/api/test-steps/one/:projectCode/:releaseCode', testSteps.getTestStep);
     app.get('/api/test-steps/search/:projectCode/:type/:step', testSteps.searchForTestStep);
     app.post('/api/test-steps/*', testSteps.createTestStep);
+    app.put('/api/test-steps/add/*', testSteps.addTestStep);
     //app.put('/api/test-steps/*', testSteps.updateTestStep);
     
     // User routes

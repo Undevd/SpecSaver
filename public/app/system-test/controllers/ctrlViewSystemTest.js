@@ -56,18 +56,88 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         };
 
         //Store test step search results
-        $scope.$searchResults = [{}];
+        $scope.searchResults = [];
 
         //Searches for matching steps
         $scope.searchForTestStep = function() {
 
             //Search for a match
-            dbTestStep.searchForTestStep(projectCode, $scope.type, $scope.step).$promise.then(function(results) {
+            dbTestStep.searchForTestStep(projectCode, $scope.newTestStep.type, $scope.newTestStep.step).$promise.then(function(results) {
 
                 //Add the search results to the scope
                 $scope.searchResults = results;
+
+                //Set the current time
+                $scope.searchResultsTime = new Date();
             });
-        }
+        };
+
+        //Store data on new test steps which are added
+        $scope.newTestStep = {};
+
+        //Sets the new test step position
+        $scope.setNewTestStepPosition = function(position) {
+
+            //Set the position
+            $scope.newTestStep.position = position;
+        };
+
+        //Adds a test step to the system test
+        $scope.addTestStep = function() {
+
+            //Get the test step data from the scope
+            var testStep = {
+                code: $scope.newTestStep.code,
+                position: $scope.newTestStep.position,
+                projectCode: projectCode,
+                systemTestCode: systemTestCode
+            };
+
+            //Add the test step
+            dbTestStep.addTestStep(testStep).$promise.then(function(data) {
+
+                //Clear any existing errors
+                $scope.testStepError = null;
+                
+                //Close the dialog (JQuery)
+                $("#ModalAddCloseButton").trigger('click');
+
+            }, function(error) {
+
+                //Add the error message to the scope
+                $scope.testStepError = error.data.message;
+            });
+        };
+
+        //Creates a test step and adds it to the system test
+        $scope.createTestStep = function() {
+
+            //Get the test step data from the scope
+            var testStep = {
+                code: null,
+                type: $scope.newTestStep.type,
+                step: $scope.newTestStep.step,
+                projectCode: projectCode
+            };
+
+            //Create the test step
+            dbTestStep.createTestStep(testStep).then(function(data) {
+
+                //Clear any existing errors
+                $scope.testStepError = null;
+                
+                //Add the step to the system test
+                $scope.addTestStep();
+
+                //Close the dialog (JQuery)
+                $("#ModalAddCloseButton").trigger('click');
+
+            }, function(error) {
+
+                //Add the error message to the scope
+                $scope.testStepError = error.data.message;
+            });
+        };
     }, function(error) {
         
         //Redirect to the error page

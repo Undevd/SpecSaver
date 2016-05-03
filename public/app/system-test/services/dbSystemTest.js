@@ -1,19 +1,19 @@
 angular.module('app').factory('dbSystemTest', function(apiSystemTest) {
-  return {
-    createSystemTest: function(newSystemTestData) {
-      return new apiSystemTest(newSystemTestData).$save();
-    },
-    
-    getAllSystemTests: function(projectCode, releaseCode) {
-      return apiSystemTest.getAll({projectCode: projectCode});
-    },
+	return {
+		createSystemTest: function(newSystemTestData) {
+			return new apiSystemTest(newSystemTestData).$save();
+		},
 
-    getSystemTest: function(projectCode, systemTestCode) {
-      return apiSystemTest.getOne({projectCode: projectCode, systemTestCode: systemTestCode});
-    },
+		getAllSystemTests: function(projectCode, releaseCode) {
+			return apiSystemTest.getAll({projectCode: projectCode});
+		},
 
-    updateSystemTest: function(newSystemTestData) {
-      return apiSystemTest.update(newSystemTestData);
-    }
-  }
+		getSystemTest: function(projectCode, systemTestCode) {
+			return apiSystemTest.getOne({projectCode: projectCode, systemTestCode: systemTestCode});
+		},
+
+		updateSystemTest: function(newSystemTestData) {
+			return apiSystemTest.update(newSystemTestData);
+		}
+	}
 });

@@ -1,5 +1,9 @@
 angular.module('app').factory('dbTestStep', function(apiTestStep) {
 	return {
+		addTestStep: function(testStepData) {
+			return apiTestStep.add(testStepData);
+		},
+
 		createTestStep: function(newTestStepData) {
 			return new apiTestStep(newTestStepData).$save();
 		},
