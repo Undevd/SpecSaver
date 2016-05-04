@@ -59,7 +59,7 @@
     .alert.alert-info.text-center(ng-show="!testSteps.length") No test steps found
     .table
         span
-            button.box.btn.colour6.padlr(data-target="#ModalAdd" data-toggle="modal" ng-click="clearTestStepSearch(0)")
+            button.box.btn.colour6.padlr(data-target="#ModalAdd" data-toggle="modal" ng-click="clearTestStepSearch()")
                 span.glyphicon.glyphicon-plus(aria-label="Add icon")
     div(ng-repeat="testStep in testSteps")
         pre

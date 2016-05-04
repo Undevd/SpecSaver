@@ -77,10 +77,10 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         $scope.newTestStep = {};
 
         //Clears the test step search window and sets the new test step position
-        $scope.clearTestStepSearch = function(newPosition) {
+        $scope.clearTestStepSearch = function() {
 
-            //Set the position
-            $scope.newTestStep.position = newPosition;
+            //Set the position to be at the end of the list
+            $scope.newTestStep.position = $scope.testSteps.length;
 
             //If a test step was selected previously
             if ($scope.newTestStep.code) {
