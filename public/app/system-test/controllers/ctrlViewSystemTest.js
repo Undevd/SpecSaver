@@ -13,6 +13,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         //Store the data in the scope
         $scope.project = data.project;
         $scope.systemTest = data.systemTest;
+        $scope.testSteps = data.testSteps;
         $scope.stats = data.stats;
 
         //Record whether a field is being edited

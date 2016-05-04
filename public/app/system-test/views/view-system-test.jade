@@ -56,11 +56,15 @@
                     span.glyphicon.glyphicon-ok
                 a.btn.btn-default(ng-click="cancelEdit('description')")
                     span.glyphicon.glyphicon-remove
-    .alert.alert-info.text-center(ng-show="!testStepCodes.length") No test steps found
+    .alert.alert-info.text-center(ng-show="!testSteps.length") No test steps found
     .table
         span
             button.box.btn.colour6.padlr(data-target="#ModalAdd" data-toggle="modal" ng-click="clearTestStepSearch(0)")
                 span.glyphicon.glyphicon-plus(aria-label="Add icon")
+    div(ng-repeat="testStep in testSteps")
+        pre
+            strong {{testStep.type}}
+            span #{' '}{{testStep.step}}
     .fade.modal(id="ModalAdd" role="dialog" ngshow="add")
         .modal-dialog.modal-lg
             .modal-content

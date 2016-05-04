@@ -1,5 +1,6 @@
 var Project = require('mongoose').model('Project');
 var SystemTest = require('mongoose').model('SystemTest');
+var TestStep = require('mongoose').model('TestStep');
 
 //Creates a new system test
 exports.createSystemTest = function(request, response) {
@@ -56,14 +57,14 @@ exports.getSystemTest = function(request, response) {
     //Get the project
     var project = Project.getProject(request.params.projectCode);
 
-    //Get the system test
-    var systemTest = SystemTest.getSystemTest(request.params.projectCode, request.params.systemTestCode);
+    //Get the system test and test steps
+    var systemTest = SystemTest.getSystemTestAndTestSteps(request.params.projectCode, request.params.systemTestCode);
 
     //If all the promises are successful
     Promise.all([project, systemTest]).then(function(data) {
         
         //Set the success status and send the project and system test data
-        response.status(200).send({project: data[0], systemTest: data[1]});
+        response.status(200).send({project: data[0], systemTest: data[1].systemTest, testSteps: data[1].testSteps});
 
     }, function(error) {
         

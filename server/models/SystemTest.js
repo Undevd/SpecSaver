@@ -142,6 +142,39 @@ systemTestSchema.statics.getSystemTest = function getSystemTest(projectCode, sys
     });
 };
 
+//Gets the system test with the supplied system test code and the associated test steps
+systemTestSchema.statics.getSystemTestAndTestSteps = function getSystemTestAndTestSteps(projectCode, systemTestCode) {
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+
+        //Find the systemTest
+        mongoose.model('SystemTest').findOne({code: systemTestCode, projectCode: projectCode}, '-_id code description name projectCode testStepCodes').exec(function(error, systemTest) {
+
+            //If an error occurred
+            if (error) {
+
+                //Return the error
+                reject(error);
+            }
+            else {
+
+                //Get the test steps associated with the system test
+                mongoose.model('TestStep').getAllTestSteps(projectCode, systemTest.testStepCodes).then(function(data) {
+
+                    //Return the system test and test steps
+                    resolve({systemTest: systemTest, testSteps: data});
+
+                }, function(error) {
+
+                    //Return the error
+                    reject(error);
+                });
+            }
+        });
+    });
+};
+
 //Gets the next unassigned code for a new system test
 systemTestSchema.statics.getNextCode = function getNextCode(projectCode) {
 

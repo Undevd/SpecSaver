@@ -170,13 +170,43 @@ testStepSchema.statics.getNextCode = function getNextCode(projectCode) {
 };
 
 //Gets the test step with the supplied test step code
+testStepSchema.statics.getAllTestSteps = function getAllTestSteps(projectCode, testStepCodes) {
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+
+        //Create an array to store the test step promises
+        var testSteps = [];
+
+        //For each test step code
+        for (var testStepCode of testStepCodes) {
+
+            //Get the test step
+            testSteps.push(mongoose.model('TestStep').getTestStep(projectCode, testStepCode));
+        }
+
+        //If all the promises are successful
+        Promise.all(testSteps).then(function(data) {
+            
+            //Return the test step data
+            resolve(data);
+
+        }, function(error) {
+            
+            //Return the error
+            reject(error);
+        });
+    });
+};
+
+//Gets the test step with the supplied test step code
 testStepSchema.statics.getTestStep = function getTestStep(projectCode, testStepCode) {
 
     //Return a promise
     return new Promise(function(resolve, reject) {
 
-        //Find the systemTest
-        mongoose.model('SystemTest').findOne({code: testStepCode, projectCode: projectCode}, '-_id code projectCode step type').exec(function(error, testStep) {
+        //Find the test step
+        mongoose.model('TestStep').findOne({code: testStepCode, projectCode: projectCode}, '-_id code projectCode step type').exec(function(error, testStep) {
 
             //If an error occurred
             if (error) {
