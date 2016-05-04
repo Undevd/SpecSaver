@@ -75,11 +75,24 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         //Store data on new test steps which are added
         $scope.newTestStep = {};
 
-        //Sets the new test step position
-        $scope.setNewTestStepPosition = function(position) {
+        //Clears the test step search window and sets the new test step position
+        $scope.clearTestStepSearch = function(newPosition) {
 
             //Set the position
-            $scope.newTestStep.position = position;
+            $scope.newTestStep.position = newPosition;
+
+            //If a test step was selected previously
+            if ($scope.newTestStep.code) {
+
+                //Clear all the form fields
+                $scope.newTestStep = {};
+
+                //Clear the search results
+                $scope.searchResults = [];
+
+                //Clear the search time
+                $scope.searchResultsTime = null;
+            }
         };
 
         //Adds a test step to the system test
@@ -126,11 +139,11 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
                 //Clear any existing errors
                 $scope.testStepError = null;
                 
+                //Store the new test step code in the scope
+                $scope.newTestStep.code = data.code;
+
                 //Add the step to the system test
                 $scope.addTestStep();
-
-                //Close the dialog (JQuery)
-                $("#ModalAddCloseButton").trigger('click');
 
             }, function(error) {
 

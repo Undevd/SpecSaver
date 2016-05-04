@@ -59,7 +59,7 @@
     .alert.alert-info.text-center(ng-show="!testStepCodes.length") No test steps found
     .table
         span
-            button.box.btn.colour6.padlr(data-target="#ModalAdd" data-toggle="modal" ng-click="setNewTestStepPosition(0)")
+            button.box.btn.colour6.padlr(data-target="#ModalAdd" data-toggle="modal" ng-click="clearTestStepSearch(0)")
                 span.glyphicon.glyphicon-plus(aria-label="Add icon")
     .fade.modal(id="ModalAdd" role="dialog" ngshow="add")
         .modal-dialog.modal-lg
@@ -127,7 +127,7 @@
                             span.glyphicon.glyphicon-plus.padr
                             span Add
                     span.padr
-                        button.btn.btn-success(ng-click="createTestStep()", ng-disabled="newTestStep.code || testStepForm.$invalid")
+                        button.btn.btn-success(ng-click="createTestStep()", ng-disabled="newTestStep.code || testStepForm.$invalid || !searchResultsTime")
                             span.glyphicon.glyphicon-ok.padr
                             span Create
                     span

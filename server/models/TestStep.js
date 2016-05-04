@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var testStepSchema = mongoose.Schema({
-    code: {type: String, required: '{PATH} is required'},
+    code: {type: Number, required: '{PATH} is required'},
     type: {type: String, required: '{PATH} is required'},
     step: {type: String, required: '{PATH} is required'},
     projectCode: {type:String, required: '{PATH} is required'}
