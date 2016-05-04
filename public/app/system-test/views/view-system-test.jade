@@ -63,7 +63,7 @@
                 span.glyphicon.glyphicon-plus(aria-label="Add icon")
     div(ng-repeat="testStep in testSteps")
         pre
-            strong {{testStep.type}}
+            strong {{$index &lt; 1 || testSteps[$index - 1].type != testStep.type ? testStep.type : 'And'}}
             span #{' '}{{testStep.step}}
     .fade.modal(id="ModalAdd" role="dialog" ngshow="add")
         .modal-dialog.modal-lg
