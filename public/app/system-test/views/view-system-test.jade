@@ -119,11 +119,11 @@
                         .col-md-12
                             span(ng-show="searchResults.length") Results
                             span(ng-show="!searchResults.length") No results found {{searchResultsTime | date: '(HH:mm:ss)'}}
-                    .row
+                    .row(ng-show="searchResults.length")
                         .col-md-12
-                            select.form-control(name="newTestStep.code" ng-model="newTestStep.code" ng-repeat="searchResult in searchResults")
+                            select.form-control(name="newTestStep.code" ng-model="newTestStep.code")
                                 option(value="") Select result...
-                                option(value="{{searchResult.code}}") {{searchResult.type}} {{searchResult.step}}
+                                option(ng-repeat="searchResult in searchResults" value="{{searchResult.code}}") {{searchResult.type}} {{searchResult.step}}
                     .alert.alert-danger.text-center(ng-show="testStepError" role="alert") {{testStepError}}
                 .modal-footer
                     span.padr
