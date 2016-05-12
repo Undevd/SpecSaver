@@ -79,9 +79,6 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         //Clears the test step search window and sets the new test step position to the end of the list
         $scope.clearTestStepSearch = function() {
 
-            //Set the position to be at the end of the list
-            $scope.newTestStep.position = $scope.testSteps.length;
-
             //If a test step was selected previously
             if ($scope.newTestStep.code) {
 
@@ -94,6 +91,9 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
                 //Clear the search time
                 $scope.searchResultsTime = null;
             }
+
+            //Set the position to be at the end of the list
+            $scope.newTestStep.position = $scope.testSteps.length;
         };
 
         //Sets the new test step position
@@ -119,6 +119,10 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
 
                 //Clear any existing errors
                 $scope.testStepError = null;
+
+                //Store the updated data in the scope
+                $scope.systemTest = data.systemTest;
+                $scope.testSteps = data.testSteps;
                 
                 //Close the dialog (JQuery)
                 $("#ModalAddCloseButton").trigger('click');

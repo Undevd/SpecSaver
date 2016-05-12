@@ -1,3 +1,4 @@
+var SystemTest = require('mongoose').model('SystemTest');
 var TestStep = require('mongoose').model('TestStep');
 
 //Adds a test step to a system test at the specified position
@@ -6,8 +7,17 @@ exports.addTestStep = function(request, response) {
     //Search for any matching results
     TestStep.addTestStep(request.body).then(function(data) {
 
-        //Set and send the success status
-        response.sendStatus(200);
+        //Get the updated system test and test steps
+        SystemTest.getSystemTestAndTestSteps(request.body.projectCode, request.body.systemTestCode).then(function(data) {
+
+            //Set the success status and send the system test data
+            response.status(200).send({systemTest: data.systemTest, testSteps: data.testSteps});
+
+        }, function(error) {
+            
+            //Otherwise, set the error status and send the error message
+            response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
+        });
 
     }, function(error) {
 
