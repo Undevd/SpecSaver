@@ -59,12 +59,18 @@
     .alert.alert-info.text-center(ng-show="!testSteps.length") No test steps found
     .table
         span
-            button.box.btn.colour6.padlr(data-target="#ModalAdd" data-toggle="modal" ng-click="clearTestStepSearch()")
+            button.box.btn.btn-success.padlr(data-target="#ModalAdd" data-toggle="modal" ng-click="clearTestStepSearch()")
                 span.glyphicon.glyphicon-plus(aria-label="Add icon")
     div(ng-repeat="testStep in testSteps")
         pre
-            strong {{$index &lt; 1 || testSteps[$index - 1].type != testStep.type ? testStep.type : 'And'}}
-            span #{' '}{{testStep.step}}
+            .col-md-11
+                a.edit(ng-click="showEdit('step" + $index + "', true)" ng-mouseleave="hover.step" + $index + " = false" ng-mouseover="hover.step" + $index + " = true")
+                    strong {{$index &lt; 1 || testSteps[$index - 1].type != testStep.type ? testStep.type : 'And'}}
+                    span #{' '}{{testStep.step}}
+                    span.glyphicon.glyphicon-pencil.small(ng-show="hover.step" + $index)
+            .col-md-1
+                button.btn.btn-default.btn-xs(data-target="#ModalAdd" data-toggle="modal" ng-click="clearTestStepSearch(); setTestStepPosition($index + 1);")
+                    span.glyphicon.glyphicon-plus(aria-label="Add icon")
     .fade.modal(id="ModalAdd" role="dialog" ngshow="add")
         .modal-dialog.modal-lg
             .modal-content

@@ -76,7 +76,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         //Store data on new test steps which are added
         $scope.newTestStep = {};
 
-        //Clears the test step search window and sets the new test step position
+        //Clears the test step search window and sets the new test step position to the end of the list
         $scope.clearTestStepSearch = function() {
 
             //Set the position to be at the end of the list
@@ -94,6 +94,13 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
                 //Clear the search time
                 $scope.searchResultsTime = null;
             }
+        };
+
+        //Sets the new test step position
+        $scope.setTestStepPosition = function(position) {
+
+            //Set the position
+            $scope.newTestStep.position = position;
         };
 
         //Adds a test step to the system test
