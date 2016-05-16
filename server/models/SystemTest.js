@@ -1,11 +1,19 @@
 var mongoose = require('mongoose');
 
 var systemTestSchema = mongoose.Schema({
-    name: {type:String, required:'{PATH} is required'},
+    name: {type: String, required: '{PATH} is required'},
     code: {type: Number, required: '{PATH} is required'},
-    description: {type:String},
-    projectCode: {type:String, required: '{PATH} is required'},
-    testStepCodes: {type: [String]}
+    description: {type: String},
+    projectCode: {type: String, required: '{PATH} is required'},
+    testStepArguments: {
+        type: Array,
+        code: {type: Number},
+        arguments: {
+            type: Array,
+            name: {type: String},
+            value: {type: String}
+        }
+    }
 });
 
 systemTestSchema.index({code: 1, projectCode: 1}, {unique: true});
@@ -125,7 +133,7 @@ systemTestSchema.statics.getSystemTest = function getSystemTest(projectCode, sys
     return new Promise(function(resolve, reject) {
 
         //Find the systemTest
-        mongoose.model('SystemTest').findOne({code: systemTestCode, projectCode: projectCode}, '-_id code description name projectCode testStepCodes').exec(function(error, systemTest) {
+        mongoose.model('SystemTest').findOne({code: systemTestCode, projectCode: projectCode}, '-_id code description name projectCode').exec(function(error, systemTest) {
 
             //If an error occurred
             if (error) {
@@ -142,14 +150,38 @@ systemTestSchema.statics.getSystemTest = function getSystemTest(projectCode, sys
     });
 };
 
-//Gets the system test with the supplied system test code and the associated test steps
-systemTestSchema.statics.getSystemTestAndTestSteps = function getSystemTestAndTestSteps(projectCode, systemTestCode) {
+//Gets the system test with the supplied system test code and the associated test step codes and arguments
+systemTestSchema.statics.getSystemTestAndTestSteps = function getSystemTest(projectCode, systemTestCode) {
 
     //Return a promise
     return new Promise(function(resolve, reject) {
 
         //Find the systemTest
-        mongoose.model('SystemTest').findOne({code: systemTestCode, projectCode: projectCode}, '-_id code description name projectCode testStepCodes').exec(function(error, systemTest) {
+        mongoose.model('SystemTest').findOne({code: systemTestCode, projectCode: projectCode}, '-_id code description name projectCode testStepArguments').exec(function(error, systemTest) {
+
+            //If an error occurred
+            if (error) {
+
+                //Return the error
+                reject(error);
+            }
+            else {
+
+                //Otherwise, return the system test
+                resolve(systemTest);
+            }
+        });
+    });
+};
+
+//Gets the system test with the supplied system test code and the associated test steps in full
+systemTestSchema.statics.getSystemTestAndTestStepsExpanded = function getSystemTestAndTestStepsExpanded(projectCode, systemTestCode) {
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+
+        //Find the systemTest
+        mongoose.model('SystemTest').findOne({code: systemTestCode, projectCode: projectCode}, '-_id code description name projectCode testStepArguments').exec(function(error, systemTest) {
 
             //If an error occurred
             if (error) {
@@ -160,7 +192,7 @@ systemTestSchema.statics.getSystemTestAndTestSteps = function getSystemTestAndTe
             else {
 
                 //Get the test steps associated with the system test
-                mongoose.model('TestStep').getAllTestSteps(projectCode, systemTest.testStepCodes).then(function(data) {
+                mongoose.model('TestStep').getAllTestSteps(projectCode, systemTest.testStepArguments).then(function(data) {
 
                     //Return the system test and test steps
                     resolve({systemTest: systemTest, testSteps: data});

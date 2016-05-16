@@ -8,7 +8,7 @@ exports.addTestStep = function(request, response) {
     TestStep.addTestStep(request.body).then(function(data) {
 
         //Get the updated system test and test steps
-        SystemTest.getSystemTestAndTestSteps(request.body.projectCode, request.body.systemTestCode).then(function(data) {
+        SystemTest.getSystemTestAndTestStepsExpanded(request.body.projectCode, request.body.systemTestCode).then(function(data) {
 
             //Set the success status and send the system test data
             response.status(200).send({systemTest: data.systemTest, testSteps: data.testSteps});

@@ -16,7 +16,7 @@ testStepSchema.statics.addTestStep = function addTestStep(newTestStepData) {
     return new Promise(function(resolve, reject) {
 
         //Find the system test
-        var systemTest = mongoose.model('SystemTest').getSystemTest(newTestStepData.projectCode, newTestStepData.systemTestCode);
+        var systemTest = mongoose.model('SystemTest').getSystemTestAndTestSteps(newTestStepData.projectCode, newTestStepData.systemTestCode);
 
         //Check if the test step exists
         var testStepExists = mongoose.model('TestStep').exists(newTestStepData.projectCode, newTestStepData.code);
@@ -27,17 +27,8 @@ testStepSchema.statics.addTestStep = function addTestStep(newTestStepData) {
             //Get the system test data
             var systemTestData = data[0];
 
-            //If there is at least one test step in the system test
-            if (systemTestData.testStepCodes) {
-
-                //Add the test step to the required position
-                systemTestData.testStepCodes.splice(newTestStepData.position, 0, newTestStepData.code);
-            }
-            else {
-
-                //Create a new set of test steps, initially containing the single test step code
-                systemTestData.testStepCodes = [newTestStepData.code];
-            }
+            //Add the test step to the required position
+            systemTestData.testStepArguments.splice(newTestStepData.position, 0, {code: newTestStepData.code, arguments: newTestStepData.arguments});
 
             //Update the system test
             var newSystemTest = mongoose.model('SystemTest').updateSystemTest(systemTestData);
@@ -170,7 +161,7 @@ testStepSchema.statics.getNextCode = function getNextCode(projectCode) {
 };
 
 //Gets the test step with the supplied test step code
-testStepSchema.statics.getAllTestSteps = function getAllTestSteps(projectCode, testStepCodes) {
+testStepSchema.statics.getAllTestSteps = function getAllTestSteps(projectCode, testStepArguments) {
 
     //Return a promise
     return new Promise(function(resolve, reject) {
@@ -178,11 +169,11 @@ testStepSchema.statics.getAllTestSteps = function getAllTestSteps(projectCode, t
         //Create an array to store the test step promises
         var testSteps = [];
 
-        //For each test step code
-        for (var testStepCode of testStepCodes) {
+        //For each test step argument
+        for (var argument of testStepArguments) {
 
             //Get the test step
-            testSteps.push(mongoose.model('TestStep').getTestStep(projectCode, testStepCode));
+            testSteps.push(mongoose.model('TestStep').getTestStep(projectCode, argument.code));
         }
 
         //If all the promises are successful

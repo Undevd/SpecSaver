@@ -58,7 +58,7 @@ exports.getSystemTest = function(request, response) {
     var project = Project.getProject(request.params.projectCode);
 
     //Get the system test and test steps
-    var systemTest = SystemTest.getSystemTestAndTestSteps(request.params.projectCode, request.params.systemTestCode);
+    var systemTest = SystemTest.getSystemTestAndTestStepsExpanded(request.params.projectCode, request.params.systemTestCode);
 
     //If all the promises are successful
     Promise.all([project, systemTest]).then(function(data) {
