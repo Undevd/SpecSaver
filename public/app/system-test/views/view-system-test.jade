@@ -66,18 +66,18 @@
             strong.test-step-type {{$index &lt; 1 || testSteps[$index - 1].type != testStep.type ? testStep.type : 'And'}}
             span #{' '}
             span(ng-class="section.type" ng-init="id = 'testStep-' + testStepNumber + '-' + $index" ng-repeat="section in testStep.split")
-                span(ng-show="section.type != 'test-step-argument-value-not-supplied'") {{section.value}}
-                a.edit(ng-click="showEdit(id, true)" ng-mouseleave="hover[id] = false" ng-mouseover="hover[id] = true" ng-show="section.type == 'test-step-argument-value-not-supplied'")
+                span(ng-if="section.type != 'test-step-argument-value-not-supplied'") {{section.value}}
+                a.edit(ng-click="showEdit(id, testStepNumber, $index, true)" ng-if="section.type == 'test-step-argument-value-not-supplied'" ng-mouseleave="hover[id] = false" ng-mouseover="hover[id] = true")
                     span {{section.value}}
                     span.glyphicon.glyphicon-pencil.small(ng-show="hover[id]")
-                span(ng-show="edit[id]")
+                span(ng-if="section.type == 'test-step-argument-value-not-supplied'" ng-show="edit[id]")
                     form(name="{{id + '-form'}}")
                         .input-group
                             span.input-group-addon {{testStep.split[$index - 1].value}}
                             input.form-control(name="section.value" ng-model="section.value" type="text" placeholder="Value")
-                        button.btn.btn-success(ng-click="submitEdit(id)", ng-disabled="{{id + '-form'}}.$invalid")
+                        button.btn.btn-success(ng-click="submitEdit(id, testStepNumber, $index)", ng-disabled="{{id + '-form'}}.$invalid")
                             span.glyphicon.glyphicon-ok
-                        a.btn.btn-default(ng-click="cancelEdit(id)")
+                        a.btn.btn-default(ng-click="cancelEdit(id, testStepNumber, $index)")
                             span.glyphicon.glyphicon-remove
         .col-md-1
             button.btn.btn-default.btn-xs(data-target="#ModalAdd" data-toggle="modal" ng-click="clearTestStepSearch(); setTestStepPosition($index + 1);")

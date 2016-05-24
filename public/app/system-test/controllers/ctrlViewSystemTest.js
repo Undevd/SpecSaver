@@ -134,37 +134,37 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         $scope.oldData = {};
 
         //Shows or hides the form used to edit the field
-        $scope.showEdit = function(field, show) {
+        $scope.showEdit = function(fieldID, testStepNumber, sectionNumber, show) {
 
             //If the form should be shown
             if (show) {
 
                 //Store the old data
-                $scope.oldData[field] = $scope.systemTest[field];
+                $scope.oldData[fieldID] = $scope.testSteps[testStepNumber].split[sectionNumber].value;
             }
 
             //Show the edit fields
-            $scope.edit[field] = show;
+            $scope.edit[fieldID] = show;
         };
 
         //Cancels editing the field and hides the form
-        $scope.cancelEdit = function(field) {
+        $scope.cancelEdit = function(fieldID, testStepNumber, sectionNumber) {
 
             //Reset the value
-            $scope.systemTest[field] = $scope.oldData[field];
+            $scope.testSteps[testStepNumber].split[sectionNumber].value = $scope.oldData[fieldID];
 
             //Stop editing
-            $scope.showEdit(field, false);
+            $scope.showEdit(fieldID, testStepNumber, sectionNumber, false);
         };
 
         //Submits the edits made to the field to the server
-        $scope.submitEdit = function(field) {
+        $scope.submitEdit = function(fieldID, testStepNumber, sectionNumber) {
 
             //Save the system test
-            dbSystemTest.updateSystemTest($scope.systemTest);
+            //dbSystemTest.updateSystemTest($scope.systemTest);
 
             //Stop editing
-            $scope.showEdit(field, false);
+            $scope.showEdit(fieldID, testStepNumber, sectionNumber, false);
         };
 
         //Store test step search results
