@@ -12,6 +12,10 @@ column4 = #666
 column5 = #555
 column6 = #444
 
+testStepArgumentValueNotSupplied = #c7254e
+testStepArgumentValueSupplied = #3b7316
+testStepType = #00f
+
 text = #fff
 
 a
@@ -124,6 +128,10 @@ legend
     margin-bottom 0
     padding 1em
 
+.mono
+.test-step
+    font-family Menlo, Monaco, Consolas, "Courier New", monospace
+
 .pad
     padding 1em
 
@@ -172,6 +180,21 @@ small
 
 .table
     display table
+
+.test-step
+    padding-bottom 1em
+
+.test-step-argument-name
+    display none
+
+.test-step-argument-value-not-supplied
+    color testStepArgumentValueNotSupplied
+    
+.test-step-argument-value-supplied
+    color testStepArgumentValueSupplied
+
+.test-step-type
+    color testStepType
 
 .toast-top-right
     top: 70px

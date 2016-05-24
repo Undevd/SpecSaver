@@ -110,6 +110,10 @@ legend {
   margin-bottom: 0;
   padding: 1em;
 }
+.mono,
+.test-step {
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
 .pad {
   padding: 1em;
 }
@@ -158,6 +162,21 @@ small,
 }
 .table {
   display: table;
+}
+.test-step {
+  padding-bottom: 1em;
+}
+.test-step-argument-name {
+  display: none;
+}
+.test-step-argument-value-not-supplied {
+  color: #c7254e;
+}
+.test-step-argument-value-supplied {
+  color: #3b7316;
+}
+.test-step-type {
+  color: #00f;
 }
 .toast-top-right {
   top: 70px;

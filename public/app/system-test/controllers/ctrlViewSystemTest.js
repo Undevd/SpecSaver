@@ -7,13 +7,124 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
     //Set the page title
     $rootScope.title += projectCode + '-S' + systemTestCode;
 
+    //Gets the test step text from a string
+    var getTestStepTextFromString = function(testStepString) {
+        
+        //If the argument opening bracket does not exist in the string, just return the string
+        //Otherwise, return a substring up to the start of the argument
+        return testStepString.indexOf('{') < 0
+            ? testStepString
+            : testStepString.substring(0, testStepString.indexOf('{'));
+    };
+
+    //Gets the test step argument name from a string
+    var getArgumentNameFromString = function(testStepString, testStepIndex) {
+        
+        //If the argument opening bracket does not exist in the string, just return an empty string
+        //Otherwise, return a substring after the start of the bracket
+        return argumentName = testStepString.indexOf('{') < 0
+            ? ''
+            : testStepString.substring(testStepString.indexOf('{') + 1, testStepString.length);
+    };
+
+    //Gets the test step argument value from a string
+    var getArgumentValueFromString = function(testStepString, testStepIndex) {
+        
+        //Get the argument name from the string
+        var argumentName = getArgumentNameFromString(testStepString, testStepIndex);
+
+        //If the argument name couldn't be found
+        if (!argumentName) {
+            
+            //Return an empty string
+            return '';
+        }
+
+        //Get the test step
+        var testStep = $scope.systemTest.testStepArguments[testStepIndex];
+
+        //If any arguments have already been recorded
+        if (testStep.arguments) {
+
+            //For each argument
+            for (var argument of testStep.arguments) {
+
+                //If the argument name matches
+                if (argument.name == argumentName) {
+
+                    //Return the value of the argument
+                    return argument.value;
+                }
+            }
+        }
+
+        //If this point is reached, just return the argument name in brackets
+        return '{' + argumentName + '}';
+    };
+
+    //Updates the test steps in the scope, both in original form and also by separating out the arguments
+    var updateTestStepsInScope = function(testSteps) {
+
+        //For each test step
+        for (var testStep of testSteps) {
+
+            //Create a new section in the test step to store the split version
+            testStep.split = [];
+            
+            //Split the step by closing argument brackets
+            var splitSections = testStep.step.split('}');
+
+            //For each split section
+            for (var i in splitSections) {
+
+                //Get the test step text
+                var text = getTestStepTextFromString(splitSections[i]);
+
+                //Get the argument name
+                var argumentName = getArgumentNameFromString(splitSections[i], i);
+
+                //Get the argument value
+                var argumentValue = getArgumentValueFromString(splitSections[i], i);
+
+                //If the test step text is not empty
+                if (text) {
+
+                    //Add it to the split test step array
+                    testStep.split.push({type: 'test-step-text', value: text});
+                }
+
+                //If the argument name is not empty
+                if (argumentName) {
+
+                    //Add it to the split test step array
+                    testStep.split.push({type: 'test-step-argument-name', value: argumentName});
+                }
+
+                //If the argument value is not empty
+                if (argumentValue) {
+
+                    //Determine the type
+                    var type = argumentValue.startsWith('{') && argumentValue.endsWith('}')
+                        ? 'test-step-argument-value-not-supplied'
+                        : 'test-step-argument-value-supplied';
+
+                    //Add it to the split test step array
+                    testStep.split.push({type: type, value: argumentValue});
+                }
+            }
+        }
+        
+        //Add the test steps to the scope
+        $scope.testSteps = testSteps;
+    };
+
     //Get the systemTest data
     dbSystemTest.getSystemTest(projectCode, systemTestCode).$promise.then(function(data) {
 
         //Store the data in the scope
         $scope.project = data.project;
         $scope.systemTest = data.systemTest;
-        $scope.testSteps = data.testSteps;
+        updateTestStepsInScope(data.testSteps);
         $scope.stats = data.stats;
 
         //Record whether a field is being edited
@@ -122,7 +233,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
 
                 //Store the updated data in the scope
                 $scope.systemTest = data.systemTest;
-                $scope.testSteps = data.testSteps;
+                updateTestStepsInScope(data.testSteps);
                 
                 //Close the dialog (JQuery)
                 $("#ModalAddCloseButton").trigger('click');

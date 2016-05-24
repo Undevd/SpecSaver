@@ -61,16 +61,14 @@
         span
             button.box.btn.btn-success.padlr(data-target="#ModalAdd" data-toggle="modal" ng-click="clearTestStepSearch()")
                 span.glyphicon.glyphicon-plus(aria-label="Add icon")
-    div(ng-repeat="testStep in testSteps")
-        pre
-            .col-md-11
-                a.edit(ng-click="showEdit('step" + $index + "', true)" ng-mouseleave="hover.step" + $index + " = false" ng-mouseover="hover.step" + $index + " = true")
-                    strong {{$index &lt; 1 || testSteps[$index - 1].type != testStep.type ? testStep.type : 'And'}}
-                    span #{' '}{{testStep.step}}
-                    span.glyphicon.glyphicon-pencil.small(ng-show="hover.step" + $index)
-            .col-md-1
-                button.btn.btn-default.btn-xs(data-target="#ModalAdd" data-toggle="modal" ng-click="clearTestStepSearch(); setTestStepPosition($index + 1);")
-                    span.glyphicon.glyphicon-plus(aria-label="Add icon")
+    .row.test-step(ng-repeat="testStep in testSteps")
+        .col-md-11
+            strong.test-step-type {{$index &lt; 1 || testSteps[$index - 1].type != testStep.type ? testStep.type : 'And'}}
+            span #{' '}
+            span(ng-class="section.type" ng-repeat="section in testStep.split") {{section.value}}
+        .col-md-1
+            button.btn.btn-default.btn-xs(data-target="#ModalAdd" data-toggle="modal" ng-click="clearTestStepSearch(); setTestStepPosition($index + 1);")
+                span.glyphicon.glyphicon-plus(aria-label="Add icon")
     .fade.modal(id="ModalAdd" role="dialog" ngshow="add")
         .modal-dialog.modal-lg
             .modal-content
@@ -92,15 +90,29 @@
                         .row.padb
                             .col-md-12
                                 strong Arguments
-                                pre '{argument name}'
-                                p e.g. When I click#{' '}
-                                    code '{button}'
+                                .test-step
+                                    span.test-step-text '
+                                    span.test-step-argument-value-not-supplied {argument name}
+                                    span.test-step-text '
+                                .test-step
+                                    span e.g.#{' '}
+                                    span.test-step-type When
+                                    span.test-step-text #{' '}I click '
+                                    span.test-step-argument-value-not-supplied {button}
+                                    span.test-step-text '
                         .row.padb
                             .col-md-12
                                 strong Tables
-                                pre '|column 1 name|column 2 name|...|'
-                                p e.g. When I enter the following information:#{' '}
-                                    code '|field|value|'
+                                .test-step
+                                    span.test-step-text '
+                                    span.test-step-argument-value-not-supplied {|column 1 name|column 2 name|...|}
+                                    span.test-step-text '
+                                .test-step
+                                    span e.g.#{' '}
+                                    span.test-step-type When
+                                    span.test-step-text #{' '}I enter the following information: '
+                                    span.test-step-argument-value-not-supplied {|field|value|}
+                                    span.test-step-text '
                         .row.padb
                             .col-md-12
                                 legend.column1
