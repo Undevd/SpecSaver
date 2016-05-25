@@ -134,13 +134,22 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         $scope.oldData = {};
 
         //Shows or hides the form used to edit the field
-        $scope.showEdit = function(fieldID, testStepNumber, sectionNumber, show) {
+        $scope.showEdit = function(show, fieldID, testStepNumber, sectionNumber) {
 
             //If the form should be shown
             if (show) {
 
-                //Store the old data
-                $scope.oldData[fieldID] = $scope.testSteps[testStepNumber].split[sectionNumber].value;
+                //If the test step and section numbers were supplied
+                if (typeof testStepNumber !== 'undefined' && typeof sectionNumber !== 'undefined') {
+                    
+                    //Store the old data from the test steps section
+                    $scope.oldData[fieldID] = $scope.testSteps[testStepNumber].split[sectionNumber].value;
+                }
+                else {
+                    
+                    //Store the old data from the system test section
+                    $scope.oldData[fieldID] = $scope.systemTest[fieldID];
+                }
             }
 
             //Show the edit fields
@@ -150,11 +159,20 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         //Cancels editing the field and hides the form
         $scope.cancelEdit = function(fieldID, testStepNumber, sectionNumber) {
 
-            //Reset the value
-            $scope.testSteps[testStepNumber].split[sectionNumber].value = $scope.oldData[fieldID];
+            //If the test step and section numbers were supplied
+            if (typeof testStepNumber !== 'undefined' && typeof sectionNumber !== 'undefined') {
+                
+                //Reset the old data from the test steps section
+                $scope.testSteps[testStepNumber].split[sectionNumber].value = $scope.oldData[fieldID];
+            }
+            else {
+                
+                //Reset the old data from the system test section
+                $scope.systemTest[fieldID] = $scope.oldData[fieldID];
+            }
 
             //Stop editing
-            $scope.showEdit(fieldID, testStepNumber, sectionNumber, false);
+            $scope.showEdit(false, fieldID, testStepNumber, sectionNumber);
         };
 
         //Submits the edits made to the system test or a test step argument to the server
@@ -206,7 +224,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
             dbSystemTest.updateSystemTest($scope.systemTest);
             
             //Stop editing
-            $scope.showEdit(fieldID, testStepNumber, sectionNumber, false);
+            $scope.showEdit(false, fieldID, testStepNumber, sectionNumber);
         };
 
         //Store test step search results

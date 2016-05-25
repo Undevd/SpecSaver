@@ -9,12 +9,25 @@
             span System Test {{systemTest.code}}
             span.padr :
             span(ng-show="!edit.name")
-                a.edit(ng-click="showEdit('name', true)" ng-mouseleave="hover.name = false" ng-mouseover="hover.name = true") {{systemTest.name}}
+                a.edit(
+                    ng-click="showEdit(true, 'name')"
+                    ng-mouseleave="hover.name = false"
+                    ng-mouseover="hover.name = true"
+                ) {{systemTest.name}}
             span.glyphicon.glyphicon-pencil.small(ng-show="hover.name")
             span(ng-show="edit.name")
                 form(name="nameForm")
-                    input.form-control(name="systemTest.name" ng-model="systemTest.name" type="text" placeholder="Name" required)
-                    button.btn.btn-success(ng-click="submitEdit('name')", ng-disabled="nameForm.$invalid")
+                    input.form-control(
+                        name="systemTest.name"
+                        ng-model="systemTest.name"
+                        placeholder="Name"
+                        required
+                        type="text"
+                    )
+                    button.btn.btn-success(
+                        ng-click="submitEdit('name')"
+                        ng-disabled="nameForm.$invalid"
+                    )
                         span.glyphicon.glyphicon-ok
                     a.btn.btn-default(ng-click="cancelEdit('name')")
                         span.glyphicon.glyphicon-remove
@@ -45,21 +58,40 @@
                 span.small System Tests
     .well
         div(ng-show="!edit.description")
-            a.edit(ng-click="showEdit('description', true)" ng-mouseleave="hover.description = false" ng-mouseover="hover.description = true")
+            a.edit(
+                ng-click="showEdit(true, 'description')"
+                ng-mouseleave="hover.description = false"
+                ng-mouseover="hover.description = true"
+            )
                 span(ng-show="systemTest.description") {{systemTest.description}}
                 span.glyphicon.glyphicon-pencil.small(ng-show="hover.description")
-                em(ng-cloak ng-show="!systemTest.description") Click to add a description
+                em(
+                    ng-cloak
+                    ng-show="!systemTest.description"
+                ) Click to add a description
         div(ng-show="edit.description")
             form(name="descriptionForm")
-                textarea.form-control(name="systemTest.description" ng-model="systemTest.description" type="text" placeholder="Description")
-                button.btn.btn-success(ng-click="submitEdit('description')", ng-disabled="descriptionForm.$invalid")
+                textarea.form-control(
+                    name="systemTest.description"
+                    ng-model="systemTest.description"
+                    placeholder="Description"
+                    type="text"
+                )
+                button.btn.btn-success(
+                    ng-click="submitEdit('description')"
+                    ng-disabled="descriptionForm.$invalid"
+                )
                     span.glyphicon.glyphicon-ok
                 a.btn.btn-default(ng-click="cancelEdit('description')")
                     span.glyphicon.glyphicon-remove
     .alert.alert-info.text-center(ng-show="!testSteps.length") No test steps found
     .table
         span
-            button.box.btn.btn-success.padlr(data-target="#ModalAdd" data-toggle="modal" ng-click="clearTestStepSearch()")
+            button.box.btn.btn-success.padlr(
+                data-target="#ModalAdd"
+                data-toggle="modal"
+                ng-click="clearTestStepSearch()"
+            )
                 span.glyphicon.glyphicon-plus(aria-label="Add icon")
     .row.test-step(
         ng-repeat="testStep in testSteps"
@@ -75,7 +107,7 @@
             )
                 span(ng-if="section.type != 'test-step-argument-value-not-supplied'") {{section.value}}
                 a.edit(
-                    ng-click="showEdit(id, testStepNumber, $index, true)"
+                    ng-click="showEdit(true, id, testStepNumber, $index)"
                     ng-if="section.type == 'test-step-argument-value-not-supplied'"
                     ng-mouseleave="hover[id] = false"
                     ng-mouseover="hover[id] = true"
@@ -104,19 +136,39 @@
                         a.btn.btn-default(ng-click="cancelEdit(id, testStepNumber, $index)")
                             span.glyphicon.glyphicon-remove
         .col-md-1
-            button.btn.btn-default.btn-xs(data-target="#ModalAdd" data-toggle="modal" ng-click="clearTestStepSearch(); setTestStepPosition($index + 1);")
+            button.btn.btn-default.btn-xs(
+                data-target="#ModalAdd"
+                data-toggle="modal"
+                ng-click="clearTestStepSearch(); setTestStepPosition($index + 1);"
+            )
                 span.glyphicon.glyphicon-plus(aria-label="Add icon")
-    .fade.modal(id="ModalAdd" role="dialog" ngshow="add")
+    .fade.modal(
+        id="ModalAdd"
+        ng-show="add"
+        role="dialog"
+    )
         .modal-dialog.modal-lg
             .modal-content
                 .modal-header
                     legend.colour6
-                        button.close(aria-label="Close" data-target="#ModalAdd" data-dismiss="modal" id="ModalAddCloseButton" type="button")
+                        button.close(
+                            aria-label="Close"
+                            data-target="#ModalAdd"
+                            data-dismiss="modal"
+                            id="ModalAddCloseButton"
+                            type="button"
+                        )
                             span(aria-hidden="true") &times;
                         h4.h1.modal-title Test Step
                 .modal-body
-                    .alert.alert-danger.text-center(ng-show="testStepError" role="alert") {{testStepError}}
-                    .collapse(aria-expanded="false" id="help")
+                    .alert.alert-danger.text-center(
+                        ng-show="testStepError"
+                        role="alert"
+                    ) {{testStepError}}
+                    .collapse(
+                        aria-expanded="false"
+                        id="help"
+                    )
                         .row.padb
                             .col-md-12
                                 legend.column1
@@ -156,19 +208,40 @@
                     .row.padb
                         form.form-horizontal(name="testStepForm")
                             .col-md-1
-                                button.box.btn.padlr(ng-click="searchForTestStep()" ng-disabled="testStepForm.$invalid")
+                                button.box.btn.padlr(
+                                    ng-click="searchForTestStep()"
+                                    ng-disabled="testStepForm.$invalid"
+                                )
                                     span.glyphicon.glyphicon-search(aria-label="Search icon")
                             .col-md-2
-                                select.form-control(name="newTestStep.type" ng-model="newTestStep.type" required)
-                                    option(disabled="disabled" selected="selected" hidden="hidden" value="") Type
+                                select.form-control(
+                                    name="newTestStep.type"
+                                    ng-model="newTestStep.type"
+                                    required
+                                )
+                                    option(
+                                        disabled="disabled"
+                                        hidden="hidden"
+                                        selected="selected"
+                                        value=""
+                                    ) Type
                                     option(value="Given") Given
                                     option(value="When") When
                                     option(value="Then") Then
                             .col-md-9
                                 .input-group
-                                    input.form-control(name="newTestStep.step" ng-model="newTestStep.step" required type="text")
+                                    input.form-control(
+                                        name="newTestStep.step"
+                                        ng-model="newTestStep.step"
+                                        required
+                                        type="text"
+                                    )
                                     span.input-group-btn
-                                        button.btn.btn-default(data-target="#help" data-toggle="collapse" type="button")
+                                        button.btn.btn-default(
+                                            data-target="#help"
+                                            data-toggle="collapse"
+                                            type="button"
+                                        )
                                             span.glyphicon.glyphicon-question-sign
                     .row(ng-show="searchResults")
                         .col-md-12
@@ -176,20 +249,38 @@
                             span(ng-show="!searchResults.length") No results found {{searchResultsTime | date: '(HH:mm:ss)'}}
                     .row(ng-show="searchResults.length")
                         .col-md-12
-                            select.form-control(name="newTestStep.code" ng-model="newTestStep.code")
+                            select.form-control(
+                                name="newTestStep.code"
+                                ng-model="newTestStep.code"
+                            )
                                 option(value="") Select result...
-                                option(ng-repeat="searchResult in searchResults" value="{{searchResult.code}}") {{searchResult.type}} {{searchResult.step}}
-                    .alert.alert-danger.text-center(ng-show="testStepError" role="alert") {{testStepError}}
+                                option(
+                                    ng-repeat="searchResult in searchResults"
+                                    value="{{searchResult.code}}"
+                                ) {{searchResult.type}} {{searchResult.step}}
+                    .alert.alert-danger.text-center(
+                        ng-show="testStepError"
+                        role="alert"
+                    ) {{testStepError}}
                 .modal-footer
                     span.padr
-                        button.btn.btn-success(ng-click="addTestStep()", ng-disabled="!newTestStep.code")
+                        button.btn.btn-success(
+                            ng-click="addTestStep()"
+                            ng-disabled="!newTestStep.code"
+                        )
                             span.glyphicon.glyphicon-plus.padr
                             span Add
                     span.padr
-                        button.btn.btn-success(ng-click="createTestStep()", ng-disabled="newTestStep.code || testStepForm.$invalid || !searchResultsTime")
+                        button.btn.btn-success(
+                            ng-click="createTestStep()"
+                            ng-disabled="newTestStep.code || testStepForm.$invalid || !searchResultsTime"
+                        )
                             span.glyphicon.glyphicon-ok.padr
                             span Create
                     span
-                        a.btn.btn-default(data-dismiss="modal" data-target="#ModalAdd")
+                        a.btn.btn-default(
+                            data-dismiss="modal"
+                            data-target="#ModalAdd"
+                        )
                             span.glyphicon.glyphicon-remove.padr
                             span Cancel
