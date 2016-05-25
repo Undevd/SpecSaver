@@ -84,8 +84,29 @@ exports.updateSystemTest = function(request, response) {
         name: systemTestData.name,
         code: systemTestData.code,
         description: systemTestData.description,
-        projectCode: systemTestData.projectCode
+        projectCode: systemTestData.projectCode,
+        testStepArguments: []
     };
+
+    //For each test step
+    for (var testStep of systemTestData.testStepArguments) {
+        
+        //Create a new object to store the sanitised arguments
+        var testStepArguments = {
+            code: testStep.code,
+            arguments: []
+        }; 
+        
+        //For each argument
+        for (var argument of testStep.arguments) {
+            
+            //Add a sanitised version of the argument to the new object
+            testStepArguments.arguments.push({name: argument.name, value: argument.value});
+        }
+        
+        //Add the object to the updated system test
+        newSystemTestData.testStepArguments.push(testStepArguments);
+    }
 
     //Update the system test
     SystemTest.updateSystemTest(newSystemTestData).then(function() {

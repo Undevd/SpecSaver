@@ -61,21 +61,45 @@
         span
             button.box.btn.btn-success.padlr(data-target="#ModalAdd" data-toggle="modal" ng-click="clearTestStepSearch()")
                 span.glyphicon.glyphicon-plus(aria-label="Add icon")
-    .row.test-step(ng-repeat="testStep in testSteps" ng-init="testStepNumber = $index")
+    .row.test-step(
+        ng-repeat="testStep in testSteps"
+        ng-init="previousTestStep = testSteps[$index - 1]; testStepNumber = $index;"
+    )
         .col-md-11
-            strong.test-step-type {{$index &lt; 1 || testSteps[$index - 1].type != testStep.type ? testStep.type : 'And'}}
+            strong.test-step-type {{$index &lt; 1 || previousTestStep.type != testStep.type ? testStep.type : 'And'}}
             span #{' '}
-            span(ng-class="section.type" ng-init="id = 'testStep-' + testStepNumber + '-' + $index" ng-repeat="section in testStep.split")
+            span(
+                ng-class="section.type"
+                ng-init="id = 'testStep-' + testStepNumber + '-' + $index"
+                ng-repeat="section in testStep.split"
+            )
                 span(ng-if="section.type != 'test-step-argument-value-not-supplied'") {{section.value}}
-                a.edit(ng-click="showEdit(id, testStepNumber, $index, true)" ng-if="section.type == 'test-step-argument-value-not-supplied'" ng-mouseleave="hover[id] = false" ng-mouseover="hover[id] = true")
+                a.edit(
+                    ng-click="showEdit(id, testStepNumber, $index, true)"
+                    ng-if="section.type == 'test-step-argument-value-not-supplied'"
+                    ng-mouseleave="hover[id] = false"
+                    ng-mouseover="hover[id] = true"
+                )
                     span {{section.value}}
                     span.glyphicon.glyphicon-pencil.small(ng-show="hover[id]")
-                span(ng-if="section.type == 'test-step-argument-value-not-supplied'" ng-show="edit[id]")
+                span(
+                    ng-if="section.type == 'test-step-argument-value-not-supplied'"
+                    ng-init="argumentName = testStep.split[$index - 1].value"
+                    ng-show="edit[id]"
+                )
                     form(name="{{id + '-form'}}")
                         .input-group
-                            span.input-group-addon {{testStep.split[$index - 1].value}}
-                            input.form-control(name="section.value" ng-model="section.value" type="text" placeholder="Value")
-                        button.btn.btn-success(ng-click="submitEdit(id, testStepNumber, $index)", ng-disabled="{{id + '-form'}}.$invalid")
+                            span.input-group-addon {{argumentName}}
+                            input.form-control(
+                                name="section.value"
+                                ng-model="section.value"
+                                placeholder="Value"
+                                type="text"
+                            )
+                        button.btn.btn-success(
+                            ng-click="submitEdit(id, testStepNumber, $index, argumentName, section.value)"
+                            ng-disabled="{{id + '-form'}}.$invalid"
+                        )
                             span.glyphicon.glyphicon-ok
                         a.btn.btn-default(ng-click="cancelEdit(id, testStepNumber, $index)")
                             span.glyphicon.glyphicon-remove

@@ -18,7 +18,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
     };
 
     //Gets the test step argument name from a string
-    var getArgumentNameFromString = function(testStepString, testStepIndex) {
+    var getArgumentNameFromString = function(testStepString) {
         
         //If the argument opening bracket does not exist in the string, just return an empty string
         //Otherwise, return a substring after the start of the bracket
@@ -31,7 +31,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
     var getArgumentValueFromString = function(testStepString, testStepIndex) {
         
         //Get the argument name from the string
-        var argumentName = getArgumentNameFromString(testStepString, testStepIndex);
+        var argumentName = getArgumentNameFromString(testStepString);
 
         //If the argument name couldn't be found
         if (!argumentName) {
@@ -66,38 +66,38 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
     var updateTestStepsInScope = function(testSteps) {
 
         //For each test step
-        for (var testStep of testSteps) {
+        for (var t in testSteps) {
 
             //Create a new section in the test step to store the split version
-            testStep.split = [];
+            testSteps[t].split = [];
             
             //Split the step by closing argument brackets
-            var splitSections = testStep.step.split('}');
+            var splitSections = testSteps[t].step.split('}');
 
             //For each split section
-            for (var i in splitSections) {
+            for (var s in splitSections) {
 
                 //Get the test step text
-                var text = getTestStepTextFromString(splitSections[i]);
+                var text = getTestStepTextFromString(splitSections[s]);
 
                 //Get the argument name
-                var argumentName = getArgumentNameFromString(splitSections[i], i);
+                var argumentName = getArgumentNameFromString(splitSections[s]);
 
                 //Get the argument value
-                var argumentValue = getArgumentValueFromString(splitSections[i], i);
+                var argumentValue = getArgumentValueFromString(splitSections[s], t);
 
                 //If the test step text is not empty
                 if (text) {
 
                     //Add it to the split test step array
-                    testStep.split.push({type: 'test-step-text', value: text});
+                    testSteps[t].split.push({type: 'test-step-text', value: text});
                 }
 
                 //If the argument name is not empty
                 if (argumentName) {
 
                     //Add it to the split test step array
-                    testStep.split.push({type: 'test-step-argument-name', value: argumentName});
+                    testSteps[t].split.push({type: 'test-step-argument-name', value: argumentName});
                 }
 
                 //If the argument value is not empty
@@ -109,7 +109,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
                         : 'test-step-argument-value-supplied';
 
                     //Add it to the split test step array
-                    testStep.split.push({type: type, value: argumentValue});
+                    testSteps[t].split.push({type: type, value: argumentValue});
                 }
             }
         }
@@ -157,12 +157,54 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
             $scope.showEdit(fieldID, testStepNumber, sectionNumber, false);
         };
 
-        //Submits the edits made to the field to the server
-        $scope.submitEdit = function(fieldID, testStepNumber, sectionNumber) {
+        //Submits the edits made to the system test or a test step argument to the server
+        $scope.submitEdit = function(fieldID, testStepNumber, sectionNumber, argumentName, argumentValue) {
+
+            //Get the arguments for the test step
+            var arguments = $scope.systemTest.testStepArguments[testStepNumber].arguments;
+
+            //If the arguments list is non-existent
+            if (!arguments) {
+                
+                //Create it with the argument name and value
+                arguments = [{name: argumentName, value: argumentValue}];
+            }
+            else {
+                
+                //Record if a matching argument is found
+                var isMatch = false;
+                
+                //For each existing argument
+                for (var argument of arguments) {
+                    
+                    //If the argument name matches
+                    if (argument.name == argumentName) {
+                        
+                        //Update the value
+                        argument.value = argumentValue;
+                        
+                        //Record that the argument was found and updated
+                        isMatch = true;
+                        
+                        //Break from the loop
+                        break;
+                    }
+                }
+                
+                //If the argument was not found
+                if (!isMatch) {
+                    
+                    //Add it to the arguments list
+                    arguments.push({name: argumentName, value: argumentValue});
+                }
+            }
+
+            //Update the arguments in the scope
+            $scope.systemTest.testStepArguments[testStepNumber].arguments = arguments;
 
             //Save the system test
-            //dbSystemTest.updateSystemTest($scope.systemTest);
-
+            dbSystemTest.updateSystemTest($scope.systemTest);
+            
             //Stop editing
             $scope.showEdit(fieldID, testStepNumber, sectionNumber, false);
         };
