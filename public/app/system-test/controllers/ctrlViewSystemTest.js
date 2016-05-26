@@ -7,6 +7,11 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
     //Set the page title
     $rootScope.title += projectCode + '-S' + systemTestCode;
 
+        
+        //Return the string surrounded in curly brackets
+        return '{' + stringToFormat + '}';
+    }
+
     //Gets the test step text from a string
     var getTestStepTextFromString = function(testStepString) {
         
@@ -49,8 +54,8 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
             //For each argument
             for (var argument of testStep.arguments) {
 
-                //If the argument name matches
-                if (argument.name == argumentName) {
+                //If the argument name matches and a value has been recorded
+                if (argument.name == argumentName && argument.value) {
 
                     //Return the value of the argument
                     return argument.value;
@@ -58,8 +63,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
             }
         }
 
-        //If this point is reached, just return the argument name in brackets
-        return '{' + argumentName + '}';
+        //If this point is reached, just return the formatted argument name
     };
 
     //Updates the test steps in the scope, both in original form and also by separating out the arguments
@@ -177,6 +181,13 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
 
         //Submits the edits made to the system test or a test step argument to the server
         $scope.submitEdit = function(fieldID, testStepNumber, sectionNumber, argumentName, argumentValue) {
+
+            //If the argument value was cleared
+            if (!argumentValue) {
+                
+                //Reset the value back to the argument name, which is recorded in the previous section
+                $scope.testSteps[testStepNumber].split[sectionNumber].value
+            }
 
             //If the test step and section numbers were supplied
             if (typeof testStepNumber !== 'undefined' && typeof sectionNumber !== 'undefined') {
