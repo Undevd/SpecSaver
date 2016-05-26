@@ -7,6 +7,8 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
     //Set the page title
     $rootScope.title += projectCode + '-S' + systemTestCode;
 
+    //Formats a string into a placeholder value
+    var formatPlaceholder = function(stringToFormat) {
         
         //Return the string surrounded in curly brackets
         return '{' + stringToFormat + '}';
@@ -64,6 +66,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         }
 
         //If this point is reached, just return the formatted argument name
+        return formatPlaceholder(argumentName);
     };
 
     //Updates the test steps in the scope, both in original form and also by separating out the arguments
@@ -187,6 +190,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
                 
                 //Reset the value back to the argument name, which is recorded in the previous section
                 $scope.testSteps[testStepNumber].split[sectionNumber].value
+                = formatPlaceholder($scope.testSteps[testStepNumber].split[sectionNumber - 1].value);                
             }
 
             //If the test step and section numbers were supplied
