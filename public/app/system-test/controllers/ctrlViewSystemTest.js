@@ -178,47 +178,51 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         //Submits the edits made to the system test or a test step argument to the server
         $scope.submitEdit = function(fieldID, testStepNumber, sectionNumber, argumentName, argumentValue) {
 
-            //Get the arguments for the test step
-            var arguments = $scope.systemTest.testStepArguments[testStepNumber].arguments;
+            //If the test step and section numbers were supplied
+            if (typeof testStepNumber !== 'undefined' && typeof sectionNumber !== 'undefined') {
+                
+                //Get the arguments for the test step
+                var arguments = $scope.systemTest.testStepArguments[testStepNumber].arguments;
 
-            //If the arguments list is non-existent
-            if (!arguments) {
-                
-                //Create it with the argument name and value
-                arguments = [{name: argumentName, value: argumentValue}];
-            }
-            else {
-                
-                //Record if a matching argument is found
-                var isMatch = false;
-                
-                //For each existing argument
-                for (var argument of arguments) {
+                //If the arguments list is non-existent
+                if (!arguments) {
                     
-                    //If the argument name matches
-                    if (argument.name == argumentName) {
+                    //Create it with the argument name and value
+                    arguments = [{name: argumentName, value: argumentValue}];
+                }
+                else {
+                    
+                    //Record if a matching argument is found
+                    var isMatch = false;
+                    
+                    //For each existing argument
+                    for (var argument of arguments) {
                         
-                        //Update the value
-                        argument.value = argumentValue;
+                        //If the argument name matches
+                        if (argument.name == argumentName) {
+                            
+                            //Update the value
+                            argument.value = argumentValue;
+                            
+                            //Record that the argument was found and updated
+                            isMatch = true;
+                            
+                            //Break from the loop
+                            break;
+                        }
+                    }
+                    
+                    //If the argument was not found
+                    if (!isMatch) {
                         
-                        //Record that the argument was found and updated
-                        isMatch = true;
-                        
-                        //Break from the loop
-                        break;
+                        //Add it to the arguments list
+                        arguments.push({name: argumentName, value: argumentValue});
                     }
                 }
-                
-                //If the argument was not found
-                if (!isMatch) {
-                    
-                    //Add it to the arguments list
-                    arguments.push({name: argumentName, value: argumentValue});
-                }
-            }
 
-            //Update the arguments in the scope
-            $scope.systemTest.testStepArguments[testStepNumber].arguments = arguments;
+                //Update the arguments in the scope
+                $scope.systemTest.testStepArguments[testStepNumber].arguments = arguments;
+            }
 
             //Save the system test
             dbSystemTest.updateSystemTest($scope.systemTest);
