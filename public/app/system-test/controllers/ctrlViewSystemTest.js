@@ -188,9 +188,17 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
             //If the argument value was cleared
             if (!argumentValue) {
                 
+                //Set the type to show that no value was supplied
+                $scope.testSteps[testStepNumber].split[sectionNumber].type = 'test-step-argument-value-not-supplied';
+                
                 //Reset the value back to the argument name, which is recorded in the previous section
                 $scope.testSteps[testStepNumber].split[sectionNumber].value
                 = formatPlaceholder($scope.testSteps[testStepNumber].split[sectionNumber - 1].value);                
+            }
+            else {
+                
+                //Set the type to show that a value was supplied
+                $scope.testSteps[testStepNumber].split[sectionNumber].type = 'test-step-argument-value-supplied';
             }
 
             //If the test step and section numbers were supplied
