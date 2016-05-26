@@ -90,14 +90,14 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
                 if (text) {
 
                     //Add it to the split test step array
-                    testSteps[t].split.push({type: 'test-step-text', value: text});
+                    testSteps[t].split.push({isEditable: false, type: 'test-step-text', value: text});
                 }
 
                 //If the argument name is not empty
                 if (argumentName) {
 
                     //Add it to the split test step array
-                    testSteps[t].split.push({type: 'test-step-argument-name', value: argumentName});
+                    testSteps[t].split.push({isEditable: false, type: 'test-step-argument-name', value: argumentName});
                 }
 
                 //If the argument value is not empty
@@ -109,7 +109,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
                         : 'test-step-argument-value-supplied';
 
                     //Add it to the split test step array
-                    testSteps[t].split.push({type: type, value: argumentValue});
+                    testSteps[t].split.push({isEditable: true, type: type, value: argumentValue});
                 }
             }
         }

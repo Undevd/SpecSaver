@@ -105,17 +105,17 @@
                 ng-init="id = 'testStep-' + testStepNumber + '-' + $index"
                 ng-repeat="section in testStep.split"
             )
-                span(ng-if="section.type != 'test-step-argument-value-not-supplied'") {{section.value}}
+                span(ng-if="!section.isEditable") {{section.value}}
                 a.edit(
                     ng-click="showEdit(true, id, testStepNumber, $index)"
-                    ng-if="section.type == 'test-step-argument-value-not-supplied'"
+                    ng-if="section.isEditable"
                     ng-mouseleave="hover[id] = false"
                     ng-mouseover="hover[id] = true"
                 )
                     span {{section.value}}
                     span.glyphicon.glyphicon-pencil.small(ng-show="hover[id]")
                 span(
-                    ng-if="section.type == 'test-step-argument-value-not-supplied'"
+                    ng-if="section.isEditable"
                     ng-init="argumentName = testStep.split[$index - 1].value"
                     ng-show="edit[id]"
                 )
