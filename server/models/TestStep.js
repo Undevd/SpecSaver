@@ -27,8 +27,23 @@ testStepSchema.statics.addTestStep = function addTestStep(newTestStepData) {
             //Get the system test data
             var systemTestData = data[0];
 
-            //Add the test step to the required position
-            systemTestData.testStepArguments.splice(newTestStepData.position, 0, {code: newTestStepData.code, arguments: newTestStepData.arguments});
+            //Record the new data to save
+            var newDataToSave = {
+                code: newTestStepData.code,
+                arguments: newTestStepData.arguments
+            };
+
+            //If a test step is being edited
+            if (newTestStepData.isEdit) {
+                
+                //Overwrite the test step data in the required position
+                systemTestData.testStepArguments[newTestStepData.position] = newDataToSave;
+            }
+            else {
+                
+                //Add the test step to the required position
+                systemTestData.testStepArguments.splice(newTestStepData.position, 0, newDataToSave);
+            }
 
             //Update the system test
             var newSystemTest = mongoose.model('SystemTest').updateSystemTest(systemTestData);

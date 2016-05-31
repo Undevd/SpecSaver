@@ -292,10 +292,13 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         $scope.newTestStep = {};
 
         //Clears the test step search window and sets the new test step position to the end of the list
-        $scope.clearTestStepSearch = function() {
+        $scope.clearTestStepSearch = function(isEdit, position) {
 
-            //If a test step was selected previously
-            if ($scope.newTestStep.code) {
+            //Set the default position to the end of the list if none was supplied
+            position = typeof position === 'undefined' ? $scope.testSteps.length : position;
+
+            //If a test step is being edited or a test step search result was selected previously
+            if (isEdit || $scope.newTestStep.code) {
 
                 //Clear all the form fields
                 $scope.newTestStep = {};
@@ -307,14 +310,10 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
                 $scope.searchResultsTime = null;
             }
 
-            //Set the position to be at the end of the list
-            $scope.newTestStep.position = $scope.testSteps.length;
-        };
-
-        //Sets the new test step position
-        $scope.setTestStepPosition = function(position) {
-
-            //Set the position
+            //Record if this is an edit to an existing step or a new one
+            $scope.newTestStep.isEdit = isEdit;
+            
+            //Set the position of the test step in the list
             $scope.newTestStep.position = position;
         };
 
@@ -324,6 +323,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
             //Get the test step data from the scope
             var testStep = {
                 code: $scope.newTestStep.code,
+                isEdit: $scope.newTestStep.isEdit,
                 position: $scope.newTestStep.position,
                 projectCode: projectCode,
                 systemTestCode: systemTestCode

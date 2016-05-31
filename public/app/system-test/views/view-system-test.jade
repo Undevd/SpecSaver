@@ -90,7 +90,7 @@
             button.box.btn.btn-success.padlr(
                 data-target="#ModalAdd"
                 data-toggle="modal"
-                ng-click="clearTestStepSearch()"
+                ng-click="clearTestStepSearch(false)"
             )
                 span.glyphicon.glyphicon-plus(aria-label="Add icon")
     .row.test-step(
@@ -100,9 +100,9 @@
     )
         .col-md-1
             button.btn.btn-default.btn-xs(
-                data-target="#ModalEdit"
+                data-target="#ModalAdd"
                 data-toggle="modal"
-                ng-click="populateTestStepSearch($index); setTestStepPosition($index);"
+                ng-click="clearTestStepSearch(true, $index);"
             )
                 span.glyphicon.glyphicon-pencil(aria-label="Edit icon")
         .col-md-10
@@ -147,7 +147,7 @@
             button.btn.btn-default.btn-xs(
                 data-target="#ModalAdd"
                 data-toggle="modal"
-                ng-click="clearTestStepSearch(); setTestStepPosition($index + 1);"
+                ng-click="clearTestStepSearch(false, $index + 1)"
             )
                 span.glyphicon.glyphicon-plus(aria-label="Add icon")
     .fade.modal(
