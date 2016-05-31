@@ -223,6 +223,7 @@
                             .col-md-2
                                 select.form-control(
                                     name="newTestStep.type"
+                                    ng-change="clearTestStepResults()"
                                     ng-model="newTestStep.type"
                                     required
                                 )
@@ -239,6 +240,7 @@
                                 .input-group
                                     input.form-control(
                                         name="newTestStep.step"
+                                        ng-change="clearTestStepResults()"
                                         ng-model="newTestStep.step"
                                         required
                                         type="text"
@@ -253,7 +255,7 @@
                     .row(ng-show="searchResults")
                         .col-md-12
                             span(ng-show="searchResults.length") Results
-                            span(ng-show="!searchResults.length") No results found {{searchResultsTime | date: '(HH:mm:ss)'}}
+                            span(ng-show="!searchResults.length && searchResultsTime") No results found {{searchResultsTime | date: '(HH:mm:ss)'}}
                     .row(ng-show="searchResults.length")
                         .col-md-12
                             select.form-control(
@@ -261,6 +263,7 @@
                                 ng-model="newTestStep.code"
                             )
                                 option(value="") Select result...
+                                option(class="i" value="-1") Create new test step: {{newTestStep.type}} {{newTestStep.step}}
                                 option(
                                     ng-repeat="searchResult in searchResults"
                                     value="{{searchResult.code}}"
@@ -273,16 +276,16 @@
                     span.padr
                         button.btn.btn-success(
                             ng-click="addTestStep()"
-                            ng-disabled="!newTestStep.code"
+                            ng-show="!testStepForm.$invalid && newTestStep.code && newTestStep.code >= 0"
                         )
-                            span.glyphicon.glyphicon-plus.padr
-                            span Add
+                            span.glyphicon.glyphicon-ok.padr
+                            span(ng-bind="newTestStep.isEdit ? 'Update' : 'Add'")
                     span.padr
                         button.btn.btn-success(
                             ng-click="createTestStep()"
-                            ng-disabled="newTestStep.code || testStepForm.$invalid || !searchResultsTime"
+                            ng-show="!testStepForm.$invalid && newTestStep.code && newTestStep.code < 0"
                         )
-                            span.glyphicon.glyphicon-ok.padr
+                            span.glyphicon.glyphicon-plus.padr
                             span Create
                     span
                         a.btn.btn-default(

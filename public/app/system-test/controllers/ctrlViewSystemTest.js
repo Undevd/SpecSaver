@@ -285,11 +285,31 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
 
                 //Set the current time
                 $scope.searchResultsTime = new Date();
+                
+                //If no results were found
+                if (!results.length) {
+                    
+                    //Set the default value in the results dropdown to create the step
+                    $scope.newTestStep.code = -1;
+                }
             });
         };
 
         //Store data on new test steps which are added
         $scope.newTestStep = {};
+
+        //Clears the test step search window and sets the new test step position to the end of the list
+        $scope.clearTestStepResults = function() {
+            
+            //Clear the last selected test step
+            $scope.newTestStep.code = null;
+            
+            //Clear the search results
+            $scope.searchResults = [];
+
+            //Clear the search time
+            $scope.searchResultsTime = null;
+        }
 
         //Clears the test step search window and sets the new test step position to the end of the list
         $scope.clearTestStepSearch = function(isEdit, position) {
@@ -300,14 +320,11 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
             //If a test step is being edited or a test step search result was selected previously
             if (isEdit || $scope.newTestStep.code) {
 
+                //Clear the results
+                clearTestStepResults();
+
                 //Clear all the form fields
                 $scope.newTestStep = {};
-
-                //Clear the search results
-                $scope.searchResults = [];
-
-                //Clear the search time
-                $scope.searchResultsTime = null;
             }
 
             //Record if this is an edit to an existing step or a new one

@@ -78,6 +78,9 @@ h3,
   font-size: 80%;
   margin: 0;
 }
+.i {
+  font-style: italic;
+}
 .nav a.btn {
   color: #fff !important;
 }
