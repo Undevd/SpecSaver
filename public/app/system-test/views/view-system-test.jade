@@ -94,10 +94,18 @@
             )
                 span.glyphicon.glyphicon-plus(aria-label="Add icon")
     .row.test-step(
+        ng-class="testStep.typeHierarchy < previousTestStep.typeHierarchy ? 'padt' : ''"
         ng-repeat="testStep in testSteps"
         ng-init="previousTestStep = testSteps[$index - 1]; testStepNumber = $index;"
     )
-        .col-md-11
+        .col-md-1
+            button.btn.btn-default.btn-xs(
+                data-target="#ModalEdit"
+                data-toggle="modal"
+                ng-click="populateTestStepSearch($index); setTestStepPosition($index);"
+            )
+                span.glyphicon.glyphicon-pencil(aria-label="Edit icon")
+        .col-md-10
             strong.test-step-type {{$index &lt; 1 || previousTestStep.type != testStep.type ? testStep.type : 'And'}}
             span #{' '}
             span(

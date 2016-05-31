@@ -14,6 +14,20 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         return '{' + stringToFormat + '}';
     }
 
+    //Gets the hierarchy position of the supplied test step type 
+    var getTestStepTypeHierarchy = function(testStepType) {
+        
+        //Convert the supplied type to lowercase and return the appropriate integer order
+        switch (testStepType.toLowerCase()) {
+            
+            //Given > When > Then
+            case 'given': return 1;
+            case 'when': return 2;
+            case 'then': return 3;
+            default: return 0;
+        }
+    }
+
     //Gets the test step text from a string
     var getTestStepTextFromString = function(testStepString) {
         
@@ -77,6 +91,9 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
 
             //Create a new section in the test step to store the split version
             testSteps[t].split = [];
+            
+            //Get the hierarchical order of the test step type
+            testSteps[t].typeHierarchy = getTestStepTypeHierarchy(testSteps[t].type);
             
             //Split the step by closing argument brackets
             var splitSections = testSteps[t].step.split('}');
