@@ -2,6 +2,9 @@ a,
 a:hover {
   color: inherit;
 }
+a.edit {
+  cursor: text;
+}
 a.edit:hover {
   text-decoration: none;
 }
@@ -62,6 +65,10 @@ body {
 .column6 {
   background-color: #444;
   color: #fff;
+}
+.draggable:hover {
+  background-color: #eee;
+  cursor: move;
 }
 h1,
 .h1 {

@@ -12,15 +12,22 @@ column4 = #666
 column5 = #555
 column6 = #444
 
+draggableHoverColour = #eee
+
+spacing = 1em
+
 testStepArgumentValueNotSupplied = #c7254e
 testStepArgumentValueSupplied = #3b7316
 testStepType = #00f
 
-text = #fff
+textColour = #fff
 
 a
 a:hover
     color inherit
+
+a.edit
+    cursor text
 
 a.edit:hover
     text-decoration none
@@ -37,51 +44,55 @@ body
 
 .colour1
     background-color colour1
-    color text
+    color textColour
 
 .colour2
     background-color colour2
-    color text
+    color textColour
 
 .colour3
     background-color colour3
-    color text
+    color textColour
 
 .colour4
     background-color colour4
-    color text
+    color textColour
 
 .colour5
     background-color colour5
-    color text
+    color textColour
 
 .colour6
     background-color colour6
-    color text
+    color textColour
 
 .column1
     background-color column1
-    color text
+    color textColour
 
 .column2
     background-color column2
-    color text
+    color textColour
 
 .column3
     background-color column3
-    color text
+    color textColour
 
 .column4
     background-color column4
-    color text
+    color textColour
 
 .column5
     background-color column5
-    color text
+    color textColour
 
 .column6
     background-color column6
-    color text
+    color textColour
+
+.draggable:hover
+    background-color draggableHoverColour
+    cursor move
 
 h1
 .h1
@@ -129,37 +140,37 @@ footer
 legend
     border-bottom 0
     margin-bottom 0
-    padding 1em
+    padding spacing
 
 .mono
 .test-step
     font-family Menlo, Monaco, Consolas, "Courier New", monospace
 
 .pad
-    padding 1em
+    padding spacing
 
 .padb
-    padding-bottom 1em
+    padding-bottom spacing
 
 .padbt
-    padding-bottom 1em
-    padding-top 1em
+    padding-bottom spacing
+    padding-top spacing
 
 .padl
-    padding-left 1em
+    padding-left spacing
 
 .padlr
-    padding-left 1em
-    padding-right 1em
+    padding-left spacing
+    padding-right spacing
 
 .padn
     padding 0
 
 .padr
-    padding-right 1em
+    padding-right spacing
 
 .padt
-    padding-top 1em
+    padding-top spacing
 
 .quote
     color #ccc
@@ -185,7 +196,7 @@ small
     display table
 
 .test-step
-    padding-bottom 1em
+    padding-bottom spacing
 
 .test-step-argument-name
     display none

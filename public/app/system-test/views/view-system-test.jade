@@ -93,63 +93,69 @@
                 ng-click="clearTestStepSearch(false)"
             )
                 span.glyphicon.glyphicon-plus(aria-label="Add icon")
-    .row.test-step(
-        ng-class="testStep.typeHierarchy < previousTestStep.typeHierarchy ? 'padt' : ''"
-        ng-repeat="testStep in testSteps"
-        ng-init="previousTestStep = testSteps[$index - 1]; testStepNumber = $index;"
+    .test-steps(
+        data-as-sortable="dragControlListeners"
+        data-ng-model="testSteps"
     )
-        .col-md-1
-            button.btn.btn-default.btn-xs(
-                data-target="#ModalAdd"
-                data-toggle="modal"
-                ng-click="clearTestStepSearch(true, $index);"
-            )
-                span.glyphicon.glyphicon-pencil(aria-label="Edit icon")
-        .col-md-10
-            strong.test-step-type {{$index &lt; 1 || previousTestStep.type != testStep.type ? testStep.type : 'And'}}
-            span #{' '}
-            span(
-                ng-class="section.type"
-                ng-init="id = 'testStep-' + testStepNumber + '-' + $index"
-                ng-repeat="section in testStep.split"
-            )
-                span(ng-if="!section.isEditable") {{section.value}}
-                a.edit(
-                    ng-click="showEdit(true, id, testStepNumber, $index)"
-                    ng-if="section.isEditable"
-                    ng-mouseleave="hover[id] = false"
-                    ng-mouseover="hover[id] = true"
-                )
-                    span {{section.value}}
-                    span.glyphicon.glyphicon-pencil.small(ng-show="hover[id]")
-                span(
-                    ng-if="section.isEditable"
-                    ng-init="argumentName = testStep.split[$index - 1].value"
-                    ng-show="edit[id]"
-                )
-                    form(name="{{id + '-form'}}")
-                        .input-group
-                            span.input-group-addon {{argumentName}}
-                            input.form-control(
-                                name="section.value"
-                                ng-model="section.value"
-                                placeholder="Value"
-                                type="text"
-                            )
-                        button.btn.btn-success(
-                            ng-click="submitEdit(id, testStepNumber, $index, argumentName, section.value)"
-                            ng-disabled="{{id + '-form'}}.$invalid"
+        .test-step(
+            data-as-sortable-item
+            ng-class="testStep.typeHierarchy < previousTestStep.typeHierarchy ? 'padt' : ''"
+            ng-repeat="testStep in testSteps"
+            ng-init="previousTestStep = testSteps[$index - 1]; testStepNumber = $index;"
+        )
+            .draggable.row(data-as-sortable-item-handle)
+                .col-md-1
+                    button.btn.btn-default.btn-xs(
+                        data-target="#ModalAdd"
+                        data-toggle="modal"
+                        ng-click="clearTestStepSearch(true, $index);"
+                    )
+                        span.glyphicon.glyphicon-pencil(aria-label="Edit icon")
+                .col-md-10
+                    strong.test-step-type {{$index &lt; 1 || previousTestStep.type != testStep.type ? testStep.type : 'And'}}
+                    span #{' '}
+                    span(
+                        ng-class="section.type"
+                        ng-init="id = 'testStep-' + testStepNumber + '-' + $index"
+                        ng-repeat="section in testStep.split"
+                    )
+                        span(ng-if="!section.isEditable") {{section.value}}
+                        a.edit(
+                            ng-click="showEdit(true, id, testStepNumber, $index)"
+                            ng-if="section.isEditable"
+                            ng-mouseleave="hover[id] = false"
+                            ng-mouseover="hover[id] = true"
                         )
-                            span.glyphicon.glyphicon-ok
-                        a.btn.btn-default(ng-click="cancelEdit(id, testStepNumber, $index)")
-                            span.glyphicon.glyphicon-remove
-        .col-md-1
-            button.btn.btn-default.btn-xs(
-                data-target="#ModalAdd"
-                data-toggle="modal"
-                ng-click="clearTestStepSearch(false, $index + 1)"
-            )
-                span.glyphicon.glyphicon-plus(aria-label="Add icon")
+                            span {{section.value}}
+                            span.glyphicon.glyphicon-pencil.small(ng-show="hover[id]")
+                        span(
+                            ng-if="section.isEditable"
+                            ng-init="argumentName = testStep.split[$index - 1].value"
+                            ng-show="edit[id]"
+                        )
+                            form(name="{{id + '-form'}}")
+                                .input-group
+                                    span.input-group-addon {{argumentName}}
+                                    input.form-control(
+                                        name="section.value"
+                                        ng-model="section.value"
+                                        placeholder="Value"
+                                        type="text"
+                                    )
+                                button.btn.btn-success(
+                                    ng-click="submitEdit(id, testStepNumber, $index, argumentName, section.value)"
+                                    ng-disabled="{{id + '-form'}}.$invalid"
+                                )
+                                    span.glyphicon.glyphicon-ok
+                                a.btn.btn-default(ng-click="cancelEdit(id, testStepNumber, $index)")
+                                    span.glyphicon.glyphicon-remove
+                .col-md-1
+                    button.btn.btn-default.btn-xs(
+                        data-target="#ModalAdd"
+                        data-toggle="modal"
+                        ng-click="clearTestStepSearch(false, $index + 1)"
+                    )
+                        span.glyphicon.glyphicon-plus(aria-label="Add icon")
     .fade.modal(
         id="ModalAdd"
         role="dialog"
