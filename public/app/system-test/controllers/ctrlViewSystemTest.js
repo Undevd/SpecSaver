@@ -277,14 +277,15 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
             //When the order changes
             orderChanged: function(event) {
                 
-                //Get the indexes of the test steps that were reordered
+                //Get the source and destination index of the test step that was reordered
                 var sourceIndex = event.source.index;
                 var destinationIndex = event.dest.index;
                 
-                //Switch the arguments in the system test scope
-                var tempArguments = $scope.systemTest.testStepArguments[sourceIndex];
-                $scope.systemTest.testStepArguments[sourceIndex] = $scope.systemTest.testStepArguments[destinationIndex];
-                $scope.systemTest.testStepArguments[destinationIndex] = tempArguments;
+                //Remove the element from the list
+                var removedElement = $scope.systemTest.testStepArguments.splice(sourceIndex, 1)[0];
+                
+                //Add the element back into the list at the new position
+                $scope.systemTest.testStepArguments.splice(destinationIndex, 0, removedElement);
                 
                 //Save the system test
                 dbSystemTest.updateSystemTest($scope.systemTest);
