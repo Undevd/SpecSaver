@@ -96,12 +96,16 @@ exports.updateSystemTest = function(request, response) {
             code: testStep.code,
             arguments: []
         }; 
-        
-        //For each argument
-        for (var argument of testStep.arguments) {
+   
+        //If there are arguments defined
+        if (testStep.arguments) {
             
-            //Add a sanitised version of the argument to the new object
-            testStepArguments.arguments.push({name: argument.name, value: argument.value});
+            //For each argument
+            for (var argument of testStep.arguments) {
+                
+                //Add a sanitised version of the argument to the new object
+                testStepArguments.arguments.push({name: argument.name, value: argument.value});
+            }
         }
         
         //Add the object to the updated system test

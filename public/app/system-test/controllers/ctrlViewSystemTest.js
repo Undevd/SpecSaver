@@ -271,6 +271,26 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
             $scope.showEdit(false, fieldID, testStepNumber, sectionNumber);
         };
 
+        //Set the test step reorder listeners
+        $scope.testStepReorderListeners = {
+            
+            //When the order changes
+            orderChanged: function(event) {
+                
+                //Get the indexes of the test steps that were reordered
+                var sourceIndex = event.source.index;
+                var destinationIndex = event.dest.index;
+                
+                //Switch the arguments in the system test scope
+                var tempArguments = $scope.systemTest.testStepArguments[sourceIndex];
+                $scope.systemTest.testStepArguments[sourceIndex] = $scope.systemTest.testStepArguments[destinationIndex];
+                $scope.systemTest.testStepArguments[destinationIndex] = tempArguments;
+                
+                //Save the system test
+                dbSystemTest.updateSystemTest($scope.systemTest);
+            }
+        };
+
         //Store test step search results
         $scope.searchResults = [];
 
