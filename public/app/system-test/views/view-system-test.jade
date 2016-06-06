@@ -118,7 +118,7 @@
                         ng-init="id = 'testStep-' + $parent.$index + '-' + $index"
                         ng-repeat="section in testStep.split"
                     )
-                        span(ng-if="!section.isEditable") {{section.value}}
+                        span(ng-if="!section.isEditable && !section.isHidden") {{section.value}}
                         a.edit(
                             ng-click="showEdit(true, id, $parent.$parent.$index, $index)"
                             ng-if="section.isEditable"
@@ -128,7 +128,7 @@
                             span {{section.value}}
                             span.glyphicon.glyphicon-pencil.small(ng-show="hover[id]")
                         span(
-                            ng-if="section.isEditable"
+                            ng-if="section.isEditable && !section.isHidden"
                             ng-show="edit[id]"
                         )
                             form(name="{{id + '-form'}}")
@@ -147,6 +147,16 @@
                                     span.glyphicon.glyphicon-ok
                                 a.btn.btn-default(ng-click="cancelEdit(id, $parent.$index, $index)")
                                     span.glyphicon.glyphicon-remove
+                        .row(ng-if="section.isTableHeader")
+                            span.col-md-2(
+                                ng-class="section.type"
+                                ng-repeat="column in section.value"
+                            ) {{column}}
+                        .row(ng-if="section.isTableRows")
+                            span.col-md-2(
+                                ng-class="section.type"
+                                ng-repeat="column in section.value"
+                            ) {{column}}
                 .col-md-1
                     button.btn.btn-default.btn-xs(
                         data-target="#ModalAdd"
@@ -204,15 +214,13 @@
                             .col-md-12
                                 strong Tables
                                 .test-step
-                                    span.test-step-text '
                                     span.test-step-argument-value-not-supplied {|column 1 name|column 2 name|...|}
-                                    span.test-step-text '
                                 .test-step
                                     span e.g.#{' '}
                                     span.test-step-type When
-                                    span.test-step-text #{' '}I enter the following information: '
+                                    span.test-step-text #{' '}I enter the following information:
+                                    span.test-step-text #{' '}
                                     span.test-step-argument-value-not-supplied {|field|value|}
-                                    span.test-step-text '
                         .row.padb
                             .col-md-12
                                 legend.column1

@@ -177,8 +177,9 @@ small,
 .test-step {
   padding-bottom: 1em;
 }
-.test-step-argument-name {
-  display: none;
+.test-step-argument-name-table-header {
+  background-color: #7ea3ac;
+  color: #fff;
 }
 .test-step-argument-value-not-supplied {
   color: #c7254e;

@@ -28,6 +28,13 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         }
     }
 
+    //Checks to see if an argument name is for a table
+    var isTableArgumentName = function(argumentName) {
+        
+        //If the string starts and ends with a pipe symbol, then it is a table argument
+        return argumentName.startsWith('|') && argumentName.endsWith('|');
+    }
+
     //Gets the test step text from a string
     var getTestStepTextFromString = function(testStepString) {
         
@@ -83,6 +90,21 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         return formatPlaceholder(argumentName);
     };
 
+    //Gets the test step argument name split into columns for the table header
+    var getArgumentNameColumns = function(argumentName) {
+        
+        //Split the argument name by the pipe symbol and remove any empty values
+        return argumentName.split('|').filter(Boolean);
+    };
+    
+    //Gets the test step argument value split into rows for the table
+    var getArgumentValueRows = function(argumentValue) {
+        
+        //Split the argument value by the pipe symbol and remove any empty values
+        //TEMP
+        return [];
+    };
+
     //Updates the test steps in the scope, both in original form and also by separating out the arguments
     var updateTestStepsInScope = function(testSteps) {
 
@@ -109,31 +131,89 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
 
                 //Get the argument value
                 var argumentValue = getArgumentValueFromString(splitSections[s], t);
+                
+                //Check to see if this is a table argument
+                var isTable = isTableArgumentName(argumentName);
 
                 //If the test step text is not empty
                 if (text) {
 
                     //Add it to the split test step array
-                    testSteps[t].split.push({isEditable: false, type: 'test-step-text', value: text});
+                    testSteps[t].split.push({
+                        type: 'test-step-text',
+                        value: text
+                    });
                 }
 
                 //If the argument name is not empty
                 if (argumentName) {
 
                     //Add it to the split test step array
-                    testSteps[t].split.push({isEditable: false, type: 'test-step-argument-name', value: argumentName});
+                    testSteps[t].split.push({
+                        isHidden: true,
+                        type: 'test-step-argument-name',
+                        value: argumentName
+                    });
+                    
+                    //If this is a table argument
+                    if (isTable) {
+                        
+                        //Get the argument name split into column values
+                        var argumentNameColumns = getArgumentNameColumns(argumentName);
+                        
+                        //Add it to the split test step array
+                        testSteps[t].split.push({
+                            isHidden: true,
+                            isTableHeader: true,
+                            type: 'test-step-argument-name-table-header',
+                            value: argumentNameColumns
+                        });
+                    }
                 }
 
                 //If the argument value is not empty
                 if (argumentValue) {
 
-                    //Determine the type
-                    var type = argumentValue.startsWith('{') && argumentValue.endsWith('}')
-                        ? 'test-step-argument-value-not-supplied'
-                        : 'test-step-argument-value-supplied';
+                    //Determine how the argument value will be displayed
+                    var type = '';
+                    
+                    //If this is a table argument
+                    if (isTable) {
+                        
+                        //Record the type as such
+                        type = 'test-step-argument-table';
+                    }
+                    else {
+                        
+                        //The argument value type is 'not supplied'
+                        //if the value starts and ends with the argument placeholder symbols
+                        type = argumentValue.startsWith('{') && argumentValue.endsWith('}')
+                            ? 'test-step-argument-value-not-supplied'
+                            : 'test-step-argument-value-supplied';
+                    }
 
                     //Add it to the split test step array
-                    testSteps[t].split.push({isEditable: true, type: type, value: argumentValue});
+                    testSteps[t].split.push({
+                        isEditable: !isTable,
+                        isHidden: isTable,
+                        type: type,
+                        value: argumentValue
+                    });
+                    
+                    //If this is a table argument
+                    if (isTable) {
+                        
+                        //Get the argument value split into row and column values
+                        var argumentValueRows = getArgumentValueRows(argumentValue);
+                        
+                        //Add it to the split test step array
+                        testSteps[t].split.push({
+                            isHidden: true,
+                            isTableRows: true,
+                            type: 'test-step-argument-value-table-rows',
+                            value: argumentValueRows
+                        });
+                    }
                 }
             }
         }
@@ -342,7 +422,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
             if (isEdit || $scope.newTestStep.code) {
 
                 //Clear the results
-                clearTestStepResults();
+                $scope.clearTestStepResults();
 
                 //Clear all the form fields
                 $scope.newTestStep = {};
