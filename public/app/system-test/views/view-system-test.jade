@@ -120,7 +120,7 @@
                     )
                         span(ng-if="!section.isEditable") {{section.value}}
                         a.edit(
-                            ng-click="showEdit(true, id, $parent.$index, $index)"
+                            ng-click="showEdit(true, id, $parent.$parent.$index, $index)"
                             ng-if="section.isEditable"
                             ng-mouseleave="hover[id] = false"
                             ng-mouseover="hover[id] = true"
@@ -141,7 +141,7 @@
                                         type="text"
                                     )
                                 button.btn.btn-success(
-                                    ng-click="submitEdit(id, $parent.$index, $index, testStep.split[$index - 1].value, section.value)"
+                                    ng-click="submitEdit(id, $parent.$parent.$index, $index, testStep.split[$index - 1].value, section.value)"
                                     ng-disabled="{{id + '-form'}}.$invalid"
                                 )
                                     span.glyphicon.glyphicon-ok
