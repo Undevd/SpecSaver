@@ -56,7 +56,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
     };
 
     //Gets the test step argument value from a string
-    var getArgumentValueFromString = function(testStepString, testStepIndex) {
+    var getArgumentValueFromString = function(testStepString, testStepIndex, usePlaceholderAsDefault) {
         
         //Get the argument name from the string
         var argumentName = getArgumentNameFromString(testStepString);
@@ -86,23 +86,44 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
             }
         }
 
-        //If this point is reached, just return the formatted argument name
-        return formatPlaceholder(argumentName);
+        //If this point is reached and a placeholder should be used
+        if (usePlaceholderAsDefault) {
+
+            //Return the formatted argument name
+            return formatPlaceholder(argumentName);
+        }
+        else {
+
+            //Otherwise, return an empty string
+            return '';
+        }
     };
 
-    //Gets the test step argument name split into columns for the table header
-    var getArgumentNameColumns = function(argumentName) {
+    //Splits a string into columns
+    var getColumns = function(argumentName) {
         
         //Split the argument name by the pipe symbol and remove any empty values
         return argumentName.split('|').filter(Boolean);
     };
     
-    //Gets the test step argument value split into rows for the table
-    var getArgumentValueRows = function(argumentValue) {
+    //Splits a string into rows and columns
+    var getRows = function(argumentValue) {
         
-        //Split the argument value by the pipe symbol and remove any empty values
-        //TEMP
-        return [];
+        //Split the argument value by the split pipe symbol and remove any empty values
+        var rows = argumentValue.split('¦').filter(Boolean);
+
+        //Create an array to store the rows
+        var rowsSplit = [];
+
+        //For each row
+        for (var row of rows) {
+
+            //Split the row into columns and add this to the array
+            rowsSplit.push(getColumns(row));
+        }
+
+        //Return the rows split
+        return rowsSplit;
     };
 
     //Updates the test steps in the scope, both in original form and also by separating out the arguments
@@ -129,11 +150,11 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
                 //Get the argument name
                 var argumentName = getArgumentNameFromString(splitSections[s]);
 
-                //Get the argument value
-                var argumentValue = getArgumentValueFromString(splitSections[s], t);
-                
                 //Check to see if this is a table argument
                 var isTable = isTableArgumentName(argumentName);
+
+                //Get the argument value
+                var argumentValue = getArgumentValueFromString(splitSections[s], t, !isTable);
 
                 //If the test step text is not empty
                 if (text) {
@@ -145,75 +166,54 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
                     });
                 }
 
-                //If the argument name is not empty
-                if (argumentName) {
+                //If the argument name is not empty and this is a table argument
+                if (argumentName && isTable) {
 
+                    //Get the argument name split into column values
+                    var argumentNameColumns = getColumns(argumentName);
+                    
                     //Add it to the split test step array
                     testSteps[t].split.push({
+                        field: argumentName,
                         isHidden: true,
-                        type: 'test-step-argument-name',
-                        value: argumentName
+                        isTableHeader: true,
+                        type: 'test-step-argument-name-table-header',
+                        value: argumentNameColumns
                     });
-                    
-                    //If this is a table argument
-                    if (isTable) {
-                        
-                        //Get the argument name split into column values
-                        var argumentNameColumns = getArgumentNameColumns(argumentName);
-                        
-                        //Add it to the split test step array
-                        testSteps[t].split.push({
-                            isHidden: true,
-                            isTableHeader: true,
-                            type: 'test-step-argument-name-table-header',
-                            value: argumentNameColumns
-                        });
-                    }
                 }
 
-                //If the argument value is not empty
-                if (argumentValue) {
-
-                    //Determine how the argument value will be displayed
-                    var type = '';
+                //If the argument value is not empty and this is not a table argument
+                if (argumentValue && !isTable) {
                     
-                    //If this is a table argument
-                    if (isTable) {
-                        
-                        //Record the type as such
-                        type = 'test-step-argument-table';
-                    }
-                    else {
-                        
-                        //The argument value type is 'not supplied'
-                        //if the value starts and ends with the argument placeholder symbols
-                        type = argumentValue.startsWith('{') && argumentValue.endsWith('}')
-                            ? 'test-step-argument-value-not-supplied'
-                            : 'test-step-argument-value-supplied';
-                    }
+                    //Determine how the argument value will be displayed
+                    var type = argumentValue.startsWith('{') && argumentValue.endsWith('}')
+                        ? 'test-step-argument-value-not-supplied'
+                        : 'test-step-argument-value-supplied';
 
                     //Add it to the split test step array
                     testSteps[t].split.push({
+                        field: argumentName,
                         isEditable: !isTable,
                         isHidden: isTable,
                         type: type,
                         value: argumentValue
                     });
-                    
-                    //If this is a table argument
-                    if (isTable) {
-                        
-                        //Get the argument value split into row and column values
-                        var argumentValueRows = getArgumentValueRows(argumentValue);
-                        
-                        //Add it to the split test step array
-                        testSteps[t].split.push({
-                            isHidden: true,
-                            isTableRows: true,
-                            type: 'test-step-argument-value-table-rows',
-                            value: argumentValueRows
-                        });
-                    }
+                }
+                //Else if this is a table argument
+                else if (isTable) {
+
+                    //Get the argument value split into row and column values
+                    var argumentValueRows = getRows(argumentValue);
+
+                    //Add it to the split test step array
+                    testSteps[t].split.push({
+                        field: argumentName,
+                        isHidden: true,
+                        isTableRows: true,
+                        type: 'test-step-argument-value-table-rows',
+                        value: argumentValue,
+                        valueSplit: argumentValueRows
+                    });
                 }
             }
         }
@@ -279,76 +279,92 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
             $scope.showEdit(false, fieldID, testStepNumber, sectionNumber);
         };
 
-        //Submits the edits made to the system test or a test step argument to the server
-        $scope.submitEdit = function(fieldID, testStepNumber, sectionNumber, argumentName, argumentValue) {
+        //Submits the edits made to the system test to the server
+        $scope.submitEdit = function(fieldID) {
 
-            //If the test step and section numbers were supplied
-            if (typeof testStepNumber !== 'undefined' && typeof sectionNumber !== 'undefined') {
+            //Save the system test
+            dbSystemTest.updateSystemTest($scope.systemTest);
+            
+            //Stop editing
+            $scope.showEdit(false, fieldID);
+        };
+
+        //Submits the edits made to the test steps to the server
+        $scope.submitEditForTestStep = function(fieldID, testStepNumber, sectionNumber, argumentName, argumentValue) {
                 
-                //If the argument value was cleared
-                if (!argumentValue) {
-                    
-                    //Set the type to show that no value was supplied
-                    $scope.testSteps[testStepNumber].split[sectionNumber].type = 'test-step-argument-value-not-supplied';
-                    
-                    //Reset the value back to the argument name, which is recorded in the previous section
-                    $scope.testSteps[testStepNumber].split[sectionNumber].value
-                    = formatPlaceholder($scope.testSteps[testStepNumber].split[sectionNumber - 1].value);                
-                }
-                else {
-                    
-                    //Set the type to show that a value was supplied
-                    $scope.testSteps[testStepNumber].split[sectionNumber].type = 'test-step-argument-value-supplied';
-                }
+            //If the argument value was cleared
+            if (!argumentValue) {
                 
-                //Get the arguments for the test step
-                var arguments = $scope.systemTest.testStepArguments[testStepNumber].arguments;
-
-                //If the arguments list is non-existent
-                if (!arguments) {
-                    
-                    //Create it with the argument name and value
-                    arguments = [{name: argumentName, value: argumentValue}];
-                }
-                else {
-                    
-                    //Record if a matching argument is found
-                    var isMatch = false;
-                    
-                    //For each existing argument
-                    for (var argument of arguments) {
-                        
-                        //If the argument name matches
-                        if (argument.name == argumentName) {
-                            
-                            //Update the value
-                            argument.value = argumentValue;
-                            
-                            //Record that the argument was found and updated
-                            isMatch = true;
-                            
-                            //Break from the loop
-                            break;
-                        }
-                    }
-                    
-                    //If the argument was not found
-                    if (!isMatch) {
-                        
-                        //Add it to the arguments list
-                        arguments.push({name: argumentName, value: argumentValue});
-                    }
-                }
-
-                //Update the arguments in the scope
-                $scope.systemTest.testStepArguments[testStepNumber].arguments = arguments;
+                //Set the type to show that no value was supplied
+                $scope.testSteps[testStepNumber].split[sectionNumber].type = 'test-step-argument-value-not-supplied';
+                
+                //Reset the value back to the argument name, which is recorded in the previous section
+                $scope.testSteps[testStepNumber].split[sectionNumber].value
+                = formatPlaceholder($scope.testSteps[testStepNumber].split[sectionNumber - 1].value);                
             }
+            else {
+                
+                //Set the type to show that a value was supplied
+                $scope.testSteps[testStepNumber].split[sectionNumber].type = 'test-step-argument-value-supplied';
+            }
+            
+            //Get the arguments for the test step
+            var arguments = $scope.systemTest.testStepArguments[testStepNumber].arguments;
+
+            //If the arguments list is non-existent
+            if (!arguments) {
+                
+                //Create it with the argument name and value
+                arguments = [{name: argumentName, value: argumentValue}];
+            }
+            else {
+                
+                //Record if a matching argument is found
+                var isMatch = false;
+                
+                //For each existing argument
+                for (var argument of arguments) {
+                    
+                    //If the argument name matches
+                    if (argument.name == argumentName) {
+                        
+                        //Update the value
+                        argument.value = argumentValue;
+                        
+                        //Record that the argument was found and updated
+                        isMatch = true;
+                        
+                        //Break from the loop
+                        break;
+                    }
+                }
+                
+                //If the argument was not found
+                if (!isMatch) {
+                    
+                    //Add it to the arguments list
+                    arguments.push({name: argumentName, value: argumentValue});
+                }
+            }
+
+            //Update the arguments in the scope
+            $scope.systemTest.testStepArguments[testStepNumber].arguments = arguments;
 
             //Save the system test
             dbSystemTest.updateSystemTest($scope.systemTest);
             
             //Stop editing
             $scope.showEdit(false, fieldID, testStepNumber, sectionNumber);
+        };
+
+        //Submits the edits made to a test step table argument to the server
+        $scope.submitEditForTestStepTable = function(fieldID, testStepNumber, sectionNumber, argumentName, argumentValue) {
+
+            //Submit the test step edits
+            $scope.submitEditForTestStep(fieldID, testStepNumber, sectionNumber, argumentName, argumentValue);
+
+            //Update the test step data in the scope to regenerate the tables
+            updateTestStepsInScope($scope.testSteps);
         };
 
         //Set the test step reorder listeners
