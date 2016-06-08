@@ -147,38 +147,34 @@
                                     span.glyphicon.glyphicon-ok
                                 a.btn.btn-default(ng-click="cancelEdit(id, $parent.$parent.$index, $index)")
                                     span.glyphicon.glyphicon-remove
-                        .row(ng-if="section.isTableHeader")
-                            span.col-md-2(
-                                ng-class="section.type"
-                                ng-repeat="column in section.value"
-                            ) {{column}}
-                        .row(
+                        div(ng-if="section.isTableHeader")
+                            .table
+                                .row.table-row
+                                    .col-md-2.table-cell(
+                                        ng-class="section.type"
+                                        ng-repeat="column in section.value track by $index"
+                                    ) {{column}}
+                        div(
                             ng-if="section.isTableRows"
-                            ng-show="section.valueSplit.length && !edit[id]"
+                            ng-show="!edit[id]"
                         )
                             a.edit(
                                 ng-click="showEdit(true, id, $parent.$parent.$index, $index)"
                                 ng-mouseleave="hover[id] = false"
                                 ng-mouseover="hover[id] = true"
                             )
-                                .row(
-                                    ng-class="section.type"
-                                    ng-repeat="row in section.valueSplit"
-                                )
-                                    .col-md-2(ng-repeat="column in row")
-                                        span.test-step-argument-value-supplied {{column}}
-                                            span.glyphicon.glyphicon-pencil.small(ng-show="hover[id]")
-                        .row(
-                            ng-if="section.isTableRows"
-                            ng-show="!section.valueSplit.length && !edit[id]"
-                        )
-                            a.edit(
-                                ng-click="showEdit(true, id, $parent.$parent.$index, $index)"
-                                ng-mouseleave="hover[id] = false"
-                                ng-mouseover="hover[id] = true"
-                            )
-                                span.test-step-argument-value-not-supplied No values supplied
-                                    span.glyphicon.glyphicon-pencil.small(ng-show="hover[id]")
+                                .table
+                                    .row.table-row(
+                                        ng-class="section.type"
+                                        ng-repeat="row in section.valueSplit"
+                                    )
+                                        .col-md-2.test-step-argument-value-table-cell.table-cell(ng-repeat="column in row track by $index")
+                                            span.test-step-argument-value-supplied {{column}}
+                                                span.glyphicon.glyphicon-pencil.small(ng-show="hover[id]")
+                                    .row.table-row(ng-show="!section.valueSplit.length")
+                                        .centre.table-cell
+                                            span.test-step-argument-value-not-supplied No values supplied
+                                                span.glyphicon.glyphicon-pencil.small(ng-show="hover[id]")
                         .row(
                             ng-if="section.isTableRows"
                             ng-show="edit[id]"
@@ -187,7 +183,7 @@
                                 textarea.form-control(
                                     name="section.value"
                                     ng-model="section.value"
-                                    placeholder="Value"
+                                    placeholder="Format: Column 1 Row 1|Column 1 Row 2¦Column 2 Row 1|Column 2 Row 2"
                                     type="text"
                                 )
                                 button.btn.btn-success(

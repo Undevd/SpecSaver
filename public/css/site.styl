@@ -195,6 +195,16 @@ small
 
 .table
     display table
+    margin-bottom inherit
+
+.table > .table-row
+    display table-row
+    height 100%
+
+.table > .table-row > .table-cell
+    display table-cell
+    float none
+    vertical-align top
 
 .test-step
     padding-bottom spacing
@@ -208,6 +218,9 @@ small
     
 .test-step-argument-value-supplied
     color testStepArgumentValueSupplied
+
+.test-step-argument-value-table-cell
+    border 1px solid colour6
 
 .test-step-type
     color testStepType
