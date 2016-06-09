@@ -37,7 +37,8 @@
             tr.row
                 td.col-md-2
                     a(ng-href="/p/{{project.code}}/s/{{systemTest.code}}") S{{systemTest.code}}
-                td.col-md-4 {{systemTest.name}}
+                td.col-md-4
+                    a(ng-href="/p/{{project.code}}/s/{{systemTest.code}}") {{systemTest.name}}
                 td.col-md-4 {{systemTest.description | limitTo: 100}}{{systemTest.description.length &gt; 100 ? '...' : ''}}
                 td.col-md-2
                     .dropdown.pull-right

@@ -95,6 +95,18 @@ body
     background-color column6
     color textColour
 
+footer
+    padding-left 15px
+    padding-right 15px
+
+    p
+        margin-top 10px
+        border-top 1px solid black
+
+    img
+        width 10pc
+        height 10pc
+
 h1
 .h1
     font-size 120%
@@ -113,9 +125,29 @@ h3
 .i
     font-style italic
 
+legend
+    border-bottom 0
+    margin-bottom 0
+    padding spacing
+
+.mono
+.test-step
+    font-family Menlo, Monaco, Consolas, "Courier New", monospace
+
+nav
+    padding-bottom spacing
+
 .nav a.btn
     color #fff !important
-    
+
+.navbar-form
+
+    .form-group
+        margin-left 10px
+
+    button
+        margin-left 10px
+
 .navbar-header a.navbar-brand
     margin-top -15px
     margin-bottom -20px
@@ -127,25 +159,6 @@ h3
 .ng-cloak,
 .x-ng-cloak
     display none !important
-    
-footer
-    padding-left 15px
-    padding-right 15px
-    p
-        margin-top 10px
-        border-top 1px solid black
-    img
-        width 10pc
-        height 10pc
-
-legend
-    border-bottom 0
-    margin-bottom 0
-    padding spacing
-
-.mono
-.test-step
-    font-family Menlo, Monaco, Consolas, "Courier New", monospace
 
 .pad
     padding spacing
@@ -180,14 +193,11 @@ legend
 .quoteperson
     margin-left: 50px;
 
-.navbar-form
-    .form-group
-        margin-left 10px
-    button
-        margin-left 10px
-
 .right
     text-align right
+
+section
+    padding-bottom spacing
 
 small
 .small
@@ -197,14 +207,14 @@ small
     display table
     margin-bottom inherit
 
-.table > .table-row
-    display table-row
-    height 100%
-
-.table > .table-row > .table-cell
-    display table-cell
-    float none
-    vertical-align top
+    > .table-row
+        display table-row
+        height 100%
+        
+        > .table-cell
+            display table-cell
+            float none
+            vertical-align top
 
 .test-step
     padding-bottom spacing
@@ -225,8 +235,8 @@ small
 .test-step-type
     color testStepType
 
-.toast-top-right
-    top: 70px
-
 .toast-success
     background-color orange
+
+.toast-top-right
+    top 70px
