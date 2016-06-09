@@ -231,8 +231,6 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         updateTestStepsInScope(data.testSteps);
         $scope.stats = data.stats;
 
-        //Record whether a field is being edited
-        $scope.edit = {};
 
         //Store the old value of a field as it is being edited
         $scope.oldData = {};
@@ -254,10 +252,32 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
                     //Store the old data from the system test section
                     $scope.oldData[fieldID] = $scope.systemTest[fieldID];
                 }
-            }
 
-            //Show the edit fields
-            $scope.edit[fieldID] = show;
+                //If the edit object is null
+                if (!$scope.edit) {
+
+                    //Create an empty object
+                    //This disabled ng-sortable until the user stops editing
+                    $scope.edit = {};
+                }
+
+                //Show the edit fields
+                $scope.edit[fieldID] = show;
+            }
+            //Else if the field is no longer being edited
+            else if ($scope.edit[fieldID]) {
+
+                //Delete the key from the edit object
+                delete $scope.edit[fieldID];
+
+                //If the edit object contains no keys
+                if (!Object.keys($scope.edit).length) {
+
+                    //Nullify it
+                    //This re-enables ng-sortable as the user has stopped editing
+                    $scope.edit = null;
+                }
+            }
         };
 
         //Cancels editing the field and hides the form
