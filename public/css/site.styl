@@ -209,22 +209,27 @@ small
 .table
     display table
     margin-bottom inherit
+    table-layout fixed
+    width 100%
 
     > .table-row
         display table-row
-        height 100%
         
         > .table-cell
             display table-cell
-            float none
+            padding-left spacing
+            padding-right spacing
             vertical-align top
 
 .test-step
     padding-bottom spacing
 
 .test-step-argument-name-table-header
-    background-color colour6
-    color textColour
+
+    .table-cell
+        background-color column1
+        border 1px solid column2
+        color textColour
 
 .test-step-argument-value-not-supplied
     color testStepArgumentValueNotSupplied
@@ -233,7 +238,7 @@ small
     color testStepArgumentValueSupplied
 
 .test-step-argument-value-table-cell
-    border 1px solid colour6
+    border 1px solid column2
 
 .test-step-type
     color testStepType

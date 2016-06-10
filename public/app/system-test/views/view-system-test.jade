@@ -153,11 +153,8 @@
                                     span.glyphicon.glyphicon-remove
                         div(ng-if="section.isTableHeader")
                             .table
-                                .row.table-row
-                                    .col-md-2.table-cell(
-                                        ng-class="section.type"
-                                        ng-repeat="column in section.value track by $index"
-                                    ) {{column}}
+                                .table-row
+                                    .table-cell(ng-repeat="column in section.value track by $index") {{column}}
                         div(
                             ng-if="section.isTableRows"
                             ng-show="!edit[id]"
@@ -168,11 +165,11 @@
                                 ng-mouseover="hover[id] = true"
                             )
                                 .table
-                                    .row.table-row(
+                                    .table-row(
                                         ng-class="section.type"
                                         ng-repeat="row in section.valueSplit"
                                     )
-                                        .col-md-2.test-step-argument-value-table-cell.table-cell(ng-repeat="column in row track by $index")
+                                        .test-step-argument-value-table-cell.table-cell(ng-repeat="column in row track by $index")
                                             span.test-step-argument-value-supplied {{column}}
                                                 span.glyphicon.glyphicon-pencil.small(ng-show="hover[id]")
                                     .row.table-row(ng-show="!section.valueSplit.length")

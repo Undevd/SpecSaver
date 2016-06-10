@@ -183,21 +183,24 @@ small,
 .table {
   display: table;
   margin-bottom: inherit;
+  table-layout: fixed;
+  width: 100%;
 }
 .table > .table-row {
   display: table-row;
-  height: 100%;
 }
 .table > .table-row > .table-cell {
   display: table-cell;
-  float: none;
+  padding-left: 1em;
+  padding-right: 1em;
   vertical-align: top;
 }
 .test-step {
   padding-bottom: 1em;
 }
-.test-step-argument-name-table-header {
-  background-color: #7ea3ac;
+.test-step-argument-name-table-header .table-cell {
+  background-color: #999;
+  border: 1px solid #888;
   color: #fff;
 }
 .test-step-argument-value-not-supplied {
@@ -207,7 +210,7 @@ small,
   color: #3b7316;
 }
 .test-step-argument-value-table-cell {
-  border: 1px solid #7ea3ac;
+  border: 1px solid #888;
 }
 .test-step-type {
   color: #00f;
