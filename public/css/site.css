@@ -23,6 +23,16 @@ body {
   font-size: 120%;
   padding: 0.5em 0 0.5em 0;
 }
+.btn:disabled {
+  background-color: transparent;
+  border-color: #999;
+  color: #999;
+}
+.btn:disabled:hover {
+  background-color: transparent;
+  border-color: #f00;
+  color: #f00;
+}
 .centre {
   text-align: center;
 }
