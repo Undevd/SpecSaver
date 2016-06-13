@@ -1,0 +1,142 @@
+.fade.modal(
+    id="ModalAdd"
+    role="dialog"
+)
+    .modal-dialog.modal-lg
+        .modal-content
+            .modal-header
+                legend.colour6
+                    button.close(
+                        aria-label="Close"
+                        data-target="#ModalAdd"
+                        data-dismiss="modal"
+                        id="ModalAddCloseButton"
+                        type="button"
+                    )
+                        span(aria-hidden="true") &times;
+                    h4.h1.modal-title Test Step
+            .modal-body
+                .alert.alert-danger.text-center(
+                    ng-show="testStepError"
+                    role="alert"
+                ) {{testStepError}}
+                .collapse(
+                    aria-expanded="false"
+                    id="help"
+                )
+                    .row.padb
+                        .col-md-12
+                            legend.column1
+                                h5.h2 Placeholders
+                    .row.padb
+                        .col-md-12
+                            p Using placeholders allows you to re-use the same steps with different values.
+                    .row.padb
+                        .col-md-12
+                            strong Arguments
+                            .test-step
+                                span.test-step-text '
+                                span.test-step-argument-value-not-supplied {argument name}
+                                span.test-step-text '
+                            .test-step
+                                span e.g.#{' '}
+                                span.test-step-type When
+                                span.test-step-text #{' '}I click '
+                                span.test-step-argument-value-not-supplied {button}
+                                span.test-step-text '
+                    .row.padb
+                        .col-md-12
+                            strong Tables
+                            .test-step
+                                span.test-step-argument-value-not-supplied {|column 1 name|column 2 name|...|}
+                            .test-step
+                                span e.g.#{' '}
+                                span.test-step-type When
+                                span.test-step-text #{' '}I enter the following information:
+                                span.test-step-text #{' '}
+                                span.test-step-argument-value-not-supplied {|field|value|}
+                    .row.padb
+                        .col-md-12
+                            legend.column1
+                .row.padb
+                    form.form-horizontal(name="testStepForm")
+                        .col-md-1
+                            button.box.btn.padlr(
+                                ng-click="searchForTestStep()"
+                                ng-disabled="testStepForm.$invalid"
+                            )
+                                span.glyphicon.glyphicon-search(aria-label="Search icon")
+                        .col-md-2
+                            select.form-control(
+                                name="newTestStep.type"
+                                ng-change="clearTestStepResults()"
+                                ng-model="newTestStep.type"
+                                required
+                            )
+                                option(
+                                    disabled="disabled"
+                                    hidden="hidden"
+                                    selected="selected"
+                                    value=""
+                                ) Type
+                                option(value="Given") Given
+                                option(value="When") When
+                                option(value="Then") Then
+                        .col-md-9
+                            .input-group
+                                input.form-control(
+                                    name="newTestStep.step"
+                                    ng-change="clearTestStepResults()"
+                                    ng-model="newTestStep.step"
+                                    required
+                                    type="text"
+                                )
+                                span.input-group-btn
+                                    button.btn.btn-default(
+                                        data-target="#help"
+                                        data-toggle="collapse"
+                                        type="button"
+                                    )
+                                        span.glyphicon.glyphicon-question-sign
+                .row(ng-show="searchResults")
+                    .col-md-12
+                        span(ng-show="searchResults.length") Results
+                        span(ng-show="!searchResults.length && searchResultsTime") No results found {{searchResultsTime | date: '(HH:mm:ss)'}}
+                .row(ng-show="searchResults.length")
+                    .col-md-12
+                        select.form-control(
+                            name="newTestStep.code"
+                            ng-model="newTestStep.code"
+                        )
+                            option(value="") Select result...
+                            option(class="i" value="-1") Create new test step: {{newTestStep.type}} {{newTestStep.step}}
+                            option(
+                                ng-repeat="searchResult in searchResults"
+                                value="{{searchResult.code}}"
+                            ) {{searchResult.type}} {{searchResult.step}}
+                .alert.alert-danger.text-center(
+                    ng-show="testStepError"
+                    role="alert"
+                ) {{testStepError}}
+            .modal-footer
+                span.padr
+                    button.btn.btn-success(
+                        ng-click="addTestStep()"
+                        ng-show="!testStepForm.$invalid && newTestStep.code && newTestStep.code >= 0"
+                    )
+                        span.glyphicon.glyphicon-ok.padr
+                        span(ng-bind="newTestStep.isEdit ? 'Update' : 'Add'")
+                span.padr
+                    button.btn.btn-success(
+                        ng-click="createTestStep()"
+                        ng-show="!testStepForm.$invalid && newTestStep.code && newTestStep.code < 0"
+                    )
+                        span.glyphicon.glyphicon-plus.padr
+                        span Create
+                span
+                    a.btn.btn-default(
+                        data-dismiss="modal"
+                        data-target="#ModalAdd"
+                    )
+                        span.glyphicon.glyphicon-remove.padr
+                        span Cancel
