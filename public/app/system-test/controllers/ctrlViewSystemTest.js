@@ -231,7 +231,6 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         updateTestStepsInScope(data.testSteps);
         $scope.stats = data.stats;
 
-
         //Store the old value of a field as it is being edited
         $scope.oldData = {};
 
@@ -409,7 +408,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         };
 
         //Store test step search results
-        $scope.searchResults = [];
+        $scope.testStepResults = [];
 
         //Searches for matching steps
         $scope.searchForTestStep = function() {
@@ -418,10 +417,10 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
             dbTestStep.searchForTestStep(projectCode, $scope.newTestStep.type, $scope.newTestStep.step).$promise.then(function(results) {
 
                 //Add the search results to the scope
-                $scope.searchResults = results;
+                $scope.testStepResults = results;
 
                 //Set the current time
-                $scope.searchResultsTime = new Date();
+                $scope.testStepResultsTime = new Date();
                 
                 //If no results were found
                 if (!results.length) {
@@ -442,10 +441,10 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
             $scope.newTestStep.code = null;
             
             //Clear the search results
-            $scope.searchResults = [];
+            $scope.testStepResults = [];
 
             //Clear the search time
-            $scope.searchResultsTime = null;
+            $scope.testStepResultsTime = null;
         }
 
         //Clears the test step search window and sets the new test step position to the end of the list
@@ -494,7 +493,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
                 updateTestStepsInScope(data.testSteps);
                 
                 //Close the dialog (JQuery)
-                $("#ModalAddCloseButton").trigger('click');
+                $("#ModalAddTestStepCloseButton").trigger('click');
 
             }, function(error) {
 

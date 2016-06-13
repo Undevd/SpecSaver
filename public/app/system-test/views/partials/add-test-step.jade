@@ -1,5 +1,5 @@
 .fade.modal(
-    id="ModalAdd"
+    id="ModalAddTestStep"
     role="dialog"
 )
     .modal-dialog.modal-lg
@@ -8,9 +8,9 @@
                 legend.colour6
                     button.close(
                         aria-label="Close"
-                        data-target="#ModalAdd"
+                        data-target="#ModalAddTestStep"
                         data-dismiss="modal"
-                        id="ModalAddCloseButton"
+                        id="ModalAddTestStepCloseButton"
                         type="button"
                     )
                         span(aria-hidden="true") &times;
@@ -98,11 +98,11 @@
                                         type="button"
                                     )
                                         span.glyphicon.glyphicon-question-sign
-                .row(ng-show="searchResults")
+                .row(ng-show="testStepResults")
                     .col-md-12
-                        span(ng-show="searchResults.length") Results
-                        span(ng-show="!searchResults.length && searchResultsTime") No results found {{searchResultsTime | date: '(HH:mm:ss)'}}
-                .row(ng-show="searchResults.length")
+                        span(ng-show="testStepResults.length") Search results
+                        span(ng-show="!testStepResults.length && testStepResultsTime") No test steps found {{testStepResultsTime | date: '(HH:mm:ss)'}}
+                .row(ng-show="testStepResults.length")
                     .col-md-12
                         select.form-control(
                             name="newTestStep.code"
@@ -111,9 +111,9 @@
                             option(value="") Select result...
                             option(class="i" value="-1") Create new test step: {{newTestStep.type}} {{newTestStep.step}}
                             option(
-                                ng-repeat="searchResult in searchResults"
-                                value="{{searchResult.code}}"
-                            ) {{searchResult.type}} {{searchResult.step}}
+                                ng-repeat="result in testStepResults"
+                                value="{{result.code}}"
+                            ) {{result.type}} {{result.step}}
                 .alert.alert-danger.text-center(
                     ng-show="testStepError"
                     role="alert"
@@ -136,7 +136,7 @@
                 span
                     a.btn.btn-default(
                         data-dismiss="modal"
-                        data-target="#ModalAdd"
+                        data-target="#ModalAddTestStep"
                     )
                         span.glyphicon.glyphicon-remove.padr
                         span Cancel

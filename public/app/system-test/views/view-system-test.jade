@@ -56,6 +56,17 @@
             a.box.btn.btn-block.colour6(ng-href="/p/{{project.code}}/s")
                 span.glyphicon.glyphicon-leaf.padr(aria-label="Leaf icon")
                 span.small System Tests
+    .padb.row
+        .col-md-12
+            span.padr
+                button.btn.btn-xs.colour3(
+                    data-target="#ModalAddFeature"
+                    data-toggle="modal"
+                )
+                    span.glyphicon.glyphicon-apple
+            span(ng-repeat="feature in features")
+                span.padr |
+                a.padr(ng-href="/p/{{project.code}}/f/{{feature.code}}") {{feature.name}}
     .well
         div(ng-show="!edit.description")
             a.edit(
@@ -88,7 +99,7 @@
     section
         span
             button.box.btn.btn-success.padlr(
-                data-target="#ModalAdd"
+                data-target="#ModalAddTestStep"
                 data-toggle="modal"
                 ng-click="clearTestStepSearch(false)"
             )
@@ -109,7 +120,7 @@
             )
                 .col-md-1
                     button.btn.btn-default.btn-xs(
-                        data-target="#ModalAdd"
+                        data-target="#ModalAddTestStep"
                         data-toggle="modal"
                         ng-click="clearTestStepSearch(true, $index);"
                     )
@@ -196,9 +207,10 @@
                                     span.glyphicon.glyphicon-remove
                 .col-md-1
                     button.btn.btn-default.btn-xs(
-                        data-target="#ModalAdd"
+                        data-target="#ModalAddTestStep"
                         data-toggle="modal"
                         ng-click="clearTestStepSearch(false, $index + 1)"
                     )
                         span.glyphicon.glyphicon-plus(aria-label="Add icon")
+include partials\add-feature
 include partials\add-test-step

@@ -1,0 +1,77 @@
+.fade.modal(
+    id="ModalAddFeature"
+    role="dialog"
+)
+    .modal-dialog.modal-lg
+        .modal-content
+            .modal-header
+                legend.colour3
+                    button.close(
+                        aria-label="Close"
+                        data-target="#ModalAddFeature"
+                        data-dismiss="modal"
+                        id="ModalAddFeatureCloseButton"
+                        type="button"
+                    )
+                        span(aria-hidden="true") &times;
+                    h4.h1.modal-title Features
+            .modal-body
+                .well
+                    div(ng-show="!features.length") No associated features
+                    span.padr(ng-repeat="feature in features")
+                        button.btn.colour3(ng-click="removeFeature($index)")
+                            span.padr {{feature.name}}
+                            span(aria-hidden="true") &times;
+                .alert.alert-danger.text-center(
+                    ng-show="featureError"
+                    role="alert"
+                ) {{featureError}}
+                .row.padb
+                    form.form-horizontal(name="featureForm")
+                        .col-md-1
+                            button.box.btn.padlr(
+                                ng-click="searchForFeature()"
+                                ng-disabled="featureForm.$invalid"
+                            )
+                                span.glyphicon.glyphicon-search(aria-label="Search icon")
+                        .col-md-11
+                            input.form-control(
+                                name="newFeature.name"
+                                ng-change="clearFeatureResults()"
+                                ng-model="newFeature.name"
+                                required
+                                type="text"
+                            )
+                .row(ng-show="featureResults")
+                    .col-md-12
+                        span(ng-show="featureResults.length") Search results
+                        span(ng-show="!featureResults.length && featureResultsTime") No features found {{featureResultsTime | date: '(HH:mm:ss)'}}
+                .row(ng-show="featureResults.length")
+                    .col-md-12
+                        select.form-control(
+                            name="newFeature.code"
+                            ng-model="newFeature.code"
+                        )
+                            option(value="") Select result...
+                            option(
+                                ng-repeat="result in featureResults"
+                                value="{{result.code}}"
+                            ) {{result.name}}
+                .alert.alert-danger.text-center(
+                    ng-show="featureError"
+                    role="alert"
+                ) {{featureError}}
+            .modal-footer
+                span.padr
+                    button.btn.btn-success(
+                        ng-click="addFeature()"
+                        ng-show="!featureForm.$invalid && newFeature.code"
+                    )
+                        span.glyphicon.glyphicon-ok.padr Add
+                span
+                    a.btn.btn-default(
+                        data-dismiss="modal"
+                        data-target="#ModalAddFeature"
+                    )
+                        span.glyphicon.glyphicon-remove.padr
+                        span Cancel
