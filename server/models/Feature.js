@@ -173,7 +173,7 @@ featureSchema.statics.searchForFeature = function searchForFeature(projectCode, 
 
         //Find the features
         mongoose.model('Feature')
-            .find({projectCode: projectCode, name: {$regex : name}},
+            .find({projectCode: projectCode, name: {$regex: new RegExp(name, 'i')}},
                 '-_id code projectCode name')
             .sort('name')
             .exec(function(error, features) {

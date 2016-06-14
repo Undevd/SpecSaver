@@ -246,7 +246,7 @@ testStepSchema.statics.searchForTestStep = function searchForTestStep(projectCod
 
         //Find the test steps
         mongoose.model('TestStep')
-            .find({projectCode: projectCode, type: type, step: {$regex : step}},
+            .find({projectCode: projectCode, type: type, step: {$regex: new RegExp(step, 'i')}},
                 '-_id code projectCode step type')
             .sort({type: 1, step: 1})
             .exec(function(error, testSteps) {
