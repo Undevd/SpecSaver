@@ -1,4 +1,4 @@
-angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootScope, $location, $routeParams, dbSystemTest, dbTestStep) {
+angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootScope, $location, $routeParams, dbFeature, dbSystemTest, dbTestStep) {
     
 	//Get the route parameters
 	var projectCode = $routeParams.projectCode;
@@ -530,6 +530,39 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
                 //Add the error message to the scope
                 $scope.testStepError = error.data.message;
             });
+        };
+
+        //Store feature search results
+        $scope.featureResults = [];
+
+        //Searches for matching features
+        $scope.searchForFeature = function() {
+
+            //Search for a match
+            dbFeature.searchForFeature(projectCode, $scope.newFeature.name).$promise.then(function(results) {
+
+                //Add the search results to the scope
+                $scope.featureResults = results;
+
+                //Set the current time
+                $scope.featureResultsTime = new Date();
+            });
+        };
+
+        //Store data on new features which are added
+        $scope.newFeature = {};
+
+        //Clears the feature search window
+        $scope.clearFeatureResults = function() {
+            
+            //Clear the last selected feature
+            $scope.newFeature.code = null;
+            
+            //Clear the search results
+            $scope.featureResults = [];
+
+            //Clear the search time
+            $scope.featureResultsTime = null;
         };
     }, function(error) {
         

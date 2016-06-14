@@ -12,6 +12,10 @@ angular.module('app').factory('dbFeature', function(apiFeature) {
       return apiFeature.getOne({projectCode: projectCode, featureCode: featureCode});
     },
 
+    searchForFeature: function(projectCode, name) {
+      return apiFeature.search({projectCode: projectCode, name: name});
+    },
+
     updateFeature: function(newFeatureData) {
       return apiFeature.update(newFeatureData);
     }
