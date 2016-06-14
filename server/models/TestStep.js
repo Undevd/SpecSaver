@@ -16,10 +16,12 @@ testStepSchema.statics.addTestStep = function addTestStep(newTestStepData) {
     return new Promise(function(resolve, reject) {
 
         //Find the system test
-        var systemTest = mongoose.model('SystemTest').getSystemTestAndTestSteps(newTestStepData.projectCode, newTestStepData.systemTestCode);
+        var systemTest = mongoose.model('SystemTest')
+            .getSystemTestAndTestSteps(newTestStepData.projectCode, newTestStepData.systemTestCode);
 
         //Check if the test step exists
-        var testStepExists = mongoose.model('TestStep').exists(newTestStepData.projectCode, newTestStepData.code);
+        var testStepExists = mongoose.model('TestStep')
+            .exists(newTestStepData.projectCode, newTestStepData.code);
 
         //If all the promises are successful
         Promise.all([systemTest, testStepExists]).then(function(data) {
@@ -122,7 +124,9 @@ testStepSchema.statics.exists = function exists(projectCode, testStepCode) {
     return new Promise(function(resolve, reject) {
 
         //Find the number of test steps by code
-        mongoose.model('TestStep').count({code: testStepCode, projectCode: projectCode}).exec(function(error, count) {
+        mongoose.model('TestStep')
+            .count({code: testStepCode, projectCode: projectCode})
+            .exec(function(error, count) {
 
             //If an error occurred
             if (error) {
@@ -158,7 +162,10 @@ testStepSchema.statics.getNextCode = function getNextCode(projectCode) {
     return new Promise(function(resolve, reject) {
 
         //Find the latest system test
-        mongoose.model('TestStep').findOne({projectCode: projectCode}).sort('-code').exec(function(error, latestTestStep) {
+        mongoose.model('TestStep')
+            .findOne({projectCode: projectCode})
+            .sort('-code')
+            .exec(function(error, latestTestStep) {
             
             //If an error occurred
             if(error) {
@@ -212,7 +219,9 @@ testStepSchema.statics.getTestStep = function getTestStep(projectCode, testStepC
     return new Promise(function(resolve, reject) {
 
         //Find the test step
-        mongoose.model('TestStep').findOne({code: testStepCode, projectCode: projectCode}, '-_id code projectCode step type').exec(function(error, testStep) {
+        mongoose.model('TestStep')
+            .findOne({code: testStepCode, projectCode: projectCode}, '-_id code projectCode step type')
+            .exec(function(error, testStep) {
 
             //If an error occurred
             if (error) {
@@ -236,7 +245,11 @@ testStepSchema.statics.searchForTestStep = function searchForTestStep(projectCod
 	return new Promise(function(resolve, reject) {
 
         //Find the test steps
-        mongoose.model('TestStep').find({projectCode: projectCode, type: type, step: {$regex : step}}, '-_id code projectCode step type').sort({type: 1, step: 1}).exec(function(error, testSteps) {
+        mongoose.model('TestStep')
+            .find({projectCode: projectCode, type: type, step: {$regex : step}},
+                '-_id code projectCode step type')
+            .sort({type: 1, step: 1})
+            .exec(function(error, testSteps) {
 
             //If an error occurred
             if (error) {
@@ -260,7 +273,9 @@ testStepSchema.statics.updateTestStep = function updateTestStep(newTestStepData)
     return new Promise(function(resolve, reject) {
 
         //Find the test step and update it
-        mongoose.model('TestStep').findOneAndUpdate({code: newTestStepData.code, projectCode: newTestStepData.projectCode}, newTestStepData, function(error, testStep) {
+        mongoose.model('TestStep')
+            .findOneAndUpdate({code: newTestStepData.code, projectCode: newTestStepData.projectCode},
+                newTestStepData, function(error, testStep) {
 
             //If an error occurred
             if (error) {

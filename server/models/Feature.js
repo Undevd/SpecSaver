@@ -55,7 +55,9 @@ featureSchema.statics.exists = function exists(projectCode, featureCode) {
     return new Promise(function(resolve, reject) {
 
         //Find the number of features by code
-        mongoose.model('Feature').count({code: featureCode, projectCode: projectCode}).exec(function(error, count) {
+        mongoose.model('Feature')
+            .count({code: featureCode, projectCode: projectCode})
+            .exec(function(error, count) {
 
             //If an error occurred
             if (error) {
@@ -91,7 +93,10 @@ featureSchema.statics.getAllFeaturesByProject = function getAllFeaturesByProject
 	return new Promise(function(resolve, reject) {
 
         //Find the features by project code
-        mongoose.model('Feature').find({projectCode: projectCode}, '-_id code description name').sort('name').exec(function(error, features) {
+        mongoose.model('Feature')
+            .find({projectCode: projectCode}, '-_id code description name')
+            .sort('name')
+            .exec(function(error, features) {
 
             //If an error occurred
             if (error) {
@@ -115,7 +120,10 @@ featureSchema.statics.getFeature = function getFeature(projectCode, featureCode)
     return new Promise(function(resolve, reject) {
 
         //Find the feature
-        mongoose.model('Feature').findOne({code: featureCode, projectCode: projectCode}, '-_id code description name projectCode').exec(function(error, feature) {
+        mongoose.model('Feature')
+            .findOne({code: featureCode, projectCode: projectCode},
+                '-_id code description name projectCode')
+            .exec(function(error, feature) {
 
             //If an error occurred
             if (error) {
@@ -139,7 +147,9 @@ featureSchema.statics.getFeatureStatsForProject = function getFeatureStatsForPro
     return new Promise(function(resolve, reject) {
         
         //Count the number of features associated with the project
-        var projectCount = mongoose.model('Feature').count({projectCode: projectCode}).exec();
+        var projectCount = mongoose.model('Feature')
+            .count({projectCode: projectCode})
+            .exec();
 
         //If all the promises are successful
         Promise.all([projectCount]).then(function(data) {
@@ -155,6 +165,34 @@ featureSchema.statics.getFeatureStatsForProject = function getFeatureStatsForPro
     });
 };
 
+//Gets all features by project code containing the name criteria
+featureSchema.statics.searchForFeature = function searchForFeature(projectCode, name) {
+
+	//Return a promise
+	return new Promise(function(resolve, reject) {
+
+        //Find the features
+        mongoose.model('Feature')
+            .find({projectCode: projectCode, name: {$regex : name}},
+                '-_id code projectCode name')
+            .sort('name')
+            .exec(function(error, features) {
+
+            //If an error occurred
+            if (error) {
+
+                //Return the error
+                reject(error);
+            }
+            else {
+
+                //Otherwise, return the features
+                resolve(features);
+            }
+        });
+    });
+};
+
 //Updates an existing feature
 featureSchema.statics.updateFeature = function updateFeature(newFeatureData) {
     
@@ -162,7 +200,9 @@ featureSchema.statics.updateFeature = function updateFeature(newFeatureData) {
     return new Promise(function(resolve, reject) {
 
         //Find the feature and update it
-        mongoose.model('Feature').findOneAndUpdate({code: newFeatureData.code, projectCode: newFeatureData.projectCode}, newFeatureData, function(error, feature) {
+        mongoose.model('Feature')
+            .findOneAndUpdate({code: newFeatureData.code, projectCode: newFeatureData.projectCode},
+                newFeatureData, function(error, feature) {
 
             //If an error occurred
             if (error) {

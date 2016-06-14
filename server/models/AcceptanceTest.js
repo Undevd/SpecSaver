@@ -18,13 +18,16 @@ acceptanceTestSchema.statics.createAcceptanceTest = function createAcceptanceTes
     return new Promise(function(resolve, reject) {
 
 	    //Check if the project exists
-	    var projectExists = mongoose.model('Project').exists(newAcceptanceTestData.projectCode);
+	    var projectExists = mongoose.model('Project')
+            .exists(newAcceptanceTestData.projectCode);
 
 	    //Check if the feature exists
-	    var featureExists = mongoose.model('Feature').exists(newAcceptanceTestData.projectCode, newAcceptanceTestData.featureCode);
+	    var featureExists = mongoose.model('Feature')
+            .exists(newAcceptanceTestData.projectCode, newAcceptanceTestData.featureCode);
 
 	    //Find the newest acceptance test
-	    var acceptanceTestCode = mongoose.model('AcceptanceTest').getNextCode(newAcceptanceTestData.projectCode, newAcceptanceTestData.featureCode);
+	    var acceptanceTestCode = mongoose.model('AcceptanceTest')
+            .getNextCode(newAcceptanceTestData.projectCode, newAcceptanceTestData.featureCode);
 
 	    //If all the promises are successful
 	    Promise.all([projectExists, featureExists, acceptanceTestCode]).then(function(data) {
@@ -51,7 +54,11 @@ acceptanceTestSchema.statics.createAcceptanceTest = function createAcceptanceTes
 		        else {
 
 		            //Otherwise, return the acceptance test, project, and feature code
-		            resolve({code: acceptanceTest.code, projectCode: acceptanceTest.projectCode, featureCode: acceptanceTest.featureCode});
+		            resolve({
+                        code: acceptanceTest.code,
+                        projectCode: acceptanceTest.projectCode,
+                        featureCode: acceptanceTest.featureCode
+                    });
 		        }
 		    });
 	    }, function(error) {
@@ -69,7 +76,10 @@ acceptanceTestSchema.statics.getAcceptanceTest = function getAcceptanceTest(proj
     return new Promise(function(resolve, reject) {
 
         //Find the acceptance test
-        mongoose.model('AcceptanceTest').findOne({code: acceptanceTestCode, projectCode: projectCode, featureCode: featureCode}, '-_id code featureCode given projectCode then when').exec(function(error, acceptanceTest) {
+        mongoose.model('AcceptanceTest')
+            .findOne({code: acceptanceTestCode, projectCode: projectCode, featureCode: featureCode},
+                '-_id code featureCode given projectCode then when')
+            .exec(function(error, acceptanceTest) {
 
             //If an error occurred
             if (error) {
@@ -93,7 +103,9 @@ acceptanceTestSchema.statics.getAcceptanceTestStatsForFeature = function getAcce
     return new Promise(function(resolve, reject) {
         
         //Count the number of acceptance tests associated with the feature
-        var featureCount = mongoose.model('AcceptanceTest').count({projectCode: projectCode, featureCode: featureCode}).exec();
+        var featureCount = mongoose.model('AcceptanceTest')
+            .count({projectCode: projectCode, featureCode: featureCode})
+            .exec();
 
         //If all the promises are successful
         Promise.all([featureCount]).then(function(data) {
@@ -116,11 +128,15 @@ acceptanceTestSchema.statics.getAcceptanceTestStatsForProject = function getAcce
     return new Promise(function(resolve, reject) {
         
         //Count the number of acceptance tests associated with the project
-        var projectCount = mongoose.model('AcceptanceTest').count({projectCode: projectCode}).exec();
+        var projectCount = mongoose.model('AcceptanceTest')
+            .count({projectCode: projectCode})
+            .exec();
 
         //Aggregate the number of acceptance tests associated with the features in the project
-        var featureCount = mongoose.model('AcceptanceTest').aggregate([{$match: {projectCode: projectCode}},
-            {$group: {_id: "$featureCode", total: {$sum: 1}}}]).sort('_id').exec();
+        var featureCount = mongoose.model('AcceptanceTest')
+            .aggregate([{$match: {projectCode: projectCode}}, {$group: {_id: "$featureCode", total: {$sum: 1}}}])
+            .sort('_id')
+            .exec();
 
         //If all the promises are successful
         Promise.all([projectCount, featureCount]).then(function(data) {
@@ -143,7 +159,10 @@ acceptanceTestSchema.statics.getAllAcceptanceTests = function getAllAcceptanceTe
 	return new Promise(function(resolve, reject) {
 
         //Find the acceptance tests by feature code
-        mongoose.model('AcceptanceTest').find({projectCode: projectCode, featureCode: featureCode}, '-_id code given then when').sort('name').exec(function(error, acceptanceTests) {
+        mongoose.model('AcceptanceTest')
+            .find({projectCode: projectCode, featureCode: featureCode}, '-_id code given then when')
+            .sort('name')
+            .exec(function(error, acceptanceTests) {
 
             //If an error occurred
             if (error) {
@@ -167,7 +186,10 @@ acceptanceTestSchema.statics.getNextCode = function getNextCode(projectCode, fea
     return new Promise(function(resolve, reject) {
 
     	//Find the latest acceptance test
-		mongoose.model('AcceptanceTest').findOne({projectCode: projectCode, featureCode: featureCode}).sort('-code').exec(function(error, latestAcceptanceTest) {
+		mongoose.model('AcceptanceTest')
+            .findOne({projectCode: projectCode, featureCode: featureCode})
+            .sort('-code')
+            .exec(function(error, latestAcceptanceTest) {
 	        
             //If an error occurred
             if(error) {
@@ -177,10 +199,10 @@ acceptanceTestSchema.statics.getNextCode = function getNextCode(projectCode, fea
             }
             else {
 
-		        //Return a new code for the acceptance test, starting from 1 if none exists
-		        resolve(latestAcceptanceTest == null? 1 : latestAcceptanceTest.code + 1);
-	    	}
-	  	});
+                //Return a new code for the acceptance test, starting from 1 if none exists
+                resolve(latestAcceptanceTest == null? 1 : latestAcceptanceTest.code + 1);
+            }
+        });
     });
 };
 
@@ -191,7 +213,9 @@ acceptanceTestSchema.statics.updateAcceptanceTest = function updateAcceptanceTes
     return new Promise(function(resolve, reject) {
 
         //Find the acceptance test and update it
-        mongoose.model('AcceptanceTest').findOneAndUpdate({code: newAcceptanceTestData.code, projectCode: newAcceptanceTestData.projectCode, featureCode: newAcceptanceTestData.featureCode}, newAcceptanceTestData, function(error, acceptanceTest) {
+        mongoose.model('AcceptanceTest')
+            .findOneAndUpdate({code: newAcceptanceTestData.code, projectCode: newAcceptanceTestData.projectCode,
+                featureCode: newAcceptanceTestData.featureCode}, newAcceptanceTestData, function(error, acceptanceTest) {
 
             //If an error occurred
             if (error) {

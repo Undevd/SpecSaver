@@ -87,6 +87,26 @@ exports.getFeature = function(request, response) {
     });
 };
 
+//Searches for a feature using the supplied project code and name criteria
+exports.searchForFeature = function(request, response) {
+
+    //Get the search criteria from the request
+    var projectCode = request.params.projectCode;
+    var name = request.params.name;
+
+    //Search for any matching results
+    Feature.searchForFeature(projectCode, name).then(function(data) {
+
+        //Set the success status and send the search results
+        response.status(200).send(data);
+
+    }, function(error) {
+
+        //Set the error status and send the error message
+        response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
+    });
+};
+
 //Updates an existing feature
 exports.updateFeature = function(request, response) {
     

@@ -5,6 +5,7 @@ var systemTestSchema = mongoose.Schema({
     code: {type: Number, required: '{PATH} is required'},
     description: {type: String},
     projectCode: {type: String, required: '{PATH} is required'},
+    features: {type: [String]},
     testStepArguments: {
         type: Array,
         code: {type: Number},
@@ -73,7 +74,9 @@ systemTestSchema.statics.exists = function exists(projectCode, systemTestCode) {
     return new Promise(function(resolve, reject) {
 
         //Find the number of system tests by code
-        mongoose.model('SystemTest').count({code: systemTestCode, projectCode: projectCode}).exec(function(error, count) {
+        mongoose.model('SystemTest')
+            .count({code: systemTestCode, projectCode: projectCode})
+            .exec(function(error, count) {
 
             //If an error occurred
             if (error) {
@@ -109,7 +112,10 @@ systemTestSchema.statics.getAllSystemTestsByProject = function getAllSystemTests
 	return new Promise(function(resolve, reject) {
 
         //Find the system tests by project code
-        mongoose.model('SystemTest').find({projectCode: projectCode}, '-_id code description name').sort('name').exec(function(error, systemTests) {
+        mongoose.model('SystemTest')
+            .find({projectCode: projectCode}, '-_id code description name')
+            .sort('name')
+            .exec(function(error, systemTests) {
 
             //If an error occurred
             if (error) {
@@ -133,7 +139,10 @@ systemTestSchema.statics.getSystemTest = function getSystemTest(projectCode, sys
     return new Promise(function(resolve, reject) {
 
         //Find the systemTest
-        mongoose.model('SystemTest').findOne({code: systemTestCode, projectCode: projectCode}, '-_id code description name projectCode').exec(function(error, systemTest) {
+        mongoose.model('SystemTest')
+            .findOne({code: systemTestCode, projectCode: projectCode},
+                '-_id code description name projectCode features')
+            .exec(function(error, systemTest) {
 
             //If an error occurred
             if (error) {
@@ -157,7 +166,10 @@ systemTestSchema.statics.getSystemTestAndTestSteps = function getSystemTest(proj
     return new Promise(function(resolve, reject) {
 
         //Find the systemTest
-        mongoose.model('SystemTest').findOne({code: systemTestCode, projectCode: projectCode}, '-_id code description name projectCode testStepArguments').exec(function(error, systemTest) {
+        mongoose.model('SystemTest')
+            .findOne({code: systemTestCode, projectCode: projectCode},
+                '-_id code description name projectCode features testStepArguments')
+            .exec(function(error, systemTest) {
 
             //If an error occurred
             if (error) {
@@ -181,7 +193,10 @@ systemTestSchema.statics.getSystemTestAndTestStepsExpanded = function getSystemT
     return new Promise(function(resolve, reject) {
 
         //Find the systemTest
-        mongoose.model('SystemTest').findOne({code: systemTestCode, projectCode: projectCode}, '-_id code description name projectCode testStepArguments').exec(function(error, systemTest) {
+        mongoose.model('SystemTest')
+            .findOne({code: systemTestCode, projectCode: projectCode},
+                '-_id code description name projectCode features testStepArguments')
+            .exec(function(error, systemTest) {
 
             //If an error occurred
             if (error) {
@@ -214,7 +229,10 @@ systemTestSchema.statics.getNextCode = function getNextCode(projectCode) {
     return new Promise(function(resolve, reject) {
 
         //Find the latest system test
-        mongoose.model('SystemTest').findOne({projectCode: projectCode}).sort('-code').exec(function(error, latestSystemTest) {
+        mongoose.model('SystemTest')
+            .findOne({projectCode: projectCode})
+            .sort('-code')
+            .exec(function(error, latestSystemTest) {
             
             //If an error occurred
             if(error) {
@@ -238,7 +256,9 @@ systemTestSchema.statics.getSystemTestStatsForProject = function getSystemTestSt
     return new Promise(function(resolve, reject) {
         
         //Count the number of system tests associated with the project
-        var projectCount = mongoose.model('SystemTest').count({projectCode: projectCode}).exec();
+        var projectCount = mongoose.model('SystemTest')
+            .count({projectCode: projectCode})
+            .exec();
 
         //If all the promises are successful
         Promise.all([projectCount]).then(function(data) {
@@ -261,7 +281,9 @@ systemTestSchema.statics.updateSystemTest = function updateSystemTest(newSystemT
     return new Promise(function(resolve, reject) {
 
         //Find the system test and update it
-        mongoose.model('SystemTest').findOneAndUpdate({code: newSystemTestData.code, projectCode: newSystemTestData.projectCode}, newSystemTestData, function(error, systemTest) {
+        mongoose.model('SystemTest')
+            .findOneAndUpdate({code: newSystemTestData.code, projectCode: newSystemTestData.projectCode},
+                newSystemTestData, function(error, systemTest) {
 
             //If an error occurred
             if (error) {

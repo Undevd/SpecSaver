@@ -48,7 +48,9 @@ projectSchema.statics.exists = function exists(projectCode) {
     return new Promise(function(resolve, reject) {
 
         //Find the number of projects by code
-        mongoose.model('Project').count({code: projectCode}).exec(function(error, count) {
+        mongoose.model('Project')
+            .count({code: projectCode})
+            .exec(function(error, count) {
 
             //If an error occurred
             if (error) {
@@ -84,7 +86,10 @@ projectSchema.statics.getAllProjects = function getAllProjects() {
     return new Promise(function(resolve, reject) {
 
         //Get all projects sorted by name
-        mongoose.model('Project').find({}, '-_id admins code description members name').sort('name').exec(function(error, projects) {
+        mongoose.model('Project')
+            .find({}, '-_id admins code description members name')
+            .sort('name')
+            .exec(function(error, projects) {
 
             //If an error occurred
             if (error) {
@@ -108,7 +113,9 @@ projectSchema.statics.getProject = function getProject(projectCode) {
     return new Promise(function(resolve, reject) {
 
         //Find the project by code
-        mongoose.model('Project').findOne({code: projectCode}, '-_id admins code description members name').exec(function(error, project) {
+        mongoose.model('Project')
+            .findOne({code: projectCode}, '-_id admins code description members name')
+            .exec(function(error, project) {
 
             //If an error occurred
             if (error) {
@@ -138,7 +145,8 @@ projectSchema.statics.updateProject = function updateProject(newProjectData) {
     return new Promise(function(resolve, reject) {
 
         //Find the project by code and update it
-        mongoose.model('Project').findOneAndUpdate({code: newProjectData.code}, newProjectData, function(error, project) {
+        mongoose.model('Project')
+            .findOneAndUpdate({code: newProjectData.code}, newProjectData, function(error, project) {
 
             //If an error occurred
             if (error) {

@@ -29,6 +29,7 @@ module.exports = function(app) {
     app.get('/api/features/all/:projectCode/:releaseCode', features.getAllFeaturesByRelease);
     app.get('/api/features/all/:projectCode', features.getAllFeaturesByProject);
     app.get('/api/features/one/:projectCode/:featureCode', features.getFeature);
+    app.get('/api/features/search/:projectCode/:name', features.searchForFeature);
     app.post('/api/features/*', features.createFeature);
     app.put('/api/features/*', features.updateFeature);
 

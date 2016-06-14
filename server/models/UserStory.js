@@ -18,13 +18,16 @@ userStorySchema.statics.createUserStory = function createUserStory(newUserStoryD
     return new Promise(function(resolve, reject) {
 
 	    //Check if the project exists
-	    var projectExists = mongoose.model('Project').exists(newUserStoryData.projectCode);
+	    var projectExists = mongoose.model('Project')
+            .exists(newUserStoryData.projectCode);
 
 	    //Check if the feature exists
-	    var featureExists = mongoose.model('Feature').exists(newUserStoryData.projectCode, newUserStoryData.featureCode);
+	    var featureExists = mongoose.model('Feature')
+            .exists(newUserStoryData.projectCode, newUserStoryData.featureCode);
 
 	    //Find the newest user story
-	    var userStoryCode = mongoose.model('UserStory').getNextCode(newUserStoryData.projectCode, newUserStoryData.featureCode);
+	    var userStoryCode = mongoose.model('UserStory')
+            .getNextCode(newUserStoryData.projectCode, newUserStoryData.featureCode);
 
 	    //If all the promises are successful
 	    Promise.all([projectExists, featureExists, userStoryCode]).then(function(data) {
@@ -69,7 +72,10 @@ userStorySchema.statics.getAllUserStories = function getAllUserStories(projectCo
 	return new Promise(function(resolve, reject) {
 
         //Find the user stories by feature code
-        mongoose.model('UserStory').find({projectCode: projectCode, featureCode: featureCode}, '-_id code asA iCan soThat').sort('name').exec(function(error, userStories) {
+        mongoose.model('UserStory')
+            .find({projectCode: projectCode, featureCode: featureCode}, '-_id code asA iCan soThat')
+            .sort('name')
+            .exec(function(error, userStories) {
 
             //If an error occurred
             if (error) {
@@ -93,7 +99,10 @@ userStorySchema.statics.getNextCode = function getNextCode(projectCode, featureC
     return new Promise(function(resolve, reject) {
 
     	//Find the latest user story
-		mongoose.model('UserStory').findOne({projectCode: projectCode, featureCode: featureCode}).sort('-code').exec(function(error, latestUserStory) {
+		mongoose.model('UserStory')
+            .findOne({projectCode: projectCode, featureCode: featureCode})
+            .sort('-code')
+            .exec(function(error, latestUserStory) {
 	        
             //If an error occurred
             if(error) {
@@ -117,7 +126,10 @@ userStorySchema.statics.getUserStory = function getUserStory(projectCode, featur
     return new Promise(function(resolve, reject) {
 
         //Find the user story
-        mongoose.model('UserStory').findOne({code: userStoryCode, projectCode: projectCode, featureCode: featureCode}, '-_id asA code featureCode iCan projectCode soThat').exec(function(error, userStory) {
+        mongoose.model('UserStory')
+            .findOne({code: userStoryCode, projectCode: projectCode, featureCode: featureCode},
+                '-_id asA code featureCode iCan projectCode soThat')
+            .exec(function(error, userStory) {
 
             //If an error occurred
             if (error) {
@@ -141,7 +153,9 @@ userStorySchema.statics.getUserStoryStatsForFeature = function getUserStoryStats
     return new Promise(function(resolve, reject) {
         
         //Count the number of user stories associated with the feature
-        var featureCount = mongoose.model('UserStory').count({projectCode: projectCode, featureCode: featureCode}).exec();
+        var featureCount = mongoose.model('UserStory')
+            .count({projectCode: projectCode, featureCode: featureCode})
+            .exec();
 
         //If all the promises are successful
         Promise.all([featureCount]).then(function(data) {
@@ -164,11 +178,16 @@ userStorySchema.statics.getUserStoryStatsForProject = function getUserStoryStats
     return new Promise(function(resolve, reject) {
         
         //Count the number of user stories associated with the project
-        var projectCount = mongoose.model('UserStory').count({projectCode: projectCode}).exec();
+        var projectCount = mongoose.model('UserStory')
+            .count({projectCode: projectCode})
+            .exec();
 
         //Aggregate the number of user stories associated with the features in the project
-        var featureCount = mongoose.model('UserStory').aggregate([{$match: {projectCode: projectCode}},
-            {$group: {_id: "$featureCode", total: {$sum: 1}}}]).sort('_id').exec();
+        var featureCount = mongoose.model('UserStory')
+            .aggregate([{$match: {projectCode: projectCode}},
+                {$group: {_id: "$featureCode", total: {$sum: 1}}}])
+            .sort('_id')
+            .exec();
 
         //If all the promises are successful
         Promise.all([projectCount, featureCount]).then(function(data) {
@@ -191,7 +210,9 @@ userStorySchema.statics.updateUserStory = function updateUserStory(newUserStoryD
     return new Promise(function(resolve, reject) {
 
         //Find the user story and update it
-        mongoose.model('UserStory').findOneAndUpdate({code: newUserStoryData.code, projectCode: newUserStoryData.projectCode, featureCode: newUserStoryData.featureCode}, newUserStoryData, function(error, userStory) {
+        mongoose.model('UserStory')
+            .findOneAndUpdate({code: newUserStoryData.code, projectCode: newUserStoryData.projectCode,
+                featureCode: newUserStoryData.featureCode}, newUserStoryData, function(error, userStory) {
 
             //If an error occurred
             if (error) {

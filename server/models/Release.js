@@ -55,7 +55,9 @@ releaseSchema.statics.exists = function exists(projectCode, releaseCode) {
     return new Promise(function(resolve, reject) {
 
         //Find the number of releases by code
-        mongoose.model('Release').count({code: releaseCode, projectCode: projectCode}).exec(function(error, count) {
+        mongoose.model('Release')
+            .count({code: releaseCode, projectCode: projectCode})
+            .exec(function(error, count) {
 
             //If an error occurred
             if (error) {
@@ -91,7 +93,10 @@ releaseSchema.statics.getAllReleasesByProject = function getAllReleasesByProject
 	return new Promise(function(resolve, reject) {
 
         //Find the releases by project code
-        mongoose.model('Release').find({projectCode: projectCode}, '-_id code description name').sort('name').exec(function(error, releases) {
+        mongoose.model('Release')
+            .find({projectCode: projectCode}, '-_id code description name')
+            .sort('name')
+            .exec(function(error, releases) {
 
             //If an error occurred
             if (error) {
@@ -115,7 +120,9 @@ releaseSchema.statics.getRelease = function getRelease(projectCode, releaseCode)
     return new Promise(function(resolve, reject) {
 
         //Find the release
-        mongoose.model('Release').findOne({code: releaseCode, projectCode: projectCode}, '-_id code description name projectCode').exec(function(error, release) {
+        mongoose.model('Release')
+            .findOne({code: releaseCode, projectCode: projectCode}, '-_id code description name projectCode')
+            .exec(function(error, release) {
 
             //If an error occurred
             if (error) {
@@ -139,7 +146,9 @@ releaseSchema.statics.getReleaseStatsForProject = function getReleaseStatsForPro
     return new Promise(function(resolve, reject) {
         
         //Count the number of releases associated with the project
-        var projectCount = mongoose.model('Release').count({projectCode: projectCode}).exec();
+        var projectCount = mongoose.model('Release')
+            .count({projectCode: projectCode})
+            .exec();
 
         //If all the promises are successful
         Promise.all([projectCount]).then(function(data) {
@@ -162,7 +171,9 @@ releaseSchema.statics.updateRelease = function updateRelease(newReleaseData) {
     return new Promise(function(resolve, reject) {
 
         //Find the release and update it
-        mongoose.model('Release').findOneAndUpdate({code: newReleaseData.code, projectCode: newReleaseData.projectCode}, newReleaseData, function(error, release) {
+        mongoose.model('Release')
+            .findOneAndUpdate({code: newReleaseData.code, projectCode: newReleaseData.projectCode},
+                newReleaseData, function(error, release) {
 
             //If an error occurred
             if (error) {
