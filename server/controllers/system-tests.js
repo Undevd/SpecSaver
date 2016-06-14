@@ -13,7 +13,9 @@ exports.createSystemTest = function(request, response) {
         name: systemTestData.name,
         code: null,
         description: systemTestData.description,
-        projectCode: systemTestData.projectCode
+        projectCode: systemTestData.projectCode,
+        featureCodes: [],
+        testStepArguments: []
     };
 
     //Create the system test
@@ -85,6 +87,7 @@ exports.updateSystemTest = function(request, response) {
         code: systemTestData.code,
         description: systemTestData.description,
         projectCode: systemTestData.projectCode,
+        featureCodes: [],
         testStepArguments: []
     };
 

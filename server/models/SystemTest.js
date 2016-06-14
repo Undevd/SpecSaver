@@ -5,7 +5,7 @@ var systemTestSchema = mongoose.Schema({
     code: {type: Number, required: '{PATH} is required'},
     description: {type: String},
     projectCode: {type: String, required: '{PATH} is required'},
-    features: {type: [String]},
+    featureCodes: {type: [String]},
     testStepArguments: {
         type: Array,
         code: {type: Number},
@@ -141,7 +141,7 @@ systemTestSchema.statics.getSystemTest = function getSystemTest(projectCode, sys
         //Find the systemTest
         mongoose.model('SystemTest')
             .findOne({code: systemTestCode, projectCode: projectCode},
-                '-_id code description name projectCode features')
+                '-_id code description name projectCode featureCodes')
             .exec(function(error, systemTest) {
 
             //If an error occurred
@@ -168,7 +168,7 @@ systemTestSchema.statics.getSystemTestAndTestSteps = function getSystemTest(proj
         //Find the systemTest
         mongoose.model('SystemTest')
             .findOne({code: systemTestCode, projectCode: projectCode},
-                '-_id code description name projectCode features testStepArguments')
+                '-_id code description name projectCode featureCodes testStepArguments')
             .exec(function(error, systemTest) {
 
             //If an error occurred
@@ -195,7 +195,7 @@ systemTestSchema.statics.getSystemTestAndTestStepsExpanded = function getSystemT
         //Find the systemTest
         mongoose.model('SystemTest')
             .findOne({code: systemTestCode, projectCode: projectCode},
-                '-_id code description name projectCode features testStepArguments')
+                '-_id code description name projectCode featureCodes testStepArguments')
             .exec(function(error, systemTest) {
 
             //If an error occurred
