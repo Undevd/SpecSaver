@@ -186,13 +186,13 @@ systemTestSchema.statics.getSystemTestAndTestSteps = function getSystemTest(proj
     });
 };
 
-//Gets the system test with the supplied system test code and the associated test steps in full
-systemTestSchema.statics.getSystemTestAndTestStepsExpanded = function getSystemTestAndTestStepsExpanded(projectCode, systemTestCode) {
+//Gets the system test with the supplied system test code and the associated features and test steps in full
+systemTestSchema.statics.getSystemTestExpanded = function getSystemTestExpanded(projectCode, systemTestCode) {
 
     //Return a promise
     return new Promise(function(resolve, reject) {
 
-        //Find the systemTest
+        //Find the system test
         mongoose.model('SystemTest')
             .findOne({code: systemTestCode, projectCode: projectCode},
                 '-_id code description name projectCode featureCodes testStepArguments')
@@ -206,15 +206,21 @@ systemTestSchema.statics.getSystemTestAndTestStepsExpanded = function getSystemT
             }
             else {
 
-                //Get the test steps associated with the system test
-                mongoose.model('TestStep').getAllTestSteps(projectCode, systemTest.testStepArguments).then(function(data) {
+                //Get the features associated with the system test
+                var features = mongoose.model('Feature').getAllFeatures(projectCode, systemTest.featureCodes);
 
+                //Get the test steps associated with the system test
+                var testSteps = mongoose.model('TestStep').getAllTestSteps(projectCode, systemTest.testStepArguments);
+
+                //If all the promises are successful
+                Promise.all([features, testSteps]).then(function(data) {
+                    
                     //Return the system test and test steps
-                    resolve({systemTest: systemTest, testSteps: data});
+                    resolve({features: data[0], systemTest: systemTest, testSteps: data[1]});
 
                 }, function(error) {
-
-                    //Return the error
+                    
+                    //Otherwise return the error
                     reject(error);
                 });
             }

@@ -49,13 +49,13 @@
                 .row(ng-show="featureResults.length")
                     .col-md-12
                         select.form-control(
-                            name="newFeature.code"
-                            ng-model="newFeature.code"
+                            name="newFeature.index"
+                            ng-model="newFeature.index"
                         )
                             option(value="") Select result...
                             option(
                                 ng-repeat="result in featureResults"
-                                value="{{result.code}}"
+                                ng-value="$index"
                             ) {{result.name}}
                 .alert.alert-danger.text-center(
                     ng-show="featureError"
@@ -65,10 +65,17 @@
                 span.padr
                     button.btn.btn-success(
                         ng-click="addFeature()"
-                        ng-show="!featureForm.$invalid && newFeature.code"
+                        ng-show="!featureForm.$invalid && newFeature.index"
                     )
                         span.glyphicon.glyphicon-ok.padr
                         span Add
+                span.padr
+                    button.btn.btn-success(
+                        ng-click="addFeature(true)"
+                        ng-show="!featureForm.$invalid && newFeature.index"
+                    )
+                        span.glyphicon.glyphicon-ok.padr
+                        span Add &amp; Close
                 span
                     a.btn.btn-default(
                         data-dismiss="modal"

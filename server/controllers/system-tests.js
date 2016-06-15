@@ -1,3 +1,4 @@
+var Feature = require('mongoose').model('Feature');
 var Project = require('mongoose').model('Project');
 var SystemTest = require('mongoose').model('SystemTest');
 var TestStep = require('mongoose').model('TestStep');
@@ -60,13 +61,18 @@ exports.getSystemTest = function(request, response) {
     var project = Project.getProject(request.params.projectCode);
 
     //Get the system test and test steps
-    var systemTest = SystemTest.getSystemTestAndTestStepsExpanded(request.params.projectCode, request.params.systemTestCode);
+    var systemTest = SystemTest.getSystemTestExpanded(request.params.projectCode, request.params.systemTestCode);
 
     //If all the promises are successful
     Promise.all([project, systemTest]).then(function(data) {
         
-        //Set the success status and send the project and system test data
-        response.status(200).send({project: data[0], systemTest: data[1].systemTest, testSteps: data[1].testSteps});
+        //Set the success status and send the feature, project, system test, and test step data
+        response.status(200).send({
+            features: data[1].features,
+            project: data[0],
+            systemTest: data[1].systemTest,
+            testSteps: data[1].testSteps
+        });
 
     }, function(error) {
         
@@ -90,6 +96,17 @@ exports.updateSystemTest = function(request, response) {
         featureCodes: [],
         testStepArguments: []
     };
+
+    //For each feature code
+    for (var featureCode of systemTestData.featureCodes) {
+        
+        //If the value is a string
+        if (typeof featureCode === "string") {
+
+            //Add the value to the updated system test
+            newSystemTestData.featureCodes.push(featureCode);
+        }
+    }
 
     //For each test step
     for (var testStep of systemTestData.testStepArguments) {

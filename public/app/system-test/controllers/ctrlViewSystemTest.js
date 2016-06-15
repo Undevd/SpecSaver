@@ -12,7 +12,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         
         //Return the string surrounded in curly brackets
         return '{' + stringToFormat + '}';
-    }
+    };
 
     //Gets the hierarchy position of the supplied test step type 
     var getTestStepTypeHierarchy = function(testStepType) {
@@ -26,14 +26,14 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
             case 'then': return 3;
             default: return 0;
         }
-    }
+    };
 
     //Checks to see if an argument name is for a table
     var isTableArgumentName = function(argumentName) {
         
         //If the string starts and ends with a pipe symbol, then it is a table argument
         return argumentName.startsWith('|') && argumentName.endsWith('|');
-    }
+    };
 
     //Gets the test step text from a string
     var getTestStepTextFromString = function(testStepString) {
@@ -124,6 +124,16 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
 
         //Return the rows split
         return rowsSplit;
+    };
+
+    //Updates the returned data in the scope
+    var updateScope = function(data) {
+        
+        $scope.features = data.features;
+        $scope.project = data.project;
+        $scope.systemTest = data.systemTest;
+        updateTestStepsInScope(data.testSteps);
+        $scope.stats = data.stats;
     };
 
     //Updates the test steps in the scope, both in original form and also by separating out the arguments
@@ -222,14 +232,27 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         $scope.testSteps = testSteps;
     };
 
+    //Sends the system test data in the scope to the server
+    var updateSystemTest = function() {
+        
+        //Update the system test with the data in the scope
+        dbSystemTest.updateSystemTest($scope.systemTest).$promise.then(function() {
+
+            //Clear any existing errors
+            $scope.error = null;
+
+        }, function(error) {
+
+            //Add the error message to the scope
+            $scope.error = error.data.message;
+        });
+    };
+
     //Get the systemTest data
     dbSystemTest.getSystemTest(projectCode, systemTestCode).$promise.then(function(data) {
 
         //Store the data in the scope
-        $scope.project = data.project;
-        $scope.systemTest = data.systemTest;
-        updateTestStepsInScope(data.testSteps);
-        $scope.stats = data.stats;
+        updateScope(data);
 
         //Store the old value of a field as it is being edited
         $scope.oldData = {};
@@ -302,7 +325,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         $scope.submitEdit = function(fieldID) {
 
             //Save the system test
-            dbSystemTest.updateSystemTest($scope.systemTest);
+            updateSystemTest();
             
             //Stop editing
             $scope.showEdit(false, fieldID);
@@ -370,7 +393,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
             $scope.systemTest.testStepArguments[testStepNumber].arguments = arguments;
 
             //Save the system test
-            dbSystemTest.updateSystemTest($scope.systemTest);
+            updateSystemTest();
             
             //Stop editing
             $scope.showEdit(false, fieldID, testStepNumber, sectionNumber);
@@ -556,13 +579,68 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         $scope.clearFeatureResults = function() {
             
             //Clear the last selected feature
-            $scope.newFeature.code = null;
+            $scope.newFeature.index = null;
             
             //Clear the search results
             $scope.featureResults = [];
 
             //Clear the search time
             $scope.featureResultsTime = null;
+        };
+
+        //Adds a feature to the system test
+        $scope.addFeature = function(closeOnCompletion) {
+
+            //Get the selected feature index
+            var index = $scope.newFeature.index;
+
+            //Get the feature data from the scope
+            var testStep = {
+                code: $scope.featureResults[index].code,
+                name: $scope.featureResults[index].name
+            };
+
+            //If the list of system test feature codes doesn't exist
+            if (!$scope.systemTest.featureCodes) {
+                
+                //Create it
+                $scope.systemTest.featureCodes = [];
+            }
+
+            //If the list of features doesn't exist
+            if (!$scope.features) {
+                
+                //Create it
+                $scope.features = [];
+            }
+
+            //If the code doesn't exist in the feature codes list
+            if ($scope.systemTest.featureCodes.indexOf(testStep.code) < 0) {
+
+                //Add the feature code to the system test list
+                $scope.systemTest.featureCodes.push(testStep.code);
+
+                //Add the feature name to the feature list
+                $scope.features.push({code: testStep.code, name: testStep.name});
+
+                //Save the system test
+                dbSystemTest.updateSystemTest($scope.systemTest).$promise.then(function(data) {
+                    
+                    //Clear any existing errors
+                    $scope.featureError = null;
+                    
+                    //If the dialog should be closed on completion
+                    if (closeOnCompletion) {
+                        
+                        //Close the dialog (JQuery)
+                        $("#ModalAddFeatureCloseButton").trigger('click');
+                    }
+                }, function(error) {
+
+                    //Add the error message to the scope
+                    $scope.featureError = error.data.message;
+                });
+            }
         };
     }, function(error) {
         

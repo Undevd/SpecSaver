@@ -86,6 +86,45 @@ featureSchema.statics.exists = function exists(projectCode, featureCode) {
     });
 };
 
+//Gets all of the feature with the supplied feature code
+featureSchema.statics.getAllFeatures = function getAllFeatures(projectCode, featureCodes) {
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+
+        //Create an array of promises
+        var features = [];
+
+        //For each feature code
+        for (var featureCode of featureCodes) {
+
+            //Add a new promise to the array
+            features.push(mongoose.model('Feature').getFeature(projectCode, featureCode));
+        }
+
+        //If all the promises are successful
+        Promise.all(features).then(function(data) {
+            
+            //If at least one result was found
+            if (data.length) {
+
+                //Sort the results
+                data.sort(function(a, b) {
+                    return a.name && b.name ? (a.name > b.name) - (a.name < b.name) : 0; 
+                });
+            }
+
+            //Resolve the promise
+            resolve(data);
+
+        }, function(error) {
+            
+            //Otherwise return the error
+            reject(error);
+        });
+    });
+};
+
 //Gets all features by project code
 featureSchema.statics.getAllFeaturesByProject = function getAllFeaturesByProject(projectCode) {
 
