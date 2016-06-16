@@ -1,0 +1,70 @@
+div(ng-class="nav.settings.isCollapsed ? 'padbt' : ''")
+    span.padn(ng-class="nav.settings.isCollapsed ? '' : 'row'" ng-if="nav.project.display")
+        span(ng-class="nav.settings.isCollapsed ? '' : 'col-md-2'")
+            span.padr
+                span.glyphicon.glyphicon-th-list
+            span(ng-show="!nav.settings.isCollapsed") Projects (1)
+        span(ng-class="nav.settings.isCollapsed ? '' : 'col-md-10'")
+            span.padr
+                a.btn.btn-xs.colour1(ng-href="/p/{{project.code}}") {{project.name}}
+    span(ng-class="nav.settings.isCollapsed ? '' : 'row'" ng-if="nav.release.display")
+        span(ng-class="nav.settings.isCollapsed ? '' : 'col-md-2'")
+            span.padr
+                span.glyphicon.glyphicon-gift
+            span(ng-show="!nav.settings.isCollapsed") Releases ({{releases ? releases.length : 0}})
+        span(ng-class="nav.settings.isCollapsed ? '' : 'col-md-10'")
+            span.padr
+                a.btn.btn-xs.colour2(ng-href="/p/{{project.code}}/r")
+                    span.glyphicon.glyphicon-asterisk
+            span.padr(ng-repeat="release in releases")
+                a.btn.btn-xs.colour2(ng-href="/p/{{project.code}}/r/{{release.code}}") {{release.name}}
+    span(ng-class="nav.settings.isCollapsed ? '' : 'row'" ng-if="nav.feature.display")
+        span(ng-class="nav.settings.isCollapsed ? '' : 'col-md-2'")
+            span.padr
+                span.glyphicon.glyphicon-apple
+            span(ng-show="!nav.settings.isCollapsed") Features ({{features ? features.length : 0}})
+        span(ng-class="nav.settings.isCollapsed ? '' : 'col-md-10'")
+            span.padr
+                a.btn.btn-xs.colour3(ng-href="/p/{{project.code}}/f")
+                    span.glyphicon.glyphicon-asterisk
+            span.padr(ng-repeat="feature in features")
+                a.btn.btn-xs.colour3(ng-href="/p/{{project.code}}/f/{{feature.code}}") {{feature.name}}
+            span.padr(ng-if="nav.feature.edit")
+                button.btn.btn-default.btn-xs(
+                    data-target="#ModalAddFeature"
+                    data-toggle="modal"
+                )
+                    span.glyphicon.glyphicon-pencil
+    span(ng-class="nav.settings.isCollapsed ? '' : 'row'" ng-if="nav.userStory.display")
+        span(ng-class="nav.settings.isCollapsed ? '' : 'col-md-2'")
+            span.padr
+                span.glyphicon.glyphicon-tree-deciduous
+            span(ng-show="!nav.settings.isCollapsed") User Stories ({{userStories ? userStories.length : 0}})
+        span(ng-class="nav.settings.isCollapsed ? '' : 'col-md-10'")
+            span.padr
+                a.btn.btn-xs.colour4(ng-href="/p/{{project.code}}/u")
+                    span.glyphicon.glyphicon-asterisk
+            span.padr(ng-repeat="userStory in userStories")
+                a.btn.btn-xs.colour4(ng-href="/p/{{project.code}}/f/{{userStory.featureCode}}/u/{{userStory.code}}") {{userStory.code}}
+    span(ng-class="nav.settings.isCollapsed ? '' : 'row'" ng-if="nav.acceptanceTest.display")
+        span(ng-class="nav.settings.isCollapsed ? '' : 'col-md-2'")
+            span.padr
+                span.glyphicon.glyphicon-grain
+            span(ng-show="!nav.settings.isCollapsed") Acceptance Tests ({{acceptanceTests ? acceptanceTests.length : 0}})
+        span(ng-class="nav.settings.isCollapsed ? '' : 'col-md-10'")
+            span.padr
+                a.btn.btn-xs.colour5(ng-href="/p/{{project.code}}/a")
+                    span.glyphicon.glyphicon-asterisk
+            span.padr(ng-repeat="acceptanceTest in acceptanceTests")
+                a.btn.btn-xs.colour5(ng-href="/p/{{project.code}}/f/{{userStory.featureCode}}/a/{{acceptanceTest.code}}") {{acceptanceTest.code}}
+    span(ng-class="nav.settings.isCollapsed ? '' : 'row'" ng-if="nav.systemTest.display")
+        span(ng-class="nav.settings.isCollapsed ? '' : 'col-md-2'")
+            span.padr
+                span.glyphicon.glyphicon-leaf
+            span(ng-show="!nav.settings.isCollapsed") System Tests ({{systemTests ? systemTests.length : 0}})
+        span(ng-class="nav.settings.isCollapsed ? '' : 'col-md-10'")
+            span.padr
+                a.btn.btn-xs.colour6(ng-href="/p/{{project.code}}/s")
+                    span.glyphicon.glyphicon-asterisk
+            span.padr(ng-repeat="systemTest in systemTests")
+                a.btn.btn-xs.colour6(ng-href="/p/{{project.code}}/s/{{systemTest.code}}") {{systemTest.name}}
