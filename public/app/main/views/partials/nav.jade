@@ -5,23 +5,28 @@ div
 div(ng-class="nav.settings.isCollapsed ? 'padbt' : ''")
     span.padn(
         ng-class="nav.settings.isCollapsed ? '' : 'row'"
-        ng-if="nav.project.display && (!nav.settings.isCollapsed || (nav.settings.isCollapsed && project))"
+        ng-if="nav.project.isCurrentSection || (nav.project.display && (!nav.settings.isCollapsed || (nav.settings.isCollapsed && project)))"
     )
         span(ng-class="nav.settings.isCollapsed ? '' : 'col-md-2'")
             span.padr
                 span.glyphicon.glyphicon-th-list
-            span(ng-show="!nav.settings.isCollapsed") Projects
+            span(ng-show="!nav.settings.isCollapsed")
+                a(href="/p") Projects
         span(ng-class="nav.settings.isCollapsed ? '' : 'col-md-10'")
+            span.padr
+                a.btn.btn-xs.colour1(href="/p")
+                    span.glyphicon.glyphicon-asterisk
             span.padr
                 a.btn.btn-xs.colour1(ng-href="/p/{{project.code}}") {{project.name}}
     span(
         ng-class="nav.settings.isCollapsed ? '' : 'row'"
-        ng-if="nav.release.display && (!nav.settings.isCollapsed || (nav.settings.isCollapsed && releases.length))"
+        ng-if="nav.release.isCurrentSection || (nav.release.display && (!nav.settings.isCollapsed || (nav.settings.isCollapsed && releases.length)))"
     )
         span(ng-class="nav.settings.isCollapsed ? '' : 'col-md-2'")
             span.padr
                 span.glyphicon.glyphicon-gift
-            span(ng-show="!nav.settings.isCollapsed") Releases
+            span(ng-show="!nav.settings.isCollapsed")
+                a(ng-href="/p/{{project.code}}/r") Releases
         span(ng-class="nav.settings.isCollapsed ? '' : 'col-md-10'")
             span.padr
                 a.btn.btn-xs.colour2(ng-href="/p/{{project.code}}/r")
@@ -30,19 +35,20 @@ div(ng-class="nav.settings.isCollapsed ? 'padbt' : ''")
                 a.btn.btn-xs.colour2(ng-href="/p/{{project.code}}/r/{{release.code}}") {{release.name}}
     span(
         ng-class="nav.settings.isCollapsed ? '' : 'row'"
-        ng-if="nav.feature.display && (!nav.settings.isCollapsed || (nav.settings.isCollapsed && features.length))"
+        ng-if="nav.feature.isCurrentSection || (nav.feature.display && (!nav.settings.isCollapsed || (nav.settings.isCollapsed && features.length)))"
     )
         span(ng-class="nav.settings.isCollapsed ? '' : 'col-md-2'")
             span.padr
                 span.glyphicon.glyphicon-apple
-            span(ng-show="!nav.settings.isCollapsed") Features
+            span(ng-show="!nav.settings.isCollapsed")
+                a(ng-href="/p/{{project.code}}/f") Features
         span(ng-class="nav.settings.isCollapsed ? '' : 'col-md-10'")
             span.padr
                 a.btn.btn-xs.colour3(ng-href="/p/{{project.code}}/f")
                     span.glyphicon.glyphicon-asterisk
             span.padr(ng-repeat="feature in features")
                 a.btn.btn-xs.colour3(ng-href="/p/{{project.code}}/f/{{feature.code}}") {{feature.name}}
-            span.padr(ng-if="nav.feature.edit")
+            span.padr(ng-if="nav.feature.edit && !nav.settings.isCollapsed")
                 button.btn.btn-default.btn-xs(
                     data-target="#ModalAddFeature"
                     data-toggle="modal"
@@ -50,12 +56,13 @@ div(ng-class="nav.settings.isCollapsed ? 'padbt' : ''")
                     span.glyphicon.glyphicon-pencil
     span(
         ng-class="nav.settings.isCollapsed ? '' : 'row'"
-        ng-if="nav.userStory.display && (!nav.settings.isCollapsed || (nav.settings.isCollapsed && userStories.length))"
+        ng-if="nav.userStory.isCurrentSection || (nav.userStory.display && (!nav.settings.isCollapsed || (nav.settings.isCollapsed && userStories.length)))"
     )
         span(ng-class="nav.settings.isCollapsed ? '' : 'col-md-2'")
             span.padr
                 span.glyphicon.glyphicon-tree-deciduous
-            span(ng-show="!nav.settings.isCollapsed") User Stories
+            span(ng-show="!nav.settings.isCollapsed")
+                a(ng-href="/p/{{project.code}}/u") User Stories
         span(ng-class="nav.settings.isCollapsed ? '' : 'col-md-10'")
             span.padr
                 a.btn.btn-xs.colour4(ng-href="/p/{{project.code}}/u")
@@ -64,12 +71,13 @@ div(ng-class="nav.settings.isCollapsed ? 'padbt' : ''")
                 a.btn.btn-xs.colour4(ng-href="/p/{{project.code}}/f/{{userStory.featureCode}}/u/{{userStory.code}}") {{userStory.code}}
     span(
         ng-class="nav.settings.isCollapsed ? '' : 'row'"
-        ng-if="nav.acceptanceTest.display && (!nav.settings.isCollapsed || (nav.settings.isCollapsed && acceptanceTests.length))"
+        ng-if="nav.acceptanceTest.isCurrentSection || (nav.acceptanceTest.display && (!nav.settings.isCollapsed || (nav.settings.isCollapsed && acceptanceTests.length)))"
     )
         span(ng-class="nav.settings.isCollapsed ? '' : 'col-md-2'")
             span.padr
                 span.glyphicon.glyphicon-grain
-            span(ng-show="!nav.settings.isCollapsed") Acceptance Tests
+            span(ng-show="!nav.settings.isCollapsed")
+                a(ng-href="/p/{{project.code}}/a") Acceptance Tests
         span(ng-class="nav.settings.isCollapsed ? '' : 'col-md-10'")
             span.padr
                 a.btn.btn-xs.colour5(ng-href="/p/{{project.code}}/a")
@@ -78,12 +86,13 @@ div(ng-class="nav.settings.isCollapsed ? 'padbt' : ''")
                 a.btn.btn-xs.colour5(ng-href="/p/{{project.code}}/f/{{userStory.featureCode}}/a/{{acceptanceTest.code}}") {{acceptanceTest.code}}
     span(
         ng-class="nav.settings.isCollapsed ? '' : 'row'"
-        ng-if="nav.systemTest.display && (!nav.settings.isCollapsed || (nav.settings.isCollapsed && systemTests.length))"
+        ng-if="nav.systemTest.isCurrentSection || (nav.systemTest.display && (!nav.settings.isCollapsed || (nav.settings.isCollapsed && systemTests.length)))"
     )
         span(ng-class="nav.settings.isCollapsed ? '' : 'col-md-2'")
             span.padr
                 span.glyphicon.glyphicon-leaf
-            span(ng-show="!nav.settings.isCollapsed") System Tests
+            span(ng-show="!nav.settings.isCollapsed")
+                a(ng-href="/p/{{project.code}}/s") System Tests
         span(ng-class="nav.settings.isCollapsed ? '' : 'col-md-10'")
             span.padr
                 a.btn.btn-xs.colour6(ng-href="/p/{{project.code}}/s")
