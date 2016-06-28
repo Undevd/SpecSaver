@@ -1,46 +1,25 @@
 .container(ng-show="project")
-    legend.colour2
-        span.pull-right {{project.code}}.{{release.code}}
-        h1 Release
-        h2
-            span
-                a(ng-href="/p/{{project.code}}") {{project.name}}
-            span.padr :
-            span(ng-show="!edit.name")
-                a.edit(ng-click="showEdit('name', true)" ng-mouseleave="hover.name = false" ng-mouseover="hover.name = true") {{release.name}}
-            span.glyphicon.glyphicon-pencil.small(ng-show="hover.name")
-            span(ng-show="edit.name")
-                form(name="nameForm")
-                    input.form-control(name="release.name" ng-model="release.name" type="text" placeholder="Name" required)
-                    button.btn.btn-success(ng-click="submitEdit('name')", ng-disabled="nameForm.$invalid")
-                        span.glyphicon.glyphicon-ok
-                    a.btn.btn-default(ng-click="cancelEdit('name')")
-                        span.glyphicon.glyphicon-remove
-    nav.table
-        .col-md-2.column1.padn
-            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}")
-                span.glyphicon.glyphicon-th-list.padr(aria-label="List icon")
-                span.small Project
-        .col-md-2.colour2.padn
-            a.box.btn.btn-block.colour2(ng-href="/p/{{project.code}}/r")
-                span.glyphicon.glyphicon-gift.padr(aria-label="Gift icon")
-                span.small Releases
-        .col-md-2.column1.padn
-            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/r/{{release.code}}/f")
-                span.glyphicon.glyphicon-apple.padr(aria-label="Apple icon")
-                span.small Features
-        .col-md-2.column1.padn
-            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/r/{{release.code}}/u")
-                span.glyphicon.glyphicon-tree-deciduous.padr(aria-label="Tree icon")
-                span.small User Stories
-        .col-md-2.column1.padn
-            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/r/{{release.code}}/a")
-                span.glyphicon.glyphicon-grain.padr(aria-label="Branch icon")
-                span.small Acceptance Tests
-        .col-md-2.column1.padn
-            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/r/{{release.code}}/s")
-                span.glyphicon.glyphicon-leaf.padr(aria-label="Leaf icon")
-                span.small System Tests
+    .colour2.pad.row
+        .col-md-1
+            span.h1
+                a(ng-href="/p/{{project.code}}/r")
+                    span.glyphicon.glyphicon-gift
+        .col-md-11
+            h3.pull-right {{project.code}}.{{release.code}}
+            h1
+                a(ng-href="/p/{{project.code}}/r") Release
+            h2
+                span(ng-show="!edit.name")
+                    a.edit(ng-click="showEdit('name', true)" ng-mouseleave="hover.name = false" ng-mouseover="hover.name = true") {{release.name}}
+                span.glyphicon.glyphicon-pencil.small(ng-show="hover.name")
+                span(ng-show="edit.name")
+                    form(name="nameForm")
+                        input.form-control(name="release.name" ng-model="release.name" type="text" placeholder="Name" required)
+                        button.btn.btn-success(ng-click="submitEdit('name')", ng-disabled="nameForm.$invalid")
+                            span.glyphicon.glyphicon-ok
+                        a.btn.btn-default(ng-click="cancelEdit('name')")
+                            span.glyphicon.glyphicon-remove
+    include ../../main/views/partials/nav
     .well
         div(ng-show="!edit.description")
             a.edit(ng-click="showEdit('description', true)" ng-mouseleave="hover.description = false" ng-mouseover="hover.description = true")

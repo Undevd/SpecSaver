@@ -1,72 +1,38 @@
 .container(ng-show="project")
-    legend.colour6
-        span.pull-right {{project.code}}-S{{systemTest.code}}
-        h1 System Test
-        h2
-            span
-                a(ng-href="/p/{{project.code}}") {{project.name}}
-            span.padr :
-            span System Test {{systemTest.code}}
-            span.padr :
-            span(ng-show="!edit.name")
-                a.edit(
-                    ng-click="showEdit(true, 'name')"
-                    ng-mouseleave="hover.name = false"
-                    ng-mouseover="hover.name = true"
-                ) {{systemTest.name}}
-            span.glyphicon.glyphicon-pencil.small(ng-show="hover.name")
-            span(ng-show="edit.name")
-                form(name="nameForm")
-                    input.form-control(
-                        name="systemTest.name"
-                        ng-model="systemTest.name"
-                        placeholder="Name"
-                        required
-                        type="text"
-                    )
-                    button.btn.btn-success(
-                        ng-click="submitEdit('name')"
-                        ng-disabled="nameForm.$invalid"
-                    )
-                        span.glyphicon.glyphicon-ok
-                    a.btn.btn-default(ng-click="cancelEdit('name')")
-                        span.glyphicon.glyphicon-remove
-    nav.table
-        .col-md-2.column1.padn
-            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}")
-                span.glyphicon.glyphicon-th-list.padr(aria-label="List icon")
-                span.small Project
-        .col-md-2.column1.padn
-            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/r")
-                span.glyphicon.glyphicon-gift.padr(aria-label="Gift icon")
-                span.small Releases
-        .col-md-2.column1.padn
-            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/f")
-                span.glyphicon.glyphicon-apple.padr(aria-label="Apple icon")
-                span.small Features
-        .col-md-2.column1.padn
-            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/u")
-                span.glyphicon.glyphicon-tree-deciduous.padr(aria-label="Tree icon")
-                span.small User Stories
-        .col-md-2.column1.padn
-            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/a")
-                span.glyphicon.glyphicon-grain.padr(aria-label="Branch icon")
-                span.small Acceptance Tests
-        .col-md-2.colour6.padn
-            a.box.btn.btn-block.colour6(ng-href="/p/{{project.code}}/s")
-                span.glyphicon.glyphicon-leaf.padr(aria-label="Leaf icon")
-                span.small System Tests
-    .padb.row
-        .col-md-12
-            span.padr
-                button.btn.btn-xs.colour3(
-                    data-target="#ModalAddFeature"
-                    data-toggle="modal"
-                )
-                    span.glyphicon.glyphicon-apple
-            span(ng-repeat="feature in features")
-                span.padr |
-                a.padr(ng-href="/p/{{project.code}}/f/{{feature.code}}") {{feature.name}}
+    .colour6.pad.row
+        .col-md-1
+            span.h1
+                a(ng-href="/p/{{project.code}}/s")
+                    span.glyphicon.glyphicon-leaf
+        .col-md-11
+            h3.pull-right {{project.code}}-S{{systemTest.code}}
+            h1
+                a(ng-href="/p/{{project.code}}/s") System Test
+            h2
+                span(ng-show="!edit.name")
+                    a.edit(
+                        ng-click="showEdit(true, 'name')"
+                        ng-mouseleave="hover.name = false"
+                        ng-mouseover="hover.name = true"
+                    ) {{systemTest.name}}
+                span.glyphicon.glyphicon-pencil.small(ng-show="hover.name")
+                span(ng-show="edit.name")
+                    form(name="nameForm")
+                        input.form-control(
+                            name="systemTest.name"
+                            ng-model="systemTest.name"
+                            placeholder="Name"
+                            required
+                            type="text"
+                        )
+                        button.btn.btn-success(
+                            ng-click="submitEdit('name')"
+                            ng-disabled="nameForm.$invalid"
+                        )
+                            span.glyphicon.glyphicon-ok
+                        a.btn.btn-default(ng-click="cancelEdit('name')")
+                            span.glyphicon.glyphicon-remove
+    include ../../main/views/partials/nav
     .well
         div(ng-show="!edit.description")
             a.edit(

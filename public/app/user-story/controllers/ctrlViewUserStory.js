@@ -8,6 +8,11 @@ angular.module('app').controller('ctrlViewUserStory', function($scope, $rootScop
     //Set the page title
     $rootScope.title += projectCode + '-' + featureCode + '-U' + userStoryCode;
 
+    //Set the navigation settings
+    $scope.nav = {
+        userStory: {isCurrentSection: true},
+    };
+
     //Get the user story data
     dbUserStory.getUserStory(projectCode, featureCode, userStoryCode).$promise.then(function(data) {
 

@@ -8,6 +8,11 @@ angular.module('app').controller('ctrlViewAcceptanceTest', function($scope, $roo
     //Set the page title
     $rootScope.title += projectCode + '-' + featureCode + '-A' + acceptanceTestCode;
 
+    //Set the navigation settings
+    $scope.nav = {
+        acceptanceTest: {isCurrentSection: true},
+    };
+
     //Get the acceptance test data
     dbAcceptanceTest.getAcceptanceTest(projectCode, featureCode, acceptanceTestCode).$promise.then(function(data) {
 

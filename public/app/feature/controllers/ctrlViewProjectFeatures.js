@@ -6,6 +6,11 @@ angular.module('app').controller('ctrlViewProjectFeatures', function($scope, $ro
     //Set the page title
     $rootScope.title += projectCode;
 
+    //Set the navigation settings
+    $scope.nav = {
+        feature: {isCurrentSection: true},
+    };
+
     //Get the features associated with the project
     dbFeature.getAllFeatures(projectCode).$promise.then(function(data) {
 

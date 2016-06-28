@@ -6,6 +6,11 @@ angular.module('app').controller('ctrlViewAllReleases', function($scope, $rootSc
 	//Set the page title
     $rootScope.title += projectCode;
 
+    //Set the navigation settings
+    $scope.nav = {
+        release: {isCurrentSection: true},
+    };
+
     //Get the releases associated with the project
     dbRelease.getAllReleases(projectCode).$promise.then(function(data) {
 

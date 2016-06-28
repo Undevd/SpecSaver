@@ -6,6 +6,11 @@ angular.module('app').controller('ctrlViewProjectAcceptanceTests', function($sco
     //Set the page title
     $rootScope.title += projectCode;
 
+    //Set the navigation settings
+    $scope.nav = {
+        acceptanceTest: {isCurrentSection: true},
+    };
+
     //Get the project associated with the acceptance tests
     dbProject.getProject(projectCode).$promise.then(function(data) {
 

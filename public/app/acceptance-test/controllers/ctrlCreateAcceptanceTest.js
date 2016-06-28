@@ -7,6 +7,11 @@ angular.module('app').controller('ctrlCreateAcceptanceTest', function($scope, $r
     //Set the page title
     $rootScope.title += projectCode + '-' + featureCode;
 
+    //Set the navigation settings
+    $scope.nav = {
+        acceptanceTest: {isCurrentSection: true},
+    };
+
     //Get the feature data
     dbFeature.getFeature(projectCode, featureCode).$promise.then(function(data) {
 

@@ -1,39 +1,14 @@
 .container(ng-show="project")
     form.form-horizontal(name="userStoryForm")
-        legend.colour4
-            span.pull-right {{project.code}}-{{feature.code}}
-            h1 User Story
-            h2
-                span
-                    a(ng-href="/p/{{project.code}}") {{project.name}}
-                span.padr :
-                span
-                    a(ng-href="/p/{{project.code}}/f/{{feature.code}}") {{feature.name}}
-        nav.table
-            .col-md-2.column1.padn
-                a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}")
-                    span.glyphicon.glyphicon-th-list.padr(aria-label="List icon")
-                    span.small Project
-            .col-md-2.column1.padn
-                a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/r")
-                    span.glyphicon.glyphicon-gift.padr(aria-label="Gift icon")
-                    span.small Releases
-            .col-md-2.column1.padn
-                a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/f/{{feature.code}}")
-                    span.glyphicon.glyphicon-apple.padr(aria-label="Apple icon")
-                    span.small Feature
-            .col-md-2.colour4.padn
-                a.box.btn.btn-block.colour4(ng-href="/p/{{project.code}}/f/{{feature.code}}/u")
-                    span.glyphicon.glyphicon-tree-deciduous.padr(aria-label="Tree icon")
-                    span.small User Stories
-            .col-md-2.column1.padn
-                a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/f/{{feature.code}}/a")
-                    span.glyphicon.glyphicon-grain.padr(aria-label="Branch icon")
-                    span.small Acceptance Tests
-            .col-md-2.column1.padn
-                a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/f/{{feature.code}}/s")
-                    span.glyphicon.glyphicon-leaf.padr(aria-label="Leaf icon")
-                    span.small System Tests
+        .colour4.pad.row
+            .col-md-1
+                span.h1
+                    a(ng-href="/p/{{project.code}}/f/{{feature.code}}/u")
+                        span.glyphicon.glyphicon-tree-deciduous.padr
+            .col-md-11
+                h1
+                    a(ng-href="/p/{{project.code}}/f/{{feature.code}}/u") User Story
+        include ../../main/views/partials/nav
         .alert.alert-danger.text-center(ng-show="error" role="alert") {{error}}
         .well
             .form-group

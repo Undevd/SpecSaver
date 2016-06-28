@@ -1,5 +1,10 @@
 angular.module('app').controller('ctrlCreateProject', function($scope, $location, dbProject, identitySvc, userSvc) {
-    
+
+    //Set the navigation settings
+    $scope.nav = {
+        project: {isCurrentSection: true},
+    };
+
     $scope.users = userSvc.query();
     
     var admins = [identitySvc.currentUser.username];

@@ -98,36 +98,25 @@ footer img {
 }
 h1,
 .h1 {
-  font-size: 120%;
+  font-size: 170%;
   margin: 0;
 }
 h2,
 .h2 {
-  font-size: 90%;
+  font-size: 140%;
   margin: 0;
 }
 h3,
 .h3 {
-  font-size: 80%;
+  font-size: 125%;
   margin: 0;
 }
 .i {
   font-style: italic;
 }
-legend {
-  border-bottom: 0;
-  margin-bottom: 0;
-  padding: 1em;
-}
 .mono,
 .test-step {
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-}
-nav {
-  padding-bottom: 1em;
-}
-.nav a.btn {
-  color: #fff !important;
 }
 .navbar-form .form-group {
   margin-left: 10px;

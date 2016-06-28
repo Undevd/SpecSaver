@@ -7,6 +7,12 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
     //Set the page title
     $rootScope.title += projectCode + '-S' + systemTestCode;
 
+    //Set the navigation settings
+    $scope.nav = {
+        feature: {edit: true},
+        systemTest: {isCurrentSection: true}
+    };
+
     //Formats a string into a placeholder value
     var formatPlaceholder = function(stringToFormat) {
         

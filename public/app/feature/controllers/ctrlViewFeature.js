@@ -7,6 +7,11 @@ angular.module('app').controller('ctrlViewFeature', function($scope, $rootScope,
     //Set the page title
     $rootScope.title += projectCode + '-' + featureCode;
 
+    //Set the navigation settings
+    $scope.nav = {
+        feature: {isCurrentSection: true}
+    };
+
     //Get the feature data
     dbFeature.getFeature(projectCode, featureCode).$promise.then(function(data) {
 

@@ -6,6 +6,11 @@ angular.module('app').controller('ctrlCreateSystemTest', function($scope, $rootS
     //Set the page title
     $rootScope.title += projectCode;
 
+    //Set the navigation settings
+    $scope.nav = {
+        systemTest: {isCurrentSection: true},
+    };
+
     //Get the project data
     dbProject.getProject(projectCode).$promise.then(function(data) {
 

@@ -6,6 +6,12 @@ angular.module('app').controller('ctrlViewProject', function($scope, $rootScope,
     //Set the page title
     $rootScope.title += projectCode;
 
+    //Set the navigation settings
+    $scope.nav = {
+        project: {isCurrentSection: true},
+        settings: {isExpanded: true}
+    };
+
 	//Get data related to the project
 	dbProject.getProject(projectCode).$promise.then(function(data)
     {

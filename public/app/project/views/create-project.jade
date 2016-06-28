@@ -1,17 +1,14 @@
 .container
     form.form-horizontal(name="projectForm")
-        legend.colour1
-            span.pull-right {{code}}
-            h1 Project
-            h2 {{name ? name : 'New'}}
-        nav.table
-            .col-md-2.colour1.padn
-                a.box.btn.btn-block.colour1(ng-href="/p")
-                    span.glyphicon.glyphicon-th-list.padr(aria-label="List icon")
-                    span.small Projects
-            .col-md-10.column1.padn
-                a.box.btn.btn-block.column1(ng-href="/")
-                    span.glyphicon.glyphicon-home.padr(aria-label="Home icon")
+        .colour1.pad.row
+            .col-md-1
+                span.h1
+                    a(href="/p")
+                        span.glyphicon.glyphicon-th-list.padr
+            .col-md-11
+                h1
+                    a(href="/p") Project
+        include ../../main/views/partials/nav
         .alert.alert-danger.text-center(ng-show="error" role="alert") {{error}}
         .well
             .form-group

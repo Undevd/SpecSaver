@@ -7,6 +7,11 @@ angular.module('app').controller('ctrlCreateUserStory', function($scope, $rootSc
     //Set the page title
     $rootScope.title += projectCode + '-' + featureCode;
 
+    //Set the navigation settings
+    $scope.nav = {
+        userStory: {isCurrentSection: true},
+    };
+
     //Get the feature data
     dbFeature.getFeature(projectCode, featureCode).$promise.then(function(data) {
 

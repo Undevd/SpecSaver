@@ -7,6 +7,11 @@ angular.module('app').controller('ctrlViewRelease', function($scope, $rootScope,
     //Set the page title
     $rootScope.title += projectCode + '.' + releaseCode;
 
+    //Set the navigation settings
+    $scope.nav = {
+        release: {isCurrentSection: true}
+    };
+
 	//Get the release data
 	dbRelease.getRelease(projectCode, releaseCode).$promise.then(function(data) {
         

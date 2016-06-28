@@ -7,6 +7,11 @@ angular.module('app').controller('ctrlViewReleaseFeatures', function($scope, $ro
 	//Set the page title
     $rootScope.title += projectCode + '.' + releaseCode;
 
+    //Set the navigation settings
+    $scope.nav = {
+        feature: {isCurrentSection: true},
+    };
+
     //Get the features associated with the release
     dbFeature.getAllFeatures(projectCode, releaseCode).$promise.then(function(data) {
 

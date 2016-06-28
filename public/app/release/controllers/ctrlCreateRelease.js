@@ -6,6 +6,11 @@ angular.module('app').controller('ctrlCreateRelease', function($scope, $rootScop
     //Set the page title
     $rootScope.title += projectCode;
 
+    //Set the navigation settings
+    $scope.nav = {
+        release: {isCurrentSection: true},
+    };
+
     //Get the project data
     dbProject.getProject(projectCode).$promise.then(function(data) {
 

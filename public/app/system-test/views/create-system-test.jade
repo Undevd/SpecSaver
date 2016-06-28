@@ -1,38 +1,14 @@
 .container(ng-show="project")
     form.form-horizontal(name="systemTestForm")
-        legend.colour6
-            span.pull-right {{project.code}}
-            h1 System Test
-            h2
-                span
-                    a(ng-href="/p/{{project.code}}") {{project.name}}
-                span.padr :
-                span {{name}}
-        nav.table
-            .col-md-2.column1.padn
-                a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}")
-                    span.glyphicon.glyphicon-th-list.padr(aria-label="List icon")
-                    span.small Project
-            .col-md-2.column1.padn
-                a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/r")
-                    span.glyphicon.glyphicon-gift.padr(aria-label="Gift icon")
-                    span.small Releases
-            .col-md-2.column1.padn
-                a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/f")
-                    span.glyphicon.glyphicon-apple.padr(aria-label="Apple icon")
-                    span.small Features
-            .col-md-2.column1.padn
-                a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/u")
-                    span.glyphicon.glyphicon-tree-deciduous.padr(aria-label="Tree icon")
-                    span.small User Stories
-            .col-md-2.column1.padn
-                a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/a")
-                    span.glyphicon.glyphicon-grain.padr(aria-label="Branch icon")
-                    span.small Acceptance Tests
-            .col-md-2.colour6.padn
-                a.box.btn.btn-block.colour6(ng-href="/p/{{project.code}}/s")
-                    span.glyphicon.glyphicon-leaf.padr(aria-label="Leaf icon")
-                    span.small System Tests
+        .colour6.pad.row
+            .col-md-1
+                span.h1
+                    a(ng-href="/p/{{project.code}}/s")
+                        span.glyphicon.glyphicon-leaf.padr
+            .col-md-11
+                h1
+                    a(ng-href="/p/{{project.code}}/s") System Test
+        include ../../main/views/partials/nav
         .alert.alert-danger.text-center(ng-show="error" role="alert") {{error}}
         .well
             .form-group

@@ -1,40 +1,17 @@
 .container(ng-show="project")
-    legend.colour5
-        a.btn.btn-default.pull-right(ng-href="/c/p/{{project.code}}/f/{{feature.code}}/a")
-            span.glyphicon.glyphicon-plus.padr
-            span Create
-        h1 Acceptance Tests
-        h2
-            span
-                a(ng-href="/p/{{project.code}}") {{project.name}}
-            span.padr :
-            span
-                a(ng-href="/p/{{project.code}}/f/{{feature.code}}") {{feature.name}}
-    nav.table
-        .col-md-2.column1.padn
-            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}")
-                span.glyphicon.glyphicon-th-list.padr(aria-label="List icon")
-                span.small Project
-        .col-md-2.column1.padn
-            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/r")
-                span.glyphicon.glyphicon-gift.padr(aria-label="Gift icon")
-                span.small Releases
-        .col-md-2.column1.padn
-            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/f/{{feature.code}}")
-                span.glyphicon.glyphicon-apple.padr(aria-label="Apple icon")
-                span.small Feature
-        .col-md-2.column1.padn
-            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/f/{{feature.code}}/u")
-                span.glyphicon.glyphicon-tree-deciduous.padr(aria-label="Tree icon")
-                span.small User Stories
-        .col-md-2.colour5.padn
-            a.box.btn.btn-block.colour5(ng-href="/p/{{project.code}}/f/{{feature.code}}/a")
-                span.glyphicon.glyphicon-grain.padr(aria-label="Branch icon")
-                span.small Acceptance Tests
-        .col-md-2.column1.padn
-            a.box.btn.btn-block.column1(ng-href="/p/{{project.code}}/f/{{feature.code}}/s")
-                span.glyphicon.glyphicon-leaf.padr(aria-label="Leaf icon")
-                span.small System Tests
+    .colour5.pad.row
+        .col-md-1
+            span.h1
+                a(ng-href="/p/{{project.code}}/f/{{feature.code}}/a")
+                    span.glyphicon.glyphicon-grain
+        .col-md-11
+            h3
+                a.btn.btn-default.pull-right(ng-href="/c/p/{{project.code}}/f/{{feature.code}}/a")
+                    span.glyphicon.glyphicon-plus.padr
+                    span Create
+            h1
+                a(ng-href="/p/{{project.code}}/f/{{feature.code}}/a") Acceptance Tests
+    include ../../main/views/partials/nav
     .alert.alert-info.text-center(ng-show="!acceptanceTests.length") No acceptance tests found
     table.table.table-hover.table-striped.table-condensed
         tbody(ng-repeat="acceptanceTest in acceptanceTests")
