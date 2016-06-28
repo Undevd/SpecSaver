@@ -118,6 +118,9 @@ h3,
 .test-step {
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
+.navbar > .container > .navbar-header > a.navbar-brand {
+  margin-top: inherit;
+}
 .navbar-form .form-group {
   margin-left: 10px;
 }

@@ -1,15 +1,23 @@
 .navbar-right(ng-controller="ctrlNavBarLogin")
-    form.navbar-form(ng-hide="identity.isAuthenticated()")
+    form.navbar-form(ng-hide="identity.isAuthenticated()" name="loginForm")
         .form-group
-            input.form-control(placeholder="username", ng-model="username")
+            .input-group
+                span.input-group-addon
+                    span.glyphicon.glyphicon-user
+                input.form-control(placeholder="username" ng-model="username" required)
         .form-group
-            input.form-control(type="password", placeholder="password", ng-model="password")
-        button.btn.btn-primary(ng-click="login(username, password)") Login
+            .input-group
+                span.input-group-addon
+                    span.glyphicon.glyphicon-lock
+                input.form-control(type="password" placeholder="password" ng-model="password" required)
+        button.btn.btn-success(ng-click="login(username, password)" ng-disabled="loginForm.$invalid")
+            span.glyphicon.padr(ng-class="loginForm.$invalid ? 'glyphicon-asterisk' : 'glyphicon-ok'")
+            span Log in
     ul.nav.navbar-nav.navbar-right(ng-show="identity.isAuthenticated()")
         li.dropdown
-            a.dropdown-toggle(href="", data-toggle="dropdown")
+            a.dropdown-toggle(href="" data-toggle="dropdown")
                 | {{identity.currentUser.firstname + " " + identity.currentUser.lastname}}
                 b.caret
             ul.dropdown-menu
                 li
-                    a(href="", ng-click="logout()") Log Out
+                    a(href="" ng-click="logout()") Log out

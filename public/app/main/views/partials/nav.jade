@@ -1,8 +1,11 @@
-div
+div(ng-if="project")
     span.padn.pull-right
         a.btn.btn-default.btn-xs(ng-click="nav.settings.isExpanded = !nav.settings.isExpanded")
             span.glyphicon(ng-class="nav.settings.isExpanded ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'")
-nav(ng-class="nav.settings.isExpanded ? '' : 'padbt'")
+nav(
+    ng-class="nav.settings.isExpanded ? '' : 'padbt'"
+    ng-if="project"
+)
     span.padn(
         ng-class="nav.settings.isExpanded ? 'row' : ''"
         ng-if="nav.project.isCurrentSection || (!nav.project.isHidden && (nav.settings.isExpanded || (!nav.settings.isExpanded && project)))"
