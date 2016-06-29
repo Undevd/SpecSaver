@@ -40,7 +40,7 @@ angular.module('app').config(function($routeProvider, $locationProvider) {
         .otherwise({redirectTo: '/404'});
 });
 
-angular.module('app').run(function($rootScope) {
+angular.module('app').run(function($rootScope, $location, identitySvc) {
 
     //Set the default title
     var defaultTitle = 'SpecSaver';
@@ -48,7 +48,22 @@ angular.module('app').run(function($rootScope) {
     //Set the title in the root scope
     $rootScope.title = defaultTitle;
 
-    //Set the title to that of the current route
+    //When the route change is starting
+    $rootScope.$on('$routeChangeStart', function(event, current, previous) {
+
+        //If the current user is not logged in
+        if (!identitySvc.currentUser) {
+
+            //TEMP: Disabled for development purposes so that you don't need to keep logging in
+            
+            //Redirect them to the home page to log in
+            //$location.path('/');
+
+            return;
+        }
+    });
+
+    //When the route change has finished successfully
     $rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
 
         //If the current route exists and it has a title

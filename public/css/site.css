@@ -114,6 +114,9 @@ h3,
 .i {
   font-style: italic;
 }
+.jumbotron {
+  text-align: center;
+}
 .mono,
 .test-step {
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;

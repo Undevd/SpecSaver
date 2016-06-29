@@ -6,6 +6,9 @@ angular.module('app').controller('ctrlNavBarLogin', function($scope, $location, 
         authSvc.authenticateUser(username, password).then(function(success) {
             if(success) {
                 mvNotifier.notify('You have successfully logged into SpecSaver');
+
+                //Redirect to the projects page
+                $location.path('/p');
             } else {
                 mvNotifier.notify('Failed to sign in, check your username and password');
             }
@@ -14,8 +17,6 @@ angular.module('app').controller('ctrlNavBarLogin', function($scope, $location, 
     
     $scope.logout = function() {
         authSvc.logoutUser().then(function() {
-            $scope.username = "";
-            $scope.password = "";
             mvNotifier.notify('You have successfully logged out of SpecSaver');
             $location.path('/');
         });

@@ -12,7 +12,7 @@
             h1
                 a(href="/p") Projects
     include ../../main/views/partials/nav
-    .alert.alert-info.text-center(ng-show="!projects.length") No releases found
+    .alert.alert-info.text-center(ng-show="!projects.length") No projects found
     table.table.table-hover.table-striped.table-condensed(ng-show="projects.length")
         tbody(ng-repeat="project in projects")
             tr.row(ng-show="project.isMember()")
