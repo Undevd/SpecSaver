@@ -1,0 +1,12 @@
+li
+    a.h1(ng-href="/p/{{project.code}}/s")
+        span.glyphicon.glyphicon-leaf
+li
+    h1
+        a(ng-href="/p/{{project.code}}/s") System Test
+li(ng-if="project && systemTest")
+    h3 {{project.code}}-S{{systemTest.code}}
+li.padl(ng-if="project")
+    a.btn.btn-default(ng-href="/c/p/{{project.code}}/s")
+        span.glyphicon.glyphicon-plus.padr
+        span Create

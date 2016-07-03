@@ -1,0 +1,12 @@
+li
+    a.h1(ng-href="/p/{{project.code}}/r")
+        span.glyphicon.glyphicon-gift
+li
+    h1
+        a(ng-href="/p/{{project.code}}/r") Release
+li(ng-if="project && release")
+    h3 {{project.code}}.{{release.code}}
+li.padl(ng-if="project")
+    a.btn.btn-default(ng-href="/c/p/{{project.code}}/r")
+        span.glyphicon.glyphicon-plus.padr
+        span Create

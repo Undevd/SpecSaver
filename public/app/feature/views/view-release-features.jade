@@ -1,13 +1,5 @@
 .container(ng-show="project")
-    .colour3.pad.row
-        .col-md-1
-            span.h1
-                a(ng-href="/p/{{project.code}}/f")
-                    span.glyphicon.glyphicon-apple
-        .col-md-11
-            h1
-                a(ng-href="/p/{{project.code}}/f") Features
-    include ../../main/views/partials/nav
+    include ../../main/views/partials/header
     .alert.alert-info.text-center(ng-show="!features.length") No features found
     table.table.table-hover.table-striped.table-condensed
         tbody(ng-repeat="feature in features")

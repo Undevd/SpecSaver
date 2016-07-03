@@ -1,39 +1,31 @@
 .container(ng-show="project")
-    .colour6.pad.row
-        .col-md-1
-            span.h1
-                a(ng-href="/p/{{project.code}}/s")
-                    span.glyphicon.glyphicon-leaf
-        .col-md-11
-            h3.pull-right {{project.code}}-S{{systemTest.code}}
-            h1
-                a(ng-href="/p/{{project.code}}/s") System Test
-            h2
-                span(ng-show="!edit.name")
-                    a.edit(
-                        ng-click="showEdit(true, 'name')"
-                        ng-mouseleave="hover.name = false"
-                        ng-mouseover="hover.name = true"
-                    ) {{systemTest.name}}
-                span.glyphicon.glyphicon-pencil.small(ng-show="hover.name")
-                span(ng-show="edit.name")
-                    form(name="nameForm")
-                        input.form-control(
-                            name="systemTest.name"
-                            ng-model="systemTest.name"
-                            placeholder="Name"
-                            required
-                            type="text"
-                        )
-                        button.btn.btn-success(
-                            ng-click="submitEdit('name')"
-                            ng-disabled="nameForm.$invalid"
-                        )
-                            span.glyphicon.glyphicon-ok
-                        a.btn.btn-default(ng-click="cancelEdit('name')")
-                            span.glyphicon.glyphicon-remove
-    include ../../main/views/partials/nav
+    include ../../main/views/partials/header
     .well
+        h2
+            span(ng-show="!edit.name")
+                a.edit(
+                    ng-click="showEdit(true, 'name')"
+                    ng-mouseleave="hover.name = false"
+                    ng-mouseover="hover.name = true"
+                ) {{systemTest.name}}
+            span.glyphicon.glyphicon-pencil.small(ng-show="hover.name")
+            span(ng-show="edit.name")
+                form(name="nameForm")
+                    input.form-control(
+                        name="systemTest.name"
+                        ng-model="systemTest.name"
+                        placeholder="Name"
+                        required
+                        type="text"
+                    )
+                    button.btn.btn-success(
+                        ng-click="submitEdit('name')"
+                        ng-disabled="nameForm.$invalid"
+                    )
+                        span.glyphicon.glyphicon-ok
+                    a.btn.btn-default(ng-click="cancelEdit('name')")
+                        span.glyphicon.glyphicon-remove
+    .padb
         div(ng-show="!edit.description")
             a.edit(
                 ng-click="showEdit(true, 'description')"

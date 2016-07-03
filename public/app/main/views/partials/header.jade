@@ -1,0 +1,19 @@
+.navbar.navbar-fixed-top(ng-class="nav.project.isCurrentSection ? 'colour1' : nav.release.isCurrentSection ? 'colour2' : nav.feature.isCurrentSection ? 'colour3' : nav.userStory.isCurrentSection ? 'colour4' : nav.acceptanceTest.isCurrentSection ? 'colour5' : nav.systemTest.isCurrentSection ? 'colour6' : 'column1'")
+    .container
+        .navbar-header
+            a.navbar-brand(href="/") SpecSaver
+        .collapse.navbar-collapse
+            ul.nav.navbar-nav(ng-if="nav.project.isCurrentSection")
+                include header-project
+            ul.nav.navbar-nav(ng-if="nav.release.isCurrentSection")
+                include header-release
+            ul.nav.navbar-nav(ng-if="nav.feature.isCurrentSection")
+                include header-feature
+            ul.nav.navbar-nav(ng-if="nav.userStory.isCurrentSection")
+                include header-user-story
+            ul.nav.navbar-nav(ng-if="nav.acceptanceTest.isCurrentSection")
+                include header-acceptance-test
+            ul.nav.navbar-nav(ng-if="nav.systemTest.isCurrentSection")
+                include header-system-test
+            div(ng-include="'/partials/account/views/navbar-login'")
+include nav

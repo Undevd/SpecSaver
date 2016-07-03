@@ -1,14 +1,6 @@
 .container(ng-show="project")
     form.form-horizontal(name="featureForm")
-        .colour3.pad.row
-            .col-md-1
-                span.h1
-                    a(ng-href="/p/{{project.code}}/f")
-                        span.glyphicon.glyphicon-apple.padr
-            .col-md-11
-                h1
-                    a(ng-href="/p/{{project.code}}/f/{{feature.code}}/a") Feature
-        include ../../main/views/partials/nav
+        include ../../main/views/partials/header
         .alert.alert-danger.text-center(ng-show="error" role="alert") {{error}}
         .well
             .form-group

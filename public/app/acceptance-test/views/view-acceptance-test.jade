@@ -1,15 +1,8 @@
 .container(ng-show="project")
-    .colour5.pad.row
-        .col-md-1
-            span.h1
-                a(ng-href="/p/{{project.code}}/f/{{feature.code}}/a")
-                    span.glyphicon.glyphicon-grain
-        .col-md-11
-            h3.pull-right {{project.code}}-{{feature.code}}-A{{acceptanceTest.code}}
-            h1
-                a(ng-href="/p/{{project.code}}/f/{{feature.code}}/a") Acceptance Test
-    include ../../main/views/partials/nav
+    include ../../main/views/partials/header
     .well
+        h2 Acceptance Test \#{{acceptanceTest.code}}
+    div
         .test-step(ng-show="!edit.given")
             a.edit(ng-click="showEdit('given', true)" ng-mouseleave="hover.given = false" ng-mouseover="hover.given = true")
                 span.test-step-type(ng-show="acceptanceTest.given") Given

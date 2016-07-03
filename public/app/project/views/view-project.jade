@@ -1,26 +1,18 @@
 .container(ng-show="project")
-    .colour1.pad.row
-        .col-md-1
-            span.h1
-                a(href="/p")
-                    span.glyphicon.glyphicon-th-list
-        .col-md-11
-            h3.pull-right {{project.code}}
-            h1
-                a(href="/p") Project
-            h2
-                span(ng-show="!edit.name")
-                    a.edit(ng-click="showEdit('name', true)" ng-mouseleave="hover.name = false" ng-mouseover="hover.name = true") {{project.name}}
-                span.glyphicon.glyphicon-pencil.small(ng-show="hover.name")
-                span(ng-show="edit.name")
-                    form(name="nameForm")
-                        input.form-control(name="project.name" ng-model="project.name" type="text" placeholder="Name" required)
-                        button.btn.btn-success(ng-click="submitEdit('name')", ng-disabled="nameForm.$invalid")
-                            span.glyphicon.glyphicon-ok
-                        a.btn.btn-default(ng-click="cancelEdit('name')")
-                            span.glyphicon.glyphicon-remove
-    include ../../main/views/partials/nav
+    include ../../main/views/partials/header
     .well
+        h2
+            span(ng-show="!edit.name")
+                a.edit(ng-click="showEdit('name', true)" ng-mouseleave="hover.name = false" ng-mouseover="hover.name = true") {{project.name}}
+            span.glyphicon.glyphicon-pencil.small(ng-show="hover.name")
+            span(ng-show="edit.name")
+                form(name="nameForm")
+                    input.form-control(name="project.name" ng-model="project.name" type="text" placeholder="Name" required)
+                    button.btn.btn-success(ng-click="submitEdit('name')", ng-disabled="nameForm.$invalid")
+                        span.glyphicon.glyphicon-ok
+                    a.btn.btn-default(ng-click="cancelEdit('name')")
+                        span.glyphicon.glyphicon-remove
+    div
         div(ng-show="!edit.description")
             a.edit(ng-click="showEdit('description', true)" ng-mouseleave="hover.description = false" ng-mouseover="hover.description = true")
                 span(ng-show="project.description") {{project.description}}

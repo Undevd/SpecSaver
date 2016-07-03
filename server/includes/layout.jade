@@ -9,12 +9,6 @@ html(ng-app='app')
         link(rel="stylesheet", href="/css/site.css")
     body.ng-cloak
         include currentUser
-        .navbar.navbar-default.navbar-fixed-top
-            .container
-                .navbar-header
-                    a.navbar-brand(href="/") SpecSaver
-                .navbar-collapse.collapse
-                    div(ng-include="'/partials/account/views/navbar-login'")
         block main-content
         footer.container.text-center
             img(ng-src="images/allthethings.png")

@@ -1,0 +1,12 @@
+li
+    a.h1(ng-href="/p/{{project.code}}/f/{{feature.code}}/u")
+        span.glyphicon.glyphicon-tree-deciduous
+li
+    h1
+        a(ng-href="/p/{{project.code}}/f/{{feature.code}}/u") User Story
+li(ng-if="project && feature && userStory")
+    h3 {{project.code}}-{{feature.code}}-U{{userStory.code}}
+li.padl(ng-if="project && feature")
+    a.btn.btn-default(ng-href="/c/p/{{project.code}}/f/{{feature.code}}/u")
+        span.glyphicon.glyphicon-plus.padr
+        span Create

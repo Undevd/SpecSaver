@@ -1,16 +1,10 @@
 .container(ng-show="project")
     form.form-horizontal(name="acceptanceTestForm")
-        .colour5.pad.row
-            .col-md-1
-                span.h1
-                    a(ng-href="/p/{{project.code}}/f/{{feature.code}}/a")
-                        span.glyphicon.glyphicon-grain.padr
-            .col-md-11
-                h1
-                    a(ng-href="/p/{{project.code}}/f/{{feature.code}}/a") Acceptance Test
-        include ../../main/views/partials/nav
+        include ../../main/views/partials/header
         .alert.alert-danger.text-center(ng-show="error" role="alert") {{error}}
         .well
+            h2 New Acceptance Test
+        div
             .form-group
                 .col-md-2.control-label
                     span.glyphicon.glyphicon-asterisk.text-danger.padr

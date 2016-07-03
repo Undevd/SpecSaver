@@ -1,16 +1,10 @@
 .container(ng-show="project")
     form.form-horizontal(name="releaseForm")
-        .colour2.pad.row
-            .col-md-1
-                span.h1
-                    a(ng-href="/p/{{project.code}}/r")
-                        span.glyphicon.glyphicon-gift.padr
-            .col-md-11
-                h1
-                    a(ng-href="/p/{{project.code}}/r") Release
-        include ../../main/views/partials/nav
+        include ../../main/views/partials/header
         .alert.alert-danger.text-center(ng-show="error" role="alert") {{error}}
         .well
+            h2 New Release
+        div
             .form-group
                 .col-md-2.control-label
                     span.glyphicon.glyphicon-asterisk.text-danger.padr

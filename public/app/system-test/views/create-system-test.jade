@@ -1,16 +1,10 @@
 .container(ng-show="project")
     form.form-horizontal(name="systemTestForm")
-        .colour6.pad.row
-            .col-md-1
-                span.h1
-                    a(ng-href="/p/{{project.code}}/s")
-                        span.glyphicon.glyphicon-leaf.padr
-            .col-md-11
-                h1
-                    a(ng-href="/p/{{project.code}}/s") System Test
-        include ../../main/views/partials/nav
+        include ../../main/views/partials/header
         .alert.alert-danger.text-center(ng-show="error" role="alert") {{error}}
         .well
+            h2 New System Test
+        div
             .form-group
                 .col-md-2.control-label
                     span.glyphicon.glyphicon-asterisk.text-danger.padr

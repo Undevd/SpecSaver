@@ -124,18 +124,12 @@ footer
         height 10pc
 
 h1
-.h1
-    font-size 170%
-    margin 0
-
 h2
-.h2
-    font-size 140%
-    margin 0
-
 h3
+.h1
+.h2
 .h3
-    font-size 125%
+    font-size 130%
     margin 0
 
 .i
@@ -148,8 +142,16 @@ h3
 .test-step
     font-family Menlo, Monaco, Consolas, "Courier New", monospace
 
+.nav > li > *
+    padding-left 1em
+    padding-right 1em
+
 .navbar > .container > .navbar-header > a.navbar-brand
     margin-top inherit
+
+.navbar-brand:focus
+.navbar-brand:hover
+    text-decoration underline
 
 .navbar-form
 
@@ -162,6 +164,24 @@ h3
 .navbar-header a.navbar-brand
     margin-top -15px
     margin-bottom -20px
+
+.navbar-nav > li
+
+    display inline-block
+    float none
+
+    > a
+        padding-bottom 12.5px
+        padding-top 12.5px
+
+    > a:focus
+    > a:hover
+        background-color inherit
+        color textColour
+        text-decoration underline
+
+.nav.navbar-nav > li.open > a
+    background-color inherit
 
 [ng\:cloak]
 [ng-cloak]
