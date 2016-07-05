@@ -4,17 +4,18 @@
 )
     .modal-dialog.modal-lg
         .modal-content
-            .modal-header
-                legend.colour6
-                    button.close(
-                        aria-label="Close"
-                        data-target="#ModalAddTestStep"
-                        data-dismiss="modal"
-                        id="ModalAddTestStepCloseButton"
-                        type="button"
-                    )
-                        span(aria-hidden="true") &times;
-                    h4.h1.modal-title Test Step
+            .colour6.modal-header
+                button.close(
+                    aria-label="Close"
+                    data-target="#ModalAddTestStep"
+                    data-dismiss="modal"
+                    id="ModalAddTestStepCloseButton"
+                    type="button"
+                )
+                    span(aria-hidden="true") &times;
+                h4.h1.modal-title
+                    span.glyphicon.glyphicon-leaf.padr
+                    span Test Step
             .modal-body
                 .alert.alert-danger.text-center(
                     ng-show="testStepError"
@@ -26,8 +27,7 @@
                 )
                     .row.padb
                         .col-md-12
-                            legend.column1
-                                h5.h2 Placeholders
+                            h5.h2 Placeholders
                     .row.padb
                         .col-md-12
                             p Using placeholders allows you to re-use the same steps with different values.
@@ -55,9 +55,6 @@
                                 span.test-step-text #{' '}I enter the following information:
                                 span.test-step-text #{' '}
                                 span.test-step-argument-value-not-supplied {|field|value|}
-                    .row.padb
-                        .col-md-12
-                            legend.column1
                 .row.padb
                     form.form-horizontal(name="testStepForm")
                         .col-md-1

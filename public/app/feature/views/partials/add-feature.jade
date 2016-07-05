@@ -4,17 +4,18 @@
 )
     .modal-dialog.modal-lg
         .modal-content
-            .modal-header
-                legend.colour3
-                    button.close(
-                        aria-label="Close"
-                        data-target="#ModalAddFeature"
-                        data-dismiss="modal"
-                        id="ModalAddFeatureCloseButton"
-                        type="button"
-                    )
-                        span(aria-hidden="true") &times;
-                    h4.h1.modal-title Features
+            .colour3.modal-header
+                button.close(
+                    aria-label="Close"
+                    data-target="#ModalAddFeature"
+                    data-dismiss="modal"
+                    id="ModalAddFeatureCloseButton"
+                    type="button"
+                )
+                    span(aria-hidden="true") &times;
+                h4.h1.modal-title
+                    span.glyphicon.glyphicon-apple.padr
+                    span Features
             .modal-body
                 .well
                     div(ng-show="!features.length") No associated features
