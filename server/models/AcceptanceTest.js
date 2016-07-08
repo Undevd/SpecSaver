@@ -132,6 +132,12 @@ acceptanceTestSchema.statics.getAcceptanceTestStatsForProject = function getAcce
             .count({projectCode: projectCode})
             .exec();
 
+        //Get all of the feature codes in the project
+        var featureCodes = mongoose.model('Feature')
+            .find({projectCode: projectCode}, 'code')
+            .sort('code')
+            .exec();
+
         //Aggregate the number of acceptance tests associated with the features in the project
         var featureCount = mongoose.model('AcceptanceTest')
             .aggregate([{$match: {projectCode: projectCode}}, {$group: {_id: "$featureCode", total: {$sum: 1}}}])
@@ -139,10 +145,34 @@ acceptanceTestSchema.statics.getAcceptanceTestStatsForProject = function getAcce
             .exec();
 
         //If all the promises are successful
-        Promise.all([projectCount, featureCount]).then(function(data) {
+        Promise.all([projectCount, featureCodes, featureCount]).then(function(data) {
+
+            //Build the feature stats array
+            var featureStats = [];
+
+            //For each feature
+            for (var feature of data[1]) {
+
+                //Get its acceptance test total
+                var total = 0;
+                
+                //For each count
+                for (var count of data[2]) {
+
+                    //If the ID matches the current feature code
+                    if (count._id == feature.code) {
+                        
+                        //Record the total
+                        total = count.total;
+                    }
+                }
+
+                //Push the total onto the array
+                featureStats.push({code: feature.code, total: total});
+            }
 
             //Return the statistics
-            resolve({total: data[0], feature: data[1]});
+            resolve({total: data[0], feature: featureStats});
 
         }, function(error) {
             
@@ -152,8 +182,49 @@ acceptanceTestSchema.statics.getAcceptanceTestStatsForProject = function getAcce
     });
 };
 
+//Gets all acceptance tests with the supplied project, feature, and acceptance test codes
+acceptanceTestSchema.statics.getAllAcceptanceTests = function getAllAcceptanceTests(projectCode, acceptanceTestCodes) {
+
+	//Return a promise
+	return new Promise(function(resolve, reject) {
+
+        //If no acceptance test codes were supplied
+        if (!acceptanceTestCodes.length) {
+            
+            //Resolve the promise with an empty array
+            resolve([]);
+
+            return;
+        }
+
+        //Find the acceptance tests by feature code
+        mongoose.model('AcceptanceTest')
+            .find({
+                $and: [
+                    {projectCode: projectCode},
+                    {$or: acceptanceTestCodes}
+                ]
+            }, '-_id code featureCode given projectCode then when')
+            .sort('name')
+            .exec(function(error, acceptanceTests) {
+
+            //If an error occurred
+            if (error) {
+
+                //Return the error
+                reject(error);
+            }
+            else {
+
+                //Otherwise, return the acceptance tests
+                resolve(acceptanceTests);
+            }
+        });
+    });
+};
+
 //Gets all acceptance tests by feature code
-acceptanceTestSchema.statics.getAllAcceptanceTests = function getAllAcceptanceTests(projectCode, featureCode) {
+acceptanceTestSchema.statics.getAllAcceptanceTestsByFeature = function getAllAcceptanceTestsByFeature(projectCode, featureCode) {
 
 	//Return a promise
 	return new Promise(function(resolve, reject) {
@@ -201,6 +272,51 @@ acceptanceTestSchema.statics.getNextCode = function getNextCode(projectCode, fea
 
                 //Return a new code for the acceptance test, starting from 1 if none exists
                 resolve(latestAcceptanceTest == null? 1 : latestAcceptanceTest.code + 1);
+            }
+        });
+    });
+};
+
+//Gets all acceptance tests by project code containing the name / code criteria
+acceptanceTestSchema.statics.searchForAcceptanceTest = function searchForAcceptanceTest(projectCode, criteria) {
+
+	//Return a promise
+	return new Promise(function(resolve, reject) {
+
+        //Determine the code criteria to use
+        //If it isn't a number, use a code which is not in use (-1)
+        //Otherwise, use the value supplied
+        var codeCriteria = isNaN(criteria) ? -1 : criteria;
+
+        //Find the acceptance tests
+        mongoose.model('AcceptanceTest')
+            .find({
+                $and: [
+                    {projectCode: projectCode},
+                    {
+                        $or: [
+                            {code: codeCriteria},
+                            {featureCode: {$regex: new RegExp(criteria, 'i')}},
+                            {given: {$regex: new RegExp(criteria, 'i')}},
+                            {when: {$regex: new RegExp(criteria, 'i')}},
+                            {then: {$regex: new RegExp(criteria, 'i')}}
+                        ]
+                    }
+                ]
+            }, '-_id code featureCode given projectCode then when')
+            .sort({projectCode: 1, featureCode: 1, code: 1})
+            .exec(function(error, acceptanceTests) {
+
+            //If an error occurred
+            if (error) {
+
+                //Return the error
+                reject(error);
+            }
+            else {
+
+                //Otherwise, return the acceptance tests
+                resolve(acceptanceTests);
             }
         });
     });

@@ -1,0 +1,86 @@
+.fade.modal(
+    id="ModalAddAcceptanceTest"
+    role="dialog"
+)
+    .modal-dialog.modal-lg
+        .modal-content
+            .colour5.modal-header
+                button.close(
+                    aria-label="Close"
+                    data-target="#ModalAddAcceptanceTest"
+                    data-dismiss="modal"
+                    id="ModalAddAcceptanceTestCloseButton"
+                    type="button"
+                )
+                    span(aria-hidden="true") &times;
+                h4.h1.modal-title
+                    span.glyphicon.glyphicon-grain.padr
+                    span Acceptance Tests
+            .modal-body
+                .well
+                    div(ng-show="!acceptanceTests.length") No associated acceptance tests
+                    span.padr(ng-repeat="acceptanceTest in acceptanceTests")
+                        button.btn.colour5(ng-click="removeAcceptanceTest($index)")
+                            span.padr {{acceptanceTest.projectCode}}-{{acceptanceTest.featureCode}}-{{acceptanceTest.code}}
+                            span(aria-hidden="true") &times;
+                .alert.alert-danger.text-center(
+                    ng-show="acceptanceTestError"
+                    role="alert"
+                ) {{acceptanceTestError}}
+                .row.padb
+                    form.form-horizontal(name="acceptanceTestForm")
+                        .col-md-1
+                            button.box.btn.padlr(
+                                ng-click="searchForAcceptanceTest()"
+                                ng-disabled="acceptanceTestForm.$invalid"
+                            )
+                                span.glyphicon.glyphicon-search(aria-label="Search icon")
+                        .col-md-11
+                            input.form-control(
+                                name="newAcceptanceTest.criteria"
+                                ng-change="clearAcceptanceTestResults()"
+                                ng-model="newAcceptanceTest.criteria"
+                                required
+                                type="text"
+                            )
+                .row(ng-show="acceptanceTestResults")
+                    .col-md-12
+                        span(ng-show="acceptanceTestResults.length") Search results
+                        span(ng-show="!acceptanceTestResults.length && acceptanceTestResultsTime") No acceptance tests found {{acceptanceTestResultsTime | date: '(HH:mm:ss)'}}
+                .row(ng-show="acceptanceTestResults.length")
+                    .col-md-12
+                        select.form-control(
+                            name="newAcceptanceTest.index"
+                            ng-model="newAcceptanceTest.index"
+                        )
+                            option(value="") Select result...
+                            option(
+                                ng-repeat="result in acceptanceTestResults"
+                                ng-value="$index"
+                            ) {{project.code + '-' + result.featureCode + '-A' + result.code + ': Given ' + result.given + ', when ' + result.when + ', then ' + result.then}}
+                .alert.alert-danger.text-center(
+                    ng-show="acceptanceTestError"
+                    role="alert"
+                ) {{acceptanceTestError}}
+            .modal-footer
+                span.padr
+                    button.btn.btn-success(
+                        ng-click="addAcceptanceTest()"
+                        ng-show="!acceptanceTestForm.$invalid && newAcceptanceTest.index"
+                    )
+                        span.glyphicon.glyphicon-ok.padr
+                        span Add
+                span.padr
+                    button.btn.btn-success(
+                        ng-click="addAcceptanceTest(true)"
+                        ng-show="!acceptanceTestForm.$invalid && newAcceptanceTest.index"
+                    )
+                        span.glyphicon.glyphicon-ok.padr
+                        span Add &amp; Close
+                span
+                    a.btn.btn-default(
+                        data-dismiss="modal"
+                        data-target="#ModalAddAcceptanceTest"
+                    )
+                        span.glyphicon.glyphicon-remove.padr
+                        span Cancel

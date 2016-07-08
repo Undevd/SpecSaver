@@ -20,8 +20,9 @@ module.exports = function(app) {
     });
     
     // Acceptance Test routes
-    app.get('/api/acceptance-tests/all/:projectCode/:featureCode', acceptanceTests.getAllAcceptanceTests);
+    app.get('/api/acceptance-tests/all/:projectCode/:featureCode', acceptanceTests.getAllAcceptanceTestsByFeature);
     app.get('/api/acceptance-tests/one/:projectCode/:featureCode/:acceptanceTestCode', acceptanceTests.getAcceptanceTest);
+    app.get('/api/acceptance-tests/search/:projectCode/:criteria', acceptanceTests.searchForAcceptanceTest);
     app.post('/api/acceptance-tests/*', acceptanceTests.createAcceptanceTest);
     app.put('/api/acceptance-tests/*', acceptanceTests.updateAcceptanceTest);
 

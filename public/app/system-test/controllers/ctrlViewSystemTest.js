@@ -1,4 +1,4 @@
-angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootScope, $location, $routeParams, dbFeature, dbSystemTest, dbTestStep) {
+angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootScope, $location, $routeParams, dbAcceptanceTest, dbFeature, dbSystemTest, dbTestStep) {
     
 	//Get the route parameters
 	var projectCode = $routeParams.projectCode;
@@ -9,6 +9,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
 
     //Set the navigation settings
     $scope.nav = {
+        acceptanceTest: {edit: true},
         feature: {edit: true},
         systemTest: {isCurrentSection: true}
     };
@@ -135,6 +136,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
     //Updates the returned data in the scope
     var updateScope = function(data) {
         
+        $scope.acceptanceTests = data.acceptanceTests;
         $scope.features = data.features;
         $scope.project = data.project;
         $scope.systemTest = data.systemTest;
@@ -561,6 +563,102 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
             });
         };
 
+        //Store acceptance test search results
+        $scope.acceptanceTestResults = [];
+
+        //Searches for matching acceptance tests
+        $scope.searchForAcceptanceTest = function() {
+
+            //Search for a match
+            dbAcceptanceTest.searchForAcceptanceTest(projectCode, $scope.newAcceptanceTest.criteria).$promise.then(function(results) {
+
+                //Clear any old error messages
+                $scope.acceptanceTestError = null;
+                
+                //Add the search results to the scope
+                $scope.acceptanceTestResults = results;
+
+                //Set the current time
+                $scope.acceptanceTestResultsTime = new Date();
+
+            }, function(error) {
+
+                //Add the error message to the scope
+                $scope.acceptanceTestError = error.data.message;
+            });
+        };
+
+        //Store data on new acceptance tests which are added
+        $scope.newAcceptanceTest = {};
+
+        //Clears the acceptance test search window
+        $scope.clearAcceptanceTestResults = function() {
+            
+            //Clear the last selected acceptance test
+            $scope.newAcceptanceTest.index = null;
+            
+            //Clear the search results
+            $scope.acceptanceTestResults = [];
+
+            //Clear the search time
+            $scope.acceptanceTestResultsTime = null;
+        };
+
+        //Adds an acceptance test to the system test
+        $scope.addAcceptanceTest = function(closeOnCompletion) {
+
+            //Get the selected acceptance test index
+            var index = $scope.newAcceptanceTest.index;
+
+            //Get the acceptance test data from the scope
+            var acceptanceTest = $scope.acceptanceTestResults[index];
+
+            //If the list of system test acceptance test codes doesn't exist
+            if (!$scope.systemTest.acceptanceTestCodes) {
+                
+                //Create it
+                $scope.systemTest.acceptanceTestCodes = [];
+            }
+
+            //If the list of acceptance tests doesn't exist
+            if (!$scope.acceptanceTests) {
+                
+                //Create it
+                $scope.acceptanceTests = [];
+            }
+
+            //If the code doesn't exist in the acceptance test codes list
+            if ($scope.systemTest.acceptanceTestCodes.indexOf(acceptanceTest.code) < 0) {
+
+                //Add the acceptance test code to the system test list
+                $scope.systemTest.acceptanceTestCodes.push({
+                    code: acceptanceTest.code,
+                    featureCode: acceptanceTest.featureCode
+                });
+
+                //Add the acceptance test to the acceptance test list
+                $scope.acceptanceTests.push(acceptanceTest);
+
+                //Save the system test
+                dbSystemTest.updateSystemTest($scope.systemTest).$promise.then(function(data) {
+                    
+                    //Clear any existing errors
+                    $scope.acceptanceTestError = null;
+                    
+                    //If the dialog should be closed on completion
+                    if (closeOnCompletion) {
+                        
+                        //Close the dialog (JQuery)
+                        $("#ModalAddAcceptanceTestCloseButton").trigger('click');
+                    }
+                }, function(error) {
+
+                    //Add the error message to the scope
+                    $scope.acceptanceTestError = error.data.message;
+                });
+            }
+        };
+
         //Store feature search results
         $scope.featureResults = [];
 
@@ -601,7 +699,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
             var index = $scope.newFeature.index;
 
             //Get the feature data from the scope
-            var testStep = {
+            var feature = {
                 code: $scope.featureResults[index].code,
                 name: $scope.featureResults[index].name
             };
@@ -621,13 +719,13 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
             }
 
             //If the code doesn't exist in the feature codes list
-            if ($scope.systemTest.featureCodes.indexOf(testStep.code) < 0) {
+            if ($scope.systemTest.featureCodes.indexOf(feature.code) < 0) {
 
                 //Add the feature code to the system test list
-                $scope.systemTest.featureCodes.push(testStep.code);
+                $scope.systemTest.featureCodes.push(feature.code);
 
                 //Add the feature name to the feature list
-                $scope.features.push({code: testStep.code, name: testStep.name});
+                $scope.features.push({code: feature.code, name: feature.name});
 
                 //Save the system test
                 dbSystemTest.updateSystemTest($scope.systemTest).$promise.then(function(data) {

@@ -182,6 +182,12 @@ userStorySchema.statics.getUserStoryStatsForProject = function getUserStoryStats
             .count({projectCode: projectCode})
             .exec();
 
+        //Get all of the feature codes in the project
+        var featureCodes = mongoose.model('Feature')
+            .find({projectCode: projectCode}, 'code')
+            .sort('code')
+            .exec();
+
         //Aggregate the number of user stories associated with the features in the project
         var featureCount = mongoose.model('UserStory')
             .aggregate([{$match: {projectCode: projectCode}},
@@ -190,10 +196,34 @@ userStorySchema.statics.getUserStoryStatsForProject = function getUserStoryStats
             .exec();
 
         //If all the promises are successful
-        Promise.all([projectCount, featureCount]).then(function(data) {
+        Promise.all([projectCount, featureCodes, featureCount]).then(function(data) {
+
+            //Build the feature stats array
+            var featureStats = [];
+
+            //For each feature
+            for (var feature of data[1]) {
+
+                //Get its user story total
+                var total = 0;
+                
+                //For each count
+                for (var count of data[2]) {
+
+                    //If the ID matches the current feature code
+                    if (count._id == feature.code) {
+                        
+                        //Record the total
+                        total = count.total;
+                    }
+                }
+
+                //Push the total onto the array
+                featureStats.push({code: feature.code, total: total});
+            }
 
             //Return the statistics
-            resolve({total: data[0], feature: data[1]});
+            resolve({total: data[0], feature: featureStats});
 
         }, function(error) {
             

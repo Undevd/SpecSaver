@@ -12,6 +12,10 @@ angular.module('app').factory('dbAcceptanceTest', function(apiAcceptanceTest) {
       return apiAcceptanceTest.getOne({projectCode: projectCode, featureCode: featureCode, acceptanceTestCode: acceptanceTestCode});
     },
 
+    searchForAcceptanceTest: function(projectCode, criteria) {
+      return apiAcceptanceTest.search({projectCode: projectCode, criteria: criteria});
+    },
+
     updateAcceptanceTest: function(newAcceptanceTestData) {
       return apiAcceptanceTest.update(newAcceptanceTestData);
     }

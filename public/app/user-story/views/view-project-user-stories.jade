@@ -3,8 +3,8 @@
     .alert.alert-info.text-center(ng-show="!stats.userStory.feature") No user stories found - select a feature to create one
     div
         .col-md-2.padn(ng-class="'column' + ($index % 12 > 5 ? (6 - ($index % 6)) : (($index % 6) + 1))" ng-repeat="feature in stats.userStory.feature")
-            a.btn.btn-block(ng-href="/p/{{project.code}}/f/{{feature._id}}/u")
-                .box {{feature._id}}
+            a.btn.btn-block(ng-href="/p/{{project.code}}/f/{{feature.code}}/u")
+                .box {{feature.code}}
                 .box
                     span.glyphicon.glyphicon-tree-deciduous(aria-label="Tree icon")
                 .box {{feature.total}}

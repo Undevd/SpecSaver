@@ -16,6 +16,7 @@ exports.createSystemTest = function(request, response) {
         description: systemTestData.description,
         projectCode: systemTestData.projectCode,
         featureCodes: [],
+        acceptanceTestCodes: [],
         testStepArguments: []
     };
 
@@ -68,6 +69,7 @@ exports.getSystemTest = function(request, response) {
         
         //Set the success status and send the feature, project, system test, and test step data
         response.status(200).send({
+            acceptanceTests: data[1].acceptanceTests,
             features: data[1].features,
             project: data[0],
             systemTest: data[1].systemTest,
@@ -94,17 +96,41 @@ exports.updateSystemTest = function(request, response) {
         description: systemTestData.description,
         projectCode: systemTestData.projectCode,
         featureCodes: [],
+        acceptanceTestCodes: [],
         testStepArguments: []
     };
 
     //For each feature code
     for (var featureCode of systemTestData.featureCodes) {
         
-        //If the value is a string
-        if (typeof featureCode === "string") {
+        //If the value is a string or a number
+        //and it isn't already in the list
+        if ((typeof featureCode === "string" || typeof featureCode === "number")
+            && newSystemTestData.featureCodes.indexOf(featureCode) < 0) {
 
             //Add the value to the updated system test
             newSystemTestData.featureCodes.push(featureCode);
+        }
+    }
+
+    //For each acceptance test
+    for (var acceptanceTest of systemTestData.acceptanceTestCodes) {
+        
+        //If the code is a number
+        //and the feature code is a string or a number
+        //and it isn't already in the list
+        if (typeof acceptanceTest.code === "number"
+            && (typeof acceptanceTest.featureCode === "string"
+                || typeof acceptanceTest.featureCode === "number")
+            && newSystemTestData.acceptanceTestCodes.map(function(e) {
+                return e.featureCode + ',' + e.code
+            }).indexOf(acceptanceTest.featureCode + ',' + acceptanceTest.code) < 0) {
+
+            //Add the values to the updated system test
+            newSystemTestData.acceptanceTestCodes.push({
+                code: acceptanceTest.code,
+                featureCode: acceptanceTest.featureCode
+            });
         }
     }
 

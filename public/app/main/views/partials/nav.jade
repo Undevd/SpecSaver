@@ -85,12 +85,12 @@ nav(
                 a.btn.btn-xs.colour4(ng-href="/p/{{project.code}}{{feature ? '/f/' + feature.code : ''}}/u")
                     span.glyphicon.glyphicon-asterisk
             span.padr(ng-if="!nav.userStory.isCurrentSection && userStory")
-                a.btn.btn-xs.colour4(ng-href="/p/{{project.code}}/f/{{feature.code}}/u/{{userStory.code}}") {{userStory.code}}
+                a.btn.btn-xs.colour4(ng-href="/p/{{userStory.projectCode}}/f/{{userStory.featureCode}}/u/{{userStory.code}}") {{userStory.code}}-{{userStory.featureCode}}-U{{userStory.code}}
             span.padr(
                 ng-if="!nav.userStory.isCurrentSection"
                 ng-repeat="userStory in userStories"
             )
-                a.btn.btn-xs.colour4(ng-href="/p/{{project.code}}/f/{{feature.code}}/u/{{userStory.code}}") {{userStory.code}}
+                a.btn.btn-xs.colour4(ng-href="/p/{{userStory.projectCode}}/f/{{userStory.featureCode}}/u/{{userStory.code}}") {{userStory.code}}-{{userStory.featureCode}}-U{{userStory.code}}
     span(
         ng-class="nav.settings.isExpanded ? 'row' : ''"
         ng-if="nav.acceptanceTest.isCurrentSection || (!nav.acceptanceTest.isHidden && (nav.settings.isExpanded || (!nav.settings.isExpanded && (acceptanceTest || acceptanceTests.length))))"
@@ -106,12 +106,18 @@ nav(
                 a.btn.btn-xs.colour5(ng-href="/p/{{project.code}}{{feature ? '/f/' + feature.code : ''}}/a")
                     span.glyphicon.glyphicon-asterisk
             span.padr(ng-if="!nav.acceptanceTest.isCurrentSection && acceptanceTest")
-                a.btn.btn-xs.colour5(ng-href="/p/{{project.code}}/f/{{feature.code}}/a/{{acceptanceTest.code}}") {{acceptanceTest.code}}
+                a.btn.btn-xs.colour5(ng-href="/p/{{acceptanceTest.projectCode}}/f/{{acceptanceTest.featureCode}}/a/{{acceptanceTest.code}}") {{acceptanceTest.projectCode}}-{{acceptanceTest.featureCode}}-A{{acceptanceTest.code}}
             span.padr(
                 ng-if="!nav.acceptanceTest.isCurrentSection"
                 ng-repeat="acceptanceTest in acceptanceTests"
             )
-                a.btn.btn-xs.colour5(ng-href="/p/{{project.code}}/f/{{feature.code}}/a/{{acceptanceTest.code}}") {{acceptanceTest.code}}
+                a.btn.btn-xs.colour5(ng-href="/p/{{acceptanceTest.projectCode}}/f/{{acceptanceTest.featureCode}}/a/{{acceptanceTest.code}}") {{acceptanceTest.projectCode}}-{{acceptanceTest.featureCode}}-A{{acceptanceTest.code}}
+            span.padr(ng-if="nav.acceptanceTest.edit && nav.settings.isExpanded")
+                button.btn.btn-default.btn-xs(
+                    data-target="#ModalAddAcceptanceTest"
+                    data-toggle="modal"
+                )
+                    span.glyphicon.glyphicon-pencil
     span(
         ng-class="nav.settings.isExpanded ? 'row' : ''"
         ng-if="nav.systemTest.isCurrentSection || (!nav.systemTest.isHidden && (nav.settings.isExpanded || (!nav.settings.isExpanded && (systemTest || systemTests.length))))"

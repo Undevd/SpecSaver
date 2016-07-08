@@ -6,6 +6,11 @@ var systemTestSchema = mongoose.Schema({
     description: {type: String},
     projectCode: {type: String, required: '{PATH} is required'},
     featureCodes: {type: [String]},
+    acceptanceTestCodes : {
+        type: Array,
+        code: {type: Number},
+        featureCode: {type: String}
+    },
     testStepArguments: {
         type: Array,
         code: {type: Number},
@@ -141,7 +146,7 @@ systemTestSchema.statics.getSystemTest = function getSystemTest(projectCode, sys
         //Find the systemTest
         mongoose.model('SystemTest')
             .findOne({code: systemTestCode, projectCode: projectCode},
-                '-_id code description name projectCode featureCodes')
+                '-_id acceptanceTestCodes code description featureCodes name projectCode')
             .exec(function(error, systemTest) {
 
             //If an error occurred
@@ -168,7 +173,7 @@ systemTestSchema.statics.getSystemTestAndTestSteps = function getSystemTest(proj
         //Find the systemTest
         mongoose.model('SystemTest')
             .findOne({code: systemTestCode, projectCode: projectCode},
-                '-_id code description name projectCode featureCodes testStepArguments')
+                '-_id acceptanceTestCodes code description featureCodes name projectCode testStepArguments')
             .exec(function(error, systemTest) {
 
             //If an error occurred
@@ -195,7 +200,7 @@ systemTestSchema.statics.getSystemTestExpanded = function getSystemTestExpanded(
         //Find the system test
         mongoose.model('SystemTest')
             .findOne({code: systemTestCode, projectCode: projectCode},
-                '-_id code description name projectCode featureCodes testStepArguments')
+                '-_id acceptanceTestCodes code description featureCodes name projectCode testStepArguments')
             .exec(function(error, systemTest) {
 
             //If an error occurred
@@ -206,6 +211,9 @@ systemTestSchema.statics.getSystemTestExpanded = function getSystemTestExpanded(
             }
             else {
 
+                //Get the acceptance tests associated with the system test
+                var acceptanceTests = mongoose.model('AcceptanceTest').getAllAcceptanceTests(projectCode, systemTest.acceptanceTestCodes);
+
                 //Get the features associated with the system test
                 var features = mongoose.model('Feature').getAllFeatures(projectCode, systemTest.featureCodes);
 
@@ -213,10 +221,15 @@ systemTestSchema.statics.getSystemTestExpanded = function getSystemTestExpanded(
                 var testSteps = mongoose.model('TestStep').getAllTestSteps(projectCode, systemTest.testStepArguments);
 
                 //If all the promises are successful
-                Promise.all([features, testSteps]).then(function(data) {
+                Promise.all([acceptanceTests, features, testSteps]).then(function(data) {
                     
                     //Return the system test and test steps
-                    resolve({features: data[0], systemTest: systemTest, testSteps: data[1]});
+                    resolve({
+                        acceptanceTests: data[0],
+                        features: data[1],
+                        systemTest: systemTest,
+                        testSteps: data[2]
+                    });
 
                 }, function(error) {
                     

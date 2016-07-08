@@ -32,7 +32,7 @@ exports.createAcceptanceTest = function(request, response) {
 };
 
 //Gets all acceptance tests by feature code
-exports.getAllAcceptanceTests = function(request, response) {
+exports.getAllAcceptanceTestsByFeature = function(request, response) {
 
     //Get the project
     var project = Project.getProject(request.params.projectCode);
@@ -41,7 +41,7 @@ exports.getAllAcceptanceTests = function(request, response) {
     var feature = Feature.getFeature(request.params.projectCode, request.params.featureCode);
 
     //Get the acceptance tests
-    var acceptanceTests = AcceptanceTest.getAllAcceptanceTests(request.params.projectCode, request.params.featureCode);
+    var acceptanceTests = AcceptanceTest.getAllAcceptanceTestsByFeature(request.params.projectCode, request.params.featureCode);
 
     //If all the promises are successful
     Promise.all([project, feature, acceptanceTests]).then(function(data) {
@@ -78,6 +78,26 @@ exports.getAcceptanceTest = function(request, response) {
         
         //Otherwise, set the error status and send the error message
         response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
+    });
+};
+
+//Searches for an acceptance test using the supplied project code and name / code criteria
+exports.searchForAcceptanceTest = function(request, response) {
+
+    //Get the search criteria from the request
+    var projectCode = request.params.projectCode;
+    var criteria = request.params.criteria;
+
+    //Search for any matching results
+    AcceptanceTest.searchForAcceptanceTest(projectCode, criteria).then(function(data) {
+
+        //Set the success status and send the search results
+        response.status(200).send(data);
+
+    }, function(error) {
+
+        //Set the error status and send the error message
+        response.status(error.code == 404 ? 404 : 400).send({code: error.name, message: error.message});
     });
 };
 
