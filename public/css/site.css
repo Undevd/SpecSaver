@@ -84,6 +84,10 @@ body {
   background-color: #444;
   color: #fff;
 }
+div,
+p {
+  font-family: 'Roboto Condensed', sans-serif;
+}
 footer {
   padding-left: 15px;
   padding-right: 15px;
@@ -101,11 +105,14 @@ h2,
 h3,
 h4,
 h5,
+h6,
 .h1,
 .h2,
 .h3,
 .h4,
-.h5 {
+.h5,
+.h6 {
+  font-family: 'Roboto Condensed', sans-serif;
   font-size: 130%;
   margin: 0;
 }

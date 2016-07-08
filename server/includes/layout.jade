@@ -3,10 +3,11 @@ html(ng-app='app')
     head
         title(ng-bind="$root.title") SpecSaver
         base(href="/")
-        link(rel="stylesheet", href="/vendor/bootstrap/dist/css/bootstrap.css")
-        link(rel="stylesheet", href="/vendor/ng-sortable/dist/ng-sortable.css")
-        link(rel="stylesheet", href="/vendor/toastr/toastr.css")
-        link(rel="stylesheet", href="/css/site.css")
+        link(rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.css")
+        link(rel="stylesheet" href="/vendor/ng-sortable/dist/ng-sortable.css")
+        link(rel="stylesheet" href="/vendor/toastr/toastr.css")
+        link(rel="stylesheet" href="/css/site.css")
+        link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Condensed")
     body.ng-cloak
         include currentUser
         block main-content
