@@ -36,6 +36,9 @@ body {
 .centre {
   text-align: center;
 }
+.clickable-row:hover {
+  cursor: pointer;
+}
 .colour1 {
   background-color: #ac7ea9;
   color: #fff;

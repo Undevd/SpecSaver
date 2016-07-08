@@ -1,4 +1,4 @@
-angular.module('app').controller('ctrlViewFeatureAcceptanceTests', function($scope, $rootScope, $routeParams, dbAcceptanceTest) {
+angular.module('app').controller('ctrlViewFeatureAcceptanceTests', function($scope, $rootScope, $location, $routeParams, dbAcceptanceTest) {
     
     //Get the route parameters
     var projectCode = $routeParams.projectCode;
@@ -19,6 +19,11 @@ angular.module('app').controller('ctrlViewFeatureAcceptanceTests', function($sco
         $scope.project = data.project;
         $scope.feature = data.feature;
         $scope.acceptanceTests = data.acceptanceTests;
+        
+        //Set the clickable row URL function
+        $scope.goTo = function(acceptanceTestCode) {
+            $location.path('/p/' + $scope.project.code + '/f/' + $scope.feature.code + '/a/' + acceptanceTestCode);
+        };
         
     }, function(error) {
         

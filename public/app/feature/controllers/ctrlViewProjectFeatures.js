@@ -18,6 +18,11 @@ angular.module('app').controller('ctrlViewProjectFeatures', function($scope, $ro
         $scope.project = data.project;
         $scope.features = data.features;
 
+        //Set the clickable row URL function
+        $scope.goTo = function(featureCode) {
+            $location.path('/p/' + $scope.project.code + '/f/' + featureCode);
+        };
+
     }, function(error) {
         
         //Redirect to the error page
