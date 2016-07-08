@@ -10,6 +10,8 @@ var mongoose = require('mongoose'),
     userStoryModel = require('../models/UserStory'),
     voteModel = require('../models/Vote');
     
+userModel.createInitialUsers();
+
 module.exports = function(config) {
     mongoose.connect(config.db);
 
