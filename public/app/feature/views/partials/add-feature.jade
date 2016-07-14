@@ -20,7 +20,7 @@
                 .well
                     div(ng-show="!features.length") No associated features
                     span.padr(ng-repeat="feature in features")
-                        button.btn.colour3(ng-click="removeFeature($index)")
+                        button.btn.colour3(ng-click="removeFeature(feature.code)")
                             span.padr {{feature.name}}
                             span(aria-hidden="true") &times;
                 .alert.alert-danger.text-center(
@@ -83,4 +83,4 @@
                         data-target="#ModalAddFeature"
                     )
                         span.glyphicon.glyphicon-remove.padr
-                        span Cancel
+                        span Close

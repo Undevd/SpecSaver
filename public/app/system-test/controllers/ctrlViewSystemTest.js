@@ -659,6 +659,50 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
             }
         };
 
+        //Removes an acceptance test from the system test
+        $scope.removeAcceptanceTest = function(code) {
+
+            //For each acceptance test code
+            for (var i = 0; i < $scope.systemTest.acceptanceTestCodes.length; i++) {
+                
+                //If the acceptance test code matches the supplied code
+                if ($scope.systemTest.acceptanceTestCodes[i].code == code) {
+
+                    //Remove it from the array of acceptance tests
+                    $scope.systemTest.acceptanceTestCodes.splice(i, 1);
+
+                    //Break from the loop
+                    break;
+                }
+            }
+            
+            //For each acceptance test
+            for (var i = 0; i < $scope.acceptanceTests.length; i++) {
+                
+                //If the acceptance test code matches the supplied code
+                if ($scope.acceptanceTests[i].code == code) {
+
+                    //Remove it from the array of acceptance tests
+                    $scope.acceptanceTests.splice(i, 1);
+
+                    //Break from the loop
+                    break;
+                }
+            }
+
+            //Save the system test
+            dbSystemTest.updateSystemTest($scope.systemTest).$promise.then(function(data) {
+                
+                //Clear any existing errors
+                $scope.acceptanceTestError = null;
+
+            }, function(error) {
+
+                //Add the error message to the scope
+                $scope.acceptanceTestError = error.data.message;
+            });
+        };
+
         //Store feature search results
         $scope.featureResults = [];
 
@@ -745,6 +789,46 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
                     $scope.featureError = error.data.message;
                 });
             }
+        };
+
+        //Removes a feature from the system test
+        $scope.removeFeature = function(code) {
+
+            //Check if the feature code is in the system test list
+            var featureCodeIndex = $scope.systemTest.featureCodes.indexOf(code);
+
+            //If it is in the list
+            if (featureCodeIndex > -1) {
+
+                //Remove the feature code from the system test list
+                $scope.systemTest.featureCodes.splice(featureCodeIndex, 1);
+            }
+            
+            //For each feature
+            for (var i = 0; i < $scope.features.length; i++) {
+                
+                //If the feature code matches the supplied code
+                if ($scope.features[i].code == code) {
+
+                    //Remove it from the array of features
+                    $scope.features.splice(i, 1);
+
+                    //Break from the loop
+                    break;
+                }
+            }
+
+            //Save the system test
+            dbSystemTest.updateSystemTest($scope.systemTest).$promise.then(function(data) {
+                
+                //Clear any existing errors
+                $scope.featureError = null;
+
+            }, function(error) {
+
+                //Add the error message to the scope
+                $scope.featureError = error.data.message;
+            });
         };
     }, function(error) {
         

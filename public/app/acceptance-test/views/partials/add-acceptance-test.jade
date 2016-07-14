@@ -20,7 +20,7 @@
                 .well
                     div(ng-show="!acceptanceTests.length") No associated acceptance tests
                     span.padr(ng-repeat="acceptanceTest in acceptanceTests")
-                        button.btn.colour5(ng-click="removeAcceptanceTest($index)")
+                        button.btn.colour5(ng-click="removeAcceptanceTest(acceptanceTest.code)")
                             span.padr {{acceptanceTest.projectCode}}-{{acceptanceTest.featureCode}}-{{acceptanceTest.code}}
                             span(aria-hidden="true") &times;
                 .alert.alert-danger.text-center(
@@ -83,4 +83,4 @@
                         data-target="#ModalAddAcceptanceTest"
                     )
                         span.glyphicon.glyphicon-remove.padr
-                        span Cancel
+                        span Close
