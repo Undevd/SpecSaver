@@ -3,30 +3,12 @@
     .alert.alert-info.text-center(ng-show="!userStories.length") No user stories found
     table.table.table-hover.table-striped.table-condensed
         tbody(ng-repeat="userStory in userStories")
-            tr.row
+            tr.clickable-row.row(ng-click="goTo(userStory.code)")
                 td.col-md-2
-                    a(ng-href="/p/{{project.code}}/f/{{feature.code}}/u/{{userStory.code}}") U{{userStory.code}}
-                td.col-md-8
-                    div As a{{userStory.asA ? (['a', 'e', 'i', 'o', 'u'].indexOf(userStory.asA.toLowerCase()[0]) !== -1 ? 'n' : '') : ''}} {{userStory.asA}}
-                    div I can {{userStory.iCan}}
-                    div So that {{userStory.soThat}}
-                td.col-md-2
-                    .dropdown.pull-right
-                        a.btn.btn-default(ng-href="/p/{{project.code}}/f/{{feature.code}}/u/{{userStory.code}}")
-                            span.glyphicon.glyphicon-tree-deciduous
-                        button.btn.btn-default.dropdown-toggle(aria-haspopup="true", aria-expanded="true", data-toggle="dropdown", type="button")
-                            span.caret
-                        ul.dropdown-menu
-                            li
-                                a(ng-href="/p/{{project.code}}/f/{{feature.code}}/u/{{userStory.code}}")
-                                    span.glyphicon.glyphicon-tree-deciduous.padr
-                                    span Manage
-                            li.divider(role="separator")
-                            li
-                                a(ng-href="/p/{{project.code}}/f/{{feature.code}}/u/{{userStory.code}}/a")
-                                    span.glyphicon.glyphicon-grain.padr
-                                    span Acceptance Tests
-                            li
-                                a(ng-href="/p/{{project.code}}/f/{{feature.code}}/u/{{userStory.code}}/s")
-                                    span.glyphicon.glyphicon-leaf.padr
-                                    span System Tests
+                    a(ng-href="/p/{{project.code}}/f/{{feature.code}}/u/{{userStory.code}}")
+                        div U{{userStory.code}}
+                td.col-md-10
+                    a(ng-href="/p/{{project.code}}/f/{{feature.code}}/u/{{userStory.code}}")
+                        div As a{{userStory.asA ? (['a', 'e', 'i', 'o', 'u'].indexOf(userStory.asA.toLowerCase()[0]) !== -1 ? 'n' : '') : ''}} {{userStory.asA}}
+                        div I can {{userStory.iCan}}
+                        div So that {{userStory.soThat}}

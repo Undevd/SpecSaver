@@ -3,39 +3,13 @@
     .alert.alert-info.text-center(ng-show="!projects.length") No projects found
     table.table.table-hover.table-striped.table-condensed(ng-show="projects.length")
         tbody(ng-repeat="project in projects")
-            tr.row(ng-show="project.isMember()")
-                td.col-md-5
-                    a(href="/p/{{project.code}}") {{project.name}}
-                td.col-md-5 {{project.description | limitTo: 100}}{{project.description.length &gt; 100 ? '...' : ''}}
-                td.col-md-2
-                    .dropdown.pull-right
-                        a.btn.btn-default(ng-href="/p/{{project.code}}")
-                            span.glyphicon.glyphicon-th-list
-                        button.btn.btn-default.dropdown-toggle(aria-haspopup="true", aria-expanded="true", data-toggle="dropdown", type="button")
-                            span.caret
-                        ul.dropdown-menu
-                            li
-                                a(ng-href="/p/{{project.code}}")
-                                    span.glyphicon.glyphicon-th-list.padr
-                                    span Manage
-                            li.divider(role="separator")
-                            li
-                                a(ng-href="/p/{{project.code}}/r")
-                                    span.glyphicon.glyphicon-gift.padr
-                                    span Releases
-                            li
-                                a(ng-href="/p/{{project.code}}/f")
-                                    span.glyphicon.glyphicon-apple.padr
-                                    span Features
-                            li
-                                a(ng-href="/p/{{project.code}}/u")
-                                    span.glyphicon.glyphicon-tree-deciduous.padr
-                                    span User Stories
-                            li
-                                a(ng-href="/p/{{project.code}}/a")
-                                    span.glyphicon.glyphicon-grain.padr
-                                    span Acceptance Tests
-                            li
-                                a(href="/p/{{project.code}}/s")
-                                    span.glyphicon.glyphicon-leaf.padr
-                                    span System Tests
+            tr.clickable-row.row(
+                ng-click="goTo(project.code)"
+                ng-show="project.isMember()"
+            )
+                td.col-md-6
+                    a(ng-href="/p/{{project.code}}")
+                        div {{project.name}}
+                td.col-md-6
+                    a(ng-href="/p/{{project.code}}")
+                        div {{project.description | limitTo: 100}}{{project.description.length &gt; 100 ? '...' : ''}}

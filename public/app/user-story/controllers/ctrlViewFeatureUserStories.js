@@ -20,6 +20,11 @@ angular.module('app').controller('ctrlViewFeatureUserStories', function($scope, 
         $scope.feature = data.feature;
         $scope.userStories = data.userStories;
         
+        //Set the clickable row URL function
+        $scope.goTo = function(userStoryCode) {
+            $location.path('/p/' + $scope.project.code + '/f/' + $scope.feature.code + '/u/' + userStoryCode);
+        };
+
     }, function(error) {
         
         //Redirect to the error page

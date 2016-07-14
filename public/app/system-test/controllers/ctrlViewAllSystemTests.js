@@ -18,6 +18,11 @@ angular.module('app').controller('ctrlViewAllSystemTests', function($scope, $roo
         $scope.project = data.project;
         $scope.systemTests = data.systemTests;
 
+        //Set the clickable row URL function
+        $scope.goTo = function(systemTestCode) {
+            $location.path('/p/' + $scope.project.code + '/s/' + systemTestCode);
+        };
+
     }, function(error) {
         
         //Redirect to the error page

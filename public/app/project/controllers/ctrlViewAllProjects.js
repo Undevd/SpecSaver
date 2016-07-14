@@ -1,4 +1,4 @@
-angular.module('app').controller('ctrlViewAllProjects', function($scope, dbProject) {
+angular.module('app').controller('ctrlViewAllProjects', function($scope, $location, dbProject) {
 
     //Set the navigation settings
     $scope.nav = {
@@ -10,6 +10,11 @@ angular.module('app').controller('ctrlViewAllProjects', function($scope, dbProje
 
     	//Store the projects in the scope
     	$scope.projects = projects;
+
+        //Set the clickable row URL function
+        $scope.goTo = function(projectCode) {
+            $location.path('/p/' + projectCode);
+        };
     	
     }, function(error) {
         

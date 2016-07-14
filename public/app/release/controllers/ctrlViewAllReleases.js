@@ -18,6 +18,11 @@ angular.module('app').controller('ctrlViewAllReleases', function($scope, $rootSc
         $scope.project = data.project;
         $scope.releases = data.releases;
 
+        //Set the clickable row URL function
+        $scope.goTo = function(releaseCode) {
+            $location.path('/p/' + $scope.project.code + '/r/' + releaseCode);
+        };
+
     }, function(error) {
         
         //Redirect to the error page
