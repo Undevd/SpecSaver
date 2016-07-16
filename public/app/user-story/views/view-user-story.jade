@@ -3,37 +3,40 @@
     .well
         h2 User Story \#{{userStory.code}}
     div
-        div(ng-show="!edit.asA")
+        .test-step(ng-show="!edit.asA")
             a.edit(ng-click="showEdit('asA', true)" ng-mouseleave="hover.asA = false" ng-mouseover="hover.asA = true")
-                span(ng-show="userStory.asA") As a{{userStory.asA ? (['a', 'e', 'i', 'o', 'u'].indexOf(userStory.asA.toLowerCase()[0]) !== -1 ? 'n' : '') : ''}} {{userStory.asA}}
+                span.test-step-type(ng-show="userStory.asA") As a{{userStory.asA ? (['a', 'e', 'i', 'o', 'u'].indexOf(userStory.asA.toLowerCase()[0]) !== -1 ? 'n' : '') : ''}}
+                span.test-step-argument-text #{' '}{{userStory.asA}}
                 span.glyphicon.glyphicon-pencil.small(ng-show="hover.asA")
-        div(ng-show="edit.asA")
+        .test-step(ng-show="edit.asA")
             form(name="asAForm")
-                span As a{{userStory.asA ? (['a', 'e', 'i', 'o', 'u'].indexOf(userStory.asA.toLowerCase()[0]) !== -1 ? 'n' : '') : ''}}
+                span.test-step-type As a{{userStory.asA ? (['a', 'e', 'i', 'o', 'u'].indexOf(userStory.asA.toLowerCase()[0]) !== -1 ? 'n' : '') : ''}}
                 textarea.form-control(name="userStory.asA" ng-model="userStory.asA" type="text" placeholder="As a")
                 button.btn.btn-success(ng-click="submitEdit('asA')", ng-disabled="asAForm.$invalid")
                     span.glyphicon.glyphicon-ok
                 a.btn.btn-default(ng-click="cancelEdit('asA')")
                     span.glyphicon.glyphicon-remove
-        div(ng-show="!edit.iCan")
+        .test-step(ng-show="!edit.iCan")
             a.edit(ng-click="showEdit('iCan', true)" ng-mouseleave="hover.iCan = false" ng-mouseover="hover.iCan = true")
-                span(ng-show="userStory.iCan") I can {{userStory.iCan}}
+                span.test-step-type I can
+                span.test-step-argument-text(ng-show="userStory.iCan") #{' '}{{userStory.iCan}}
                 span.glyphicon.glyphicon-pencil.small(ng-show="hover.iCan")
-        div(ng-show="edit.iCan")
+        .test-step(ng-show="edit.iCan")
             form(name="iCanForm")
-                span I can
+                span.test-step-type I can
                 textarea.form-control(name="userStory.iCan" ng-model="userStory.iCan" type="text" placeholder="I can")
                 button.btn.btn-success(ng-click="submitEdit('iCan')", ng-disabled="iCanForm.$invalid")
                     span.glyphicon.glyphicon-ok
                 a.btn.btn-default(ng-click="cancelEdit('iCan')")
                     span.glyphicon.glyphicon-remove
-        div(ng-show="!edit.soThat")
+        .test-step(ng-show="!edit.soThat")
             a.edit(ng-click="showEdit('soThat', true)" ng-mouseleave="hover.soThat = false" ng-mouseover="hover.soThat = true")
-                span(ng-show="userStory.soThat") So that {{userStory.soThat}}
+                span.test-step-type So that
+                span.test-step-argument-text(ng-show="userStory.soThat") #{' '}{{userStory.soThat}}
                 span.glyphicon.glyphicon-pencil.small(ng-show="hover.soThat")
-        div(ng-show="edit.soThat")
+        .test-step(ng-show="edit.soThat")
             form(name="soThatForm")
-                span So that
+                span.test-step-type So that
                 textarea.form-control(name="userStory.soThat" ng-model="userStory.soThat" type="text" placeholder="So that")
                 button.btn.btn-success(ng-click="submitEdit('soThat')", ng-disabled="soThatForm.$invalid")
                     span.glyphicon.glyphicon-ok
