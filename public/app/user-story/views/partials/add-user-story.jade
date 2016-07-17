@@ -1,0 +1,86 @@
+.fade.modal(
+    id="ModalAddUserStory"
+    role="dialog"
+)
+    .modal-dialog.modal-lg
+        .modal-content
+            .colour4.modal-header
+                button.close(
+                    aria-label="Close"
+                    data-target="#ModalAddUserStory"
+                    data-dismiss="modal"
+                    id="ModalAddUserStoryCloseButton"
+                    type="button"
+                )
+                    span(aria-hidden="true") &times;
+                h4.h1.modal-title
+                    span.glyphicon.glyphicon-tree-deciduous.padr
+                    span User Stories
+            .modal-body
+                .well
+                    div(ng-show="!userStories.length") No associated user stories
+                    span.padr(ng-repeat="userStory in userStories")
+                        button.btn.colour5(ng-click="removeUserStory(userStory.code)")
+                            span.padr {{userStory.projectCode}}-{{userStory.featureCode}}-{{userStory.code}}
+                            span(aria-hidden="true") &times;
+                .alert.alert-danger.text-center(
+                    ng-show="userStoryError"
+                    role="alert"
+                ) {{userStoryError}}
+                .row.padb
+                    form.form-horizontal(name="userStoryForm")
+                        .col-md-1
+                            button.box.btn.padlr(
+                                ng-click="searchForUserStory()"
+                                ng-disabled="userStoryForm.$invalid"
+                            )
+                                span.glyphicon.glyphicon-search(aria-label="Search icon")
+                        .col-md-11
+                            input.form-control(
+                                name="newUserStory.criteria"
+                                ng-change="clearUserStoryResults()"
+                                ng-model="newUserStory.criteria"
+                                required
+                                type="text"
+                            )
+                .row(ng-show="userStoryResults")
+                    .col-md-12
+                        span(ng-show="userStoryResults.length") Search results
+                        span(ng-show="!userStoryResults.length && userStoryResultsTime") No user stories found {{userStoryResultsTime | date: '(HH:mm:ss)'}}
+                .row(ng-show="userStoryResults.length")
+                    .col-md-12
+                        select.form-control(
+                            name="newUserStory.index"
+                            ng-model="newUserStory.index"
+                        )
+                            option(value="") Select result...
+                            option(
+                                ng-repeat="result in userStoryResults"
+                                ng-value="$index"
+                            ) {{project.code + '-' + result.featureCode + '-A' + result.code + ': Given ' + result.given + ', when ' + result.when + ', then ' + result.then}}
+                .alert.alert-danger.text-center(
+                    ng-show="userStoryError"
+                    role="alert"
+                ) {{userStoryError}}
+            .modal-footer
+                span.padr
+                    button.btn.btn-success(
+                        ng-click="addUserStory()"
+                        ng-show="!userStoryForm.$invalid && newUserStory.index"
+                    )
+                        span.glyphicon.glyphicon-ok.padr
+                        span Add
+                span.padr
+                    button.btn.btn-success(
+                        ng-click="addUserStory(true)"
+                        ng-show="!userStoryForm.$invalid && newUserStory.index"
+                    )
+                        span.glyphicon.glyphicon-ok.padr
+                        span Add &amp; Close
+                span
+                    a.btn.btn-default(
+                        data-dismiss="modal"
+                        data-target="#ModalAddUserStory"
+                    )
+                        span.glyphicon.glyphicon-remove.padr
+                        span Close

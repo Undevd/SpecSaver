@@ -45,7 +45,7 @@ nav(
                 a.btn.btn-xs.colour2(ng-href="/p/{{project.code}}/r/{{release.code}}") {{release.name}}
     span(
         ng-class="nav.settings.isExpanded ? 'row' : ''"
-        ng-if="nav.feature.isCurrentSection || (!nav.feature.isHidden && (nav.settings.isExpanded || (!nav.settings.isExpanded && (feature || features.length))))"
+        ng-if="nav.feature.isCurrentSection || (!nav.feature.isHidden && (nav.settings.isExpanded || nav.feature.edit || (!nav.settings.isExpanded && (feature || features.length))))"
     )
         span(ng-class="nav.settings.isExpanded ? 'col-md-2' : ''")
             span.padr
@@ -64,15 +64,15 @@ nav(
                 ng-repeat="feature in features"
             )
                 a.btn.btn-xs.colour3(ng-href="/p/{{project.code}}/f/{{feature.code}}") {{feature.name}}
-            span.padr(ng-if="nav.feature.edit && nav.settings.isExpanded")
-                button.btn.btn-default.btn-xs(
+            span.padr(ng-if="nav.feature.edit")
+                button.btn.btn-xs.colour3(
                     data-target="#ModalAddFeature"
                     data-toggle="modal"
                 )
                     span.glyphicon.glyphicon-pencil
     span(
         ng-class="nav.settings.isExpanded ? 'row' : ''"
-        ng-if="nav.userStory.isCurrentSection || (!nav.userStory.isHidden && (nav.settings.isExpanded || (!nav.settings.isExpanded && (userStory || userStories.length))))"
+        ng-if="nav.userStory.isCurrentSection || (!nav.userStory.isHidden && (nav.settings.isExpanded || nav.userStory.edit || (!nav.settings.isExpanded && (userStory || userStories.length))))"
     )
         span(ng-class="nav.settings.isExpanded ? 'col-md-2' : ''")
             span.padr
@@ -91,9 +91,15 @@ nav(
                 ng-repeat="userStory in userStories"
             )
                 a.btn.btn-xs.colour4(ng-href="/p/{{userStory.projectCode}}/f/{{userStory.featureCode}}/u/{{userStory.code}}") {{userStory.code}}-{{userStory.featureCode}}-U{{userStory.code}}
+            span.padr(ng-if="nav.userStory.edit")
+                button.btn.btn-xs.colour4(
+                    data-target="#ModalAddUserStory"
+                    data-toggle="modal"
+                )
+                    span.glyphicon.glyphicon-pencil
     span(
         ng-class="nav.settings.isExpanded ? 'row' : ''"
-        ng-if="nav.acceptanceTest.isCurrentSection || (!nav.acceptanceTest.isHidden && (nav.settings.isExpanded || (!nav.settings.isExpanded && (acceptanceTest || acceptanceTests.length))))"
+        ng-if="nav.acceptanceTest.isCurrentSection || (!nav.acceptanceTest.isHidden && (nav.settings.isExpanded || nav.acceptanceTest.edit || (!nav.settings.isExpanded && (acceptanceTest || acceptanceTests.length))))"
     )
         span(ng-class="nav.settings.isExpanded ? 'col-md-2' : ''")
             span.padr
@@ -112,8 +118,8 @@ nav(
                 ng-repeat="acceptanceTest in acceptanceTests"
             )
                 a.btn.btn-xs.colour5(ng-href="/p/{{acceptanceTest.projectCode}}/f/{{acceptanceTest.featureCode}}/a/{{acceptanceTest.code}}") {{acceptanceTest.projectCode}}-{{acceptanceTest.featureCode}}-A{{acceptanceTest.code}}
-            span.padr(ng-if="nav.acceptanceTest.edit && nav.settings.isExpanded")
-                button.btn.btn-default.btn-xs(
+            span.padr(ng-if="nav.acceptanceTest.edit")
+                button.btn.btn-xs.colour5(
                     data-target="#ModalAddAcceptanceTest"
                     data-toggle="modal"
                 )
