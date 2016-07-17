@@ -1,7 +1,7 @@
 var Feature = require('mongoose').model('Feature');
 var Project = require('mongoose').model('Project');
+var Step = require('mongoose').model('Step');
 var SystemTest = require('mongoose').model('SystemTest');
-var TestStep = require('mongoose').model('TestStep');
 
 //Creates a new system test
 exports.createSystemTest = function(request, response) {
@@ -17,7 +17,7 @@ exports.createSystemTest = function(request, response) {
         projectCode: systemTestData.projectCode,
         featureCodes: [],
         acceptanceTestCodes: [],
-        testStepArguments: []
+        stepArguments: []
     };
 
     //Create the system test
@@ -73,7 +73,7 @@ exports.getSystemTest = function(request, response) {
             features: data[1].features,
             project: data[0],
             systemTest: data[1].systemTest,
-            testSteps: data[1].testSteps
+            steps: data[1].steps
         });
 
     }, function(error) {
@@ -97,7 +97,7 @@ exports.updateSystemTest = function(request, response) {
         projectCode: systemTestData.projectCode,
         featureCodes: [],
         acceptanceTestCodes: [],
-        testStepArguments: []
+        stepArguments: []
     };
 
     //For each feature code
@@ -135,27 +135,27 @@ exports.updateSystemTest = function(request, response) {
     }
 
     //For each test step
-    for (var testStep of systemTestData.testStepArguments) {
+    for (var step of systemTestData.stepArguments) {
         
         //Create a new object to store the sanitised arguments
-        var testStepArguments = {
-            code: testStep.code,
+        var stepArguments = {
+            code: step.code,
             arguments: []
         }; 
    
         //If there are arguments defined
-        if (testStep.arguments) {
+        if (step.arguments) {
             
             //For each argument
-            for (var argument of testStep.arguments) {
+            for (var argument of step.arguments) {
                 
                 //Add a sanitised version of the argument to the new object
-                testStepArguments.arguments.push({name: argument.name, value: argument.value});
+                stepArguments.arguments.push({name: argument.name, value: argument.value});
             }
         }
         
         //Add the object to the updated system test
-        newSystemTestData.testStepArguments.push(testStepArguments);
+        newSystemTestData.stepArguments.push(stepArguments);
     }
 
     //Update the system test

@@ -1,50 +1,50 @@
 var mongoose = require('mongoose');
 
-var testStepSchema = mongoose.Schema({
+var stepSchema = mongoose.Schema({
     code: {type: Number, required: '{PATH} is required'},
     type: {type: String, required: '{PATH} is required'},
     step: {type: String, required: '{PATH} is required'},
     projectCode: {type:String, required: '{PATH} is required'}
 });
 
-testStepSchema.index({code: 1, projectCode: 1}, {unique: true});
+stepSchema.index({code: 1, projectCode: 1}, {unique: true});
 
 //Adds a test step to the system test
-testStepSchema.statics.addTestStep = function addTestStep(newTestStepData) {
+stepSchema.statics.addStep = function addStep(newStepData) {
     
     //Return a promise
     return new Promise(function(resolve, reject) {
 
         //Find the system test
         var systemTest = mongoose.model('SystemTest')
-            .getSystemTestAndTestSteps(newTestStepData.projectCode, newTestStepData.systemTestCode);
+            .getSystemTestAndSteps(newStepData.projectCode, newStepData.systemTestCode);
 
         //Check if the test step exists
-        var testStepExists = mongoose.model('TestStep')
-            .exists(newTestStepData.projectCode, newTestStepData.code);
+        var stepExists = mongoose.model('Step')
+            .exists(newStepData.projectCode, newStepData.code);
 
         //If all the promises are successful
-        Promise.all([systemTest, testStepExists]).then(function(data) {
+        Promise.all([systemTest, stepExists]).then(function(data) {
 
             //Get the system test data
             var systemTestData = data[0];
 
             //Record the new data to save
             var newDataToSave = {
-                code: newTestStepData.code,
-                arguments: newTestStepData.arguments
+                code: newStepData.code,
+                arguments: newStepData.arguments
             };
 
             //If a test step is being edited
-            if (newTestStepData.isEdit) {
+            if (newStepData.isEdit) {
                 
                 //Overwrite the test step data in the required position
-                systemTestData.testStepArguments[newTestStepData.position] = newDataToSave;
+                systemTestData.stepArguments[newStepData.position] = newDataToSave;
             }
             else {
                 
                 //Add the test step to the required position
-                systemTestData.testStepArguments.splice(newTestStepData.position, 0, newDataToSave);
+                systemTestData.stepArguments.splice(newStepData.position, 0, newDataToSave);
             }
 
             //Update the system test
@@ -70,25 +70,25 @@ testStepSchema.statics.addTestStep = function addTestStep(newTestStepData) {
 };
 
 //Creates a new test step
-testStepSchema.statics.createTestStep = function createTestStep(newTestStepData) {
+stepSchema.statics.createStep = function createStep(newStepData) {
     
     //Return a promise
     return new Promise(function(resolve, reject) {
 
         //Check if the project exists
-        var projectExists = mongoose.model('Project').exists(newTestStepData.projectCode);
+        var projectExists = mongoose.model('Project').exists(newStepData.projectCode);
 
         //Find the newest test step
-        var testStepCode = mongoose.model('TestStep').getNextCode(newTestStepData.projectCode);
+        var stepCode = mongoose.model('Step').getNextCode(newStepData.projectCode);
 
         //If all the promises are successful
-        Promise.all([projectExists, testStepCode]).then(function(data) {
+        Promise.all([projectExists, stepCode]).then(function(data) {
             
             //Set the test step code
-            newTestStepData.code = data[1];
+            newStepData.code = data[1];
 
             //Create the test step
-            mongoose.model('TestStep').create(newTestStepData, function(error, testStep) {
+            mongoose.model('Step').create(newStepData, function(error, step) {
 
                 //If an error occurred
                 if(error) {
@@ -106,7 +106,7 @@ testStepSchema.statics.createTestStep = function createTestStep(newTestStepData)
                 else {
 
                     //Otherwise, return the test step and project code
-                    resolve({code: testStep.code, projectCode: testStep.projectCode});
+                    resolve({code: step.code, projectCode: step.projectCode});
                 }
             });
         }, function(error) {
@@ -118,14 +118,14 @@ testStepSchema.statics.createTestStep = function createTestStep(newTestStepData)
 };
 
 //Checks whether the test step with the supplied code exists
-testStepSchema.statics.exists = function exists(projectCode, testStepCode) {
+stepSchema.statics.exists = function exists(projectCode, stepCode) {
 
     //Return a promise
     return new Promise(function(resolve, reject) {
 
         //Find the number of test steps by code
-        mongoose.model('TestStep')
-            .count({code: testStepCode, projectCode: projectCode})
+        mongoose.model('Step')
+            .count({code: stepCode, projectCode: projectCode})
             .exec(function(error, count) {
 
             //If an error occurred
@@ -156,16 +156,16 @@ testStepSchema.statics.exists = function exists(projectCode, testStepCode) {
 };
 
 //Gets the next unassigned code for a new test step
-testStepSchema.statics.getNextCode = function getNextCode(projectCode) {
+stepSchema.statics.getNextCode = function getNextCode(projectCode) {
 
     //Return a promise
     return new Promise(function(resolve, reject) {
 
         //Find the latest system test
-        mongoose.model('TestStep')
+        mongoose.model('Step')
             .findOne({projectCode: projectCode})
             .sort('-code')
-            .exec(function(error, latestTestStep) {
+            .exec(function(error, lastep) {
             
             //If an error occurred
             if(error) {
@@ -176,30 +176,30 @@ testStepSchema.statics.getNextCode = function getNextCode(projectCode) {
             else {
 
                 //Return a new code for the test step, starting from 1 if none exists
-                resolve(latestTestStep == null? 1 : latestTestStep.code + 1);
+                resolve(lastep == null? 1 : lastep.code + 1);
             }
         });
     });
 };
 
 //Gets the test step with the supplied test step code
-testStepSchema.statics.getAllTestSteps = function getAllTestSteps(projectCode, testStepArguments) {
+stepSchema.statics.getAllSteps = function getAllSteps(projectCode, stepArguments) {
 
     //Return a promise
     return new Promise(function(resolve, reject) {
 
         //Create an array to store the test step promises
-        var testSteps = [];
+        var steps = [];
 
         //For each test step argument
-        for (var argument of testStepArguments) {
+        for (var argument of stepArguments) {
 
             //Get the test step
-            testSteps.push(mongoose.model('TestStep').getTestStep(projectCode, argument.code));
+            steps.push(mongoose.model('Step').getStep(projectCode, argument.code));
         }
 
         //If all the promises are successful
-        Promise.all(testSteps).then(function(data) {
+        Promise.all(steps).then(function(data) {
             
             //Return the test step data
             resolve(data);
@@ -213,15 +213,15 @@ testStepSchema.statics.getAllTestSteps = function getAllTestSteps(projectCode, t
 };
 
 //Gets the test step with the supplied test step code
-testStepSchema.statics.getTestStep = function getTestStep(projectCode, testStepCode) {
+stepSchema.statics.getStep = function getStep(projectCode, stepCode) {
 
     //Return a promise
     return new Promise(function(resolve, reject) {
 
         //Find the test step
-        mongoose.model('TestStep')
-            .findOne({code: testStepCode, projectCode: projectCode}, '-_id code projectCode step type')
-            .exec(function(error, testStep) {
+        mongoose.model('Step')
+            .findOne({code: stepCode, projectCode: projectCode}, '-_id code projectCode step type')
+            .exec(function(error, step) {
 
             //If an error occurred
             if (error) {
@@ -232,24 +232,24 @@ testStepSchema.statics.getTestStep = function getTestStep(projectCode, testStepC
             else {
 
                 //Otherwise, return the test step
-                resolve(testStep);
+                resolve(step);
             }
         });
     });
 };
 
 //Gets all test steps by project code and type, containing the step criteria
-testStepSchema.statics.searchForTestStep = function searchForTestStep(projectCode, type, step) {
+stepSchema.statics.searchForStep = function searchForStep(projectCode, type, step) {
 
 	//Return a promise
 	return new Promise(function(resolve, reject) {
 
         //Find the test steps
-        mongoose.model('TestStep')
+        mongoose.model('Step')
             .find({projectCode: projectCode, type: type, step: {$regex: new RegExp(step, 'i')}},
                 '-_id code projectCode step type')
             .sort({type: 1, step: 1})
-            .exec(function(error, testSteps) {
+            .exec(function(error, steps) {
 
             //If an error occurred
             if (error) {
@@ -260,22 +260,22 @@ testStepSchema.statics.searchForTestStep = function searchForTestStep(projectCod
             else {
 
                 //Otherwise, return the test steps
-                resolve(testSteps);
+                resolve(steps);
             }
         });
     });
 };
 
 //Updates an existing test step
-testStepSchema.statics.updateTestStep = function updateTestStep(newTestStepData) {
+stepSchema.statics.updateStep = function updateStep(newStepData) {
     
     //Return a promise
     return new Promise(function(resolve, reject) {
 
         //Find the test step and update it
-        mongoose.model('TestStep')
-            .findOneAndUpdate({code: newTestStepData.code, projectCode: newTestStepData.projectCode},
-                newTestStepData, function(error, testStep) {
+        mongoose.model('Step')
+            .findOneAndUpdate({code: newStepData.code, projectCode: newStepData.projectCode},
+                newStepData, function(error, step) {
 
             //If an error occurred
             if (error) {
@@ -284,7 +284,7 @@ testStepSchema.statics.updateTestStep = function updateTestStep(newTestStepData)
                 reject(error);
             }
             //Else if the test step wasn't found
-            else if (!testStep) {
+            else if (!step) {
 
                 //Return a 404 error
                 reject({code: 404, errmsg: 'Test step not found'});
@@ -298,4 +298,4 @@ testStepSchema.statics.updateTestStep = function updateTestStep(newTestStepData)
     });
 };
 
-var TestStep = mongoose.model('TestStep', testStepSchema);
+var Step = mongoose.model('Step', stepSchema);

@@ -1,4 +1,4 @@
-angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootScope, $location, $routeParams, dbAcceptanceTest, dbFeature, dbSystemTest, dbTestStep) {
+angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootScope, $location, $routeParams, dbAcceptanceTest, dbFeature, dbSystemTest, dbStep) {
     
 	//Get the route parameters
 	var projectCode = $routeParams.projectCode;
@@ -22,10 +22,10 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
     };
 
     //Gets the hierarchy position of the supplied test step type 
-    var getTestStepTypeHierarchy = function(testStepType) {
+    var getStepTypeHierarchy = function(stepType) {
         
         //Convert the supplied type to lowercase and return the appropriate integer order
-        switch (testStepType.toLowerCase()) {
+        switch (stepType.toLowerCase()) {
             
             //Given > When > Then
             case 'given': return 1;
@@ -43,30 +43,30 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
     };
 
     //Gets the test step text from a string
-    var getTestStepTextFromString = function(testStepString) {
+    var getStepTextFromString = function(stepString) {
         
         //If the argument opening bracket does not exist in the string, just return the string
         //Otherwise, return a substring up to the start of the argument
-        return testStepString.indexOf('{') < 0
-            ? testStepString
-            : testStepString.substring(0, testStepString.indexOf('{'));
+        return stepString.indexOf('{') < 0
+            ? stepString
+            : stepString.substring(0, stepString.indexOf('{'));
     };
 
     //Gets the test step argument name from a string
-    var getArgumentNameFromString = function(testStepString) {
+    var getArgumentNameFromString = function(stepString) {
         
         //If the argument opening bracket does not exist in the string, just return an empty string
         //Otherwise, return a substring after the start of the bracket
-        return argumentName = testStepString.indexOf('{') < 0
+        return argumentName = stepString.indexOf('{') < 0
             ? ''
-            : testStepString.substring(testStepString.indexOf('{') + 1, testStepString.length);
+            : stepString.substring(stepString.indexOf('{') + 1, stepString.length);
     };
 
     //Gets the test step argument value from a string
-    var getArgumentValueFromString = function(testStepString, testStepIndex, usePlaceholderAsDefault) {
+    var getArgumentValueFromString = function(stepString, stepIndex, usePlaceholderAsDefault) {
         
         //Get the argument name from the string
-        var argumentName = getArgumentNameFromString(testStepString);
+        var argumentName = getArgumentNameFromString(stepString);
 
         //If the argument name couldn't be found
         if (!argumentName) {
@@ -76,13 +76,13 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         }
 
         //Get the test step
-        var testStep = $scope.systemTest.testStepArguments[testStepIndex];
+        var step = $scope.systemTest.stepArguments[stepIndex];
 
         //If any arguments have already been recorded
-        if (testStep.arguments) {
+        if (step.arguments) {
 
             //For each argument
-            for (var argument of testStep.arguments) {
+            for (var argument of step.arguments) {
 
                 //If the argument name matches and a value has been recorded
                 if (argument.name == argumentName && argument.value) {
@@ -140,30 +140,30 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         $scope.features = data.features;
         $scope.project = data.project;
         $scope.systemTest = data.systemTest;
-        updateTestStepsInScope(data.testSteps);
+        updateStepsInScope(data.steps);
         $scope.stats = data.stats;
     };
 
     //Updates the test steps in the scope, both in original form and also by separating out the arguments
-    var updateTestStepsInScope = function(testSteps) {
+    var updateStepsInScope = function(steps) {
 
         //For each test step
-        for (var t in testSteps) {
+        for (var t in steps) {
 
             //Create a new section in the test step to store the split version
-            testSteps[t].split = [];
+            steps[t].split = [];
             
             //Get the hierarchical order of the test step type
-            testSteps[t].typeHierarchy = getTestStepTypeHierarchy(testSteps[t].type);
+            steps[t].typeHierarchy = getStepTypeHierarchy(steps[t].type);
             
             //Split the step by closing argument brackets
-            var splitSections = testSteps[t].step.split('}');
+            var splitSections = steps[t].step.split('}');
 
             //For each split section
             for (var s in splitSections) {
 
                 //Get the test step text
-                var text = getTestStepTextFromString(splitSections[s]);
+                var text = getStepTextFromString(splitSections[s]);
 
                 //Get the argument name
                 var argumentName = getArgumentNameFromString(splitSections[s]);
@@ -178,8 +178,8 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
                 if (text) {
 
                     //Add it to the split test step array
-                    testSteps[t].split.push({
-                        type: 'test-step-text',
+                    steps[t].split.push({
+                        type: 'step-text',
                         value: text
                     });
                 }
@@ -191,11 +191,11 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
                     var argumentNameColumns = getColumns(argumentName);
                     
                     //Add it to the split test step array
-                    testSteps[t].split.push({
+                    steps[t].split.push({
                         field: argumentName,
                         isHidden: true,
                         isTableHeader: true,
-                        type: 'test-step-argument-name-table-header',
+                        type: 'step-argument-name-table-header',
                         value: argumentNameColumns
                     });
                 }
@@ -205,11 +205,11 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
                     
                     //Determine how the argument value will be displayed
                     var type = argumentValue.startsWith('{') && argumentValue.endsWith('}')
-                        ? 'test-step-argument-value-not-supplied'
-                        : 'test-step-argument-value-supplied';
+                        ? 'step-argument-value-not-supplied'
+                        : 'step-argument-value-supplied';
 
                     //Add it to the split test step array
-                    testSteps[t].split.push({
+                    steps[t].split.push({
                         field: argumentName,
                         isEditable: !isTable,
                         isHidden: isTable,
@@ -224,11 +224,11 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
                     var argumentValueRows = getRows(argumentValue);
 
                     //Add it to the split test step array
-                    testSteps[t].split.push({
+                    steps[t].split.push({
                         field: argumentName,
                         isHidden: true,
                         isTableRows: true,
-                        type: 'test-step-argument-value-table-rows',
+                        type: 'step-argument-value-table-rows',
                         value: argumentValue,
                         valueSplit: argumentValueRows
                     });
@@ -237,7 +237,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         }
         
         //Add the test steps to the scope
-        $scope.testSteps = testSteps;
+        $scope.steps = steps;
     };
 
     //Sends the system test data in the scope to the server
@@ -266,16 +266,16 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         $scope.oldData = {};
 
         //Shows or hides the form used to edit the field
-        $scope.showEdit = function(show, fieldID, testStepNumber, sectionNumber) {
+        $scope.showEdit = function(show, fieldID, stepNumber, sectionNumber) {
 
             //If the form should be shown
             if (show) {
 
                 //If the test step and section numbers were supplied
-                if (typeof testStepNumber !== 'undefined' && typeof sectionNumber !== 'undefined') {
+                if (typeof stepNumber !== 'undefined' && typeof sectionNumber !== 'undefined') {
                     
                     //Store the old data from the test steps section
-                    $scope.oldData[fieldID] = $scope.testSteps[testStepNumber].split[sectionNumber].value;
+                    $scope.oldData[fieldID] = $scope.steps[stepNumber].split[sectionNumber].value;
                 }
                 else {
                     
@@ -311,13 +311,13 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         };
 
         //Cancels editing the field and hides the form
-        $scope.cancelEdit = function(fieldID, testStepNumber, sectionNumber) {
+        $scope.cancelEdit = function(fieldID, stepNumber, sectionNumber) {
 
             //If the test step and section numbers were supplied
-            if (typeof testStepNumber !== 'undefined' && typeof sectionNumber !== 'undefined') {
+            if (typeof stepNumber !== 'undefined' && typeof sectionNumber !== 'undefined') {
                 
                 //Reset the old data from the test steps section
-                $scope.testSteps[testStepNumber].split[sectionNumber].value = $scope.oldData[fieldID];
+                $scope.steps[stepNumber].split[sectionNumber].value = $scope.oldData[fieldID];
             }
             else {
                 
@@ -326,7 +326,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
             }
 
             //Stop editing
-            $scope.showEdit(false, fieldID, testStepNumber, sectionNumber);
+            $scope.showEdit(false, fieldID, stepNumber, sectionNumber);
         };
 
         //Submits the edits made to the system test to the server
@@ -340,26 +340,26 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         };
 
         //Submits the edits made to the test steps to the server
-        $scope.submitEditForTestStep = function(fieldID, testStepNumber, sectionNumber, argumentName, argumentValue) {
+        $scope.submitEditForStep = function(fieldID, stepNumber, sectionNumber, argumentName, argumentValue) {
                 
             //If the argument value was cleared
             if (!argumentValue) {
                 
                 //Set the type to show that no value was supplied
-                $scope.testSteps[testStepNumber].split[sectionNumber].type = 'test-step-argument-value-not-supplied';
+                $scope.steps[stepNumber].split[sectionNumber].type = 'step-argument-value-not-supplied';
                 
                 //Reset the value back to the argument name, which is recorded in the previous section
-                $scope.testSteps[testStepNumber].split[sectionNumber].value
-                = formatPlaceholder($scope.testSteps[testStepNumber].split[sectionNumber - 1].value);                
+                $scope.steps[stepNumber].split[sectionNumber].value
+                = formatPlaceholder($scope.steps[stepNumber].split[sectionNumber - 1].value);                
             }
             else {
                 
                 //Set the type to show that a value was supplied
-                $scope.testSteps[testStepNumber].split[sectionNumber].type = 'test-step-argument-value-supplied';
+                $scope.steps[stepNumber].split[sectionNumber].type = 'step-argument-value-supplied';
             }
             
             //Get the arguments for the test step
-            var arguments = $scope.systemTest.testStepArguments[testStepNumber].arguments;
+            var arguments = $scope.systemTest.stepArguments[stepNumber].arguments;
 
             //If the arguments list is non-existent
             if (!arguments) {
@@ -398,27 +398,27 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
             }
 
             //Update the arguments in the scope
-            $scope.systemTest.testStepArguments[testStepNumber].arguments = arguments;
+            $scope.systemTest.stepArguments[stepNumber].arguments = arguments;
 
             //Save the system test
             updateSystemTest();
             
             //Stop editing
-            $scope.showEdit(false, fieldID, testStepNumber, sectionNumber);
+            $scope.showEdit(false, fieldID, stepNumber, sectionNumber);
         };
 
         //Submits the edits made to a test step table argument to the server
-        $scope.submitEditForTestStepTable = function(fieldID, testStepNumber, sectionNumber, argumentName, argumentValue) {
+        $scope.submitEditForStepTable = function(fieldID, stepNumber, sectionNumber, argumentName, argumentValue) {
 
             //Submit the test step edits
-            $scope.submitEditForTestStep(fieldID, testStepNumber, sectionNumber, argumentName, argumentValue);
+            $scope.submitEditForStep(fieldID, stepNumber, sectionNumber, argumentName, argumentValue);
 
             //Update the test step data in the scope to regenerate the tables
-            updateTestStepsInScope($scope.testSteps);
+            updateStepsInScope($scope.steps);
         };
 
         //Set the test step reorder listeners
-        $scope.testStepReorderListeners = {
+        $scope.stepReorderListeners = {
             
             //When the order changes
             orderChanged: function(event) {
@@ -428,10 +428,10 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
                 var destinationIndex = event.dest.index;
                 
                 //Remove the element from the list
-                var removedElement = $scope.systemTest.testStepArguments.splice(sourceIndex, 1)[0];
+                var removedElement = $scope.systemTest.stepArguments.splice(sourceIndex, 1)[0];
                 
                 //Add the element back into the list at the new position
-                $scope.systemTest.testStepArguments.splice(destinationIndex, 0, removedElement);
+                $scope.systemTest.stepArguments.splice(destinationIndex, 0, removedElement);
                 
                 //Save the system test
                 dbSystemTest.updateSystemTest($scope.systemTest);
@@ -439,127 +439,127 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         };
 
         //Store test step search results
-        $scope.testStepResults = [];
+        $scope.stepResults = [];
 
         //Searches for matching steps
-        $scope.searchForTestStep = function() {
+        $scope.searchForStep = function() {
 
             //Search for a match
-            dbTestStep.searchForTestStep(projectCode, $scope.newTestStep.type, $scope.newTestStep.step).$promise.then(function(results) {
+            dbStep.searchForStep(projectCode, $scope.newStep.type, $scope.newStep.step).$promise.then(function(results) {
 
                 //Add the search results to the scope
-                $scope.testStepResults = results;
+                $scope.stepResults = results;
 
                 //Set the current time
-                $scope.testStepResultsTime = new Date();
+                $scope.stepResultsTime = new Date();
                 
                 //If no results were found
                 if (!results.length) {
                     
                     //Set the default value in the results dropdown to create the step
-                    $scope.newTestStep.code = -1;
+                    $scope.newStep.code = -1;
                 }
             });
         };
 
         //Store data on new test steps which are added
-        $scope.newTestStep = {};
+        $scope.newStep = {};
 
         //Clears the test step search window and sets the new test step position to the end of the list
-        $scope.clearTestStepResults = function() {
+        $scope.clearStepResults = function() {
             
             //Clear the last selected test step
-            $scope.newTestStep.code = null;
+            $scope.newStep.code = null;
             
             //Clear the search results
-            $scope.testStepResults = [];
+            $scope.stepResults = [];
 
             //Clear the search time
-            $scope.testStepResultsTime = null;
+            $scope.stepResultsTime = null;
         }
 
         //Clears the test step search window and sets the new test step position to the end of the list
-        $scope.clearTestStepSearch = function(isEdit, position) {
+        $scope.clearStepSearch = function(isEdit, position) {
 
             //Set the default position to the end of the list if none was supplied
-            position = typeof position === 'undefined' ? $scope.testSteps.length : position;
+            position = typeof position === 'undefined' ? $scope.steps.length : position;
 
             //If a test step is being edited or a test step search result was selected previously
-            if (isEdit || $scope.newTestStep.code) {
+            if (isEdit || $scope.newStep.code) {
 
                 //Clear the results
-                $scope.clearTestStepResults();
+                $scope.clearStepResults();
 
                 //Clear all the form fields
-                $scope.newTestStep = {};
+                $scope.newStep = {};
             }
 
             //Record if this is an edit to an existing step or a new one
-            $scope.newTestStep.isEdit = isEdit;
+            $scope.newStep.isEdit = isEdit;
             
             //Set the position of the test step in the list
-            $scope.newTestStep.position = position;
+            $scope.newStep.position = position;
         };
 
         //Adds a test step to the system test
-        $scope.addTestStep = function() {
+        $scope.addStep = function() {
 
             //Get the test step data from the scope
-            var testStep = {
-                code: $scope.newTestStep.code,
-                isEdit: $scope.newTestStep.isEdit,
-                position: $scope.newTestStep.position,
+            var step = {
+                code: $scope.newStep.code,
+                isEdit: $scope.newStep.isEdit,
+                position: $scope.newStep.position,
                 projectCode: projectCode,
                 systemTestCode: systemTestCode
             };
 
             //Add the test step
-            dbTestStep.addTestStep(testStep).$promise.then(function(data) {
+            dbStep.addStep(step).$promise.then(function(data) {
 
                 //Clear any existing errors
-                $scope.testStepError = null;
+                $scope.stepError = null;
 
                 //Store the updated data in the scope
                 $scope.systemTest = data.systemTest;
-                updateTestStepsInScope(data.testSteps);
+                updateStepsInScope(data.steps);
                 
                 //Close the dialog (JQuery)
-                $("#ModalAddTestStepCloseButton").trigger('click');
+                $("#ModalAddStepCloseButton").trigger('click');
 
             }, function(error) {
 
                 //Add the error message to the scope
-                $scope.testStepError = error.data.message;
+                $scope.stepError = error.data.message;
             });
         };
 
         //Creates a test step and adds it to the system test
-        $scope.createTestStep = function() {
+        $scope.createStep = function() {
 
             //Get the test step data from the scope
-            var testStep = {
+            var step = {
                 code: null,
-                type: $scope.newTestStep.type,
-                step: $scope.newTestStep.step,
+                type: $scope.newStep.type,
+                step: $scope.newStep.step,
                 projectCode: projectCode
             };
 
             //Create the test step
-            dbTestStep.createTestStep(testStep).then(function(data) {
+            dbStep.createStep(step).then(function(data) {
 
                 //Clear any existing errors
-                $scope.testStepError = null;
+                $scope.stepError = null;
                 
                 //Store the new test step code in the scope
-                $scope.newTestStep.code = data.code;
+                $scope.newStep.code = data.code;
 
                 //Add the step to the system test
-                $scope.addTestStep();
+                $scope.addStep();
 
             }, function(error) {
 
                 //Add the error message to the scope
-                $scope.testStepError = error.data.message;
+                $scope.stepError = error.data.message;
             });
         };
 

@@ -4,8 +4,8 @@ var auth = require('./auth'),
     projects = require('../controllers/projects'),
     quotes = require('../controllers/quotes'),
     releases = require('../controllers/releases'),
+    steps = require('../controllers/steps'),
     systemTests = require('../controllers/system-tests'),
-    testSteps = require('../controllers/test-steps'),
     users = require('../controllers/users'),
     userStories = require('../controllers/user-stories'),
     votes = require('../controllers/votes');
@@ -50,19 +50,19 @@ module.exports = function(app) {
     app.post('/api/releases/*', releases.createRelease);
     app.put('/api/releases/*', releases.updateRelease);
 
+    // Step routes
+    //app.get('/api/steps/all/:projectCode', steps.getAllStepsByProject);
+    //app.get('/api/steps/one/:projectCode/:releaseCode', steps.getStep);
+    app.get('/api/steps/search/:projectCode/:type/:step', steps.searchForStep);
+    app.post('/api/steps/*', steps.createStep);
+    app.put('/api/steps/add/*', steps.addStep);
+    //app.put('/api/steps/*', steps.updateStep);
+
     // System Test routes
     app.get('/api/system-tests/all/:projectCode', systemTests.getAllSystemTestsByProject);
     app.get('/api/system-tests/one/:projectCode/:systemTestCode', systemTests.getSystemTest);
     app.post('/api/system-tests/*', systemTests.createSystemTest);
     app.put('/api/system-tests/*', systemTests.updateSystemTest);
-    
-    // Test Step routes
-    //app.get('/api/test-steps/all/:projectCode', testSteps.getAllTestStepsByProject);
-    //app.get('/api/test-steps/one/:projectCode/:releaseCode', testSteps.getTestStep);
-    app.get('/api/test-steps/search/:projectCode/:type/:step', testSteps.searchForTestStep);
-    app.post('/api/test-steps/*', testSteps.createTestStep);
-    app.put('/api/test-steps/add/*', testSteps.addTestStep);
-    //app.put('/api/test-steps/*', testSteps.updateTestStep);
     
     // User routes
     app.get('/api/users', users.getUsers);

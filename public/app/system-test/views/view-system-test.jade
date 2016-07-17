@@ -53,24 +53,24 @@
                     span.glyphicon.glyphicon-ok
                 a.btn.btn-default(ng-click="cancelEdit('description')")
                     span.glyphicon.glyphicon-remove
-    .alert.alert-info.text-center(ng-show="!testSteps.length") No test steps found
+    .alert.alert-info.text-center(ng-show="!steps.length") No test steps found
     section
         span
             button.box.btn.btn-success.padlr(
-                data-target="#ModalAddTestStep"
+                data-target="#ModalAddStep"
                 data-toggle="modal"
-                ng-click="clearTestStepSearch(false)"
+                ng-click="clearStepSearch(false)"
             )
                 span.glyphicon.glyphicon-plus(aria-label="Add icon")
-    section.test-steps(
-        data-as-sortable="testStepReorderListeners"
+    section.steps(
+        data-as-sortable="stepReorderListeners"
         is-disabled="edit"
-        ng-model="testSteps"
+        ng-model="steps"
     )
-        .test-step(
+        .step(
             data-as-sortable-item
-            ng-repeat="testStep in testSteps"
-            ng-class="testStep.typeHierarchy < testSteps[$index - 1].typeHierarchy ? 'padt' : ''"
+            ng-repeat="step in steps"
+            ng-class="step.typeHierarchy < steps[$index - 1].typeHierarchy ? 'padt' : ''"
         )
             .row(
                 data-as-sortable-item-handle
@@ -78,18 +78,18 @@
             )
                 .col-md-1
                     button.btn.btn-default.btn-xs(
-                        data-target="#ModalAddTestStep"
+                        data-target="#ModalAddStep"
                         data-toggle="modal"
-                        ng-click="clearTestStepSearch(true, $index);"
+                        ng-click="clearStepSearch(true, $index);"
                     )
                         span.glyphicon.glyphicon-pencil(aria-label="Edit icon")
                 .col-md-10
-                    strong.test-step-type {{$index &lt; 1 || testSteps[$index - 1].type != testStep.type ? testStep.type : 'And'}}
+                    strong.step-type {{$index &lt; 1 || steps[$index - 1].type != step.type ? step.type : 'And'}}
                     span #{' '}
                     span(
                         ng-class="section.type"
-                        ng-init="id = 'testStep-' + $parent.$parent.$index + '-' + $index"
-                        ng-repeat="section in testStep.split"
+                        ng-init="id = 'step-' + $parent.$parent.$index + '-' + $index"
+                        ng-repeat="section in step.split"
                     )
                         span(ng-if="!section.isEditable && !section.isHidden") {{section.value}}
                         a.edit(
@@ -114,7 +114,7 @@
                                         type="text"
                                     )
                                 button.btn.btn-success(
-                                    ng-click="submitEditForTestStep(id, $parent.$parent.$index, $index, section.field, section.value)"
+                                    ng-click="submitEditForStep(id, $parent.$parent.$index, $index, section.field, section.value)"
                                     ng-disabled="{{id + '-form'}}.$invalid"
                                 )
                                     span.glyphicon.glyphicon-ok
@@ -138,12 +138,12 @@
                                         ng-class="section.type"
                                         ng-repeat="row in section.valueSplit"
                                     )
-                                        .test-step-argument-value-table-cell.table-cell(ng-repeat="column in row track by $index")
-                                            span.test-step-argument-value-supplied {{column}}
+                                        .step-argument-value-table-cell.table-cell(ng-repeat="column in row track by $index")
+                                            span.step-argument-value-supplied {{column}}
                                                 span.glyphicon.glyphicon-pencil.small(ng-show="hover[id]")
                                     .row.table-row(ng-show="!section.valueSplit.length")
                                         .centre.table-cell
-                                            span.test-step-argument-value-not-supplied No values supplied
+                                            span.step-argument-value-not-supplied No values supplied
                                                 span.glyphicon.glyphicon-pencil.small(ng-show="hover[id]")
                         .row(
                             ng-if="section.isTableRows"
@@ -157,7 +157,7 @@
                                     type="text"
                                 )
                                 button.btn.btn-success(
-                                    ng-click="submitEditForTestStepTable(id, $parent.$parent.$index, $index, section.field, section.value)"
+                                    ng-click="submitEditForStepTable(id, $parent.$parent.$index, $index, section.field, section.value)"
                                     ng-disabled="{{id + '-form'}}.$invalid"
                                 )
                                     span.glyphicon.glyphicon-ok
@@ -165,11 +165,11 @@
                                     span.glyphicon.glyphicon-remove
                 .col-md-1
                     button.btn.btn-default.btn-xs(
-                        data-target="#ModalAddTestStep"
+                        data-target="#ModalAddStep"
                         data-toggle="modal"
-                        ng-click="clearTestStepSearch(false, $index + 1)"
+                        ng-click="clearStepSearch(false, $index + 1)"
                     )
                         span.glyphicon.glyphicon-plus(aria-label="Add icon")
 include ../../acceptance-test/views/partials/add-acceptance-test
 include ../../feature/views/partials/add-feature
-include ../../test-step/views/partials/add-test-step
+include ../../step/views/partials/add-step

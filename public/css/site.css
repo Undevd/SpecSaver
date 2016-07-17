@@ -126,8 +126,8 @@ h6,
   text-align: center;
 }
 .mono,
-.test-step div,
-div.test-step {
+.step div,
+div.step {
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 .nav > li > * {
@@ -219,6 +219,26 @@ small,
 .small {
   color: inherit !important;
 }
+.step {
+  padding-bottom: 1em;
+}
+.step-argument-name-table-header .table-cell {
+  background-color: #999;
+  border: 1px solid #888;
+  color: #fff;
+}
+.step-argument-value-not-supplied {
+  color: #c7254e;
+}
+.step-argument-value-supplied {
+  color: #3b7316;
+}
+.step-argument-value-table-cell {
+  border: 1px solid #888;
+}
+.step-type {
+  color: #00f;
+}
 .table {
   display: table;
   margin-bottom: inherit;
@@ -233,26 +253,6 @@ small,
   padding-left: 1em;
   padding-right: 1em;
   vertical-align: top;
-}
-.test-step {
-  padding-bottom: 1em;
-}
-.test-step-argument-name-table-header .table-cell {
-  background-color: #999;
-  border: 1px solid #888;
-  color: #fff;
-}
-.test-step-argument-value-not-supplied {
-  color: #c7254e;
-}
-.test-step-argument-value-supplied {
-  color: #3b7316;
-}
-.test-step-argument-value-table-cell {
-  border: 1px solid #888;
-}
-.test-step-type {
-  color: #00f;
 }
 .toast-success {
   background-color: #ffa500;

@@ -1,11 +1,11 @@
+var Step = require('mongoose').model('Step');
 var SystemTest = require('mongoose').model('SystemTest');
-var TestStep = require('mongoose').model('TestStep');
 
 //Adds a test step to a system test at the specified position
-exports.addTestStep = function(request, response) {
+exports.addStep = function(request, response) {
 
     //Search for any matching results
-    TestStep.addTestStep(request.body).then(function(data) {
+    Step.addStep(request.body).then(function(data) {
 
         //Get the updated system test and test steps
         SystemTest.getSystemTestExpanded(request.body.projectCode, request.body.systemTestCode).then(function(data) {
@@ -14,7 +14,7 @@ exports.addTestStep = function(request, response) {
             response.status(200).send({
                 features: data.features,
                 systemTest: data.systemTest,
-                testSteps: data.testSteps
+                steps: data.steps
             });
 
         }, function(error) {
@@ -31,21 +31,21 @@ exports.addTestStep = function(request, response) {
 };
 
 //Creates a new test step
-exports.createTestStep = function(request, response) {
+exports.createStep = function(request, response) {
 
     //Get the system test data from the request
-    var testStepData = request.body;
+    var stepData = request.body;
 
     //Sanitise the data
-    var newTestStepData = {
+    var newStepData = {
         code: null,
-        type: testStepData.type,
-        step: testStepData.step,
-        projectCode: testStepData.projectCode
+        type: stepData.type,
+        step: stepData.step,
+        projectCode: stepData.projectCode
     };
 
     //Create the system test
-    TestStep.createTestStep(newTestStepData).then(function(data) {
+    Step.createStep(newStepData).then(function(data) {
 
         //Set the success status and send the new test step and project codes
         response.status(201).send(data);
@@ -57,14 +57,14 @@ exports.createTestStep = function(request, response) {
     });
 };
 
-exports.getTestSteps = function(req, res) {
-    TestStep.find({}).exec(function(err, testSteps) {
-        res.send(testSteps);
+exports.getSteps = function(req, res) {
+    Step.find({}).exec(function(err, steps) {
+        res.send(steps);
     })
 };
 
 //Searches for a test step using the supplied Project Code, Type, and Step criteria
-exports.searchForTestStep = function(request, response) {
+exports.searchForStep = function(request, response) {
 
     //Get the search criteria from the request
     var projectCode = request.params.projectCode;
@@ -72,7 +72,7 @@ exports.searchForTestStep = function(request, response) {
     var step = request.params.step;
 
     //Search for any matching results
-    TestStep.searchForTestStep(projectCode, type, step).then(function(data) {
+    Step.searchForStep(projectCode, type, step).then(function(data) {
 
         //Set the success status and send the search results
         response.status(200).send(data);

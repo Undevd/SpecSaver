@@ -21,9 +21,9 @@ fontFamily = 'Roboto Condensed', sans-serif
 
 spacing = 1em
 
-testStepArgumentValueNotSupplied = #c7254e
-testStepArgumentValueSupplied = #3b7316
-testStepType = #00f
+stepArgumentValueNotSupplied = #c7254e
+stepArgumentValueSupplied = #3b7316
+stepType = #00f
 
 textColour = #fff
 
@@ -155,8 +155,8 @@ h6
     text-align center
 
 .mono
-.test-step div
-div.test-step
+.step div
+div.step
     font-family Menlo, Monaco, Consolas, "Courier New", monospace
 
 .nav > li > *
@@ -251,6 +251,28 @@ small
 .small
     color inherit !important
 
+.step
+    padding-bottom spacing
+
+.step-argument-name-table-header
+
+    .table-cell
+        background-color column1
+        border 1px solid column2
+        color textColour
+
+.step-argument-value-not-supplied
+    color stepArgumentValueNotSupplied
+    
+.step-argument-value-supplied
+    color stepArgumentValueSupplied
+
+.step-argument-value-table-cell
+    border 1px solid column2
+
+.step-type
+    color stepType
+
 .table
     display table
     margin-bottom inherit
@@ -265,28 +287,6 @@ small
             padding-left spacing
             padding-right spacing
             vertical-align top
-
-.test-step
-    padding-bottom spacing
-
-.test-step-argument-name-table-header
-
-    .table-cell
-        background-color column1
-        border 1px solid column2
-        color textColour
-
-.test-step-argument-value-not-supplied
-    color testStepArgumentValueNotSupplied
-    
-.test-step-argument-value-supplied
-    color testStepArgumentValueSupplied
-
-.test-step-argument-value-table-cell
-    border 1px solid column2
-
-.test-step-type
-    color testStepType
 
 .toast-success
     background-color orange

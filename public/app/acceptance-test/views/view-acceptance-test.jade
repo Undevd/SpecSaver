@@ -3,40 +3,40 @@
     .well
         h2 Acceptance Test \#{{acceptanceTest.code}}
     div
-        .test-step(ng-show="!edit.given")
+        .step(ng-show="!edit.given")
             a.edit(ng-click="showEdit('given', true)" ng-mouseleave="hover.given = false" ng-mouseover="hover.given = true")
-                span.test-step-type(ng-show="acceptanceTest.given") Given
-                span.test-step-argument-text #{' '}{{acceptanceTest.given}}
+                span.step-type(ng-show="acceptanceTest.given") Given
+                span.step-argument-text #{' '}{{acceptanceTest.given}}
                 span.glyphicon.glyphicon-pencil.small(ng-show="hover.given")
-        .test-step(ng-show="edit.given")
+        .step(ng-show="edit.given")
             form(name="givenForm")
-                span.test-step-type Given
+                span.step-type Given
                 textarea.form-control(name="acceptanceTest.given" ng-model="acceptanceTest.given" type="text" placeholder="Given")
                 button.btn.btn-success(ng-click="submitEdit('given')", ng-disabled="givenForm.$invalid")
                     span.glyphicon.glyphicon-ok
                 a.btn.btn-default(ng-click="cancelEdit('given')")
                     span.glyphicon.glyphicon-remove
-        .test-step(ng-show="!edit.when")
+        .step(ng-show="!edit.when")
             a.edit(ng-click="showEdit('when', true)" ng-mouseleave="hover.when = false" ng-mouseover="hover.when = true")
-                span.test-step-type(ng-show="acceptanceTest.when") When
-                span.test-step-argument-text #{' '}{{acceptanceTest.when}}
+                span.step-type(ng-show="acceptanceTest.when") When
+                span.step-argument-text #{' '}{{acceptanceTest.when}}
                 span.glyphicon.glyphicon-pencil.small(ng-show="hover.when")
-        .test-step(ng-show="edit.when")
+        .step(ng-show="edit.when")
             form(name="whenForm")
-                span.test-step-type When
+                span.step-type When
                 textarea.form-control(name="acceptanceTest.when" ng-model="acceptanceTest.when" type="text" placeholder="When")
                 button.btn.btn-success(ng-click="submitEdit('when')", ng-disabled="whenForm.$invalid")
                     span.glyphicon.glyphicon-ok
                 a.btn.btn-default(ng-click="cancelEdit('when')")
                     span.glyphicon.glyphicon-remove
-        .test-step(ng-show="!edit.then")
+        .step(ng-show="!edit.then")
             a.edit(ng-click="showEdit('then', true)" ng-mouseleave="hover.then = false" ng-mouseover="hover.then = true")
-                span.test-step-type(ng-show="acceptanceTest.then") Then
-                span.test-step-argument-text #{' '}{{acceptanceTest.then}}
+                span.step-type(ng-show="acceptanceTest.then") Then
+                span.step-argument-text #{' '}{{acceptanceTest.then}}
                 span.glyphicon.glyphicon-pencil.small(ng-show="hover.then")
-        .test-step(ng-show="edit.then")
+        .step(ng-show="edit.then")
             form(name="thenForm")
-                span.test-step-type Then
+                span.step-type Then
                 textarea.form-control(name="acceptanceTest.then" ng-model="acceptanceTest.then" type="text" placeholder="Then")
                 button.btn.btn-success(ng-click="submitEdit('then')", ng-disabled="thenForm.$invalid")
                     span.glyphicon.glyphicon-ok

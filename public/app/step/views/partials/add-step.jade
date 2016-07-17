@@ -1,5 +1,5 @@
 .fade.modal(
-    id="ModalAddTestStep"
+    id="ModalAddStep"
     role="dialog"
 )
     .modal-dialog.modal-lg
@@ -7,9 +7,9 @@
             .colour6.modal-header
                 button.close(
                     aria-label="Close"
-                    data-target="#ModalAddTestStep"
+                    data-target="#ModalAddStep"
                     data-dismiss="modal"
-                    id="ModalAddTestStepCloseButton"
+                    id="ModalAddStepCloseButton"
                     type="button"
                 )
                     span(aria-hidden="true") &times;
@@ -18,9 +18,9 @@
                     span Test Step
             .modal-body
                 .alert.alert-danger.text-center(
-                    ng-show="testStepError"
+                    ng-show="stepError"
                     role="alert"
-                ) {{testStepError}}
+                ) {{stepError}}
                 .collapse(
                     aria-expanded="false"
                     id="help"
@@ -34,40 +34,40 @@
                     .row.padb
                         .col-md-12
                             strong Arguments
-                            .test-step
-                                span.test-step-text '
-                                span.test-step-argument-value-not-supplied {argument name}
-                                span.test-step-text '
-                            .test-step
+                            .step
+                                span.step-text '
+                                span.step-argument-value-not-supplied {argument name}
+                                span.step-text '
+                            .step
                                 span e.g.#{' '}
-                                span.test-step-type When
-                                span.test-step-text #{' '}I click '
-                                span.test-step-argument-value-not-supplied {button}
-                                span.test-step-text '
+                                span.step-type When
+                                span.step-text #{' '}I click '
+                                span.step-argument-value-not-supplied {button}
+                                span.step-text '
                     .row.padb
                         .col-md-12
                             strong Tables
-                            .test-step
-                                span.test-step-argument-value-not-supplied {|column 1 name|column 2 name|...|}
-                            .test-step
+                            .step
+                                span.step-argument-value-not-supplied {|column 1 name|column 2 name|...|}
+                            .step
                                 span e.g.#{' '}
-                                span.test-step-type When
-                                span.test-step-text #{' '}I enter the following information:
-                                span.test-step-text #{' '}
-                                span.test-step-argument-value-not-supplied {|field|value|}
+                                span.step-type When
+                                span.step-text #{' '}I enter the following information:
+                                span.step-text #{' '}
+                                span.step-argument-value-not-supplied {|field|value|}
                 .row.padb
-                    form.form-horizontal(name="testStepForm")
+                    form.form-horizontal(name="stepForm")
                         .col-md-1
                             button.box.btn.padlr(
-                                ng-click="searchForTestStep()"
-                                ng-disabled="testStepForm.$invalid"
+                                ng-click="searchForStep()"
+                                ng-disabled="stepForm.$invalid"
                             )
                                 span.glyphicon.glyphicon-search(aria-label="Search icon")
                         .col-md-2
                             select.form-control(
-                                name="newTestStep.type"
-                                ng-change="clearTestStepResults()"
-                                ng-model="newTestStep.type"
+                                name="newStep.type"
+                                ng-change="clearStepResults()"
+                                ng-model="newStep.type"
                                 required
                             )
                                 option(
@@ -82,9 +82,9 @@
                         .col-md-9
                             .input-group
                                 input.form-control(
-                                    name="newTestStep.step"
-                                    ng-change="clearTestStepResults()"
-                                    ng-model="newTestStep.step"
+                                    name="newStep.step"
+                                    ng-change="clearStepResults()"
+                                    ng-model="newStep.step"
                                     required
                                     type="text"
                                 )
@@ -95,45 +95,45 @@
                                         type="button"
                                     )
                                         span.glyphicon.glyphicon-question-sign
-                .row(ng-show="testStepResults")
+                .row(ng-show="stepResults")
                     .col-md-12
-                        span(ng-show="testStepResults.length") Search results
-                        span(ng-show="!testStepResults.length && testStepResultsTime") No test steps found {{testStepResultsTime | date: '(HH:mm:ss)'}}
-                .row(ng-show="testStepResults.length")
+                        span(ng-show="stepResults.length") Search results
+                        span(ng-show="!stepResults.length && stepResultsTime") No test steps found {{stepResultsTime | date: '(HH:mm:ss)'}}
+                .row(ng-show="stepResults.length")
                     .col-md-12
                         select.form-control(
-                            name="newTestStep.code"
-                            ng-model="newTestStep.code"
+                            name="newStep.code"
+                            ng-model="newStep.code"
                         )
                             option(value="") Select result...
-                            option(class="i" value="-1") Create new test step: {{newTestStep.type}} {{newTestStep.step}}
+                            option(class="i" value="-1") Create new test step: {{newStep.type}} {{newStep.step}}
                             option(
-                                ng-repeat="result in testStepResults"
+                                ng-repeat="result in stepResults"
                                 value="{{result.code}}"
                             ) {{result.type}} {{result.step}}
                 .alert.alert-danger.text-center(
-                    ng-show="testStepError"
+                    ng-show="stepError"
                     role="alert"
-                ) {{testStepError}}
+                ) {{stepError}}
             .modal-footer
                 span.padr
                     button.btn.btn-success(
-                        ng-click="addTestStep()"
-                        ng-show="!testStepForm.$invalid && newTestStep.code && newTestStep.code >= 0"
+                        ng-click="addStep()"
+                        ng-show="!stepForm.$invalid && newStep.code && newStep.code >= 0"
                     )
                         span.glyphicon.glyphicon-ok.padr
-                        span(ng-bind="newTestStep.isEdit ? 'Update' : 'Add'")
+                        span(ng-bind="newStep.isEdit ? 'Update' : 'Add'")
                 span.padr
                     button.btn.btn-success(
-                        ng-click="createTestStep()"
-                        ng-show="!testStepForm.$invalid && newTestStep.code && newTestStep.code < 0"
+                        ng-click="createStep()"
+                        ng-show="!stepForm.$invalid && newStep.code && newStep.code < 0"
                     )
                         span.glyphicon.glyphicon-plus.padr
                         span Create
                 span
                     a.btn.btn-default(
                         data-dismiss="modal"
-                        data-target="#ModalAddTestStep"
+                        data-target="#ModalAddStep"
                     )
                         span.glyphicon.glyphicon-remove.padr
                         span Cancel

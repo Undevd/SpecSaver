@@ -11,7 +11,7 @@ var systemTestSchema = mongoose.Schema({
         code: {type: Number},
         featureCode: {type: String}
     },
-    testStepArguments: {
+    stepArguments: {
         type: Array,
         code: {type: Number},
         arguments: {
@@ -165,7 +165,7 @@ systemTestSchema.statics.getSystemTest = function getSystemTest(projectCode, sys
 };
 
 //Gets the system test with the supplied system test code and the associated test step codes and arguments
-systemTestSchema.statics.getSystemTestAndTestSteps = function getSystemTest(projectCode, systemTestCode) {
+systemTestSchema.statics.getSystemTestAndSteps = function getSystemTest(projectCode, systemTestCode) {
 
     //Return a promise
     return new Promise(function(resolve, reject) {
@@ -173,7 +173,7 @@ systemTestSchema.statics.getSystemTestAndTestSteps = function getSystemTest(proj
         //Find the systemTest
         mongoose.model('SystemTest')
             .findOne({code: systemTestCode, projectCode: projectCode},
-                '-_id acceptanceTestCodes code description featureCodes name projectCode testStepArguments')
+                '-_id acceptanceTestCodes code description featureCodes name projectCode stepArguments')
             .exec(function(error, systemTest) {
 
             //If an error occurred
@@ -200,7 +200,7 @@ systemTestSchema.statics.getSystemTestExpanded = function getSystemTestExpanded(
         //Find the system test
         mongoose.model('SystemTest')
             .findOne({code: systemTestCode, projectCode: projectCode},
-                '-_id acceptanceTestCodes code description featureCodes name projectCode testStepArguments')
+                '-_id acceptanceTestCodes code description featureCodes name projectCode stepArguments')
             .exec(function(error, systemTest) {
 
             //If an error occurred
@@ -218,17 +218,17 @@ systemTestSchema.statics.getSystemTestExpanded = function getSystemTestExpanded(
                 var features = mongoose.model('Feature').getAllFeatures(projectCode, systemTest.featureCodes);
 
                 //Get the test steps associated with the system test
-                var testSteps = mongoose.model('TestStep').getAllTestSteps(projectCode, systemTest.testStepArguments);
+                var steps = mongoose.model('Step').getAllSteps(projectCode, systemTest.stepArguments);
 
                 //If all the promises are successful
-                Promise.all([acceptanceTests, features, testSteps]).then(function(data) {
+                Promise.all([acceptanceTests, features, steps]).then(function(data) {
                     
                     //Return the system test and test steps
                     resolve({
                         acceptanceTests: data[0],
                         features: data[1],
                         systemTest: systemTest,
-                        testSteps: data[2]
+                        steps: data[2]
                     });
 
                 }, function(error) {
