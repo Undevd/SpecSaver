@@ -68,8 +68,9 @@ module.exports = function(app) {
     app.get('/api/users', users.getUsers);
     
     // User Story routes
-    app.get('/api/user-stories/all/:projectCode/:featureCode', userStories.getAllUserStories);
+    app.get('/api/user-stories/all/:projectCode/:featureCode', userStories.getAllUserStoriesByFeature);
     app.get('/api/user-stories/one/:projectCode/:featureCode/:userStoryCode', userStories.getUserStory);
+    app.get('/api/user-stories/search/:projectCode/:criteria', userStories.searchForUserStory);
     app.post('/api/user-stories/*', userStories.createUserStory);
     app.put('/api/user-stories/*', userStories.updateUserStory);
 

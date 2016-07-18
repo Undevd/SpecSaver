@@ -6,7 +6,8 @@ var acceptanceTestSchema = mongoose.Schema({
     then: {type: String, required: '{PATH} is required'},
     code: {type: Number, required: '{PATH} is required'},
     projectCode: {type: String, required: '{PATH} is required'},
-    featureCode: {type: String, required: '{PATH} is required'}
+    featureCode: {type: String, required: '{PATH} is required'},
+    userStoryCodes: {type: [String]}
 });
 
 acceptanceTestSchema.index({code: 1, projectCode: 1, featureCode: 1}, {unique: true});
@@ -91,6 +92,48 @@ acceptanceTestSchema.statics.getAcceptanceTest = function getAcceptanceTest(proj
 
                 //Otherwise, return the acceptance test
                 resolve(acceptanceTest);
+            }
+        });
+    });
+};
+
+//Gets the acceptance test expanded with the supplied acceptance test code
+acceptanceTestSchema.statics.getAcceptanceTestExpanded = function getAcceptanceTestExpanded(projectCode, featureCode, acceptanceTestCode) {
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+
+        //Find the acceptance test
+        mongoose.model('AcceptanceTest')
+            .findOne({code: acceptanceTestCode, projectCode: projectCode, featureCode: featureCode},
+                '-_id code featureCode given projectCode then userStoryCodes when')
+            .exec(function(error, acceptanceTest) {
+
+            //If an error occurred
+            if (error) {
+
+                //Return the error
+                reject(error);
+            }
+            else {
+
+                //Get the user stories associated with the acceptance test
+                var userStories = mongoose.model('UserStory').getAllUserStories(projectCode, featureCode, acceptanceTest.userStoryCodes);
+
+                //If all the promises are successful
+                Promise.all([userStories]).then(function(data) {
+                    
+                    //Return the acceptance test and user stories
+                    resolve({
+                        acceptanceTest: acceptanceTest,
+                        userStories: data[0]
+                    });
+
+                }, function(error) {
+                    
+                    //Otherwise return the error
+                    reject(error);
+                });
             }
         });
     });

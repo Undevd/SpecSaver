@@ -2,6 +2,7 @@ var AcceptanceTest = require('mongoose').model('AcceptanceTest');
 var Feature = require('mongoose').model('Feature');
 var Project = require('mongoose').model('Project');
 var SystemTest = require('mongoose').model('SystemTest');
+var UserStory = require('mongoose').model('UserStory');
 
 //Creates a new acceptance test
 exports.createAcceptanceTest = function(request, response) {
@@ -16,7 +17,8 @@ exports.createAcceptanceTest = function(request, response) {
         when: acceptanceTestData.when,
         then: acceptanceTestData.then,
         projectCode: acceptanceTestData.projectCode,
-        featureCode: acceptanceTestData.featureCode
+        featureCode: acceptanceTestData.featureCode,
+        userStoryCodes: []
     };
 
     //Create the acceptance test
@@ -67,7 +69,7 @@ exports.getAcceptanceTest = function(request, response) {
     var feature = Feature.getFeature(request.params.projectCode, request.params.featureCode);
 
     //Get the acceptance test
-    var acceptanceTest = AcceptanceTest.getAcceptanceTest(request.params.projectCode, request.params.featureCode, request.params.acceptanceTestCode);
+    var acceptanceTest = AcceptanceTest.getAcceptanceTestExpanded(request.params.projectCode, request.params.featureCode, request.params.acceptanceTestCode);
 
     //Get the associated system tests
     var systemTests = SystemTest.getAllSystemTestsByAcceptanceTest(request.params.projectCode, request.params.featureCode, request.params.acceptanceTestCode);
@@ -75,8 +77,14 @@ exports.getAcceptanceTest = function(request, response) {
     //If all the promises are successful
     Promise.all([project, feature, acceptanceTest, systemTests]).then(function(data) {
         
-        //Set the success status and send the project, feature, and acceptance test data
-        response.status(200).send({project: data[0], feature: data[1], acceptanceTest: data[2], systemTests: data[3]});
+        //Set the success status and send the returned data
+        response.status(200).send({
+            project: data[0],
+            feature: data[1],
+            acceptanceTest: data[2].acceptanceTest,
+            userStories: data[2].userStories,
+            systemTests: data[3]
+        });
 
     }, function(error) {
         
@@ -118,8 +126,21 @@ exports.updateAcceptanceTest = function(request, response) {
         when: acceptanceTestData.when,
         then: acceptanceTestData.then,
         projectCode: acceptanceTestData.projectCode,
-        featureCode: acceptanceTestData.featureCode
+        featureCode: acceptanceTestData.featureCode,
+        userStoryCodes: []
     };
+
+    //For each user story code
+    for (var userStoryCode of acceptanceTestData.userStoryCodes) {
+        
+        //If the value is a number and it isn't already in the list
+        if (typeof userStoryCode === "number"
+            && newAcceptanceTestData.userStoryCodes.indexOf(userStoryCode) < 0) {
+
+            //Add the value to the updated acceptance test
+            newAcceptanceTestData.userStoryCodes.push(userStoryCode);
+        }
+    }
 
     //Update the acceptance test
     AcceptanceTest.updateAcceptanceTest(newAcceptanceTestData).then(function() {

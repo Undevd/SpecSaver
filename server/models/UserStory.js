@@ -65,8 +65,47 @@ userStorySchema.statics.createUserStory = function createUserStory(newUserStoryD
     });
 };
 
+//Gets all of the user stories with the supplied user story codes
+userStorySchema.statics.getAllUserStories = function getAllUserStories(projectCode, featureCode, userStoryCodes) {
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+
+        //Create an array of promises
+        var userStories = [];
+
+        //For each user story code
+        for (var userStoryCode of userStoryCodes) {
+
+            //Add a new promise to the array
+            userStories.push(mongoose.model('UserStory').getUserStory(projectCode, featureCode, userStoryCode));
+        }
+
+        //If all the promises are successful
+        Promise.all(userStories).then(function(data) {
+            
+            //If at least one result was found
+            if (data.length) {
+
+                //Sort the results
+                data.sort(function(a, b) {
+                    return a.asA && b.asA ? (a.asA > b.asA) - (a.asA < b.asA) : 0; 
+                });
+            }
+
+            //Resolve the promise
+            resolve(data);
+
+        }, function(error) {
+            
+            //Otherwise return the error
+            reject(error);
+        });
+    });
+};
+
 //Gets all user stories by feature code
-userStorySchema.statics.getAllUserStories = function getAllUserStories(projectCode, featureCode) {
+userStorySchema.statics.getAllUserStoriesByFeature = function getAllUserStoriesByFeature(projectCode, featureCode) {
 
 	//Return a promise
 	return new Promise(function(resolve, reject) {
@@ -229,6 +268,51 @@ userStorySchema.statics.getUserStoryStatsForProject = function getUserStoryStats
             
             //Return the error
             reject(error);
+        });
+    });
+};
+
+//Gets all user stories by project code containing the name / code criteria
+userStorySchema.statics.searchForUserStory = function searchForUserStory(projectCode, criteria) {
+
+	//Return a promise
+	return new Promise(function(resolve, reject) {
+
+        //Determine the code criteria to use
+        //If it isn't a number, use a code which is not in use (-1)
+        //Otherwise, use the value supplied
+        var codeCriteria = isNaN(criteria) ? -1 : criteria;
+
+        //Find the user stories
+        mongoose.model('UserStory')
+            .find({
+                $and: [
+                    {projectCode: projectCode},
+                    {
+                        $or: [
+                            {code: codeCriteria},
+                            {featureCode: {$regex: new RegExp(criteria, 'i')}},
+                            {asA: {$regex: new RegExp(criteria, 'i')}},
+                            {iCan: {$regex: new RegExp(criteria, 'i')}},
+                            {soThat: {$regex: new RegExp(criteria, 'i')}}
+                        ]
+                    }
+                ]
+            }, '-_id asA code featureCode iCan projectCode soThat')
+            .sort({projectCode: 1, featureCode: 1, code: 1})
+            .exec(function(error, userStories) {
+
+            //If an error occurred
+            if (error) {
+
+                //Return the error
+                reject(error);
+            }
+            else {
+
+                //Otherwise, return the user stories
+                resolve(userStories);
+            }
         });
     });
 };

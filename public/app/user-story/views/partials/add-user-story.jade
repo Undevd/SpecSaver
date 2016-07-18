@@ -20,7 +20,7 @@
                 .well
                     div(ng-show="!userStories.length") No associated user stories
                     span.padr(ng-repeat="userStory in userStories")
-                        button.btn.colour5(ng-click="removeUserStory(userStory.code)")
+                        button.btn.colour4(ng-click="removeUserStory(userStory.code)")
                             span.padr {{userStory.projectCode}}-{{userStory.featureCode}}-{{userStory.code}}
                             span(aria-hidden="true") &times;
                 .alert.alert-danger.text-center(
@@ -57,7 +57,7 @@
                             option(
                                 ng-repeat="result in userStoryResults"
                                 ng-value="$index"
-                            ) {{project.code + '-' + result.featureCode + '-A' + result.code + ': Given ' + result.given + ', when ' + result.when + ', then ' + result.then}}
+                            ) {{project.code + '-' + result.featureCode + '-U' + result.code + ': As a ' + result.asA + ', I can ' + result.iCan + ', so that ' + result.soThat}}
                 .alert.alert-danger.text-center(
                     ng-show="userStoryError"
                     role="alert"

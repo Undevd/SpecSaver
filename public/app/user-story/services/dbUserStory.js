@@ -12,6 +12,10 @@ angular.module('app').factory('dbUserStory', function(apiUserStory) {
       return apiUserStory.getOne({projectCode: projectCode, featureCode: featureCode, userStoryCode: userStoryCode});
     },
 
+    searchForUserStory: function(projectCode, criteria) {
+      return apiUserStory.search({projectCode: projectCode, criteria: criteria});
+    },
+
     updateUserStory: function(newUserStoryData) {
       return apiUserStory.update(newUserStoryData);
     }

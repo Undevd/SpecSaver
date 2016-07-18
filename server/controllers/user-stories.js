@@ -32,7 +32,7 @@ exports.createUserStory = function(request, response) {
 };
 
 //Gets all user stories by feature code
-exports.getAllUserStories = function(request, response) {
+exports.getAllUserStoriesByFeature = function(request, response) {
 
     //Get the project
     var project = Project.getProject(request.params.projectCode);
@@ -41,7 +41,7 @@ exports.getAllUserStories = function(request, response) {
     var feature = Feature.getFeature(request.params.projectCode, request.params.featureCode);
 
     //Get the user stories
-    var userStories = UserStory.getAllUserStories(request.params.projectCode, request.params.featureCode);
+    var userStories = UserStory.getAllUserStoriesByFeature(request.params.projectCode, request.params.featureCode);
 
     //If all the promises are successful
     Promise.all([project, feature, userStories]).then(function(data) {
@@ -78,6 +78,26 @@ exports.getUserStory = function(request, response) {
         
         //Otherwise, set the error status and send the error message
         response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
+    });
+};
+
+//Searches for a user story using the supplied project code and name / code criteria
+exports.searchForUserStory = function(request, response) {
+
+    //Get the search criteria from the request
+    var projectCode = request.params.projectCode;
+    var criteria = request.params.criteria;
+
+    //Search for any matching results
+    UserStory.searchForUserStory(projectCode, criteria).then(function(data) {
+
+        //Set the success status and send the search results
+        response.status(200).send(data);
+
+    }, function(error) {
+
+        //Set the error status and send the error message
+        response.status(error.code == 404 ? 404 : 400).send({code: error.name, message: error.message});
     });
 };
 

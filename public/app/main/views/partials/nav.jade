@@ -85,12 +85,12 @@ nav(
                 a.btn.btn-xs.colour4(ng-href="/p/{{project.code}}{{feature ? '/f/' + feature.code : ''}}/u")
                     span.glyphicon.glyphicon-asterisk
             span.padr(ng-if="!nav.userStory.isCurrentSection && userStory")
-                a.btn.btn-xs.colour4(ng-href="/p/{{userStory.projectCode}}/f/{{userStory.featureCode}}/u/{{userStory.code}}") {{userStory.code}}-{{userStory.featureCode}}-U{{userStory.code}}
+                a.btn.btn-xs.colour4(ng-href="/p/{{userStory.projectCode}}/f/{{userStory.featureCode}}/u/{{userStory.code}}") {{userStory.projectCode}}-{{userStory.featureCode}}-U{{userStory.code}}
             span.padr(
                 ng-if="!nav.userStory.isCurrentSection"
                 ng-repeat="userStory in userStories"
             )
-                a.btn.btn-xs.colour4(ng-href="/p/{{userStory.projectCode}}/f/{{userStory.featureCode}}/u/{{userStory.code}}") {{userStory.code}}-{{userStory.featureCode}}-U{{userStory.code}}
+                a.btn.btn-xs.colour4(ng-href="/p/{{userStory.projectCode}}/f/{{userStory.featureCode}}/u/{{userStory.code}}") {{userStory.projectCode}}-{{userStory.featureCode}}-U{{userStory.code}}
             span.padr(ng-if="nav.userStory.edit")
                 button.btn.btn-xs.colour4(
                     data-target="#ModalAddUserStory"
