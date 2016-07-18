@@ -1,6 +1,11 @@
 .container(ng-show="project")
     include ../../main/views/partials/header
-    .alert.alert-info.text-center(ng-show="!stats.userStory.feature") No user stories found - select a feature to create one
+    .alert.alert-info.text-center(ng-show="!stats.userStory.feature.length")
+        .padb.row You must create a feature before creating a user story
+        .row
+            a.btn.btn-default(ng-href="/c/p/{{project.code}}/f")
+                span.glyphicon.glyphicon-plus.padr
+                span Create
     div
         .col-md-2.padn(ng-class="'column' + ($index % 12 > 5 ? (6 - ($index % 6)) : (($index % 6) + 1))" ng-repeat="feature in stats.userStory.feature")
             a.btn.btn-block(ng-href="/p/{{project.code}}/f/{{feature.code}}/u")

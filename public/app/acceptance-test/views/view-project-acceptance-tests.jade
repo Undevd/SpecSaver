@@ -1,6 +1,11 @@
 .container(ng-show="project")
     include ../../main/views/partials/header
-    .alert.alert-info.text-center(ng-show="!stats.acceptanceTest.feature") No acceptance tests found - select a feature to create one
+    .alert.alert-info.text-center(ng-show="!stats.acceptanceTest.feature.length")
+        .padb.row You must create a feature before creating an acceptance test
+        .row
+            a.btn.btn-default(ng-href="/c/p/{{project.code}}/f")
+                span.glyphicon.glyphicon-plus.padr
+                span Create
     div
         .col-md-2.padn(ng-class="'column' + ($index % 12 > 5 ? (6 - ($index % 6)) : (($index % 6) + 1))" ng-repeat="feature in stats.acceptanceTest.feature")
             a.btn.btn-block(ng-href="/p/{{project.code}}/f/{{feature.code}}/a")
