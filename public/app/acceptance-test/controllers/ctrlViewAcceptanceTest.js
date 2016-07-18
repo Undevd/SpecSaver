@@ -20,6 +20,7 @@ angular.module('app').controller('ctrlViewAcceptanceTest', function($scope, $roo
         $scope.project = data.project;
         $scope.feature = data.feature;
         $scope.acceptanceTest = data.acceptanceTest;
+        $scope.systemTests = data.systemTests;
 
         //Record whether a field is being edited
         $scope.edit = {};

@@ -1,6 +1,7 @@
 var AcceptanceTest = require('mongoose').model('AcceptanceTest');
 var Feature = require('mongoose').model('Feature');
 var Project = require('mongoose').model('Project');
+var SystemTest = require('mongoose').model('SystemTest');
 
 //Creates a new acceptance test
 exports.createAcceptanceTest = function(request, response) {
@@ -68,11 +69,14 @@ exports.getAcceptanceTest = function(request, response) {
     //Get the acceptance test
     var acceptanceTest = AcceptanceTest.getAcceptanceTest(request.params.projectCode, request.params.featureCode, request.params.acceptanceTestCode);
 
+    //Get the associated system tests
+    var systemTests = SystemTest.getAllSystemTestsByAcceptanceTest(request.params.projectCode, request.params.featureCode, request.params.acceptanceTestCode);
+
     //If all the promises are successful
-    Promise.all([project, feature, acceptanceTest]).then(function(data) {
+    Promise.all([project, feature, acceptanceTest, systemTests]).then(function(data) {
         
         //Set the success status and send the project, feature, and acceptance test data
-        response.status(200).send({project: data[0], feature: data[1], acceptanceTest: data[2]});
+        response.status(200).send({project: data[0], feature: data[1], acceptanceTest: data[2], systemTests: data[3]});
 
     }, function(error) {
         

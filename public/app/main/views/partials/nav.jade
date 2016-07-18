@@ -139,9 +139,9 @@ nav(
                 a.btn.btn-xs.colour6(ng-href="/p/{{project.code}}/s")
                     span.glyphicon.glyphicon-asterisk
             span.padr(ng-if="!nav.systemTest.isCurrentSection && systemTest")
-                a.btn.btn-xs.colour6(ng-href="/p/{{project.code}}/s/{{systemTest.code}}") {{systemTest.name}}
+                a.btn.btn-xs.colour6(ng-href="/p/{{project.code}}/s/{{systemTest.code}}") {{systemTest.projectCode}}-S{{systemTest.code}}
             span.padr(
                 ng-if="!nav.systemTest.isCurrentSection"
                 ng-repeat="systemTest in systemTests"
             )
-                a.btn.btn-xs.colour6(ng-href="/p/{{project.code}}/s/{{systemTest.code}}") {{systemTest.name}}
+                a.btn.btn-xs.colour6(ng-href="/p/{{project.code}}/s/{{systemTest.code}}") {{systemTest.projectCode}}-S{{systemTest.code}}

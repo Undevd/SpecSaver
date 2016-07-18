@@ -110,6 +110,41 @@ systemTestSchema.statics.exists = function exists(projectCode, systemTestCode) {
     });
 };
 
+//Gets all system tests by project and acceptance test code
+systemTestSchema.statics.getAllSystemTestsByAcceptanceTest = function getAllSystemTestsByAcceptanceTest(projectCode, featureCode, acceptanceTestCode) {
+
+	//Return a promise
+	return new Promise(function(resolve, reject) {
+
+        //Find the system tests by project code
+        mongoose.model('SystemTest')
+            .find({
+                projectCode: projectCode,
+                acceptanceTestCodes: {
+                    $elemMatch: {
+                        code: parseInt(acceptanceTestCode),
+                        featureCode: featureCode
+                    }
+                }
+            }, '-_id code projectCode')
+            .sort('code')
+            .exec(function(error, systemTests) {
+
+            //If an error occurred
+            if (error) {
+
+                //Return the error
+                reject(error);
+            }
+            else {
+
+                //Otherwise, return the system tests
+                resolve(systemTests);
+            }
+        });
+    });
+};
+
 //Gets all system tests by project code
 systemTestSchema.statics.getAllSystemTestsByProject = function getAllSystemTestsByProject(projectCode) {
 
