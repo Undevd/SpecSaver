@@ -33,6 +33,22 @@ exports.createProject = function(request, response) {
     });
 }
 
+//Export the current project to JSON
+exports.exportProject = function(request, response) {
+
+    //Get all projects sorted by name
+    Project.exportProject(request.params.projectCode).then(function(project) {
+
+        //Set the success status and send the project
+        response.status(200).send(project);
+
+    }, function(error) {
+
+        //Set the error status and send the error message
+        response.status(400).send({code: error.code, message: error.errmsg});
+    });
+}
+
 //Gets all created projects
 exports.getAllProjects = function(request, response) {
 
@@ -74,7 +90,16 @@ exports.getProject = function(request, response) {
     Promise.all([project, releaseStats, featureStats, userStoryStats, acceptanceTestStats, systemTestStats]).then(function(data) {
         
         //Set the success status and send the project and features data
-        response.status(200).send({project: data[0], stats: {release: data[1], feature: data[2], userStory: data[3], acceptanceTest: data[4], systemTest: data[5]}});
+        response.status(200).send({
+            project: data[0],
+            stats: {
+                release: data[1],
+                feature: data[2],
+                userStory: data[3],
+                acceptanceTest: data[4],
+                systemTest: data[5]
+            }
+        });
 
     }, function(error) {
         

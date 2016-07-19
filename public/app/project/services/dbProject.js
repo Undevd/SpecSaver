@@ -4,6 +4,10 @@ angular.module('app').factory('dbProject', function(apiProject) {
 			return new apiProject(newProjectData).$save();
 		},
 
+		exportProject: function(projectCode) {
+			return apiProject.export({projectCode: projectCode});
+		},
+
 		getAllProjects: function() {
 			return apiProject.getAll();
 		},

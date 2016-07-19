@@ -79,6 +79,43 @@ projectSchema.statics.exists = function exists(projectCode) {
     });
 };
 
+//Exports a single project to JSON
+projectSchema.statics.exportProject = function exportProject(projectCode) {
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+
+        //Get all the data relating to the project
+        var project = mongoose.model('Project').find({code: projectCode}, '-_id -__v').exec();
+        var releases = mongoose.model('Release').find({projectCode: projectCode}, '-_id -__v').exec();
+        var features = mongoose.model('Feature').find({projectCode: projectCode}, '-_id -__v').exec();
+        var userStories = mongoose.model('UserStory').find({projectCode: projectCode}, '-_id -__v').exec();
+        var acceptanceTests = mongoose.model('AcceptanceTest').find({projectCode: projectCode}, '-_id -__v').exec();
+        var systemTests = mongoose.model('SystemTest').find({projectCode: projectCode}, '-_id -__v').exec();
+        var steps = mongoose.model('Step').find({projectCode: projectCode}, '-_id -__v').exec();
+
+        //If all the promises are successful
+        Promise.all([project, releases, features, userStories, acceptanceTests, systemTests, steps]).then(function(data) {
+
+            //Return the project data
+            resolve({
+                project: data[0],
+                releases: data[1],
+                features: data[2],
+                userStories: data[3],
+                acceptanceTests: data[4],
+                systemTests: data[5],
+                steps: data[6]
+            });
+
+        }, function(error) {
+            
+            //Otherwise return the error
+            reject(error);
+        });
+    });
+};
+
 //Gets all created projects
 projectSchema.statics.getAllProjects = function getAllProjects() {
 

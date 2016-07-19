@@ -1,0 +1,46 @@
+.fade.modal(
+    id="ModalExportProject"
+    role="dialog"
+)
+    .modal-dialog.modal-lg
+        .modal-content
+            .colour1.modal-header
+                button.close(
+                    aria-label="Close"
+                    data-target="#ModalExportProject"
+                    data-dismiss="modal"
+                    id="ModalExportProjectCloseButton"
+                    type="button"
+                )
+                    span(aria-hidden="true") &times;
+                h4.h1.modal-title
+                    span.glyphicon.glyphicon-export.padr
+                    span Export
+            .modal-body
+                .alert.alert-danger.text-center(
+                    ng-show="exportProjectError"
+                    role="alert"
+                ) {{exportProjectError}}
+                .row
+                    .col-md-12
+                        textarea.form-control(
+                            id="ExportedTextArea"
+                            ng-model="exported"
+                            rows="10"
+                        )
+                .alert.alert-danger.text-center(
+                    ng-show="exportProjectError"
+                    role="alert"
+                ) {{exportProjectError}}
+            .modal-footer
+                span.padr(ng-show="!exported.length")
+                    button.btn.btn-success(ng-click="exportProject()")
+                        span.glyphicon.glyphicon-ok.padr
+                        span Export
+                span
+                    a.btn.btn-default(
+                        data-dismiss="modal"
+                        data-target="#ModalExportProject"
+                    )
+                        span.glyphicon.glyphicon-remove.padr
+                        span Close

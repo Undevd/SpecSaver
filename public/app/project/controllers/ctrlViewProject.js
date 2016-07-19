@@ -37,7 +37,7 @@ angular.module('app').controller('ctrlViewProject', function($scope, $rootScope,
 
             //Show the edit fields
             $scope.edit[field] = show;
-        }
+        };
 
         //Cancels editing the field and hides the form
         $scope.cancelEdit = function(field) {
@@ -47,7 +47,7 @@ angular.module('app').controller('ctrlViewProject', function($scope, $rootScope,
 
             //Stop editing
             $scope.showEdit(field, false);
-        }
+        };
 
         //Submits the edits made to the field to the server
         $scope.submitEdit = function(field) {
@@ -57,7 +57,26 @@ angular.module('app').controller('ctrlViewProject', function($scope, $rootScope,
 
             //Stop editing
             $scope.showEdit(field, false);
-        }
+        };
+
+        //Exports all data in the project to JSON
+        $scope.exportProject = function() {
+
+            //Export the project
+            dbProject.exportProject(projectCode).$promise.then(function(data) {
+                
+                //Clear any error messages in the scope
+                $scope.exportProjectError = null;
+                
+                //Store the data in the scope
+                $scope.exported = JSON.stringify(data);
+
+            }, function(error) {
+                
+                //Add the error message to the scope
+                $scope.exportProjectError = error.data.message;
+            });
+        };
     }, function(error) {
         
         //Redirect to the error page

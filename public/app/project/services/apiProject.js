@@ -1,5 +1,6 @@
 angular.module('app').factory('apiProject', function($resource, identitySvc) {
     var projectResource = $resource('/api/projects/:projectCode', {projectCode: "@projectCode"}, {
+        export: {method: 'GET', isArray: false, cancellable: true, url: '/api/projects/export/:projectCode'},
         getAll: {method: 'GET', isArray: true, cancellable: true, url: '/api/projects/all'},
         getOne: {method: 'GET', isArray: false, cancellable: true, url: '/api/projects/one/:projectCode'},
         update: {method: 'PUT', isArray: false}
