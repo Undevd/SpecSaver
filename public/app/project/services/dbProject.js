@@ -16,6 +16,10 @@ angular.module('app').factory('dbProject', function(apiProject) {
 			return apiProject.getOne({projectCode: projectCode});
 		},
 
+		importProject: function(projectData) {
+			return apiProject.import(projectData);
+		},
+
 		updateProject: function(newProjectData) {
 			return apiProject.update(newProjectData);
 		}

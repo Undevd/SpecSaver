@@ -143,6 +143,20 @@ projectSchema.statics.getAllProjects = function getAllProjects() {
     });
 }
 
+//Imports a single project or updates it if it exists
+projectSchema.statics.importProject = function importProject(data) {
+
+    //If data was supplied
+    if (data) {
+        
+        //If the project was supplied
+        if (data.project) {
+
+            //...
+        }
+    }
+};
+
 //Gets a single project by project code
 projectSchema.statics.getProject = function getProject(projectCode) {
 

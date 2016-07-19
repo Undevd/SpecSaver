@@ -2,7 +2,7 @@ angular.module('app').controller('ctrlViewAllProjects', function($scope, $locati
 
     //Set the navigation settings
     $scope.nav = {
-        project: {isCurrentSection: true},
+        project: {isCurrentSection: true}
     };
 
 	//Get all projects
@@ -14,6 +14,22 @@ angular.module('app').controller('ctrlViewAllProjects', function($scope, $locati
         //Set the clickable row URL function
         $scope.goTo = function(projectCode) {
             $location.path('/p/' + projectCode);
+        };
+
+        //Imports the project using the supplied JSON
+        $scope.importProject = function() {
+
+            //Import the project
+            dbProject.importProject($scope.imported).$promise.then(function(projectCode) {
+                
+                //Redirect to view the new/updated project
+                $location.path('/p/' + projectCode);
+
+            }, function(error) {
+                
+                //Add the error message to the scope
+                $scope.importProjectError = error.data.message;
+            });
         };
     	
     }, function(error) {

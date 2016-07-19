@@ -13,3 +13,4 @@
                 td.col-md-6
                     a(ng-href="/p/{{project.code}}")
                         div {{project.description | limitTo: 100}}{{project.description.length &gt; 100 ? '...' : ''}}
+include partials/import-project

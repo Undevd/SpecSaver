@@ -1,0 +1,46 @@
+.fade.modal(
+    id="ModalImportProject"
+    role="dialog"
+)
+    .modal-dialog.modal-lg
+        .modal-content
+            .colour1.modal-header
+                button.close(
+                    aria-label="Close"
+                    data-target="#ModalImportProject"
+                    data-dismiss="modal"
+                    id="ModalImportProjectCloseButton"
+                    type="button"
+                )
+                    span(aria-hidden="true") &times;
+                h4.h1.modal-title
+                    span.glyphicon.glyphicon-import.padr
+                    span Import
+            .modal-body
+                .alert.alert-danger.text-center(
+                    ng-show="importProjectError"
+                    role="alert"
+                ) {{importProjectError}}
+                .row
+                    .col-md-12
+                        textarea.form-control(
+                            id="ImportedTextArea"
+                            ng-model="imported"
+                            rows="10"
+                        )
+                .alert.alert-danger.text-center(
+                    ng-show="importProjectError"
+                    role="alert"
+                ) {{importProjectError}}
+            .modal-footer
+                span.padr(ng-show="imported.length")
+                    button.btn.btn-success(ng-click="importProject()")
+                        span.glyphicon.glyphicon-ok.padr
+                        span Import
+                span
+                    a.btn.btn-default(
+                        data-dismiss="modal"
+                        data-target="#ModalImportProject"
+                    )
+                        span.glyphicon.glyphicon-remove.padr
+                        span Close

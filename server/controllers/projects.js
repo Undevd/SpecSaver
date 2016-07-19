@@ -108,6 +108,22 @@ exports.getProject = function(request, response) {
     });
 }
 
+//Imports the supplied project
+exports.importProject = function(request, response) {
+
+    //Import the project
+    Project.importProject(request.body).then(function(projectCode) {
+
+        //Set the success status and send the project
+        response.status(200).send(projectCode);
+
+    }, function(error) {
+
+        //Set the error status and send the error message
+        response.status(400).send({code: error.code, message: error.errmsg});
+    });
+}
+
 //Updates the project with the supplied project code
 exports.updateProject = function(request, response) {
     

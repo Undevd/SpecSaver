@@ -3,6 +3,7 @@ angular.module('app').factory('apiProject', function($resource, identitySvc) {
         export: {method: 'GET', isArray: false, cancellable: true, url: '/api/projects/export/:projectCode'},
         getAll: {method: 'GET', isArray: true, cancellable: true, url: '/api/projects/all'},
         getOne: {method: 'GET', isArray: false, cancellable: true, url: '/api/projects/one/:projectCode'},
+        import: {method: 'POST', isArray: false, url: '/api/projects/import'},
         update: {method: 'PUT', isArray: false}
     });
     

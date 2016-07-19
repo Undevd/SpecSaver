@@ -38,6 +38,7 @@ module.exports = function(app) {
     app.get('/api/projects/export/:projectCode', projects.exportProject);
     app.get('/api/projects/all', projects.getAllProjects);
     app.get('/api/projects/one/:projectCode', projects.getProject);
+    app.post('/api/projects/import', projects.importProject);
     app.post('/api/projects', projects.createProject);
     app.put('/api/projects', projects.updateProject);
 

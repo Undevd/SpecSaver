@@ -11,6 +11,7 @@ li.padl(ng-if="project")
         data-target="#ModalExportProject"
         data-toggle="modal"
         ng-click="exported = null"
+        type="button"
     )
         span.glyphicon.glyphicon-export.padr
         span Export
@@ -18,3 +19,12 @@ li.padl(ng-if="!project")
     a(href="/c/p")
         span.glyphicon.glyphicon-plus.padr
         span Create
+li.padl(ng-if="projects")
+    button.button-as-text(
+        data-target="#ModalImportProject"
+        data-toggle="modal"
+        ng-click="imported = null"
+        type="button"
+    )
+        span.glyphicon.glyphicon-import.padr
+        span Import
