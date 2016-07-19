@@ -12,7 +12,7 @@
                         span.glyphicon.glyphicon-ok
                     a.btn.btn-default(ng-click="cancelEdit('name')")
                         span.glyphicon.glyphicon-remove
-    .padb
+    div
         div(ng-show="!edit.description")
             a.edit(ng-click="showEdit('description', true)" ng-mouseleave="hover.description = false" ng-mouseover="hover.description = true")
                 span(ng-show="project.description") {{project.description}}
@@ -25,12 +25,4 @@
                     span.glyphicon.glyphicon-ok
                 a.btn.btn-default(ng-click="cancelEdit('description')")
                     span.glyphicon.glyphicon-remove
-    div
-        button.btn.btn-primary(
-            data-target="#ModalExportProject"
-            data-toggle="modal"
-            ng-click="exported = null"
-        )
-            span.glyphicon.glyphicon-export.padr
-            span Export
 include partials/export-project

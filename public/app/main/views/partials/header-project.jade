@@ -6,7 +6,15 @@ li
         a(href="/p") Project
 li(ng-if="project")
     h3 {{project.code}}
+li.padl(ng-if="project")
+    button.button-as-text(
+        data-target="#ModalExportProject"
+        data-toggle="modal"
+        ng-click="exported = null"
+    )
+        span.glyphicon.glyphicon-export.padr
+        span Export
 li.padl(ng-if="!project")
-    a.btn.btn-default(href="/c/p")
+    a(href="/c/p")
         span.glyphicon.glyphicon-plus.padr
         span Create

@@ -7,6 +7,6 @@ li
 li(ng-if="project && feature && acceptanceTest")
     h3 {{project.code}}-{{feature.code}}-A{{acceptanceTest.code}}
 li.padl(ng-if="project && feature")
-    a.btn.btn-default(ng-href="/c/p/{{project.code}}/f/{{feature.code}}/a")
+    a(ng-href="/c/p/{{project.code}}/f/{{feature.code}}/a")
         span.glyphicon.glyphicon-plus.padr
         span Create
