@@ -111,43 +111,67 @@ exports.getProject = function(request, response) {
 //Imports the supplied project
 exports.importProject = function(request, response) {
 
-    //Import the project
-    Project.importProject(request.body).then(function(projectCode) {
+    //Get the data from the request
+    var data = request.body;
 
-        //Set the success status and send the project
-        response.status(200).send(projectCode);
+    //If data was supplied
+    if (data) {
 
-    }, function(error) {
+        //Store an array of the populated promises
+        var promises = [];
 
-        //Set the error status and send the error message
-        response.status(400).send({code: error.code, message: error.errmsg});
-    });
+        //If the project was supplied
+        if (data.project && data.project.code) {
+
+            //Sanitise the project
+            data.project = sanitiseProject(data.project);
+            
+            //Create or update the project
+            promises.push(Project.updateProject(data.project));
+        }
+
+        //If all the promises are successful
+        Promise.all(promises).then(function(responses) {
+            
+            //Set the success status and send the project code
+            response.status(200).send({code: responses[0]});
+
+        }, function(error) {
+            
+            //Otherwise, set the error status and send the error message
+            response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
+        });
+    }
 }
 
 //Updates the project with the supplied project code
 exports.updateProject = function(request, response) {
     
     //Get the project data from the request
-    var projectData = request.body;
-
-    //Sanitise the data
-    var newProjectData = {
-        name: projectData.name,
-        code: projectData.code,
-        description: projectData.description,
-        admins: projectData.admins,
-        members: projectData.members
-    };
+    var projectData = sanitiseProject(request.body);
 
     //Update the project
-    Project.updateProject(newProjectData).then(function() {
+    Project.updateProject(projectData).then(function(code) {
 
-        //Set and send the success status
-        response.sendStatus(200);
+        //Set the success status and send the project code
+        response.status(200).send({code: code});
 
     }, function(error) {
 
         //Set the error status and send the error message
         response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
     });
+};
+
+//Sanitises the supplied project data and returns only the relevant content
+sanitiseProject = function(projectData) {
+
+    //Return the sanitised project data
+    return {
+        name: projectData.name,
+        code: projectData.code,
+        description: projectData.description,
+        admins: projectData.admins,
+        members: projectData.members
+    };
 };

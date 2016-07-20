@@ -86,7 +86,7 @@ projectSchema.statics.exportProject = function exportProject(projectCode) {
     return new Promise(function(resolve, reject) {
 
         //Get all the data relating to the project
-        var project = mongoose.model('Project').find({code: projectCode}, '-_id -__v').exec();
+        var project = mongoose.model('Project').findOne({code: projectCode}, '-_id -__v').exec();
         var releases = mongoose.model('Release').find({projectCode: projectCode}, '-_id -__v').exec();
         var features = mongoose.model('Feature').find({projectCode: projectCode}, '-_id -__v').exec();
         var userStories = mongoose.model('UserStory').find({projectCode: projectCode}, '-_id -__v').exec();
@@ -142,20 +142,6 @@ projectSchema.statics.getAllProjects = function getAllProjects() {
         });
     });
 }
-
-//Imports a single project or updates it if it exists
-projectSchema.statics.importProject = function importProject(data) {
-
-    //If data was supplied
-    if (data) {
-        
-        //If the project was supplied
-        if (data.project) {
-
-            //...
-        }
-    }
-};
 
 //Gets a single project by project code
 projectSchema.statics.getProject = function getProject(projectCode) {
@@ -213,8 +199,8 @@ projectSchema.statics.updateProject = function updateProject(newProjectData) {
             }
             else {
 
-                //Otherwise, return successfully
-                resolve();
+                //Otherwise, return the project code
+                resolve(project.code);
             }
         });
     });

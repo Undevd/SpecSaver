@@ -20,10 +20,15 @@ angular.module('app').controller('ctrlViewAllProjects', function($scope, $locati
         $scope.importProject = function() {
 
             //Import the project
-            dbProject.importProject($scope.imported).$promise.then(function(projectCode) {
-                
+            dbProject.importProject($scope.imported).$promise.then(function(data) {
+
+                //Hide the dialog before redirecting to avoid the modal fade overlay remaining (JQuery)
+                $('div.modal').removeClass('fade').addClass('hidden');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+
                 //Redirect to view the new/updated project
-                $location.path('/p/' + projectCode);
+                $location.path('/p/' + data.code);
 
             }, function(error) {
                 
