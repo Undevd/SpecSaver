@@ -21,10 +21,19 @@
                     ng-show="exportProjectError"
                     role="alert"
                 ) {{exportProjectError}}
+                .padb.row
+                    .col-md-12
+                        p Export the current project to a JSON string which can be used for backup purposes.
+                        p Alternatively, you can back up via the following URL:
+                        a.btn.colour1(
+                            ng-href="/api/projects/export/{{project.code}}"
+                            target="_blank"
+                        ) /api/projects/export/{{project.code}}
                 .row
                     .col-md-12
                         textarea.form-control(
                             id="ExportedTextArea"
+                            ng-disabled="!exported"
                             ng-model="exported"
                             rows="10"
                         )

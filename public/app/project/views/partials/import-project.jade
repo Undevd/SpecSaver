@@ -21,6 +21,12 @@
                     ng-show="importProjectError"
                     role="alert"
                 ) {{importProjectError}}
+                .padb.row
+                    .col-md-12
+                        p Import a new project or update an existing one by entering the contents of a JSON backup into the text area below.
+                        p
+                            strong Warning: If you import an existing project, this will overwrite any content already stored for that project. Please make a backup first.
+                        p To make a backup for a project, close this dialog. Select the project from the list, then click on the 'Export' option displayed on the navigation bar.
                 .row
                     .col-md-12
                         textarea.form-control(
