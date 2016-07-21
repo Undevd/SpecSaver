@@ -13,31 +13,72 @@ projectSchema.methods = { };
 //Creates a new project
 projectSchema.statics.createProject = function createProject(newProjectData) {
     
+    //Return the created project
+    return create(newProjectData);
+}
+
+//Creates or update an existing project if it exists
+projectSchema.statics.createOrUpdateProject = function createOrUpdateProject(newProjectData) {
+    
     //Return a promise
     return new Promise(function(resolve, reject) {
 
-        //Create the project
-        mongoose.model('Project').create(newProjectData, function(error, project) {
+        //If no project data or code was supplied
+        if (!newProjectData || !newProjectData.code) {
 
-            //If an error occurred
-            if(error) {
+            //Return an error
+            reject({code: 400, errmsg: 'No project code supplied'});
+        }
+        else {
 
-                //If the error code was 11000
-                if (error.code == 11000) {
+            //Find the number of projects by code
+            mongoose.model('Project')
+                .count({code: newProjectData.code})
+                .exec(function(error, count) {
 
-                    //Update the error message to be more user friendly
-                    error.errmsg = 'A project with the same code already exists.';
+                //If an error occurred
+                if (error) {
+
+                    //Return the error
+                    reject(error);
                 }
+                //Else if the project couldn't be found
+                else if (!count) {
 
-                //Return the error
-                reject(error);
-            }
-            else {
+                    //Create it
+                    create(newProjectData).then(function(projectCode) {
 
-                //Otherwise, return the project code
-                resolve(project.code);
-            }
-        });
+                        //Return the result
+                        resolve(projectCode);
+
+                    }, function(error) {
+
+                        //Return the error
+                        reject(error);
+                    });
+                }
+                //Else if multiple projects were found
+                else if (count > 1) {
+
+                    //Return a 400 error
+                    reject({code: 400, errmsg: 'Multiple projects found with the same code'});
+                }
+                else {
+
+                    //Update it
+                    update(newProjectData).then(function(projectCode) {
+
+                        //Return the result
+                        resolve(projectCode);
+
+                    }, function(error) {
+
+                        //Return the error
+                        reject(error);
+                    });
+                }
+            });
+        }
     });
 }
 
@@ -178,6 +219,44 @@ projectSchema.statics.getProject = function getProject(projectCode) {
 //Updates the project with the supplied project code
 projectSchema.statics.updateProject = function updateProject(newProjectData) {
 
+    //Return the updated project
+    return update(newProjectData);
+};
+
+//Helper method used to create a new project
+function create(newProjectData) {
+    
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+
+        //Create the project
+        mongoose.model('Project').create(newProjectData, function(error, project) {
+
+            //If an error occurred
+            if(error) {
+
+                //If the error code was 11000
+                if (error.code == 11000) {
+
+                    //Update the error message to be more user friendly
+                    error.errmsg = 'A project with the same code already exists.';
+                }
+
+                //Return the error
+                reject(error);
+            }
+            else {
+
+                //Otherwise, return the project code
+                resolve(project.code);
+            }
+        });
+    });
+}
+
+//Helper method used to update the project with the supplied project code
+function update(newProjectData) {
+
     //Return a promise
     return new Promise(function(resolve, reject) {
 
@@ -204,7 +283,7 @@ projectSchema.statics.updateProject = function updateProject(newProjectData) {
             }
         });
     });
-};
+}
 
 var Project = mongoose.model('Project', projectSchema);
 

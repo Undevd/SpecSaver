@@ -127,7 +127,14 @@ exports.importProject = function(request, response) {
             data.project = sanitiseProject(data.project);
             
             //Create or update the project
-            promises.push(Project.updateProject(data.project));
+            promises.push(Project.createOrUpdateProject(data.project));
+        }
+
+        //If no valid data has been supplied
+        if (!promises.length) {
+
+            //Return an error
+            response.status(400).send({code: 400, message: 'No valid data supplied'});
         }
 
         //If all the promises are successful
@@ -164,7 +171,7 @@ exports.updateProject = function(request, response) {
 };
 
 //Sanitises the supplied project data and returns only the relevant content
-sanitiseProject = function(projectData) {
+function sanitiseProject(projectData) {
 
     //Return the sanitised project data
     return {
