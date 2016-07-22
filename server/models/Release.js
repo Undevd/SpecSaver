@@ -200,7 +200,7 @@ releaseSchema.statics.getReleaseStatsForProject = function getReleaseStatsForPro
 //Updates an existing release
 releaseSchema.statics.updateRelease = function updateRelease(newReleaseData) {
     
-    //Return the created release
+    //Return the updated release
     return update(newReleaseData);
 };
 

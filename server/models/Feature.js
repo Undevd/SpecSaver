@@ -12,39 +12,72 @@ featureSchema.index({code: 1, projectCode: 1}, {unique: true});
 //Creates a new feature
 featureSchema.statics.createFeature = function createFeature(newFeatureData) {
     
+    //Return the created feature
+    return create(newFeatureData);
+};
+
+//Creates or update an existing feature if it exists
+featureSchema.statics.createOrUpdateFeature = function createOrUpdateFeature(newFeatureData) {
+    
     //Return a promise
     return new Promise(function(resolve, reject) {
 
-        //If the project exists
-        mongoose.model('Project').exists(newFeatureData.projectCode).then(function() {
+        //If no feature data or codes were supplied
+        if (!newFeatureData || !newFeatureData.code || !newFeatureData.projectCode) {
 
-            //Create the feature
-            mongoose.model('Feature').create(newFeatureData, function(error, feature) {
+            //Return an error
+            reject({code: 400, errmsg: 'Invalid feature'});
+        }
+        else {
+
+            //Find the number of features by code
+            mongoose.model('Feature')
+                .count({code: newFeatureData.code, projectCode: newFeatureData.projectCode})
+                .exec(function(error, count) {
 
                 //If an error occurred
-                if(error) {
-
-                    //If the error code was 11000
-                    if (error.code == 11000) {
-
-                        //Update the error message to be more user friendly
-                        error.errmsg = 'A feature with the same code already exists.';
-                    }
+                if (error) {
 
                     //Return the error
                     reject(error);
                 }
+                //Else if the feature couldn't be found
+                else if (!count) {
+
+                    //Create it
+                    create(newFeatureData).then(function(featureCode) {
+
+                        //Return the result
+                        resolve(featureCode);
+
+                    }, function(error) {
+
+                        //Return the error
+                        reject(error);
+                    });
+                }
+                //Else if multiple features were found
+                else if (count > 1) {
+
+                    //Return a 400 error
+                    reject({code: 400, errmsg: 'Multiple features found with the same code'});
+                }
                 else {
 
-                    //Otherwise, return the feature and project code
-                    resolve({code: feature.code, projectCode: feature.projectCode});
+                    //Update it
+                    update(newFeatureData).then(function(featureCode) {
+
+                        //Return the result
+                        resolve(featureCode);
+
+                    }, function(error) {
+
+                        //Return the error
+                        reject(error);
+                    });
                 }
             });
-        }, function(error) {
-
-            //Return the error
-            reject(error);
-        });
+        }
     });
 };
 
@@ -235,6 +268,64 @@ featureSchema.statics.searchForFeature = function searchForFeature(projectCode, 
 //Updates an existing feature
 featureSchema.statics.updateFeature = function updateFeature(newFeatureData) {
     
+    //Return the updated feature
+    return update(newFeatureData);
+};
+
+//Helper method used to create a new feature
+function create(newFeatureData) {
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+
+        //If the project exists
+        mongoose.model('Project').exists(newFeatureData.projectCode).then(function() {
+
+            //Create the feature
+            mongoose.model('Feature').create(newFeatureData, function(error, feature) {
+
+                //If an error occurred
+                if(error) {
+
+                    //If the error code was 11000
+                    if (error.code == 11000) {
+
+                        //Update the error message to be more user friendly
+                        error.errmsg = 'A feature with the same code already exists.';
+                    }
+
+                    //Return the error
+                    reject(error);
+                }
+                else {
+
+                    //Otherwise, return the feature and project code
+                    resolve({code: feature.code, projectCode: feature.projectCode});
+                }
+            });
+        }, function(error) {
+
+            //Return the error
+            reject(error);
+        });
+    });
+}
+
+//Sanitises the supplied feature data and returns only the relevant content
+function sanitise(newFeatureData) {
+
+    //Return the sanitised feature data
+    return {
+        name: featureData.name,
+        code: featureData.code,
+        description: featureData.description,
+        projectCode: featureData.projectCode
+    };
+}
+
+//Helper method used to update an existing feature
+function update(newFeatureData) {
+
     //Return a promise
     return new Promise(function(resolve, reject) {
 
@@ -262,6 +353,6 @@ featureSchema.statics.updateFeature = function updateFeature(newFeatureData) {
             }
         });
     });
-};
+}
 
 var Feature = mongoose.model('Feature', featureSchema);

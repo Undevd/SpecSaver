@@ -126,6 +126,17 @@ exports.importProject = function(request, response) {
             }
         }
 
+        //If any features were supplied
+        if (data.features) {
+
+            //For each feature
+            for (var feature of data.features) {
+                
+                //Create or update it
+                promises.push(Feature.createOrUpdateFeature(feature));
+            }
+        }
+
         //If no valid data has been supplied
         if (!promises.length) {
 

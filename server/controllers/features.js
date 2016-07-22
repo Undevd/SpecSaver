@@ -6,19 +6,8 @@ var UserStory = require('mongoose').model('UserStory');
 //Creates a new feature
 exports.createFeature = function(request, response) {
 
-    //Get the feature data from the request
-    var featureData = request.body;
-
-    //Sanitise the data
-    var newFeatureData = {
-        name: featureData.name,
-        code: featureData.code,
-        description: featureData.description,
-        projectCode: featureData.projectCode
-    };
-
     //Create the feature
-    Feature.createFeature(newFeatureData).then(function(data) {
+    Feature.createFeature(request.body).then(function(data) {
 
         //Set the success status and send the new feature and project codes
         response.status(201).send(data);
@@ -110,19 +99,8 @@ exports.searchForFeature = function(request, response) {
 //Updates an existing feature
 exports.updateFeature = function(request, response) {
     
-    //Get the feature data from the request
-    var featureData = request.body;
-
-    //Sanitise the data
-    var newFeatureData = {
-        name: featureData.name,
-        code: featureData.code,
-        description: featureData.description,
-        projectCode: featureData.projectCode
-    };
-
     //Update the feature
-    Feature.updateFeature(newFeatureData).then(function() {
+    Feature.updateFeature(request.body).then(function() {
 
         //Set and send the success status
         response.sendStatus(200);
