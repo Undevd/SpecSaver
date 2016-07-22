@@ -5,21 +5,8 @@ var UserStory = require('mongoose').model('UserStory');
 //Creates a new user story
 exports.createUserStory = function(request, response) {
     
-    //Get the user story data from the request
-    var userStoryData = request.body;
-
-    //Sanitise the data
-    var newUserStoryData = {
-        asA: userStoryData.asA,
-        iCan: userStoryData.iCan,
-        code: null,
-        soThat: userStoryData.soThat,
-        projectCode: userStoryData.projectCode,
-        featureCode: userStoryData.featureCode
-    };
-
     //Create the user story
-    UserStory.createUserStory(newUserStoryData).then(function(data) {
+    UserStory.createUserStory(request.body).then(function(data) {
 
         //Set the success status and send the new user story, feature, and project codes
         response.status(201).send(data);
@@ -104,21 +91,8 @@ exports.searchForUserStory = function(request, response) {
 //Updates an existing user story
 exports.updateUserStory = function(request, response) {
     
-    //Get the user story data from the request
-    var userStoryData = request.body;
-
-    //Sanitise the data
-    var newUserStoryData = {
-        asA: userStoryData.asA,
-        code: userStoryData.code,
-        iCan: userStoryData.iCan,
-        soThat: userStoryData.soThat,
-        projectCode: userStoryData.projectCode,
-        featureCode: userStoryData.featureCode
-    };
-
     //Update the user story
-    UserStory.updateUserStory(newUserStoryData).then(function() {
+    UserStory.updateUserStory(request.body).then(function() {
 
         //Set and send the success status
         response.sendStatus(200);

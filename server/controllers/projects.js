@@ -137,6 +137,17 @@ exports.importProject = function(request, response) {
             }
         }
 
+        //If any user stories were supplied
+        if (data.userStories) {
+
+            //For each user story
+            for (var userStory of data.userStories) {
+                
+                //Create or update it
+                promises.push(UserStory.createOrUpdateUserStory(userStory));
+            }
+        }
+
         //If no valid data has been supplied
         if (!promises.length) {
 

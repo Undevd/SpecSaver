@@ -14,54 +14,77 @@ userStorySchema.index({code: 1, projectCode: 1, featureCode: 1}, {unique: true})
 //Creates a new user story
 userStorySchema.statics.createUserStory = function createUserStory(newUserStoryData) {
     
+    //Return the created user story
+    return create(newUserStoryData);
+};
+
+//Creates or update an existing user story if it exists
+userStorySchema.statics.createOrUpdateUserStory = function createOrUpdateUserStory(newUserStoryData) {
+    
     //Return a promise
     return new Promise(function(resolve, reject) {
 
-	    //Check if the project exists
-	    var projectExists = mongoose.model('Project')
-            .exists(newUserStoryData.projectCode);
+        //If no user story data or codes were supplied
+        if (!newUserStoryData || !newUserStoryData.code || !newUserStoryData.projectCode
+            || !newUserStoryData.featureCode) {
 
-	    //Check if the feature exists
-	    var featureExists = mongoose.model('Feature')
-            .exists(newUserStoryData.projectCode, newUserStoryData.featureCode);
+            //Return an error
+            reject({code: 400, errmsg: 'Invalid user story'});
+        }
+        else {
 
-	    //Find the newest user story
-	    var userStoryCode = mongoose.model('UserStory')
-            .getNextCode(newUserStoryData.projectCode, newUserStoryData.featureCode);
+            //Find the number of user stories by code
+            mongoose.model('UserStory')
+                .count({
+                    code: newUserStoryData.code,
+                    projectCode: newUserStoryData.projectCode,
+                    featureCode: newUserStoryData.featureCode
+                })
+                .exec(function(error, count) {
 
-	    //If all the promises are successful
-	    Promise.all([projectExists, featureExists, userStoryCode]).then(function(data) {
-	        
-	    	//Set the user story code
-	    	newUserStoryData.code = data[2];
+                //If an error occurred
+                if (error) {
 
-	      	//Create the user story
-	    	mongoose.model('UserStory').create(newUserStoryData, function(error, userStory) {
+                    //Return the error
+                    reject(error);
+                }
+                //Else if the user story couldn't be found
+                else if (!count) {
 
-		        //If an error occurred
-		        if(error) {
+                    //Create it
+                    create(newUserStoryData).then(function(userStoryCode) {
 
-		            //If the error code was 11000
-		            if (error.code == 11000) {
+                        //Return the result
+                        resolve(userStoryCode);
 
-		                //Update the error message to be more user friendly
-		                error.errmsg = 'A user story with the same code already exists.';
-		            }
+                    }, function(error) {
 
-		            //Return the error
-		            reject(error);
-		        }
-		        else {
+                        //Return the error
+                        reject(error);
+                    });
+                }
+                //Else if multiple user stories were found
+                else if (count > 1) {
 
-		            //Otherwise, return the user story, project, and feature code
-		            resolve({code: userStory.code, projectCode: userStory.projectCode, featureCode: userStory.featureCode});
-		        }
-		    });
-	    }, function(error) {
-	        
-	        //Return the error
-	        reject(error);
-	    });
+                    //Return a 400 error
+                    reject({code: 400, errmsg: 'Multiple user stories found with the same code'});
+                }
+                else {
+
+                    //Update it
+                    update(newUserStoryData).then(function(userStoryCode) {
+
+                        //Return the result
+                        resolve(userStoryCode);
+
+                    }, function(error) {
+
+                        //Return the error
+                        reject(error);
+                    });
+                }
+            });
+        }
     });
 };
 
@@ -320,6 +343,85 @@ userStorySchema.statics.searchForUserStory = function searchForUserStory(project
 //Updates an existing user story
 userStorySchema.statics.updateUserStory = function updateUserStory(newUserStoryData) {
     
+    //Return the updated user story
+    return update(newUserStoryData);
+};
+
+//Helper method used to create a new user story
+function create(newUserStoryData) {
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+
+	    //Check if the project exists
+	    var projectExists = mongoose.model('Project')
+            .exists(newUserStoryData.projectCode);
+
+	    //Check if the feature exists
+	    var featureExists = mongoose.model('Feature')
+            .exists(newUserStoryData.projectCode, newUserStoryData.featureCode);
+
+	    //Find the newest user story
+	    var userStoryCode = mongoose.model('UserStory')
+            .getNextCode(newUserStoryData.projectCode, newUserStoryData.featureCode);
+
+	    //If all the promises are successful
+	    Promise.all([projectExists, featureExists, userStoryCode]).then(function(data) {
+	        
+	    	//Set the user story code
+	    	newUserStoryData.code = data[2];
+
+	      	//Create the user story
+	    	mongoose.model('UserStory').create(newUserStoryData, function(error, userStory) {
+
+		        //If an error occurred
+		        if(error) {
+
+		            //If the error code was 11000
+		            if (error.code == 11000) {
+
+		                //Update the error message to be more user friendly
+		                error.errmsg = 'A user story with the same code already exists.';
+		            }
+
+		            //Return the error
+		            reject(error);
+		        }
+		        else {
+
+		            //Otherwise, return the user story, project, and feature code
+		            resolve({
+                        code: userStory.code,
+                        projectCode: userStory.projectCode,
+                        featureCode: userStory.featureCode
+                    });
+		        }
+		    });
+	    }, function(error) {
+	        
+	        //Return the error
+	        reject(error);
+	    });
+    });
+}
+
+//Sanitises the supplied user story data and returns only the relevant content
+function sanitise(newUserStoryData) {
+
+    //Return the sanitised user story data
+    return {
+        asA: userStoryData.asA,
+        code: userStoryData.code,
+        iCan: userStoryData.iCan,
+        soThat: userStoryData.soThat,
+        projectCode: userStoryData.projectCode,
+        featureCode: userStoryData.featureCode
+    };
+}
+
+//Helper method used to update an existing user story
+function update(newUserStoryData) {
+
     //Return a promise
     return new Promise(function(resolve, reject) {
 
@@ -347,6 +449,6 @@ userStorySchema.statics.updateUserStory = function updateUserStory(newUserStoryD
             }
         });
     });
-};
+}
 
 var UserStory = mongoose.model('UserStory', userStorySchema);
