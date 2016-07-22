@@ -27,7 +27,7 @@ projectSchema.statics.createOrUpdateProject = function createOrUpdateProject(new
         if (!newProjectData || !newProjectData.code) {
 
             //Return an error
-            reject({code: 400, errmsg: 'No project code supplied'});
+            reject({code: 400, errmsg: 'Invalid project'});
         }
         else {
 
@@ -80,7 +80,7 @@ projectSchema.statics.createOrUpdateProject = function createOrUpdateProject(new
             });
         }
     });
-}
+};
 
 //Checks whether the project with the supplied code exists
 projectSchema.statics.exists = function exists(projectCode) {
@@ -226,6 +226,9 @@ projectSchema.statics.updateProject = function updateProject(newProjectData) {
 //Helper method used to create a new project
 function create(newProjectData) {
     
+    //Sanitise the data
+    newProjectData = sanitise(newProjectData);
+
     //Return a promise
     return new Promise(function(resolve, reject) {
 
@@ -254,8 +257,24 @@ function create(newProjectData) {
     });
 }
 
+//Sanitises the supplied project data and returns only the relevant content
+function sanitise(projectData) {
+
+    //Return the sanitised project data
+    return {
+        name: projectData.name,
+        code: projectData.code,
+        description: projectData.description,
+        admins: projectData.admins,
+        members: projectData.members
+    };
+}
+
 //Helper method used to update the project with the supplied project code
 function update(newProjectData) {
+
+    //Sanitise the data
+    newProjectData = sanitise(newProjectData);
 
     //Return a promise
     return new Promise(function(resolve, reject) {

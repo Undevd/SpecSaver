@@ -8,20 +8,8 @@ var UserStory = require('mongoose').model('UserStory');
 //Creates a new project
 exports.createProject = function(request, response) {
 
-    //Get the project data from the request
-    var projectData = request.body;
-
-    //Sanitise the data
-    var newProjectData = {
-        name: projectData.name,
-        code: projectData.code,
-        description: projectData.description,
-        admins: projectData.admins,
-        members: projectData.members
-    };
-
     //Create the project
-    Project.createProject(newProjectData).then(function(code) {
+    Project.createProject(request.body).then(function(code) {
 
         //Set the success status and send the new project code
         response.status(201).send({code: code});
@@ -123,11 +111,19 @@ exports.importProject = function(request, response) {
         //If the project was supplied
         if (data.project && data.project.code) {
 
-            //Sanitise the project
-            data.project = sanitiseProject(data.project);
-            
             //Create or update the project
             promises.push(Project.createOrUpdateProject(data.project));
+        }
+
+        //If any releases were supplied
+        if (data.releases) {
+
+            //For each release
+            for (var release of data.releases) {
+                
+                //Create or update it
+                promises.push(Release.createOrUpdateRelease(release));
+            }
         }
 
         //If no valid data has been supplied
@@ -154,11 +150,8 @@ exports.importProject = function(request, response) {
 //Updates the project with the supplied project code
 exports.updateProject = function(request, response) {
     
-    //Get the project data from the request
-    var projectData = sanitiseProject(request.body);
-
     //Update the project
-    Project.updateProject(projectData).then(function(code) {
+    Project.updateProject(request.body).then(function(code) {
 
         //Set the success status and send the project code
         response.status(200).send({code: code});
@@ -168,17 +161,4 @@ exports.updateProject = function(request, response) {
         //Set the error status and send the error message
         response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
     });
-};
-
-//Sanitises the supplied project data and returns only the relevant content
-function sanitiseProject(projectData) {
-
-    //Return the sanitised project data
-    return {
-        name: projectData.name,
-        code: projectData.code,
-        description: projectData.description,
-        admins: projectData.admins,
-        members: projectData.members
-    };
 };

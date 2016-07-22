@@ -12,39 +12,72 @@ releaseSchema.index({code: 1, projectCode: 1}, {unique: true});
 //Creates a new release
 releaseSchema.statics.createRelease = function createRelease(newReleaseData) {
     
+    //Return the created release
+    return create(newReleaseData);
+};
+
+//Creates or update an existing release if it exists
+releaseSchema.statics.createOrUpdateRelease = function createOrUpdateRelease(newReleaseData) {
+    
     //Return a promise
     return new Promise(function(resolve, reject) {
 
-        //If the project exists
-        mongoose.model('Project').exists(newReleaseData.projectCode).then(function() {
+        //If no release data or codes were supplied
+        if (!newReleaseData || !newReleaseData.code || !newReleaseData.projectCode) {
 
-            //Create the release
-            mongoose.model('Release').create(newReleaseData, function(error, release) {
+            //Return an error
+            reject({code: 400, errmsg: 'Invalid release'});
+        }
+        else {
+
+            //Find the number of releases by code
+            mongoose.model('Release')
+                .count({code: newReleaseData.code, projectCode: newReleaseData.projectCode})
+                .exec(function(error, count) {
 
                 //If an error occurred
-                if(error) {
-
-                    //If the error code was 11000
-                    if (error.code == 11000) {
-
-                        //Update the error message to be more user friendly
-                        error.errmsg = 'A release with the same code already exists.';
-                    }
+                if (error) {
 
                     //Return the error
                     reject(error);
                 }
+                //Else if the release couldn't be found
+                else if (!count) {
+
+                    //Create it
+                    create(newReleaseData).then(function(releaseCode) {
+
+                        //Return the result
+                        resolve(releaseCode);
+
+                    }, function(error) {
+
+                        //Return the error
+                        reject(error);
+                    });
+                }
+                //Else if multiple releases were found
+                else if (count > 1) {
+
+                    //Return a 400 error
+                    reject({code: 400, errmsg: 'Multiple releases found with the same code'});
+                }
                 else {
 
-                    //Otherwise, return the release and project code
-                    resolve({code: release.code, projectCode: release.projectCode});
+                    //Update it
+                    update(newReleaseData).then(function(releaseCode) {
+
+                        //Return the result
+                        resolve(releaseCode);
+
+                    }, function(error) {
+
+                        //Return the error
+                        reject(error);
+                    });
                 }
             });
-        }, function(error) {
-
-            //Return the error
-            reject(error);
-        });
+        }
     });
 };
 
@@ -167,6 +200,64 @@ releaseSchema.statics.getReleaseStatsForProject = function getReleaseStatsForPro
 //Updates an existing release
 releaseSchema.statics.updateRelease = function updateRelease(newReleaseData) {
     
+    //Return the created release
+    return update(newReleaseData);
+};
+
+//Helper method used to create a new release
+function create(newReleaseData) {
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+
+        //If the project exists
+        mongoose.model('Project').exists(newReleaseData.projectCode).then(function() {
+
+            //Create the release
+            mongoose.model('Release').create(newReleaseData, function(error, release) {
+
+                //If an error occurred
+                if(error) {
+
+                    //If the error code was 11000
+                    if (error.code == 11000) {
+
+                        //Update the error message to be more user friendly
+                        error.errmsg = 'A release with the same code already exists.';
+                    }
+
+                    //Return the error
+                    reject(error);
+                }
+                else {
+
+                    //Otherwise, return the release and project code
+                    resolve({code: release.code, projectCode: release.projectCode});
+                }
+            });
+        }, function(error) {
+
+            //Return the error
+            reject(error);
+        });
+    });
+}
+
+//Sanitises the supplied project data and returns only the relevant content
+function sanitise(releaseData) {
+
+    //Return the sanitised project data
+    return {
+        name: releaseData.name,
+        code: releaseData.code,
+        description: releaseData.description,
+        projectCode: releaseData.projectCode
+    };
+}
+
+//Helper method used to update an existing release
+function update(newReleaseData) {
+
     //Return a promise
     return new Promise(function(resolve, reject) {
 
@@ -194,6 +285,6 @@ releaseSchema.statics.updateRelease = function updateRelease(newReleaseData) {
             }
         });
     });
-};
+}
 
 var Release = mongoose.model('Release', releaseSchema);

@@ -4,19 +4,8 @@ var Release = require('mongoose').model('Release');
 //Creates a new release
 exports.createRelease = function(request, response) {
 
-    //Get the release data from the request
-    var releaseData = request.body;
-
-    //Sanitise the data
-    var newReleaseData = {
-        name: releaseData.name,
-        code: releaseData.code,
-        description: releaseData.description,
-        projectCode: releaseData.projectCode
-    };
-
     //Create the release
-    Release.createRelease(newReleaseData).then(function(data) {
+    Release.createRelease(request.body).then(function(data) {
 
         //Set the success status and send the new release and project codes
         response.status(201).send(data);
@@ -75,19 +64,8 @@ exports.getRelease = function(request, response) {
 //Updates an existing release
 exports.updateRelease = function(request, response) {
     
-    //Get the release data from the request
-    var releaseData = request.body;
-
-    //Sanitise the data
-    var newReleaseData = {
-        name: releaseData.name,
-        code: releaseData.code,
-        description: releaseData.description,
-        projectCode: releaseData.projectCode
-    };
-
     //Update the release
-    Release.updateRelease(newReleaseData).then(function() {
+    Release.updateRelease(request.body).then(function() {
 
         //Set and send the success status
         response.sendStatus(200);
