@@ -33,19 +33,8 @@ exports.addStep = function(request, response) {
 //Creates a new test step
 exports.createStep = function(request, response) {
 
-    //Get the system test data from the request
-    var stepData = request.body;
-
-    //Sanitise the data
-    var newStepData = {
-        code: null,
-        type: stepData.type,
-        step: stepData.step,
-        projectCode: stepData.projectCode
-    };
-
-    //Create the system test
-    Step.createStep(newStepData).then(function(data) {
+    //Create the step
+    Step.createStep(request.body).then(function(data) {
 
         //Set the success status and send the new test step and project codes
         response.status(201).send(data);
@@ -76,6 +65,22 @@ exports.searchForStep = function(request, response) {
 
         //Set the success status and send the search results
         response.status(200).send(data);
+
+    }, function(error) {
+
+        //Set the error status and send the error message
+        response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
+    });
+};
+
+//Updates an existing test step
+exports.updateStep = function(request, response) {
+
+    //Update the step
+    Step.updateStep(request.body).then(function(data) {
+
+        //Set and send the success status
+        response.sendStatus(200);
 
     }, function(error) {
 

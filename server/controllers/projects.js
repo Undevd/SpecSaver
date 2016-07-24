@@ -2,6 +2,7 @@ var AcceptanceTest = require('mongoose').model('AcceptanceTest');
 var Feature = require('mongoose').model('Feature');
 var Project = require('mongoose').model('Project');
 var Release = require('mongoose').model('Release');
+var Step = require('mongoose').model('Step');
 var SystemTest = require('mongoose').model('SystemTest');
 var UserStory = require('mongoose').model('UserStory');
 
@@ -167,6 +168,17 @@ exports.importProject = function(request, response) {
                 
                 //Create or update it
                 promises.push(SystemTest.createOrUpdateSystemTest(systemTest));
+            }
+        }
+
+        //If any steps were supplied
+        if (data.steps) {
+
+            //For each step
+            for (var step of data.steps) {
+                
+                //Create or update it
+                promises.push(Step.createOrUpdateStep(step));
             }
         }
 

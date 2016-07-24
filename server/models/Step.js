@@ -72,48 +72,75 @@ stepSchema.statics.addStep = function addStep(newStepData) {
 //Creates a new test step
 stepSchema.statics.createStep = function createStep(newStepData) {
     
+    //Return the created step
+    return create(newStepData);
+};
+
+//Creates or update an existing step if it exists
+stepSchema.statics.createOrUpdateStep = function createOrUpdateStep(newStepData) {
+    
     //Return a promise
     return new Promise(function(resolve, reject) {
 
-        //Check if the project exists
-        var projectExists = mongoose.model('Project').exists(newStepData.projectCode);
+        //If no step data or codes were supplied
+        if (!newStepData || !newStepData.code || !newStepData.projectCode) {
 
-        //Find the newest test step
-        var stepCode = mongoose.model('Step').getNextCode(newStepData.projectCode);
+            //Return an error
+            reject({code: 400, errmsg: 'Invalid step'});
+        }
+        else {
 
-        //If all the promises are successful
-        Promise.all([projectExists, stepCode]).then(function(data) {
-            
-            //Set the test step code
-            newStepData.code = data[1];
-
-            //Create the test step
-            mongoose.model('Step').create(newStepData, function(error, step) {
+            //Find the number of steps by code
+            mongoose.model('Step')
+                .count({
+                    code: newStepData.code,
+                    projectCode: newStepData.projectCode
+                })
+                .exec(function(error, count) {
 
                 //If an error occurred
-                if(error) {
-
-                    //If the error code was 11000
-                    if (error.code == 11000) {
-
-                        //Update the error message to be more user friendly
-                        error.errmsg = 'A test step with the same code already exists.';
-                    }
+                if (error) {
 
                     //Return the error
                     reject(error);
                 }
+                //Else if the step couldn't be found
+                else if (!count) {
+
+                    //Create it
+                    create(newStepData).then(function(stepCode) {
+
+                        //Return the result
+                        resolve(stepCode);
+
+                    }, function(error) {
+
+                        //Return the error
+                        reject(error);
+                    });
+                }
+                //Else if multiple steps were found
+                else if (count > 1) {
+
+                    //Return a 400 error
+                    reject({code: 400, errmsg: 'Multiple steps found with the same code'});
+                }
                 else {
 
-                    //Otherwise, return the test step and project code
-                    resolve({code: step.code, projectCode: step.projectCode});
+                    //Update it
+                    update(newStepData).then(function(stepCode) {
+
+                        //Return the result
+                        resolve(stepCode);
+
+                    }, function(error) {
+
+                        //Return the error
+                        reject(error);
+                    });
                 }
             });
-        }, function(error) {
-            
-            //Return the error
-            reject(error);
-        });
+        }
     });
 };
 
@@ -269,10 +296,83 @@ stepSchema.statics.searchForStep = function searchForStep(projectCode, type, ste
 //Updates an existing test step
 stepSchema.statics.updateStep = function updateStep(newStepData) {
     
+    //Return the updated step
+    return update(newStepData);
+};
+
+//Helper method used to create a new step
+function create(newStepData) {
+
+    //Sanitise the data
+    newStepData = sanitise(newStepData);
+
     //Return a promise
     return new Promise(function(resolve, reject) {
 
-        //Find the test step and update it
+        //Check if the project exists
+        var projectExists = mongoose.model('Project').exists(newStepData.projectCode);
+
+        //Find the newest test step
+        var stepCode = mongoose.model('Step').getNextCode(newStepData.projectCode);
+
+        //If all the promises are successful
+        Promise.all([projectExists, stepCode]).then(function(data) {
+            
+            //Set the test step code
+            newStepData.code = data[1];
+
+            //Create the test step
+            mongoose.model('Step').create(newStepData, function(error, step) {
+
+                //If an error occurred
+                if(error) {
+
+                    //If the error code was 11000
+                    if (error.code == 11000) {
+
+                        //Update the error message to be more user friendly
+                        error.errmsg = 'A test step with the same code already exists.';
+                    }
+
+                    //Return the error
+                    reject(error);
+                }
+                else {
+
+                    //Otherwise, return the test step and project code
+                    resolve({code: step.code, projectCode: step.projectCode});
+                }
+            });
+        }, function(error) {
+            
+            //Return the error
+            reject(error);
+        });
+    });
+}
+
+//Sanitises the supplied step data and returns only the relevant content
+function sanitise(stepData) {
+
+    //Return the sanitised step data
+    return {
+        code: stepData.code,
+        type: stepData.type,
+        step: stepData.step,
+        projectCode: stepData.projectCode
+    };
+}
+
+//Helper method used to update an existing step
+function update(newStepData) {
+
+    //Sanitise the data
+    newStepData = sanitise(newStepData);
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+
+        //Find the step and update it
         mongoose.model('Step')
             .findOneAndUpdate({code: newStepData.code, projectCode: newStepData.projectCode},
                 newStepData, function(error, step) {
@@ -283,11 +383,11 @@ stepSchema.statics.updateStep = function updateStep(newStepData) {
                 //Return the error
                 reject(error);
             }
-            //Else if the test step wasn't found
+            //Else if the step wasn't found
             else if (!step) {
 
                 //Return a 404 error
-                reject({code: 404, errmsg: 'Test step not found'});
+                reject({code: 404, errmsg: 'Step not found'});
             }
             else {
 
@@ -296,6 +396,6 @@ stepSchema.statics.updateStep = function updateStep(newStepData) {
             }
         });
     });
-};
+}
 
 var Step = mongoose.model('Step', stepSchema);
