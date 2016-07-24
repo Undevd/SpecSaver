@@ -7,22 +7,8 @@ var UserStory = require('mongoose').model('UserStory');
 //Creates a new acceptance test
 exports.createAcceptanceTest = function(request, response) {
     
-    //Get the acceptance test data from the request
-    var acceptanceTestData = request.body;
-
-    //Sanitise the data
-    var newAcceptanceTestData = {
-        code: null,
-        given: acceptanceTestData.given,
-        when: acceptanceTestData.when,
-        then: acceptanceTestData.then,
-        projectCode: acceptanceTestData.projectCode,
-        featureCode: acceptanceTestData.featureCode,
-        userStoryCodes: []
-    };
-
     //Create the acceptance test
-    AcceptanceTest.createAcceptanceTest(newAcceptanceTestData).then(function(data) {
+    AcceptanceTest.createAcceptanceTest(request.body).then(function(data) {
 
         //Set the success status and send the new acceptance test, feature, and project codes
         response.status(201).send(data);
@@ -116,34 +102,8 @@ exports.searchForAcceptanceTest = function(request, response) {
 //Updates an existing acceptance test
 exports.updateAcceptanceTest = function(request, response) {
     
-    //Get the acceptance test data from the request
-    var acceptanceTestData = request.body;
-
-    //Sanitise the data
-    var newAcceptanceTestData = {
-        code: acceptanceTestData.code,
-        given: acceptanceTestData.given,
-        when: acceptanceTestData.when,
-        then: acceptanceTestData.then,
-        projectCode: acceptanceTestData.projectCode,
-        featureCode: acceptanceTestData.featureCode,
-        userStoryCodes: []
-    };
-
-    //For each user story code
-    for (var userStoryCode of acceptanceTestData.userStoryCodes) {
-        
-        //If the value is a number and it isn't already in the list
-        if (typeof userStoryCode === "number"
-            && newAcceptanceTestData.userStoryCodes.indexOf(userStoryCode) < 0) {
-
-            //Add the value to the updated acceptance test
-            newAcceptanceTestData.userStoryCodes.push(userStoryCode);
-        }
-    }
-
     //Update the acceptance test
-    AcceptanceTest.updateAcceptanceTest(newAcceptanceTestData).then(function() {
+    AcceptanceTest.updateAcceptanceTest(request.body).then(function() {
 
         //Set and send the success status
         response.sendStatus(200);

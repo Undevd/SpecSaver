@@ -15,58 +15,77 @@ acceptanceTestSchema.index({code: 1, projectCode: 1, featureCode: 1}, {unique: t
 //Creates a new acceptance test
 acceptanceTestSchema.statics.createAcceptanceTest = function createAcceptanceTest(newAcceptanceTestData) {
     
+    //Return the created acceptance test
+    return create(newAcceptanceTestData);
+};
+
+//Creates or update an existing acceptance test if it exists
+acceptanceTestSchema.statics.createOrUpdateAcceptanceTest = function createOrUpdateAcceptanceTest(newAcceptanceTestData) {
+    
     //Return a promise
     return new Promise(function(resolve, reject) {
 
-	    //Check if the project exists
-	    var projectExists = mongoose.model('Project')
-            .exists(newAcceptanceTestData.projectCode);
+        //If no acceptance test data or codes were supplied
+        if (!newAcceptanceTestData || !newAcceptanceTestData.code || !newAcceptanceTestData.projectCode
+            || !newAcceptanceTestData.featureCode) {
 
-	    //Check if the feature exists
-	    var featureExists = mongoose.model('Feature')
-            .exists(newAcceptanceTestData.projectCode, newAcceptanceTestData.featureCode);
+            //Return an error
+            reject({code: 400, errmsg: 'Invalid acceptance test'});
+        }
+        else {
 
-	    //Find the newest acceptance test
-	    var acceptanceTestCode = mongoose.model('AcceptanceTest')
-            .getNextCode(newAcceptanceTestData.projectCode, newAcceptanceTestData.featureCode);
+            //Find the number of acceptance tests by code
+            mongoose.model('AcceptanceTest')
+                .count({
+                    code: newAcceptanceTestData.code,
+                    projectCode: newAcceptanceTestData.projectCode,
+                    featureCode: newAcceptanceTestData.featureCode
+                })
+                .exec(function(error, count) {
 
-	    //If all the promises are successful
-	    Promise.all([projectExists, featureExists, acceptanceTestCode]).then(function(data) {
-	        
-	    	//Set the acceptance test code
-	    	newAcceptanceTestData.code = data[2];
+                //If an error occurred
+                if (error) {
 
-	      	//Create the acceptance test
-	    	mongoose.model('AcceptanceTest').create(newAcceptanceTestData, function(error, acceptanceTest) {
+                    //Return the error
+                    reject(error);
+                }
+                //Else if the acceptance test couldn't be found
+                else if (!count) {
 
-		        //If an error occurred
-		        if(error) {
+                    //Create it
+                    create(newAcceptanceTestData).then(function(acceptanceTestCode) {
 
-		            //If the error code was 11000
-		            if (error.code == 11000) {
+                        //Return the result
+                        resolve(acceptanceTestCode);
 
-		                //Update the error message to be more user friendly
-		                error.errmsg = 'An acceptance test with the same code already exists.';
-		            }
+                    }, function(error) {
 
-		            //Return the error
-		            reject(error);
-		        }
-		        else {
-
-		            //Otherwise, return the acceptance test, project, and feature code
-		            resolve({
-                        code: acceptanceTest.code,
-                        projectCode: acceptanceTest.projectCode,
-                        featureCode: acceptanceTest.featureCode
+                        //Return the error
+                        reject(error);
                     });
-		        }
-		    });
-	    }, function(error) {
-	        
-	        //Return the error
-	        reject(error);
-	    });
+                }
+                //Else if multiple acceptance tests were found
+                else if (count > 1) {
+
+                    //Return a 400 error
+                    reject({code: 400, errmsg: 'Multiple acceptance tests found with the same code'});
+                }
+                else {
+
+                    //Update it
+                    update(newAcceptanceTestData).then(function(acceptanceTestCode) {
+
+                        //Return the result
+                        resolve(acceptanceTestCode);
+
+                    }, function(error) {
+
+                        //Return the error
+                        reject(error);
+                    });
+                }
+            });
+        }
     });
 };
 
@@ -368,6 +387,107 @@ acceptanceTestSchema.statics.searchForAcceptanceTest = function searchForAccepta
 //Updates an existing acceptance test
 acceptanceTestSchema.statics.updateAcceptanceTest = function updateAcceptanceTest(newAcceptanceTestData) {
     
+    //Return the updated acceptance test
+    return update(newAcceptanceTestData);
+};
+
+//Helper method used to create a new acceptance test
+function create(newAcceptanceTestData) {
+
+    //Sanitise the data
+    newAcceptanceTestData = sanitise(newAcceptanceTestData);
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+
+	    //Check if the project exists
+	    var projectExists = mongoose.model('Project')
+            .exists(newAcceptanceTestData.projectCode);
+
+	    //Check if the feature exists
+	    var featureExists = mongoose.model('Feature')
+            .exists(newAcceptanceTestData.projectCode, newAcceptanceTestData.featureCode);
+
+	    //Find the newest acceptance test
+	    var acceptanceTestCode = mongoose.model('AcceptanceTest')
+            .getNextCode(newAcceptanceTestData.projectCode, newAcceptanceTestData.featureCode);
+
+	    //If all the promises are successful
+	    Promise.all([projectExists, featureExists, acceptanceTestCode]).then(function(data) {
+	        
+	    	//Set the acceptance test code
+	    	newAcceptanceTestData.code = data[2];
+
+	      	//Create the acceptance test
+	    	mongoose.model('AcceptanceTest').create(newAcceptanceTestData, function(error, acceptanceTest) {
+
+		        //If an error occurred
+		        if(error) {
+
+		            //If the error code was 11000
+		            if (error.code == 11000) {
+
+		                //Update the error message to be more user friendly
+		                error.errmsg = 'An acceptance test with the same code already exists.';
+		            }
+
+		            //Return the error
+		            reject(error);
+		        }
+		        else {
+
+		            //Otherwise, return the acceptance test, project, and feature code
+		            resolve({
+                        code: acceptanceTest.code,
+                        projectCode: acceptanceTest.projectCode,
+                        featureCode: acceptanceTest.featureCode
+                    });
+		        }
+		    });
+	    }, function(error) {
+	        
+	        //Return the error
+	        reject(error);
+	    });
+    });
+}
+
+//Sanitises the supplied acceptance test data and returns only the relevant content
+function sanitise(acceptanceTestData) {
+
+    //Sanitise the data
+    var newAcceptanceTestData = {
+        code: acceptanceTestData.code,
+        given: acceptanceTestData.given,
+        when: acceptanceTestData.when,
+        then: acceptanceTestData.then,
+        projectCode: acceptanceTestData.projectCode,
+        featureCode: acceptanceTestData.featureCode,
+        userStoryCodes: []
+    };
+
+    //For each user story code
+    for (var userStoryCode of acceptanceTestData.userStoryCodes) {
+        
+        //If the value is a number and it isn't already in the list
+        if (typeof userStoryCode === "number"
+            && newAcceptanceTestData.userStoryCodes.indexOf(userStoryCode) < 0) {
+
+            //Add the value to the updated acceptance test
+            newAcceptanceTestData.userStoryCodes.push(userStoryCode);
+        }
+    }
+
+    //Return the sanitised acceptance test data
+    return newAcceptanceTestData;
+}
+
+//Helper method used to update an existing acceptance test
+function update(newAcceptanceTestData) {
+
+    //Sanitise the data
+    newAcceptanceTestData = sanitise(newAcceptanceTestData);
+
     //Return a promise
     return new Promise(function(resolve, reject) {
 
@@ -395,6 +515,6 @@ acceptanceTestSchema.statics.updateAcceptanceTest = function updateAcceptanceTes
             }
         });
     });
-};
+}
 
 var AcceptanceTest = mongoose.model('AcceptanceTest', acceptanceTestSchema);

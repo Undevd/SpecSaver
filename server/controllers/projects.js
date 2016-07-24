@@ -148,6 +148,17 @@ exports.importProject = function(request, response) {
             }
         }
 
+        //If any acceptance tests were supplied
+        if (data.acceptanceTests) {
+
+            //For each acceptance test
+            for (var acceptanceTest of data.acceptanceTests) {
+                
+                //Create or update it
+                promises.push(AcceptanceTest.createOrUpdateAcceptanceTest(acceptanceTest));
+            }
+        }
+
         //If no valid data has been supplied
         if (!promises.length) {
 
