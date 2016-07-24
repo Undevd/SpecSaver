@@ -159,6 +159,17 @@ exports.importProject = function(request, response) {
             }
         }
 
+        //If any system tests were supplied
+        if (data.systemTests) {
+
+            //For each system test
+            for (var systemTest of data.systemTests) {
+                
+                //Create or update it
+                promises.push(SystemTest.createOrUpdateSystemTest(systemTest));
+            }
+        }
+
         //If no valid data has been supplied
         if (!promises.length) {
 
