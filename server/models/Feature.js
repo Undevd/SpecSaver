@@ -275,6 +275,9 @@ featureSchema.statics.updateFeature = function updateFeature(newFeatureData) {
 //Helper method used to create a new feature
 function create(newFeatureData) {
 
+    //Sanitise the data
+    newFeatureData = sanitise(newFeatureData);
+
     //Return a promise
     return new Promise(function(resolve, reject) {
 
@@ -312,7 +315,7 @@ function create(newFeatureData) {
 }
 
 //Sanitises the supplied feature data and returns only the relevant content
-function sanitise(newFeatureData) {
+function sanitise(featureData) {
 
     //Return the sanitised feature data
     return {
@@ -325,6 +328,9 @@ function sanitise(newFeatureData) {
 
 //Helper method used to update an existing feature
 function update(newFeatureData) {
+
+    //Sanitise the data
+    newFeatureData = sanitise(newFeatureData);
 
     //Return a promise
     return new Promise(function(resolve, reject) {

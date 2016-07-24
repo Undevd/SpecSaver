@@ -207,6 +207,9 @@ releaseSchema.statics.updateRelease = function updateRelease(newReleaseData) {
 //Helper method used to create a new release
 function create(newReleaseData) {
 
+    //Sanitise the data
+    newReleaseData = sanitise(newReleaseData);
+
     //Return a promise
     return new Promise(function(resolve, reject) {
 
@@ -243,10 +246,10 @@ function create(newReleaseData) {
     });
 }
 
-//Sanitises the supplied project data and returns only the relevant content
+//Sanitises the supplied release data and returns only the relevant content
 function sanitise(releaseData) {
 
-    //Return the sanitised project data
+    //Return the sanitised release data
     return {
         name: releaseData.name,
         code: releaseData.code,
@@ -257,6 +260,9 @@ function sanitise(releaseData) {
 
 //Helper method used to update an existing release
 function update(newReleaseData) {
+
+    //Sanitise the data
+    newReleaseData = sanitise(newReleaseData);
 
     //Return a promise
     return new Promise(function(resolve, reject) {

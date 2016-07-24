@@ -350,6 +350,9 @@ userStorySchema.statics.updateUserStory = function updateUserStory(newUserStoryD
 //Helper method used to create a new user story
 function create(newUserStoryData) {
 
+    //Sanitise the data
+    newUserStoryData = sanitise(newUserStoryData);
+
     //Return a promise
     return new Promise(function(resolve, reject) {
 
@@ -406,7 +409,7 @@ function create(newUserStoryData) {
 }
 
 //Sanitises the supplied user story data and returns only the relevant content
-function sanitise(newUserStoryData) {
+function sanitise(userStoryData) {
 
     //Return the sanitised user story data
     return {
@@ -421,6 +424,9 @@ function sanitise(newUserStoryData) {
 
 //Helper method used to update an existing user story
 function update(newUserStoryData) {
+
+    //Sanitise the data
+    newUserStoryData = sanitise(newUserStoryData);
 
     //Return a promise
     return new Promise(function(resolve, reject) {
