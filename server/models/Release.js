@@ -4,7 +4,8 @@ var releaseSchema = mongoose.Schema({
     name: { type:String, required:'{PATH} is required'},
     code: {type: String, required: '{PATH} is required'},
     description: {type:String},
-    projectCode: {type:String, required: '{PATH} is required'}
+    projectCode: {type:String, required: '{PATH} is required'},
+    featureCodes: {type: [String]}
 });
 
 releaseSchema.index({code: 1, projectCode: 1}, {unique: true});
@@ -172,6 +173,47 @@ releaseSchema.statics.getRelease = function getRelease(projectCode, releaseCode)
     });
 };
 
+//Gets the release with the supplied release code and the associated features in full
+releaseSchema.statics.getReleaseExpanded = function getReleaseExpanded(projectCode, releaseCode) {
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+
+        //Find the release
+        mongoose.model('Release')
+            .findOne({code: releaseCode, projectCode: projectCode}, '-_id code description featureCodes name projectCode')
+            .exec(function(error, release) {
+
+            //If an error occurred
+            if (error) {
+
+                //Return the error
+                reject(error);
+            }
+            else {
+
+                //Get the features associated with the release
+                var features = mongoose.model('Feature').getAllFeatures(projectCode, release.featureCodes);
+
+                //If all the promises are successful
+                Promise.all([features]).then(function(data) {
+                    
+                    //Return the release and features
+                    resolve({
+                        features: data[0],
+                        release: release
+                    });
+
+                }, function(error) {
+                    
+                    //Otherwise return the error
+                    reject(error);
+                });
+            }
+        });
+    });
+};
+
 //Gets overall statistics for releases associated with the project
 releaseSchema.statics.getReleaseStatsForProject = function getReleaseStatsForProject(projectCode) {
 
@@ -249,13 +291,30 @@ function create(newReleaseData) {
 //Sanitises the supplied release data and returns only the relevant content
 function sanitise(releaseData) {
 
-    //Return the sanitised release data
-    return {
+    //Sanitise the data
+    var newReleaseData = {
         name: releaseData.name,
         code: releaseData.code,
         description: releaseData.description,
-        projectCode: releaseData.projectCode
+        projectCode: releaseData.projectCode,
+        featureCodes: []
     };
+
+    //For each feature code
+    for (var featureCode of releaseData.featureCodes) {
+        
+        //If the value is a string or a number
+        //and it isn't already in the list
+        if ((typeof featureCode === "string" || typeof featureCode === "number")
+            && newReleaseData.featureCodes.indexOf(featureCode) < 0) {
+
+            //Add the value to the updated release
+            newReleaseData.featureCodes.push(featureCode);
+        }
+    }
+
+    //Return the sanitised release data
+    return newReleaseData;
 }
 
 //Helper method used to update an existing release

@@ -45,14 +45,18 @@ exports.getRelease = function(request, response) {
     //Get the project
     var project = Project.getProject(request.params.projectCode);
 
-    //Get the release
-    var release = Release.getRelease(request.params.projectCode, request.params.releaseCode);
+    //Get the release and features
+    var release = Release.getReleaseExpanded(request.params.projectCode, request.params.releaseCode);
 
     //If all the promises are successful
     Promise.all([project, release]).then(function(data) {
         
         //Set the success status and send the project and release data
-        response.status(200).send({project: data[0], release: data[1]});
+        response.status(200).send({
+            project: data[0],
+            release: data[1].release,
+            features: data[1].features
+        });
 
     }, function(error) {
         
