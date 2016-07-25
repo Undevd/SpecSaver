@@ -5,7 +5,6 @@ var systemTestSchema = mongoose.Schema({
     code: {type: Number, required: '{PATH} is required'},
     description: {type: String},
     projectCode: {type: String, required: '{PATH} is required'},
-    featureCodes: {type: [String]},
     acceptanceTestCodes : {
         type: Array,
         code: {type: Number},
@@ -208,7 +207,7 @@ systemTestSchema.statics.getSystemTest = function getSystemTest(projectCode, sys
         //Find the systemTest
         mongoose.model('SystemTest')
             .findOne({code: systemTestCode, projectCode: projectCode},
-                '-_id acceptanceTestCodes code description featureCodes name projectCode')
+                '-_id acceptanceTestCodes code description name projectCode')
             .exec(function(error, systemTest) {
 
             //If an error occurred
@@ -235,7 +234,7 @@ systemTestSchema.statics.getSystemTestAndSteps = function getSystemTest(projectC
         //Find the systemTest
         mongoose.model('SystemTest')
             .findOne({code: systemTestCode, projectCode: projectCode},
-                '-_id acceptanceTestCodes code description featureCodes name projectCode stepArguments')
+                '-_id acceptanceTestCodes code description name projectCode stepArguments')
             .exec(function(error, systemTest) {
 
             //If an error occurred
@@ -253,7 +252,7 @@ systemTestSchema.statics.getSystemTestAndSteps = function getSystemTest(projectC
     });
 };
 
-//Gets the system test with the supplied system test code and the associated features and test steps in full
+//Gets the system test with the supplied system test code and the associated acceptance tests and test steps in full
 systemTestSchema.statics.getSystemTestExpanded = function getSystemTestExpanded(projectCode, systemTestCode) {
 
     //Return a promise
@@ -262,7 +261,7 @@ systemTestSchema.statics.getSystemTestExpanded = function getSystemTestExpanded(
         //Find the system test
         mongoose.model('SystemTest')
             .findOne({code: systemTestCode, projectCode: projectCode},
-                '-_id acceptanceTestCodes code description featureCodes name projectCode stepArguments')
+                '-_id acceptanceTestCodes code description name projectCode stepArguments')
             .exec(function(error, systemTest) {
 
             //If an error occurred
@@ -274,23 +273,21 @@ systemTestSchema.statics.getSystemTestExpanded = function getSystemTestExpanded(
             else {
 
                 //Get the acceptance tests associated with the system test
-                var acceptanceTests = mongoose.model('AcceptanceTest').getAllAcceptanceTests(projectCode, systemTest.acceptanceTestCodes);
-
-                //Get the features associated with the system test
-                var features = mongoose.model('Feature').getAllFeatures(projectCode, systemTest.featureCodes);
+                var acceptanceTests = mongoose.model('AcceptanceTest').getAllAcceptanceTestsExpanded(projectCode, systemTest.acceptanceTestCodes);
 
                 //Get the test steps associated with the system test
                 var steps = mongoose.model('Step').getAllSteps(projectCode, systemTest.stepArguments);
 
                 //If all the promises are successful
-                Promise.all([acceptanceTests, features, steps]).then(function(data) {
-                    
+                Promise.all([acceptanceTests, steps]).then(function(data) {
+
                     //Return the system test and test steps
                     resolve({
-                        acceptanceTests: data[0],
-                        features: data[1],
+                        acceptanceTests: data[0].acceptanceTests,
+                        features: data[0].features,
                         systemTest: systemTest,
-                        steps: data[2]
+                        steps: data[1],
+                        userStories: data[0].userStories
                     });
 
                 }, function(error) {
@@ -422,23 +419,9 @@ function sanitise(systemTestData) {
         code: systemTestData.code,
         description: systemTestData.description,
         projectCode: systemTestData.projectCode,
-        featureCodes: [],
         acceptanceTestCodes: [],
         stepArguments: []
     };
-
-    //For each feature code
-    for (var featureCode of systemTestData.featureCodes) {
-        
-        //If the value is a string or a number
-        //and it isn't already in the list
-        if ((typeof featureCode === "string" || typeof featureCode === "number")
-            && newSystemTestData.featureCodes.indexOf(featureCode) < 0) {
-
-            //Add the value to the updated system test
-            newSystemTestData.featureCodes.push(featureCode);
-        }
-    }
 
     //For each acceptance test
     for (var acceptanceTest of systemTestData.acceptanceTestCodes) {

@@ -59,7 +59,8 @@ exports.getSystemTest = function(request, response) {
             features: data[1].features,
             project: data[0],
             systemTest: data[1].systemTest,
-            steps: data[1].steps
+            steps: data[1].steps,
+            userStories: data[1].userStories
         });
 
     }, function(error) {

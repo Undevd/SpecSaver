@@ -1,4 +1,4 @@
-angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootScope, $location, $routeParams, dbAcceptanceTest, dbFeature, dbSystemTest, dbStep) {
+angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootScope, $location, $routeParams, dbAcceptanceTest, dbSystemTest, dbStep) {
     
 	//Get the route parameters
 	var projectCode = $routeParams.projectCode;
@@ -10,7 +10,6 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
     //Set the navigation settings
     $scope.nav = {
         acceptanceTest: {edit: true},
-        feature: {edit: true},
         systemTest: {isCurrentSection: true}
     };
 
@@ -142,6 +141,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         $scope.systemTest = data.systemTest;
         updateStepsInScope(data.steps);
         $scope.stats = data.stats;
+        $scope.userStories = data.userStories;
     };
 
     //Updates the test steps in the scope, both in original form and also by separating out the arguments
@@ -700,134 +700,6 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
 
                 //Add the error message to the scope
                 $scope.acceptanceTestError = error.data.message;
-            });
-        };
-
-        //Store feature search results
-        $scope.featureResults = [];
-
-        //Searches for matching features
-        $scope.searchForFeature = function() {
-
-            //Search for a match
-            dbFeature.searchForFeature(projectCode, $scope.newFeature.name).$promise.then(function(results) {
-
-                //Add the search results to the scope
-                $scope.featureResults = results;
-
-                //Set the current time
-                $scope.featureResultsTime = new Date();
-            });
-        };
-
-        //Store data on new features which are added
-        $scope.newFeature = {};
-
-        //Clears the feature search window
-        $scope.clearFeatureResults = function() {
-            
-            //Clear the last selected feature
-            $scope.newFeature.index = null;
-            
-            //Clear the search results
-            $scope.featureResults = [];
-
-            //Clear the search time
-            $scope.featureResultsTime = null;
-        };
-
-        //Adds a feature to the system test
-        $scope.addFeature = function(closeOnCompletion) {
-
-            //Get the selected feature index
-            var index = $scope.newFeature.index;
-
-            //Get the feature data from the scope
-            var feature = {
-                code: $scope.featureResults[index].code,
-                name: $scope.featureResults[index].name
-            };
-
-            //If the list of system test feature codes doesn't exist
-            if (!$scope.systemTest.featureCodes) {
-                
-                //Create it
-                $scope.systemTest.featureCodes = [];
-            }
-
-            //If the list of features doesn't exist
-            if (!$scope.features) {
-                
-                //Create it
-                $scope.features = [];
-            }
-
-            //If the code doesn't exist in the feature codes list
-            if ($scope.systemTest.featureCodes.indexOf(feature.code) < 0) {
-
-                //Add the feature code to the system test list
-                $scope.systemTest.featureCodes.push(feature.code);
-
-                //Add the feature name to the feature list
-                $scope.features.push({code: feature.code, name: feature.name});
-
-                //Save the system test
-                dbSystemTest.updateSystemTest($scope.systemTest).$promise.then(function(data) {
-                    
-                    //Clear any existing errors
-                    $scope.featureError = null;
-                    
-                    //If the dialog should be closed on completion
-                    if (closeOnCompletion) {
-                        
-                        //Close the dialog (JQuery)
-                        $("#ModalAddFeatureCloseButton").trigger('click');
-                    }
-                }, function(error) {
-
-                    //Add the error message to the scope
-                    $scope.featureError = error.data.message;
-                });
-            }
-        };
-
-        //Removes a feature from the system test
-        $scope.removeFeature = function(code) {
-
-            //Check if the feature code is in the system test list
-            var featureCodeIndex = $scope.systemTest.featureCodes.indexOf(code);
-
-            //If it is in the list
-            if (featureCodeIndex > -1) {
-
-                //Remove the feature code from the system test list
-                $scope.systemTest.featureCodes.splice(featureCodeIndex, 1);
-            }
-            
-            //For each feature
-            for (var i = 0; i < $scope.features.length; i++) {
-                
-                //If the feature code matches the supplied code
-                if ($scope.features[i].code == code) {
-
-                    //Remove it from the array of features
-                    $scope.features.splice(i, 1);
-
-                    //Break from the loop
-                    break;
-                }
-            }
-
-            //Save the system test
-            dbSystemTest.updateSystemTest($scope.systemTest).$promise.then(function(data) {
-                
-                //Clear any existing errors
-                $scope.featureError = null;
-
-            }, function(error) {
-
-                //Add the error message to the scope
-                $scope.featureError = error.data.message;
             });
         };
     }, function(error) {

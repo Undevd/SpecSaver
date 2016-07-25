@@ -285,6 +285,111 @@ acceptanceTestSchema.statics.getAllAcceptanceTests = function getAllAcceptanceTe
     });
 };
 
+//Gets all acceptance tests with the supplied project, feature, and acceptance test codes
+//Also returns any associated features and user stories
+acceptanceTestSchema.statics.getAllAcceptanceTestsExpanded = function getAllAcceptanceTestsExpanded(projectCode, acceptanceTestCodes) {
+
+	//Return a promise
+	return new Promise(function(resolve, reject) {
+
+        //If no acceptance test codes were supplied
+        if (!acceptanceTestCodes.length) {
+            
+            //Resolve the promise with an empty array
+            resolve([]);
+
+            return;
+        }
+
+        //Find the acceptance tests by feature code
+        mongoose.model('AcceptanceTest')
+            .find({
+                $and: [
+                    {projectCode: projectCode},
+                    {$or: acceptanceTestCodes}
+                ]
+            }, '-_id code featureCode given projectCode then userStoryCodes when')
+            .sort('name')
+            .exec(function(error, acceptanceTests) {
+
+            //If an error occurred
+            if (error) {
+
+                //Return the error
+                reject(error);
+            }
+            else {
+
+                //Store a list of feature promises
+                var features = [];
+
+                //Store a list of feature codes
+                var featureCodes = [];
+
+                //Store a list of user story promises
+                var userStories = [];
+
+                //Store a list of user story codes
+                var userStoryCodes = [];
+
+                //For each acceptance test
+                for (var acceptanceTest of acceptanceTests) {
+
+                    //If the feature code is not in the list
+                    if (featureCodes.indexOf(acceptanceTest.featureCode)) {
+
+                        //Add it to the list
+                        featureCodes.push(acceptanceTest.featureCode);
+
+                        //Get the feature
+                        features.push(mongoose.model('Feature').getFeature(
+                            acceptanceTest.projectCode, acceptanceTest.featureCode));
+                    }
+
+                    //If at least one user story is associated
+                    if (acceptanceTest.userStoryCodes) {
+
+                        //For each user story in the acceptance test
+                        for (var userStoryCode of acceptanceTest.userStoryCodes) {
+
+                            //If the user story code is not in the list
+                            if (!userStoryCodes.filter(function(v) {
+                                return v.code == userStoryCode && v.featureCode == acceptanceTest.featureCode}).length)
+                            {
+                                //Add it to the list
+                                userStoryCodes.push({
+                                    code: userStoryCode,
+                                    featureCode: acceptanceTest.featureCode
+                                });
+
+                                //Get the user story
+                                userStories.push(mongoose.model('UserStory').getUserStory(
+                                    acceptanceTest.projectCode, acceptanceTest.featureCode, userStoryCode));
+                            }
+                        }
+                    }
+                }
+
+                //If all the promises are successful
+                Promise.all(features.concat(userStories)).then(function(data) {
+                    
+                    //Return the acceptance tests, feature, and user stories
+                    resolve({
+                        acceptanceTests: acceptanceTests,
+                        features: data.slice(0, features.length),
+                        userStories: data.slice(features.length)
+                    });
+
+                }, function(error) {
+                    
+                    //Otherwise return the error
+                    reject(error);
+                });
+            }
+        });
+    });
+};
+
 //Gets all acceptance tests by feature code
 acceptanceTestSchema.statics.getAllAcceptanceTestsByFeature = function getAllAcceptanceTestsByFeature(projectCode, featureCode) {
 
