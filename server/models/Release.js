@@ -300,16 +300,20 @@ function sanitise(releaseData) {
         featureCodes: []
     };
 
-    //For each feature code
-    for (var featureCode of releaseData.featureCodes) {
-        
-        //If the value is a string or a number
-        //and it isn't already in the list
-        if ((typeof featureCode === "string" || typeof featureCode === "number")
-            && newReleaseData.featureCodes.indexOf(featureCode) < 0) {
+    //If any feature codes were supplied
+    if (releaseData.featureCodes) {
 
-            //Add the value to the updated release
-            newReleaseData.featureCodes.push(featureCode);
+        //For each feature code
+        for (var featureCode of releaseData.featureCodes) {
+            
+            //If the value is a string or a number
+            //and it isn't already in the list
+            if ((typeof featureCode === "string" || typeof featureCode === "number")
+                && newReleaseData.featureCodes.indexOf(featureCode) < 0) {
+
+                //Add the value to the updated release
+                newReleaseData.featureCodes.push(featureCode);
+            }
         }
     }
 

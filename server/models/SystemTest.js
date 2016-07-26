@@ -423,49 +423,57 @@ function sanitise(systemTestData) {
         stepArguments: []
     };
 
-    //For each acceptance test
-    for (var acceptanceTest of systemTestData.acceptanceTestCodes) {
-        
-        //If the code is a number
-        //and the feature code is a string or a number
-        //and it isn't already in the list
-        if (typeof acceptanceTest.code === "number"
-            && (typeof acceptanceTest.featureCode === "string"
-                || typeof acceptanceTest.featureCode === "number")
-            && newSystemTestData.acceptanceTestCodes.map(function(e) {
-                return e.featureCode + ',' + e.code
-            }).indexOf(acceptanceTest.featureCode + ',' + acceptanceTest.code) < 0) {
+    //If any acceptance test codes were supplied
+    if (systemTestData.acceptanceTestCodes) {
 
-            //Add the values to the updated system test
-            newSystemTestData.acceptanceTestCodes.push({
-                code: acceptanceTest.code,
-                featureCode: acceptanceTest.featureCode
-            });
+        //For each acceptance test
+        for (var acceptanceTest of systemTestData.acceptanceTestCodes) {
+            
+            //If the code is a number
+            //and the feature code is a string or a number
+            //and it isn't already in the list
+            if (typeof acceptanceTest.code === "number"
+                && (typeof acceptanceTest.featureCode === "string"
+                    || typeof acceptanceTest.featureCode === "number")
+                && newSystemTestData.acceptanceTestCodes.map(function(e) {
+                    return e.featureCode + ',' + e.code
+                }).indexOf(acceptanceTest.featureCode + ',' + acceptanceTest.code) < 0) {
+
+                //Add the values to the updated system test
+                newSystemTestData.acceptanceTestCodes.push({
+                    code: acceptanceTest.code,
+                    featureCode: acceptanceTest.featureCode
+                });
+            }
         }
     }
 
-    //For each test step
-    for (var step of systemTestData.stepArguments) {
-        
-        //Create a new object to store the sanitised arguments
-        var stepArguments = {
-            code: step.code,
-            arguments: []
-        }; 
-   
-        //If there are arguments defined
-        if (step.arguments) {
+    //If any acceptance test codes were supplied
+    if (systemTestData.stepArguments) {
+
+        //For each test step
+        for (var step of systemTestData.stepArguments) {
             
-            //For each argument
-            for (var argument of step.arguments) {
+            //Create a new object to store the sanitised arguments
+            var stepArguments = {
+                code: step.code,
+                arguments: []
+            }; 
+    
+            //If there are arguments defined
+            if (step.arguments) {
                 
-                //Add a sanitised version of the argument to the new object
-                stepArguments.arguments.push({name: argument.name, value: argument.value});
+                //For each argument
+                for (var argument of step.arguments) {
+                    
+                    //Add a sanitised version of the argument to the new object
+                    stepArguments.arguments.push({name: argument.name, value: argument.value});
+                }
             }
+            
+            //Add the object to the updated system test
+            newSystemTestData.stepArguments.push(stepArguments);
         }
-        
-        //Add the object to the updated system test
-        newSystemTestData.stepArguments.push(stepArguments);
     }
 
     //Return the sanitised system test data

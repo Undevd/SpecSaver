@@ -571,15 +571,19 @@ function sanitise(acceptanceTestData) {
         userStoryCodes: []
     };
 
-    //For each user story code
-    for (var userStoryCode of acceptanceTestData.userStoryCodes) {
+    //If any user story codes were supplied
+    if (acceptanceTestData.userStoryCodes) {
         
-        //If the value is a number and it isn't already in the list
-        if (typeof userStoryCode === "number"
-            && newAcceptanceTestData.userStoryCodes.indexOf(userStoryCode) < 0) {
+        //For each user story code
+        for (var userStoryCode of acceptanceTestData.userStoryCodes) {
+            
+            //If the value is a number and it isn't already in the list
+            if (typeof userStoryCode === "number"
+                && newAcceptanceTestData.userStoryCodes.indexOf(userStoryCode) < 0) {
 
-            //Add the value to the updated acceptance test
-            newAcceptanceTestData.userStoryCodes.push(userStoryCode);
+                //Add the value to the updated acceptance test
+                newAcceptanceTestData.userStoryCodes.push(userStoryCode);
+            }
         }
     }
 
