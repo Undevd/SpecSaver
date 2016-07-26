@@ -5,7 +5,7 @@ li
     h1
         a(ng-href="/p/{{project.code}}/s") System Test
 li(ng-if="project && systemTest")
-    h3 {{project.code}}-S{{systemTest.code}}
+    h3 {{project.code}}:S{{systemTest.code}}
 li.padl(ng-if="project")
     a(ng-href="/c/p/{{project.code}}/s")
         span.glyphicon.glyphicon-plus.padr

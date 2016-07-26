@@ -6,7 +6,7 @@
             tr.clickable-row.row(ng-click="goTo(userStory.code)")
                 td.col-md-2
                     a(ng-href="/p/{{project.code}}/f/{{feature.code}}/u/{{userStory.code}}")
-                        div U{{userStory.code}}
+                        div {{project.code}}-{{feature.code}}:U{{userStory.code}}
                 td.col-md-10
                     a(ng-href="/p/{{project.code}}/f/{{feature.code}}/u/{{userStory.code}}")
                         div As a{{userStory.asA ? (['a', 'e', 'i', 'o', 'u'].indexOf(userStory.asA.toLowerCase()[0]) !== -1 ? 'n' : '') : ''}} {{userStory.asA}}

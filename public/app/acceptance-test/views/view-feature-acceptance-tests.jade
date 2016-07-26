@@ -6,7 +6,7 @@
             tr.clickable-row.row(ng-click="goTo(acceptanceTest.code)")
                 td.col-md-3
                     a(ng-href="/p/{{project.code}}/f/{{feature.code}}/a/{{acceptanceTest.code}}")
-                        div A{{acceptanceTest.code}}
+                        div {{project.code}}-{{feature.code}}:A{{acceptanceTest.code}}
                 td.col-md-9
                     a(ng-href="/p/{{project.code}}/f/{{feature.code}}/a/{{acceptanceTest.code}}")
                         div Given {{acceptanceTest.given}}
