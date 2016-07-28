@@ -81,13 +81,13 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         if (step.arguments) {
 
             //For each argument
-            for (var argument of step.arguments) {
+            for (var i = 0; i < step.arguments.length; i++) {
 
                 //If the argument name matches and a value has been recorded
-                if (argument.name == argumentName && argument.value) {
+                if (step.arguments[i].name == argumentName && step.arguments[i].value) {
 
                     //Return the value of the argument
-                    return argument.value;
+                    return step.arguments[i].value;
                 }
             }
         }
@@ -122,10 +122,10 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         var rowsSplit = [];
 
         //For each row
-        for (var row of rows) {
+        for (var i = 0; i < rows.length; i++) {
 
             //Split the row into columns and add this to the array
-            rowsSplit.push(getColumns(row));
+            rowsSplit.push(getColumns(rows[i]));
         }
 
         //Return the rows split
@@ -373,13 +373,13 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
                 var isMatch = false;
                 
                 //For each existing argument
-                for (var argument of arguments) {
+                for (var i = 0; i < arguments.length; i++) {
                     
                     //If the argument name matches
-                    if (argument.name == argumentName) {
+                    if (arguments[i].name == argumentName) {
                         
                         //Update the value
-                        argument.value = argumentValue;
+                        arguments[i].value = argumentValue;
                         
                         //Record that the argument was found and updated
                         isMatch = true;

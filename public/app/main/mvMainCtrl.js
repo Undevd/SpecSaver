@@ -13,12 +13,12 @@ angular.module('app').controller('mvMainCtrl', function($scope, $timeout, mvQuot
 .directive('pageQuote', function() {
     return {
         template:
-            `<div>
-                <div class="quote">
-                <h3>"{{quote.quote}}"</h3>
-                <div class="quoteperson">
-                    <h4> - {{quote.person}}</h4>
-                </div>
-            </div>`
+            '<div>'
+                + '<div class="quote">'
+                + '<h3>"{{quote.quote}}"</h3>'
+                + '<div class="quoteperson">'
+                    + '<h4> - {{quote.person}}</h4>'
+                + '</div>'
+            + '</div>'
     };
 });
