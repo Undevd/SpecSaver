@@ -364,9 +364,10 @@ function create(newUserStoryData) {
 	    var featureExists = mongoose.model('Feature')
             .exists(newUserStoryData.projectCode, newUserStoryData.featureCode);
 
-	    //Find the newest user story
-	    var userStoryCode = mongoose.model('UserStory')
-            .getNextCode(newUserStoryData.projectCode, newUserStoryData.featureCode);
+	    //Find the next available user story code if one was not supplied
+	    var userStoryCode = (newUserStoryData.code)
+            ? newUserStoryData.code
+            : mongoose.model('UserStory').getNextCode(newUserStoryData.projectCode, newUserStoryData.featureCode);
 
 	    //If all the promises are successful
 	    Promise.all([projectExists, featureExists, userStoryCode]).then(function(data) {

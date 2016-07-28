@@ -312,8 +312,10 @@ function create(newStepData) {
         //Check if the project exists
         var projectExists = mongoose.model('Project').exists(newStepData.projectCode);
 
-        //Find the newest test step
-        var stepCode = mongoose.model('Step').getNextCode(newStepData.projectCode);
+	    //Find the next available test step code if one was not supplied
+	    var stepCode = (newStepData.code)
+            ? newStepData.code
+            : mongoose.model('Step').getNextCode(newStepData.projectCode);
 
         //If all the promises are successful
         Promise.all([projectExists, stepCode]).then(function(data) {

@@ -18,8 +18,8 @@ userSchema.methods = {
 var User = mongoose.model('User', userSchema);
 
 exports.createInitialUsers = function createInitialUsers() {
-    User.find({}).exec(function(err, collection) {
-        if(collection.length === 0) {
+    User.count({}).exec(function(error, total) {
+        if (total === 0) {
             var salt, hash;
             salt = generateSalt();
             hash = hashPassword(salt, 'Zeroish');

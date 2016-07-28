@@ -371,8 +371,10 @@ function create(newSystemTestData) {
         //Check if the project exists
         var projectExists = mongoose.model('Project').exists(newSystemTestData.projectCode);
 
-        //Find the newest system test
-        var systemTestCode = mongoose.model('SystemTest').getNextCode(newSystemTestData.projectCode);
+	    //Find the next available system test code if one was not supplied
+	    var systemTestCode = (newSystemTestData.code)
+            ? newSystemTestData.code
+            : mongoose.model('SystemTest').getNextCode(newSystemTestData.projectCode);
 
         //If all the promises are successful
         Promise.all([projectExists, systemTestCode]).then(function(data) {

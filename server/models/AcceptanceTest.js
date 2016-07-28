@@ -513,9 +513,11 @@ function create(newAcceptanceTestData) {
 	    var featureExists = mongoose.model('Feature')
             .exists(newAcceptanceTestData.projectCode, newAcceptanceTestData.featureCode);
 
-	    //Find the newest acceptance test
-	    var acceptanceTestCode = mongoose.model('AcceptanceTest')
-            .getNextCode(newAcceptanceTestData.projectCode, newAcceptanceTestData.featureCode);
+	    //Find the next available acceptance test code if one was not supplied
+	    var acceptanceTestCode = (newAcceptanceTestData.code)
+            ? newAcceptanceTestData.code
+            : mongoose.model('AcceptanceTest').getNextCode(newAcceptanceTestData.projectCode,
+                newAcceptanceTestData.featureCode);
 
 	    //If all the promises are successful
 	    Promise.all([projectExists, featureExists, acceptanceTestCode]).then(function(data) {
