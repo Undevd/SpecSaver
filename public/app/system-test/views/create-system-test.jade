@@ -15,7 +15,7 @@
             .form-group
                 label.col-md-2.control-label(for="description") Description
                 .col-md-10
-                    textarea.form-control(name="description", type="text", placeholder="Please enter a system test description...", ng-model="description", required)
+                    textarea.form-control(name="description", type="text", placeholder="Please enter a system test description...", ng-model="description")
                     .alert.alert-danger(role="alert", ng-show="systemTestForm.description.$invalid && systemTestForm.description.$dirty") Please enter a description
         .alert.alert-danger.text-center(ng-show="error" role="alert") {{error}}
         .col-md-10.col-md-offset-2
