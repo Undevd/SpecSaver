@@ -2,7 +2,8 @@
     include ../../main/views/partials/header
     .well
         h2 Acceptance Test \#{{acceptanceTest.code}}
-    div
+    include ../../main/views/partials/nav
+    .well
         .step(ng-show="!edit.given")
             a.edit(ng-click="showEdit('given', true)" ng-mouseleave="hover.given = false" ng-mouseover="hover.given = true")
                 span.step-type(ng-show="acceptanceTest.given") Given

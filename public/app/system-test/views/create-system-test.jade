@@ -1,10 +1,11 @@
 .container(ng-show="project")
     form.form-horizontal(name="systemTestForm")
         include ../../main/views/partials/header
+        .well
+            h2 Create System Test
+        include ../../main/views/partials/nav
         .alert.alert-danger.text-center(ng-show="error" role="alert") {{error}}
         .well
-            h2 New System Test
-        div
             .form-group
                 .col-md-2.control-label
                     span.glyphicon.glyphicon-asterisk.text-danger.padr

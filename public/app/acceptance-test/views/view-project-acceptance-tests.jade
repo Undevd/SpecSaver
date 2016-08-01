@@ -1,5 +1,8 @@
 .container(ng-show="project")
     include ../../main/views/partials/header
+    .well
+        h2 {{project.name}} Acceptance Tests
+    include ../../main/views/partials/nav
     .alert.alert-info.text-center(ng-show="!stats.acceptanceTest.feature.length")
         .padb.row You must create a feature before creating an acceptance test
         .row

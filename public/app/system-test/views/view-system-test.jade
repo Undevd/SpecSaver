@@ -25,7 +25,8 @@
                         span.glyphicon.glyphicon-ok
                     a.btn.btn-default(ng-click="cancelEdit('name')")
                         span.glyphicon.glyphicon-remove
-    .padb
+    include ../../main/views/partials/nav
+    .well.wellb
         div(ng-show="!edit.description")
             a.edit(
                 ng-click="showEdit(true, 'description')"

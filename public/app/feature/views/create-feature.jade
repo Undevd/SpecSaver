@@ -1,6 +1,9 @@
 .container(ng-show="project")
     form.form-horizontal(name="featureForm")
         include ../../main/views/partials/header
+        .well
+            h2 Create Feature
+        include ../../main/views/partials/nav
         .alert.alert-danger.text-center(ng-show="error" role="alert") {{error}}
         .well
             .form-group

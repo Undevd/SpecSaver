@@ -2,7 +2,8 @@
     include ../../main/views/partials/header
     .well
         h2 User Story \#{{userStory.code}}
-    div
+    include ../../main/views/partials/nav
+    .well
         .step(ng-show="!edit.asA")
             a.edit(ng-click="showEdit('asA', true)" ng-mouseleave="hover.asA = false" ng-mouseover="hover.asA = true")
                 span.step-type(ng-show="userStory.asA") As a{{userStory.asA ? (['a', 'e', 'i', 'o', 'u'].indexOf(userStory.asA.toLowerCase()[0]) !== -1 ? 'n' : '') : ''}}

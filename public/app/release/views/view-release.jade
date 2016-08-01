@@ -12,7 +12,8 @@
                         span.glyphicon.glyphicon-ok
                     a.btn.btn-default(ng-click="cancelEdit('name')")
                         span.glyphicon.glyphicon-remove
-    div
+    include ../../main/views/partials/nav
+    .well
         div(ng-show="!edit.description")
             a.edit(ng-click="showEdit('description', true)" ng-mouseleave="hover.description = false" ng-mouseover="hover.description = true")
                 span(ng-show="release.description") {{release.description}}

@@ -1,5 +1,8 @@
 .container(ng-show="project")
     include ../../main/views/partials/header
+    .well
+        h2 {{project.name}} Features
+    include ../../main/views/partials/nav
     .alert.alert-info.text-center(ng-show="!features.length") No features found
     table.table.table-hover.table-striped.table-condensed
         tbody(ng-repeat="feature in features")

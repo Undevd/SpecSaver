@@ -1,5 +1,7 @@
 .container(ng-show="projects")
     include ../../main/views/partials/header
+    .well.wellb
+        h2 All Projects
     .alert.alert-info.text-center(ng-show="!projects.length") No projects found
     table.table.table-hover.table-striped.table-condensed(ng-show="projects.length")
         tbody(ng-repeat="project in projects")
