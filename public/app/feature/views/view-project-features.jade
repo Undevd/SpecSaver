@@ -4,9 +4,12 @@
     table.table.table-hover.table-striped.table-condensed
         tbody(ng-repeat="feature in features")
             tr.clickable-row.row(ng-click="goTo(feature.code)")
-                td.col-md-6
+                td.col-md-2
+                    a.btn.btn-xs.colour3(ng-href="/p/{{project.code}}/f/{{feature.code}}")
+                        {{project.code}}-{{feature.code}}
+                td.col-md-5
                     a(ng-href="/p/{{project.code}}/f/{{feature.code}}")
                         div {{feature.name}}
-                td.col-md-6
+                td.col-md-5
                     a(ng-href="/p/{{project.code}}/f/{{feature.code}}")
                         div {{feature.description | limitTo: 100}}{{feature.description.length &gt; 100 ? '...' : ''}}

@@ -7,10 +7,13 @@
                 ng-click="goTo(project.code)"
                 ng-show="project.isMember()"
             )
-                td.col-md-6
+                td.col-md-2
+                    a.btn.btn-xs.colour1(ng-href="/p/{{project.code}}")
+                        {{project.code}}
+                td.col-md-5
                     a(ng-href="/p/{{project.code}}")
                         div {{project.name}}
-                td.col-md-6
+                td.col-md-5
                     a(ng-href="/p/{{project.code}}")
                         div {{project.description | limitTo: 100}}{{project.description.length &gt; 100 ? '...' : ''}}
 include partials/import-project
