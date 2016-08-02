@@ -16,12 +16,14 @@
     .well
         div(ng-show="!edit.description")
             a.edit(ng-click="showEdit('description', true)" ng-mouseleave="hover.description = false" ng-mouseover="hover.description = true")
-                span(ng-show="project.description") {{project.description}}
-                span.glyphicon.glyphicon-pencil.small(ng-show="hover.description")
+                span(ng-repeat="line in project.description.split('\n') track by $index" ng-show="project.description")
+                    div
+                        span.multi-line {{line}}
+                            span.glyphicon.glyphicon-pencil.small(ng-if="$index == project.description.split('\n').length - 1" ng-show="hover.description")
                 em(ng-cloak ng-show="!project.description") Click to add a description
         div(ng-show="edit.description")
             form(name="descriptionForm")
-                textarea.form-control(name="project.description" ng-model="project.description" type="text" placeholder="Description")
+                textarea.form-control(name="project.description" ng-model="project.description" type="text" placeholder="Description" rows="10")
                 button.btn.btn-success(ng-click="submitEdit('description')", ng-disabled="descriptionForm.$invalid")
                     span.glyphicon.glyphicon-ok
                 a.btn.btn-default(ng-click="cancelEdit('description')")
