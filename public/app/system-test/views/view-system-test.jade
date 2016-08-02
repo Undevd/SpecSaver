@@ -33,8 +33,16 @@
                 ng-mouseleave="hover.description = false"
                 ng-mouseover="hover.description = true"
             )
-                span(ng-show="systemTest.description") {{systemTest.description}}
-                span.glyphicon.glyphicon-pencil.small(ng-show="hover.description")
+                span(
+                    ng-repeat="line in systemTest.description.split('\n') track by $index"
+                    ng-show="systemTest.description"
+                )
+                    div
+                        span.multi-line {{line}}
+                            span.glyphicon.glyphicon-pencil.small(
+                                ng-if="$index == systemTest.description.split('\n').length - 1"
+                                ng-show="hover.description"
+                            )
                 em(
                     ng-cloak
                     ng-show="!systemTest.description"
@@ -45,6 +53,7 @@
                     name="systemTest.description"
                     ng-model="systemTest.description"
                     placeholder="Description"
+                    rows="10"
                     type="text"
                 )
                 button.btn.btn-success(
