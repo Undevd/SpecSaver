@@ -17,18 +17,18 @@
                     span.glyphicon.glyphicon-ok
                 a.btn.btn-default(ng-click="cancelEdit('asA')")
                     span.glyphicon.glyphicon-remove
-        .step(ng-show="!edit.iCan")
-            a.edit(ng-click="showEdit('iCan', true)" ng-mouseleave="hover.iCan = false" ng-mouseover="hover.iCan = true")
-                span.step-type I can
-                span.step-argument-text(ng-show="userStory.iCan") #{' '}{{userStory.iCan}}
-                span.glyphicon.glyphicon-pencil.small(ng-show="hover.iCan")
-        .step(ng-show="edit.iCan")
-            form(name="iCanForm")
-                span.step-type I can
-                textarea.form-control(name="userStory.iCan" ng-model="userStory.iCan" type="text" placeholder="I can")
-                button.btn.btn-success(ng-click="submitEdit('iCan')", ng-disabled="iCanForm.$invalid")
+        .step(ng-show="!edit.iWant")
+            a.edit(ng-click="showEdit('iWant', true)" ng-mouseleave="hover.iWant = false" ng-mouseover="hover.iWant = true")
+                span.step-type I want
+                span.step-argument-text(ng-show="userStory.iWant") #{' '}{{userStory.iWant}}
+                span.glyphicon.glyphicon-pencil.small(ng-show="hover.iWant")
+        .step(ng-show="edit.iWant")
+            form(name="iWantForm")
+                span.step-type I want
+                textarea.form-control(name="userStory.iWant" ng-model="userStory.iWant" type="text" placeholder="I want")
+                button.btn.btn-success(ng-click="submitEdit('iWant')", ng-disabled="iWantForm.$invalid")
                     span.glyphicon.glyphicon-ok
-                a.btn.btn-default(ng-click="cancelEdit('iCan')")
+                a.btn.btn-default(ng-click="cancelEdit('iWant')")
                     span.glyphicon.glyphicon-remove
         .step(ng-show="!edit.soThat")
             a.edit(ng-click="showEdit('soThat', true)" ng-mouseleave="hover.soThat = false" ng-mouseover="hover.soThat = true")

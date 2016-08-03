@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var userStorySchema = mongoose.Schema({
     asA: {type:String, required:'{PATH} is required'},
-    iCan: {type:String, required:'{PATH} is required'},
+    iWant: {type:String, required:'{PATH} is required'},
     soThat: {type:String, required:'{PATH} is required'},
     code: {type: Number, required: '{PATH} is required'},
     projectCode: {type:String, required: '{PATH} is required'},
@@ -135,7 +135,7 @@ userStorySchema.statics.getAllUserStoriesByFeature = function getAllUserStoriesB
 
         //Find the user stories by feature code
         mongoose.model('UserStory')
-            .find({projectCode: projectCode, featureCode: featureCode}, '-_id code asA iCan soThat')
+            .find({projectCode: projectCode, featureCode: featureCode}, '-_id code asA iWant soThat')
             .sort('name')
             .exec(function(error, userStories) {
 
@@ -190,7 +190,7 @@ userStorySchema.statics.getUserStory = function getUserStory(projectCode, featur
         //Find the user story
         mongoose.model('UserStory')
             .findOne({code: userStoryCode, projectCode: projectCode, featureCode: featureCode},
-                '-_id asA code featureCode iCan projectCode soThat')
+                '-_id asA code featureCode iWant projectCode soThat')
             .exec(function(error, userStory) {
 
             //If an error occurred
@@ -316,12 +316,12 @@ userStorySchema.statics.searchForUserStory = function searchForUserStory(project
                             {code: codeCriteria},
                             {featureCode: {$regex: new RegExp(criteria, 'i')}},
                             {asA: {$regex: new RegExp(criteria, 'i')}},
-                            {iCan: {$regex: new RegExp(criteria, 'i')}},
+                            {iWant: {$regex: new RegExp(criteria, 'i')}},
                             {soThat: {$regex: new RegExp(criteria, 'i')}}
                         ]
                     }
                 ]
-            }, '-_id asA code featureCode iCan projectCode soThat')
+            }, '-_id asA code featureCode iWant projectCode soThat')
             .sort({projectCode: 1, featureCode: 1, code: 1})
             .exec(function(error, userStories) {
 
@@ -416,7 +416,7 @@ function sanitise(userStoryData) {
     return {
         asA: userStoryData.asA,
         code: userStoryData.code,
-        iCan: userStoryData.iCan,
+        iWant: userStoryData.iWant,
         soThat: userStoryData.soThat,
         projectCode: userStoryData.projectCode,
         featureCode: userStoryData.featureCode

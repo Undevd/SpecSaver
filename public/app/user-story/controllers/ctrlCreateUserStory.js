@@ -26,7 +26,7 @@ angular.module('app').controller('ctrlCreateUserStory', function($scope, $rootSc
             var newUserStory = {
                 code: null,
                 asA: $scope.asA,
-                iCan: $scope.iCan,
+                iWant: $scope.iWant,
                 soThat: $scope.soThat,
                 projectCode: projectCode,
                 featureCode: featureCode

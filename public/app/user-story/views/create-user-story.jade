@@ -11,19 +11,19 @@
                     span.glyphicon.glyphicon-asterisk.text-danger.padr
                     label(for="asA") As a
                 .col-md-10
-                    input.form-control(name="asA", type="text", placeholder="User", ng-model="asA", required)
+                    input.form-control(name="asA", type="text", placeholder="user of the feature", ng-model="asA", required)
             .form-group
                 .col-md-2.control-label
                     span.glyphicon.glyphicon-asterisk.text-danger.padr
-                    label(for="iCan") I can
+                    label(for="iWant") I want
                 .col-md-10
-                    input.form-control(name="iCan", type="text", placeholder="Do something", ng-model="iCan", required)
+                    input.form-control(name="iWant", type="text", placeholder="to perform an action", ng-model="iWant", required)
             .form-group
                 .col-md-2.control-label
                     span.glyphicon.glyphicon-asterisk.text-danger.padr
                     label(for="soThat") So that
                 .col-md-10
-                    input.form-control(name="soThat", type="text", placeholder="Something happens", ng-model="soThat", required)
+                    input.form-control(name="soThat", type="text", placeholder="an expected result occurs", ng-model="soThat", required)
         .alert.alert-danger.text-center(ng-show="error" role="alert") {{error}}
         .col-md-10.col-md-offset-2
             .pull-right
