@@ -9,7 +9,7 @@
             tr.clickable-row.row(ng-click="goTo(systemTest.code)")
                 td.col-md-2
                     a.btn.btn-xs.colour6(ng-href="/p/{{project.code}}/s/{{systemTest.code}}")
-                        {{project.code}}:S{{systemTest.code}}
+                        {{project.code}}#S{{systemTest.code}}
                 td.col-md-5
                     a(ng-href="/p/{{project.code}}/s/{{systemTest.code}}")
                         div {{systemTest.name}}

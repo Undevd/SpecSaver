@@ -85,12 +85,12 @@ nav(
                 a.btn.btn-xs.colour4(ng-href="/p/{{project.code}}{{feature ? '/f/' + feature.code : ''}}/u")
                     span.glyphicon.glyphicon-asterisk
             span.padr(ng-if="!nav.userStory.isCurrentSection && userStory")
-                a.btn.btn-xs.colour4(ng-href="/p/{{userStory.projectCode}}/f/{{userStory.featureCode}}/u/{{userStory.code}}") {{userStory.projectCode}}-{{userStory.featureCode}}:U{{userStory.code}}
+                a.btn.btn-xs.colour4(ng-href="/p/{{userStory.projectCode}}/f/{{userStory.featureCode}}/u/{{userStory.code}}") {{userStory.projectCode}}-{{userStory.featureCode}}#U{{userStory.code}}
             span.padr(
                 ng-if="!nav.userStory.isCurrentSection"
                 ng-repeat="userStory in userStories"
             )
-                a.btn.btn-xs.colour4(ng-href="/p/{{userStory.projectCode}}/f/{{userStory.featureCode}}/u/{{userStory.code}}") {{userStory.projectCode}}-{{userStory.featureCode}}:U{{userStory.code}}
+                a.btn.btn-xs.colour4(ng-href="/p/{{userStory.projectCode}}/f/{{userStory.featureCode}}/u/{{userStory.code}}") {{userStory.projectCode}}-{{userStory.featureCode}}#U{{userStory.code}}
             span.padr(ng-if="nav.userStory.edit")
                 button.btn.btn-xs.colour4(
                     data-target="#ModalAddUserStory"
@@ -112,12 +112,12 @@ nav(
                 a.btn.btn-xs.colour5(ng-href="/p/{{project.code}}{{feature ? '/f/' + feature.code : ''}}/a")
                     span.glyphicon.glyphicon-asterisk
             span.padr(ng-if="!nav.acceptanceTest.isCurrentSection && acceptanceTest")
-                a.btn.btn-xs.colour5(ng-href="/p/{{acceptanceTest.projectCode}}/f/{{acceptanceTest.featureCode}}/a/{{acceptanceTest.code}}") {{acceptanceTest.projectCode}}-{{acceptanceTest.featureCode}}:A{{acceptanceTest.code}}
+                a.btn.btn-xs.colour5(ng-href="/p/{{acceptanceTest.projectCode}}/f/{{acceptanceTest.featureCode}}/a/{{acceptanceTest.code}}") {{acceptanceTest.projectCode}}-{{acceptanceTest.featureCode}}#A{{acceptanceTest.code}}
             span.padr(
                 ng-if="!nav.acceptanceTest.isCurrentSection"
                 ng-repeat="acceptanceTest in acceptanceTests"
             )
-                a.btn.btn-xs.colour5(ng-href="/p/{{acceptanceTest.projectCode}}/f/{{acceptanceTest.featureCode}}/a/{{acceptanceTest.code}}") {{acceptanceTest.projectCode}}-{{acceptanceTest.featureCode}}:A{{acceptanceTest.code}}
+                a.btn.btn-xs.colour5(ng-href="/p/{{acceptanceTest.projectCode}}/f/{{acceptanceTest.featureCode}}/a/{{acceptanceTest.code}}") {{acceptanceTest.projectCode}}-{{acceptanceTest.featureCode}}#A{{acceptanceTest.code}}
             span.padr(ng-if="nav.acceptanceTest.edit")
                 button.btn.btn-xs.colour5(
                     data-target="#ModalAddAcceptanceTest"
@@ -139,9 +139,9 @@ nav(
                 a.btn.btn-xs.colour6(ng-href="/p/{{project.code}}/s")
                     span.glyphicon.glyphicon-asterisk
             span.padr(ng-if="!nav.systemTest.isCurrentSection && systemTest")
-                a.btn.btn-xs.colour6(ng-href="/p/{{project.code}}/s/{{systemTest.code}}") {{systemTest.projectCode}}:S{{systemTest.code}}
+                a.btn.btn-xs.colour6(ng-href="/p/{{project.code}}/s/{{systemTest.code}}") {{systemTest.projectCode}}#S{{systemTest.code}}
             span.padr(
                 ng-if="!nav.systemTest.isCurrentSection"
                 ng-repeat="systemTest in systemTests"
             )
-                a.btn.btn-xs.colour6(ng-href="/p/{{project.code}}/s/{{systemTest.code}}") {{systemTest.projectCode}}:S{{systemTest.code}}
+                a.btn.btn-xs.colour6(ng-href="/p/{{project.code}}/s/{{systemTest.code}}") {{systemTest.projectCode}}#S{{systemTest.code}}
