@@ -1,7 +1,7 @@
 div(ng-if="project")
     span.padn.pull-right
         a.btn.btn-default.btn-xs(ng-click="nav.settings.isExpanded = !nav.settings.isExpanded")
-            span.glyphicon(ng-class="nav.settings.isExpanded ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'")
+            span.glyphicon(ng-class="nav.settings.isExpanded ? 'glyphicon-triangle-top' : 'glyphicon-triangle-bottom'")
 nav(
     ng-class="nav.settings.isExpanded ? '' : 'padbt'"
     ng-if="project"
@@ -19,7 +19,7 @@ nav(
         span(ng-class="nav.settings.isExpanded ? 'col-md-10' : ''")
             span.padr(ng-show="nav.project.isCurrentSection || nav.settings.isExpanded")
                 a.btn.btn-xs.colour1(href="/p")
-                    span.glyphicon.glyphicon-asterisk
+                    span.glyphicon(ng-class="nav.project.isCurrentSection && project ? 'glyphicon-chevron-up' : 'glyphicon-asterisk'")
             span.padr(ng-if="!nav.project.isCurrentSection && project")
                 a.btn.btn-xs.colour1(ng-href="/p/{{project.code}}") {{project.name}}
     span(
@@ -35,7 +35,7 @@ nav(
         span(ng-class="nav.settings.isExpanded ? 'col-md-10' : ''")
             span.padr(ng-show="nav.release.isCurrentSection || nav.settings.isExpanded")
                 a.btn.btn-xs.colour2(ng-href="/p/{{project.code}}/r")
-                    span.glyphicon.glyphicon-asterisk
+                    span.glyphicon(ng-class="nav.release.isCurrentSection && release ? 'glyphicon-chevron-up' : 'glyphicon-asterisk'")
             span.padr(ng-if="!nav.release.isCurrentSection && release")
                 a.btn.btn-xs.colour2(ng-href="/p/{{project.code}}/r/{{release.code}}") {{release.name}}
             span.padr(
@@ -56,7 +56,7 @@ nav(
         span(ng-class="nav.settings.isExpanded ? 'col-md-10' : ''")
             span.padr(ng-show="nav.feature.isCurrentSection || nav.settings.isExpanded")
                 a.btn.btn-xs.colour3(ng-href="/p/{{project.code}}/f")
-                    span.glyphicon.glyphicon-asterisk
+                    span.glyphicon(ng-class="nav.feature.isCurrentSection && feature ? 'glyphicon-chevron-up' : 'glyphicon-asterisk'")
             span.padr(ng-if="!nav.feature.isCurrentSection && feature")
                 a.btn.btn-xs.colour3(ng-href="/p/{{project.code}}/f/{{feature.code}}") {{feature.name}}
             span.padr(
@@ -83,7 +83,7 @@ nav(
         span(ng-class="nav.settings.isExpanded ? 'col-md-10' : ''")
             span.padr(ng-show="nav.userStory.isCurrentSection || nav.settings.isExpanded")
                 a.btn.btn-xs.colour4(ng-href="/p/{{project.code}}{{feature ? '/f/' + feature.code : ''}}/u")
-                    span.glyphicon.glyphicon-asterisk
+                    span.glyphicon(ng-class="nav.userStory.isCurrentSection && userStory ? 'glyphicon-chevron-up' : 'glyphicon-asterisk'")
             span.padr(ng-if="!nav.userStory.isCurrentSection && userStory")
                 a.btn.btn-xs.colour4(ng-href="/p/{{userStory.projectCode}}/f/{{userStory.featureCode}}/u/{{userStory.code}}") {{userStory.projectCode}}-{{userStory.featureCode}}#U{{userStory.code}}
             span.padr(
@@ -110,7 +110,7 @@ nav(
         span(ng-class="nav.settings.isExpanded ? 'col-md-10' : ''")
             span.padr(ng-show="nav.acceptanceTest.isCurrentSection || nav.settings.isExpanded")
                 a.btn.btn-xs.colour5(ng-href="/p/{{project.code}}{{feature ? '/f/' + feature.code : ''}}/a")
-                    span.glyphicon.glyphicon-asterisk
+                    span.glyphicon(ng-class="nav.acceptanceTest.isCurrentSection && acceptanceTest ? 'glyphicon-chevron-up' : 'glyphicon-asterisk'")
             span.padr(ng-if="!nav.acceptanceTest.isCurrentSection && acceptanceTest")
                 a.btn.btn-xs.colour5(ng-href="/p/{{acceptanceTest.projectCode}}/f/{{acceptanceTest.featureCode}}/a/{{acceptanceTest.code}}") {{acceptanceTest.projectCode}}-{{acceptanceTest.featureCode}}#A{{acceptanceTest.code}}
             span.padr(
@@ -137,7 +137,7 @@ nav(
         span(ng-class="nav.settings.isExpanded ? 'col-md-10' : ''")
             span.padr(ng-show="nav.systemTest.isCurrentSection || nav.settings.isExpanded")
                 a.btn.btn-xs.colour6(ng-href="/p/{{project.code}}/s")
-                    span.glyphicon.glyphicon-asterisk
+                    span.glyphicon(ng-class="nav.systemTest.isCurrentSection && systemTest ? 'glyphicon-chevron-up' : 'glyphicon-asterisk'")
             span.padr(ng-if="!nav.systemTest.isCurrentSection && systemTest")
                 a.btn.btn-xs.colour6(ng-href="/p/{{project.code}}/s/{{systemTest.code}}") {{systemTest.projectCode}}#S{{systemTest.code}}
             span.padr(
