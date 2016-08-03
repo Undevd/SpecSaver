@@ -36,6 +36,7 @@ nav(
             span.padr(ng-show="nav.release.isCurrentSection || nav.settings.isExpanded")
                 a.btn.btn-xs.colour2(ng-href="/p/{{project.code}}/r")
                     span.glyphicon(ng-class="nav.release.isCurrentSection && release ? 'glyphicon-chevron-up' : 'glyphicon-asterisk'")
+                    span.padl(ng-if="stats.release") {{stats.release.total}}
             span.padr(ng-if="!nav.release.isCurrentSection && release")
                 a.btn.btn-xs.colour2(ng-href="/p/{{project.code}}/r/{{release.code}}") {{release.name}}
             span.padr(
@@ -57,6 +58,7 @@ nav(
             span.padr(ng-show="nav.feature.isCurrentSection || nav.settings.isExpanded")
                 a.btn.btn-xs.colour3(ng-href="/p/{{project.code}}/f")
                     span.glyphicon(ng-class="nav.feature.isCurrentSection && feature ? 'glyphicon-chevron-up' : 'glyphicon-asterisk'")
+                    span.padl(ng-if="stats.feature") {{stats.feature.total}}
             span.padr(ng-if="!nav.feature.isCurrentSection && feature")
                 a.btn.btn-xs.colour3(ng-href="/p/{{project.code}}/f/{{feature.code}}") {{feature.name}}
             span.padr(
@@ -84,6 +86,7 @@ nav(
             span.padr(ng-show="nav.userStory.isCurrentSection || nav.settings.isExpanded")
                 a.btn.btn-xs.colour4(ng-href="/p/{{project.code}}{{feature ? '/f/' + feature.code : ''}}/u")
                     span.glyphicon(ng-class="nav.userStory.isCurrentSection && userStory ? 'glyphicon-chevron-up' : 'glyphicon-asterisk'")
+                    span.padl(ng-if="stats.userStory") {{stats.userStory.total}}
             span.padr(ng-if="!nav.userStory.isCurrentSection && userStory")
                 a.btn.btn-xs.colour4(ng-href="/p/{{userStory.projectCode}}/f/{{userStory.featureCode}}/u/{{userStory.code}}") {{userStory.projectCode}}-{{userStory.featureCode}}#U{{userStory.code}}
             span.padr(
@@ -111,6 +114,7 @@ nav(
             span.padr(ng-show="nav.acceptanceTest.isCurrentSection || nav.settings.isExpanded")
                 a.btn.btn-xs.colour5(ng-href="/p/{{project.code}}{{feature ? '/f/' + feature.code : ''}}/a")
                     span.glyphicon(ng-class="nav.acceptanceTest.isCurrentSection && acceptanceTest ? 'glyphicon-chevron-up' : 'glyphicon-asterisk'")
+                    span.padl(ng-if="stats.acceptanceTest") {{stats.acceptanceTest.total}}
             span.padr(ng-if="!nav.acceptanceTest.isCurrentSection && acceptanceTest")
                 a.btn.btn-xs.colour5(ng-href="/p/{{acceptanceTest.projectCode}}/f/{{acceptanceTest.featureCode}}/a/{{acceptanceTest.code}}") {{acceptanceTest.projectCode}}-{{acceptanceTest.featureCode}}#A{{acceptanceTest.code}}
             span.padr(
@@ -138,6 +142,7 @@ nav(
             span.padr(ng-show="nav.systemTest.isCurrentSection || nav.settings.isExpanded")
                 a.btn.btn-xs.colour6(ng-href="/p/{{project.code}}/s")
                     span.glyphicon(ng-class="nav.systemTest.isCurrentSection && systemTest ? 'glyphicon-chevron-up' : 'glyphicon-asterisk'")
+                    span.padl(ng-if="stats.systemTest") {{stats.systemTest.total}}
             span.padr(ng-if="!nav.systemTest.isCurrentSection && systemTest")
                 a.btn.btn-xs.colour6(ng-href="/p/{{project.code}}/s/{{systemTest.code}}") {{systemTest.projectCode}}#S{{systemTest.code}}
             span.padr(
