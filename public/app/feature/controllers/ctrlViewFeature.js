@@ -9,7 +9,8 @@ angular.module('app').controller('ctrlViewFeature', function($scope, $rootScope,
 
     //Set the navigation settings
     $scope.nav = {
-        feature: {isCurrentSection: true}
+        feature: {isCurrentSection: true},
+        settings: {isExpanded: true}
     };
 
     //Get the feature data

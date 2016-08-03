@@ -10,7 +10,8 @@ angular.module('app').controller('ctrlViewRelease', function($scope, $rootScope,
     //Set the navigation settings
     $scope.nav = {
         feature: {edit: true},
-        release: {isCurrentSection: true}
+        release: {isCurrentSection: true},
+        settings: {isExpanded: true}
     };
 
 	//Get the release data
