@@ -5,7 +5,7 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
 	var systemTestCode = $routeParams.systemTestCode;
 
     //Set the page title
-    $rootScope.title += projectCode + '-S' + systemTestCode;
+    $rootScope.title += projectCode + '#S' + systemTestCode;
 
     //Set the navigation settings
     $scope.nav = {

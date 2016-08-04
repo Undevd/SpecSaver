@@ -6,7 +6,7 @@ angular.module('app').controller('ctrlViewUserStory', function($scope, $rootScop
     var userStoryCode = $routeParams.userStoryCode;
 
     //Set the page title
-    $rootScope.title += projectCode + '-' + featureCode + '-U' + userStoryCode;
+    $rootScope.title += projectCode + '-' + featureCode + '#U' + userStoryCode;
 
     //Set the navigation settings
     $scope.nav = {

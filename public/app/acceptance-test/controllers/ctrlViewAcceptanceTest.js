@@ -6,7 +6,7 @@ angular.module('app').controller('ctrlViewAcceptanceTest', function($scope, $roo
     var acceptanceTestCode = $routeParams.acceptanceTestCode;
 
     //Set the page title
-    $rootScope.title += projectCode + '-' + featureCode + '-A' + acceptanceTestCode;
+    $rootScope.title += projectCode + '-' + featureCode + '#A' + acceptanceTestCode;
 
     //Set the navigation settings
     $scope.nav = {
