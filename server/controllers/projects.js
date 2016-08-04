@@ -57,43 +57,16 @@ exports.getAllProjects = function(request, response) {
 //Gets the project with the supplied project code
 exports.getProject = function(request, response) {
 
-    //Get the project
-    var project = Project.getProject(request.params.projectCode);
+    //Get the project and its statistics
+    Project.getProjectExpanded(request.params.projectCode).then(function(data) {
 
-    //Get the release statistics
-    var releaseStats = Release.getReleaseStatsForProject(request.params.projectCode);
-
-    //Get the feature statistics
-    var featureStats = Feature.getFeatureStatsForProject(request.params.projectCode);
-
-    //Get the user story statistics
-    var userStoryStats = UserStory.getUserStoryStatsForProject(request.params.projectCode);
-
-    //Get the acceptance test statistics
-    var acceptanceTestStats = AcceptanceTest.getAcceptanceTestStatsForProject(request.params.projectCode);
-
-    //Get the system test statistics
-    var systemTestStats = SystemTest.getSystemTestStatsForProject(request.params.projectCode);
-
-    //If all the promises are successful
-    Promise.all([project, releaseStats, featureStats, userStoryStats, acceptanceTestStats, systemTestStats]).then(function(data) {
-        
-        //Set the success status and send the project and features data
-        response.status(200).send({
-            project: data[0],
-            stats: {
-                release: data[1],
-                feature: data[2],
-                userStory: data[3],
-                acceptanceTest: data[4],
-                systemTest: data[5]
-            }
-        });
+        //Set the success status and send the data
+        response.status(200).send(data);
 
     }, function(error) {
-        
-        //Otherwise, set the error status and send the error message
-        response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
+
+        //Set the error status and send the error message
+        response.status(400).send({code: error.code, message: error.errmsg});
     });
 }
 

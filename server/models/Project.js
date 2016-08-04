@@ -132,11 +132,11 @@ projectSchema.statics.exportProject = function exportProject(projectCode) {
         var features = mongoose.model('Feature').find({projectCode: projectCode}, '-_id -__v').exec();
         var userStories = mongoose.model('UserStory').find({projectCode: projectCode}, '-_id -__v').exec();
         var acceptanceTests = mongoose.model('AcceptanceTest').find({projectCode: projectCode}, '-_id -__v').exec();
-        var systemTests = mongoose.model('SystemTest').find({projectCode: projectCode}, '-_id -__v').exec();
         var steps = mongoose.model('Step').find({projectCode: projectCode}, '-_id -__v').exec();
+        var systemTests = mongoose.model('SystemTest').find({projectCode: projectCode}, '-_id -__v').exec();
 
         //If all the promises are successful
-        Promise.all([project, releases, features, userStories, acceptanceTests, systemTests, steps]).then(function(data) {
+        Promise.all([project, releases, features, userStories, acceptanceTests, steps, systemTests]).then(function(data) {
 
             //Return the project data
             resolve({
@@ -145,8 +145,8 @@ projectSchema.statics.exportProject = function exportProject(projectCode) {
                 features: data[2],
                 userStories: data[3],
                 acceptanceTests: data[4],
-                systemTests: data[5],
-                steps: data[6]
+                steps: data[5],
+                systemTests: data[6]
             });
 
         }, function(error) {
@@ -187,33 +187,44 @@ projectSchema.statics.getAllProjects = function getAllProjects() {
 //Gets a single project by project code
 projectSchema.statics.getProject = function getProject(projectCode) {
 
+    //Return the project data
+    return get(projectCode);
+};
+
+//Gets a single project by project code, along with all related statistics
+projectSchema.statics.getProjectExpanded = function getProjectExpanded(projectCode) {
+
     //Return a promise
     return new Promise(function(resolve, reject) {
 
-        //Find the project by code
-        mongoose.model('Project')
-            .findOne({code: projectCode}, '-_id admins code description members name')
-            .exec(function(error, project) {
+        //Get the project
+        var project = get(projectCode);
 
-            //If an error occurred
-            if (error) {
+        //Get the statistics
+        var statistics = stats(projectCode);
 
-                //Return the error
-                reject(error);
-            }
-            //Else if the project couldn't be found
-            else if (!project) {
+        //If all the promises are successful
+        Promise.all([project, statistics]).then(function(data) {
+            
+            //Return the project and statistics
+            resolve({
+                project: data[0],
+                stats: data[1]
+            });
 
-                //Return a 404 error
-                reject({code: 404, errmsg: 'Project not found'});
-            }
-            else {
-
-                //Otherwise, return the project
-                resolve(project);
-            }
+        }, function(error) {
+            
+            //Return the error message
+            reject({code: error.code, message: error.errmsg});
         });
     });
+};
+
+//Gets all statistics related to the project with the supplied code
+projectSchema.statics.getProjectStats = function getProjectStats(projectCode) {
+
+    //Return the project statistics
+    return stats(projectCode);
 };
 
 //Updates the project with the supplied project code
@@ -257,6 +268,38 @@ function create(newProjectData) {
     });
 }
 
+//Gets a single project by project code
+function get(projectCode) {
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+
+        //Find the project by code
+        mongoose.model('Project')
+            .findOne({code: projectCode}, '-_id admins code description members name')
+            .exec(function(error, project) {
+
+            //If an error occurred
+            if (error) {
+
+                //Return the error
+                reject(error);
+            }
+            //Else if the project couldn't be found
+            else if (!project) {
+
+                //Return a 404 error
+                reject({code: 404, errmsg: 'Project not found'});
+            }
+            else {
+
+                //Otherwise, return the project
+                resolve(project);
+            }
+        });
+    });
+}
+
 //Sanitises the supplied project data and returns only the relevant content
 function sanitise(projectData) {
 
@@ -268,6 +311,47 @@ function sanitise(projectData) {
         admins: projectData.admins,
         members: projectData.members
     };
+}
+
+//Gets all statistics related to the project with the supplied code
+function stats(projectCode) {
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+
+        //Get the release statistics
+        var releaseStats = mongoose.model('Release').getReleaseStatsForProject(projectCode);
+
+        //Get the feature statistics
+        var featureStats = mongoose.model('Feature').getFeatureStatsForProject(projectCode);
+
+        //Get the user story statistics
+        var userStoryStats = mongoose.model('UserStory').getUserStoryStatsForProject(projectCode);
+
+        //Get the acceptance test statistics
+        var acceptanceTestStats = mongoose.model('AcceptanceTest').getAcceptanceTestStatsForProject(projectCode);
+
+        //Get the system test statistics
+        var systemTestStats = mongoose.model('SystemTest').getSystemTestStatsForProject(projectCode);
+
+        //If all the promises are successful
+        Promise.all([releaseStats, featureStats, userStoryStats, acceptanceTestStats, systemTestStats]).then(function(data) {
+            
+            //Return the stats
+            resolve({
+                release: data[0],
+                feature: data[1],
+                userStory: data[2],
+                acceptanceTest: data[3],
+                systemTest: data[4]
+            });
+
+        }, function(error) {
+            
+            //Return the error message
+            reject({code: error.code, message: error.errmsg});
+        });
+    });
 }
 
 //Helper method used to update the project with the supplied project code
