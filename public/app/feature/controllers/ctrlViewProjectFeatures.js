@@ -17,6 +17,7 @@ angular.module('app').controller('ctrlViewProjectFeatures', function($scope, $ro
         //Store the data in the scope
         $scope.project = data.project;
         $scope.features = data.features;
+        $scope.stats = data.stats;
 
         //Set the clickable row URL function
         $scope.goTo = function(featureCode) {

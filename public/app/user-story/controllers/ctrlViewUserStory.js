@@ -20,6 +20,7 @@ angular.module('app').controller('ctrlViewUserStory', function($scope, $rootScop
         $scope.project = data.project;
         $scope.feature = data.feature;
         $scope.userStory = data.userStory;
+        $scope.stats = data.stats;
 
         //Record whether a field is being edited
         $scope.edit = {};

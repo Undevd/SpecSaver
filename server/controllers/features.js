@@ -23,7 +23,7 @@ exports.createFeature = function(request, response) {
 exports.getAllFeaturesByProject = function(request, response) {
 
     //Get the project
-    var project = Project.getProject(request.params.projectCode);
+    var project = Project.getProjectExpanded(request.params.projectCode);
 
     //Get the features
     var features = Feature.getAllFeaturesByProject(request.params.projectCode);
@@ -32,7 +32,11 @@ exports.getAllFeaturesByProject = function(request, response) {
     Promise.all([project, features]).then(function(data) {
         
         //Set the success status and send the project and features data
-        response.status(200).send({project: data[0], features: data[1]});
+        response.status(200).send({
+            project: data[0].project,
+            features: data[1],
+            stats: data[0].stats
+        });
 
     }, function(error) {
         
@@ -67,7 +71,14 @@ exports.getFeature = function(request, response) {
     Promise.all([project, feature, userStoryStats, acceptanceTestStats]).then(function(data) {
         
         //Set the success status and send the project and features data
-        response.status(200).send({project: data[0], feature: data[1], stats: {userStory: data[2], acceptanceTest: data[3]}});
+        response.status(200).send({
+            project: data[0],
+            feature: data[1],
+            stats: {
+                userStory: data[2],
+                acceptanceTest: data[3]
+            }
+        });
 
     }, function(error) {
         

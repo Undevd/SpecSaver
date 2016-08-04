@@ -17,6 +17,7 @@ angular.module('app').controller('ctrlViewAllReleases', function($scope, $rootSc
         //Store the data in the scope
         $scope.project = data.project;
         $scope.releases = data.releases;
+        $scope.stats = data.stats;
 
         //Set the clickable row URL function
         $scope.goTo = function(releaseCode) {

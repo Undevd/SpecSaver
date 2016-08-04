@@ -140,8 +140,8 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         $scope.project = data.project;
         $scope.systemTest = data.systemTest;
         updateStepsInScope(data.steps);
-        $scope.stats = data.stats;
         $scope.userStories = data.userStories;
+        $scope.stats = data.stats;
     };
 
     //Updates the test steps in the scope, both in original form and also by separating out the arguments

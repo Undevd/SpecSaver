@@ -18,6 +18,7 @@ angular.module('app').controller('ctrlCreateUserStory', function($scope, $rootSc
         //Store the data in the scope
         $scope.project = data.project;
         $scope.feature = data.feature;
+        $scope.stats = data.stats;
 
         //Submits the new user story to the server
         $scope.submit = function() {

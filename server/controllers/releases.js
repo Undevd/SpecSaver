@@ -21,7 +21,7 @@ exports.createRelease = function(request, response) {
 exports.getAllReleasesByProject = function(request, response) {
 
     //Get the project
-    var project = Project.getProject(request.params.projectCode);
+    var project = Project.getProjectExpanded(request.params.projectCode);
 
     //Get the releases
     var releases = Release.getAllReleasesByProject(request.params.projectCode);
@@ -30,7 +30,11 @@ exports.getAllReleasesByProject = function(request, response) {
     Promise.all([project, releases]).then(function(data) {
         
         //Set the success status and send the project and releases data
-        response.status(200).send({project: data[0], releases: data[1]});
+        response.status(200).send({
+            project: data[0].project,
+            releases: data[1],
+            stats: data[0].stats
+        });
 
     }, function(error) {
         

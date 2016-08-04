@@ -19,6 +19,7 @@ angular.module('app').controller('ctrlViewFeatureAcceptanceTests', function($sco
         $scope.project = data.project;
         $scope.feature = data.feature;
         $scope.acceptanceTests = data.acceptanceTests;
+        $scope.stats = data.stats;
         
         //Set the clickable row URL function
         $scope.goTo = function(acceptanceTestCode) {

@@ -16,6 +16,7 @@ angular.module('app').controller('ctrlCreateSystemTest', function($scope, $rootS
 
         //Store the data in the scope
         $scope.project = data.project;
+        $scope.stats = data.stats;
 
         //Submits the new system test to the server
         $scope.submit = function() {

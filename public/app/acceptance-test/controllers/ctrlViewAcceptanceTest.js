@@ -23,6 +23,7 @@ angular.module('app').controller('ctrlViewAcceptanceTest', function($scope, $roo
         $scope.acceptanceTest = data.acceptanceTest;
         $scope.userStories = data.userStories;
         $scope.systemTests = data.systemTests;
+        $scope.stats = data.stats;
 
         //Record whether a field is being edited
         $scope.edit = {};

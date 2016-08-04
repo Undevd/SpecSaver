@@ -19,6 +19,7 @@ angular.module('app').controller('ctrlViewReleaseFeatures', function($scope, $ro
         $scope.project = data.project;
         $scope.release = data.release;
         $scope.features = data.features;
+        $scope.stats = data.stats;
 
     }, function(error) {
         

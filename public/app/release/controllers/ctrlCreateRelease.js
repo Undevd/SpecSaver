@@ -16,6 +16,7 @@ angular.module('app').controller('ctrlCreateRelease', function($scope, $rootScop
 
         //Store the data in the scope
         $scope.project = data.project;
+        $scope.stats = data.stats;
 
         //Submits the new feature to the server
         $scope.submit = function() {

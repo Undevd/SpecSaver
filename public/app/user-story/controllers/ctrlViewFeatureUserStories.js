@@ -19,6 +19,7 @@ angular.module('app').controller('ctrlViewFeatureUserStories', function($scope, 
         $scope.project = data.project;
         $scope.feature = data.feature;
         $scope.userStories = data.userStories;
+        $scope.stats = data.stats;
         
         //Set the clickable row URL function
         $scope.goTo = function(userStoryCode) {

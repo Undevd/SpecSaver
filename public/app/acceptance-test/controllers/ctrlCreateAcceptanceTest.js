@@ -18,6 +18,7 @@ angular.module('app').controller('ctrlCreateAcceptanceTest', function($scope, $r
         //Store the data in the scope
         $scope.project = data.project;
         $scope.feature = data.feature;
+        $scope.stats = data.stats;
 
         //Submits the new acceptance test to the server
         $scope.submit = function() {

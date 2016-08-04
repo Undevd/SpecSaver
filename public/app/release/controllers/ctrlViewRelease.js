@@ -21,6 +21,7 @@ angular.module('app').controller('ctrlViewRelease', function($scope, $rootScope,
         $scope.project = data.project;
         $scope.release = data.release;
         $scope.features = data.features;
+        $scope.stats = data.stats;
 
         //Record whether a field is being edited
         $scope.edit = {};

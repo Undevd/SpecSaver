@@ -23,7 +23,7 @@ exports.createSystemTest = function(request, response) {
 exports.getAllSystemTestsByProject = function(request, response) {
 
     //Get the project
-    var project = Project.getProject(request.params.projectCode);
+    var project = Project.getProjectExpanded(request.params.projectCode);
 
     //Get the system tests
     var systemTests = SystemTest.getAllSystemTestsByProject(request.params.projectCode);
@@ -32,7 +32,11 @@ exports.getAllSystemTestsByProject = function(request, response) {
     Promise.all([project, systemTests]).then(function(data) {
         
         //Set the success status and send the project and system tests data
-        response.status(200).send({project: data[0], systemTests: data[1]});
+        response.status(200).send({
+            project: data[0].project,
+            systemTests: data[1],
+            stats: data[0].stats
+        });
 
     }, function(error) {
         

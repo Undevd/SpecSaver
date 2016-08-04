@@ -17,6 +17,7 @@ angular.module('app').controller('ctrlViewAllSystemTests', function($scope, $roo
         //Store the data in the scope
         $scope.project = data.project;
         $scope.systemTests = data.systemTests;
+        $scope.stats = data.stats;
 
         //Set the clickable row URL function
         $scope.goTo = function(systemTestCode) {
