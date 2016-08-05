@@ -23,20 +23,24 @@ exports.createAcceptanceTest = function(request, response) {
 //Gets all acceptance tests by feature code
 exports.getAllAcceptanceTestsByFeature = function(request, response) {
 
-    //Get the project
-    var project = Project.getProject(request.params.projectCode);
-
     //Get the feature
-    var feature = Feature.getFeature(request.params.projectCode, request.params.featureCode);
+    var feature = Feature.getFeatureExpanded(request.params.projectCode, request.params.featureCode);
 
     //Get the acceptance tests
     var acceptanceTests = AcceptanceTest.getAllAcceptanceTestsByFeature(request.params.projectCode, request.params.featureCode);
 
     //If all the promises are successful
-    Promise.all([project, feature, acceptanceTests]).then(function(data) {
+    Promise.all([feature, acceptanceTests]).then(function(data) {
         
         //Set the success status and send the project, feature, and acceptance tests data
-        response.status(200).send({project: data[0], feature: data[1], acceptanceTests: data[2]});
+        response.status(200).send({
+            project: data[0].project,
+            feature: data[0].feature,
+            acceptanceTests: data[1],
+            stats: {
+                acceptanceTest: data[0].stats.acceptanceTest
+            }
+        });
 
     }, function(error) {
         

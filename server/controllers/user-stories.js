@@ -14,7 +14,7 @@ exports.createUserStory = function(request, response) {
     }, function(error) {
 
         //Set the error status and send the error message
-        response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
+        response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.message});
     });
 };
 
@@ -25,7 +25,7 @@ exports.getAllUserStoriesByFeature = function(request, response) {
     var project = Project.getProject(request.params.projectCode);
 
     //Get the feature
-    var feature = Feature.getFeature(request.params.projectCode, request.params.featureCode);
+    var feature = Feature.getFeatureExpanded(request.params.projectCode, request.params.featureCode);
 
     //Get the user stories
     var userStories = UserStory.getAllUserStoriesByFeature(request.params.projectCode, request.params.featureCode);
@@ -34,7 +34,12 @@ exports.getAllUserStoriesByFeature = function(request, response) {
     Promise.all([project, feature, userStories]).then(function(data) {
         
         //Set the success status and send the project, feature, and user stories data
-        response.status(200).send({project: data[0], feature: data[1], userStories: data[2]});
+        response.status(200).send({
+            project: data[0],
+            feature: data[1].feature,
+            userStories: data[2],
+            stats: data[1].stats
+        });
 
     }, function(error) {
         
@@ -46,20 +51,24 @@ exports.getAllUserStoriesByFeature = function(request, response) {
 //Gets the user story with the supplied user story code
 exports.getUserStory = function(request, response) {
 
-    //Get the project
-    var project = Project.getProject(request.params.projectCode);
-
     //Get the feature
-    var feature = Feature.getFeature(request.params.projectCode, request.params.featureCode);
+    var feature = Feature.getFeatureExpanded(request.params.projectCode, request.params.featureCode);
 
     //Get the user story
     var userStory = UserStory.getUserStory(request.params.projectCode, request.params.featureCode, request.params.userStoryCode);
 
     //If all the promises are successful
-    Promise.all([project, feature, userStory]).then(function(data) {
+    Promise.all([feature, userStory]).then(function(data) {
         
         //Set the success status and send the project, feature, and user story data
-        response.status(200).send({project: data[0], feature: data[1], userStory: data[2]});
+        response.status(200).send({
+            project: data[0].project,
+            feature: data[0].feature,
+            userStory: data[1],
+            stats: {
+                acceptanceTest: data[0].stats.acceptanceTest
+            }
+        });
 
     }, function(error) {
         

@@ -188,26 +188,39 @@ featureSchema.statics.getAllFeaturesByProject = function getAllFeaturesByProject
 //Gets the feature with the supplied feature code
 featureSchema.statics.getFeature = function getFeature(projectCode, featureCode) {
 
+    //Return the feature data
+    return get(projectCode, featureCode);
+};
+
+//Gets the feature with the supplied feature code, along with the project and all related statistics
+featureSchema.statics.getFeatureExpanded = function getFeatureExpanded(projectCode, featureCode) {
+
     //Return a promise
     return new Promise(function(resolve, reject) {
 
-        //Find the feature
-        mongoose.model('Feature')
-            .findOne({code: featureCode, projectCode: projectCode},
-                '-_id code description name projectCode')
-            .exec(function(error, feature) {
+        //Get the project
+        var project = mongoose.model('Project').getProject(projectCode);
+        
+        //Get the feature
+        var feature = get(projectCode, featureCode);
 
-            //If an error occurred
-            if (error) {
+        //Get the statistics
+        var statistics = stats(projectCode, featureCode);
 
-                //Return the error
-                reject(error);
-            }
-            else {
+        //If all the promises are successful
+        Promise.all([project, feature, statistics]).then(function(data) {
+            
+            //Return the feature and statistics
+            resolve({
+                project: data[0],
+                feature: data[1],
+                stats: data[2]
+            });
 
-                //Otherwise, return the feature
-                resolve(feature);
-            }
+        }, function(error) {
+            
+            //Return the error message
+            reject({code: error.code, message: error.errmsg});
         });
     });
 };
@@ -235,6 +248,13 @@ featureSchema.statics.getFeatureStatsForProject = function getFeatureStatsForPro
             reject(error);
         });
     });
+};
+
+//Gets all statistics related to the feature with the supplied code
+featureSchema.statics.getFeatureStats = function getFeatureStats(projectCode, featureCode) {
+
+    //Return the feature statistics
+    return stats(projectCode, featureCode);
 };
 
 //Gets all features by project code containing the name criteria
@@ -314,6 +334,33 @@ function create(newFeatureData) {
     });
 }
 
+//Gets the feature with the supplied feature code
+function get(projectCode, featureCode) {
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+
+        //Find the feature
+        mongoose.model('Feature')
+            .findOne({code: featureCode, projectCode: projectCode},
+                '-_id code description name projectCode')
+            .exec(function(error, feature) {
+
+            //If an error occurred
+            if (error) {
+
+                //Return the error
+                reject(error);
+            }
+            else {
+
+                //Otherwise, return the feature
+                resolve(feature);
+            }
+        });
+    });
+}
+
 //Sanitises the supplied feature data and returns only the relevant content
 function sanitise(featureData) {
 
@@ -324,6 +371,35 @@ function sanitise(featureData) {
         description: featureData.description,
         projectCode: featureData.projectCode
     };
+}
+
+//Gets all statistics related to the feature with the supplied code
+function stats(projectCode, featureCode) {
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+
+        //Get the user story statistics
+        var userStoryStats = mongoose.model('UserStory').getUserStoryStatsForFeature(projectCode, featureCode);
+
+        //Get the acceptance test statistics
+        var acceptanceTestStats = mongoose.model('AcceptanceTest').getAcceptanceTestStatsForFeature(projectCode, featureCode);
+
+        //If all the promises are successful
+        Promise.all([userStoryStats, acceptanceTestStats]).then(function(data) {
+            
+            //Return the stats
+            resolve({
+                userStory: data[0],
+                acceptanceTest: data[1]
+            });
+
+        }, function(error) {
+            
+            //Return the error message
+            reject({code: error.code, message: error.errmsg});
+        });
+    });
 }
 
 //Helper method used to update an existing feature

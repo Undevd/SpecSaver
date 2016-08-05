@@ -55,35 +55,16 @@ exports.getAllFeaturesByRelease = function(request, response) {
 //Gets the feature with the supplied feature code
 exports.getFeature = function(request, response) {
 
-    //Get the project
-    var project = Project.getProject(request.params.projectCode);
+    //Get the project, feature, and its statistics
+    Feature.getFeatureExpanded(request.params.projectCode, request.params.featureCode).then(function(data) {
 
-    //Get the feature
-    var feature = Feature.getFeature(request.params.projectCode, request.params.featureCode);
-
-    //Get the user story statistics
-    var userStoryStats = UserStory.getUserStoryStatsForFeature(request.params.projectCode, request.params.featureCode);
-
-    //Get the acceptance test statistics
-    var acceptanceTestStats = AcceptanceTest.getAcceptanceTestStatsForFeature(request.params.projectCode, request.params.featureCode);
-
-    //If all the promises are successful
-    Promise.all([project, feature, userStoryStats, acceptanceTestStats]).then(function(data) {
-        
-        //Set the success status and send the project and features data
-        response.status(200).send({
-            project: data[0],
-            feature: data[1],
-            stats: {
-                userStory: data[2],
-                acceptanceTest: data[3]
-            }
-        });
+        //Set the success status and send the data
+        response.status(200).send(data);
 
     }, function(error) {
-        
-        //Otherwise, set the error status and send the error message
-        response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
+
+        //Set the error status and send the error message
+        response.status(400).send({code: error.code, message: error.errmsg});
     });
 };
 
