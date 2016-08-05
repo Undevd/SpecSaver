@@ -17,11 +17,11 @@
                     span.glyphicon.glyphicon-grain.padr
                     span Acceptance Tests
             .modal-body
-                .well
+                .well.wellb
                     div(ng-show="!acceptanceTests.length") No associated acceptance tests
                     span.padr(ng-repeat="acceptanceTest in acceptanceTests")
                         button.btn.colour5(ng-click="removeAcceptanceTest(acceptanceTest.code)")
-                            span.padr {{acceptanceTest.projectCode}}-{{acceptanceTest.featureCode}}-{{acceptanceTest.code}}
+                            span.padr {{acceptanceTest.projectCode}}-{{acceptanceTest.featureCode}}\#{{acceptanceTest.code}}
                             span(aria-hidden="true") &times;
                 .alert.alert-danger.text-center(
                     ng-show="acceptanceTestError"
@@ -57,7 +57,7 @@
                             option(
                                 ng-repeat="result in acceptanceTestResults"
                                 ng-value="$index"
-                            ) {{project.code + '-' + result.featureCode + '-A' + result.code + ': Given ' + result.given + ', when ' + result.when + ', then ' + result.then}}
+                            ) {{project.code + '-' + result.featureCode + '#A' + result.code + ': Given ' + result.given + ', when ' + result.when + ', then ' + result.then}}
                 .alert.alert-danger.text-center(
                     ng-show="acceptanceTestError"
                     role="alert"

@@ -17,11 +17,11 @@
                     span.glyphicon.glyphicon-tree-deciduous.padr
                     span User Stories
             .modal-body
-                .well
+                .well.wellb
                     div(ng-show="!userStories.length") No associated user stories
                     span.padr(ng-repeat="userStory in userStories")
                         button.btn.colour4(ng-click="removeUserStory(userStory.code)")
-                            span.padr {{userStory.projectCode}}-{{userStory.featureCode}}-{{userStory.code}}
+                            span.padr {{userStory.projectCode}}-{{userStory.featureCode}}\#{{userStory.code}}
                             span(aria-hidden="true") &times;
                 .alert.alert-danger.text-center(
                     ng-show="userStoryError"
@@ -57,7 +57,7 @@
                             option(
                                 ng-repeat="result in userStoryResults"
                                 ng-value="$index"
-                            ) {{project.code + '-' + result.featureCode + '-U' + result.code + ': As a ' + result.asA + ', I want ' + result.iWant + ', so that ' + result.soThat}}
+                            ) {{project.code + '-' + result.featureCode + '#U' + result.code + ': As a ' + result.asA + ', I want ' + result.iWant + ', so that ' + result.soThat}}
                 .alert.alert-danger.text-center(
                     ng-show="userStoryError"
                     role="alert"
