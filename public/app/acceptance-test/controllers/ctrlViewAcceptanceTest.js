@@ -169,7 +169,7 @@ angular.module('app').controller('ctrlViewAcceptanceTest', function($scope, $roo
             for (var i = 0; i < $scope.acceptanceTest.userStoryCodes.length; i++) {
                 
                 //If the user story code matches the supplied code
-                if ($scope.acceptanceTest.userStoryCodes[i].code == code) {
+                if ($scope.acceptanceTest.userStoryCodes[i] == code) {
 
                     //Remove it from the array of user stories
                     $scope.acceptanceTest.userStoryCodes.splice(i, 1);

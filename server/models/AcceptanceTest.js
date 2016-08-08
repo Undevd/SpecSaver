@@ -579,12 +579,15 @@ function sanitise(acceptanceTestData) {
         //For each user story code
         for (var userStoryCode of acceptanceTestData.userStoryCodes) {
             
+            //Parse it into an integer
+            var intUserStoryCode = parseInt(userStoryCode);
+
             //If the value is a number and it isn't already in the list
-            if (typeof userStoryCode === "number"
-                && newAcceptanceTestData.userStoryCodes.indexOf(userStoryCode) < 0) {
+            if (!isNaN(intUserStoryCode)
+                && newAcceptanceTestData.userStoryCodes.indexOf(intUserStoryCode) < 0) {
 
                 //Add the value to the updated acceptance test
-                newAcceptanceTestData.userStoryCodes.push(userStoryCode);
+                newAcceptanceTestData.userStoryCodes.push(intUserStoryCode);
             }
         }
     }
