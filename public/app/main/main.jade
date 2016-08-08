@@ -34,9 +34,26 @@
                 )
                     span.glyphicon.padr(ng-class="loginForm.$invalid ? 'glyphicon-asterisk' : 'glyphicon-ok'")
                     span Log in
-        a.btn.colour1(
-            href="/p"
-            ng-show="identity.isAuthenticated()"
-        )
-            span.glyphicon.glyphicon-th-list.padr
-            span Projects
+        .padb.row(ng-if="identity.isAuthenticated()")
+            a.btn.colour1(href="/p")
+                span.glyphicon.glyphicon-th-list.padr
+                span Projects
+        .row
+                a.padr(
+                    href="https://github.com/zeroish/SpecSaver"
+                    target="_blank"
+                )
+                    span.glyphicon.glyphicon-home.padr
+                    span GitHub
+                a.padr(
+                    href="https://github.com/zeroish/SpecSaver/issues"
+                    target="_blank"
+                )
+                    span.glyphicon.glyphicon-flag.padr
+                    span Issues
+                a(
+                    href="https://github.com/zeroish/SpecSaver/wiki"
+                    target="_blank"
+                )
+                    span.glyphicon.glyphicon-book.padr
+                    span Wiki

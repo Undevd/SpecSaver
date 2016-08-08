@@ -159,12 +159,6 @@ div.step {
 .navbar-brand:hover {
   text-decoration: underline;
 }
-.navbar-form .form-group {
-  margin-left: 10px;
-}
-.navbar-form button {
-  margin-left: 10px;
-}
 .navbar-header a.navbar-brand {
   margin-top: -15px;
   margin-bottom: -20px;
