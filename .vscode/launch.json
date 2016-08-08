@@ -25,6 +25,7 @@
             "name": "Attach",
             "type": "node",
             "request": "attach",
+            "stopOnEntry": false,
             "processId": "${command.PickProcess}"
         }
     ]
