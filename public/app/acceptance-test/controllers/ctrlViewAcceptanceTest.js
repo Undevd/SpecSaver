@@ -72,7 +72,7 @@ angular.module('app').controller('ctrlViewAcceptanceTest', function($scope, $roo
         $scope.searchForUserStory = function() {
 
             //Search for a match
-            dbUserStory.searchForUserStory(projectCode, $scope.newUserStory.criteria).$promise.then(function(results) {
+            dbUserStory.searchForUserStory(projectCode, featureCode, $scope.newUserStory.criteria).$promise.then(function(results) {
 
                 //Clear any old error messages
                 $scope.userStoryError = null;

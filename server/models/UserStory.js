@@ -295,8 +295,8 @@ userStorySchema.statics.getUserStoryStatsForProject = function getUserStoryStats
     });
 };
 
-//Gets all user stories by project code containing the name / code criteria
-userStorySchema.statics.searchForUserStory = function searchForUserStory(projectCode, criteria) {
+//Gets all user stories by project and feature code containing the name / code criteria
+userStorySchema.statics.searchForUserStory = function searchForUserStory(projectCode, featureCode, criteria) {
 
 	//Return a promise
 	return new Promise(function(resolve, reject) {
@@ -311,10 +311,10 @@ userStorySchema.statics.searchForUserStory = function searchForUserStory(project
             .find({
                 $and: [
                     {projectCode: projectCode},
+                    {featureCode: featureCode},
                     {
                         $or: [
                             {code: codeCriteria},
-                            {featureCode: {$regex: new RegExp(criteria, 'i')}},
                             {asA: {$regex: new RegExp(criteria, 'i')}},
                             {iWant: {$regex: new RegExp(criteria, 'i')}},
                             {soThat: {$regex: new RegExp(criteria, 'i')}}

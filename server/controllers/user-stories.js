@@ -82,10 +82,11 @@ exports.searchForUserStory = function(request, response) {
 
     //Get the search criteria from the request
     var projectCode = request.params.projectCode;
+    var featureCode = request.params.featureCode;
     var criteria = request.params.criteria;
 
     //Search for any matching results
-    UserStory.searchForUserStory(projectCode, criteria).then(function(data) {
+    UserStory.searchForUserStory(projectCode, featureCode, criteria).then(function(data) {
 
         //Set the success status and send the search results
         response.status(200).send(data);

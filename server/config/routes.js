@@ -72,7 +72,7 @@ module.exports = function(app) {
     // User Story routes
     app.get('/api/user-stories/all/:projectCode/:featureCode', userStories.getAllUserStoriesByFeature);
     app.get('/api/user-stories/one/:projectCode/:featureCode/:userStoryCode', userStories.getUserStory);
-    app.get('/api/user-stories/search/:projectCode/:criteria', userStories.searchForUserStory);
+    app.get('/api/user-stories/search/:projectCode/:featureCode/:criteria', userStories.searchForUserStory);
     app.post('/api/user-stories/*', userStories.createUserStory);
     app.put('/api/user-stories/*', userStories.updateUserStory);
 
