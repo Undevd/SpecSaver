@@ -1,3 +1,4 @@
+var Project = require('mongoose').model('Project');
 var Step = require('mongoose').model('Step');
 var SystemTest = require('mongoose').model('SystemTest');
 
@@ -63,113 +64,131 @@ exports.importSpecFlowSteps = function(request, response) {
     var START_PARAMETER = '{';
     var END_PARAMETER = '}';
     
+    //Get the project code
+    var projectCode = request.params.projectCode;
+
     //Get the data from the request
     var data = request.body;
 
-    //If data was supplied
-    if (data) {
+    //If a project code and data was supplied
+    if (projectCode && data) {
 
-        //Store an array of the populated promises
-        var promises = [];
+        //Check that the project exists
+        Project.exists(projectCode).then(function() {
 
-        //Get the file step definitions
-        var files = data.ProjectStepDefinitions.FileStepDefinitions;
+            //Store an array of the populated promises
+            var promises = [];
 
-        //If any files exist
-        if (files) {
+            //Get the file step definitions
+            var files = data.ProjectStepDefinitions.FileStepDefinitions;
 
-            //For each file
-            for (var file of files) {
-                
-                //Get the step definitions
-                var steps = file.StepDefinitions;
+            //If any files exist
+            if (files) {
 
-                //If any steps exist
-                if (steps) {
+                //For each file
+                for (var file of files) {
+                    
+                    //Get the step definitions
+                    var steps = file.StepDefinitions;
 
-                    //For each step
-                    for (var step of steps) {
+                    //If any steps exist
+                    if (steps) {
 
-                        //Get the step type
-                        var type = step.StepDefinitionType;
+                        //For each step
+                        for (var step of steps) {
 
-                        //Convert the type from an integer into a string
-                        switch (type) {
+                            //Get the step type
+                            var type = step.StepDefinitionType;
 
-                            case 1: type = 'Given'; break;
-                            case 2: type = 'When'; break;
-                            case 3: type = 'Then'; break;
-                        }
+                            //Convert the type from an integer into a string
+                            switch (type) {
 
-                        //Get the step pattern
-                        var pattern = step.Regex.pattern;
+                                case 1: type = 'Given'; break;
+                                case 2: type = 'When'; break;
+                                case 3: type = 'Then'; break;
+                            }
 
-                        //Get the parameters
-                        var parameters = step.Parameters;
+                            //Get the step pattern
+                            var pattern = step.Regex.pattern;
 
-                        //If any parameters exist
-                        if (parameters) {
-                            
-                            //For each parameter
-                            for (var parameter of parameters) {
+                            //Get the parameters
+                            var parameters = step.Parameters;
 
-                                //Get the parameter name
-                                var name = parameter.ParameterName;
+                            //If any parameters exist
+                            if (parameters) {
+                                
+                                //For each parameter
+                                for (var parameter of parameters) {
 
-                                //Get the parameter type
-                                var parameterType = parameter.Type.FullName;
+                                    //Get the parameter name
+                                    var name = parameter.ParameterName;
 
-                                //If the parameter type is for a SpecFlow table
-                                if (parameterType == 'TechTalk.SpecFlow.Table') {
+                                    //Get the parameter type
+                                    var parameterType = parameter.Type.FullName;
 
-                                    //TBC
-                                    //...
-                                }
-                                else {
-                                    
-                                    //Get the start and end positions of the first regex placeholder
-                                    //These are enclosed in brackets
-                                    var startPos = pattern.indexOf(START_REGEX);
-                                    var endPos = pattern.indexOf(END_REGEX);
+                                    //If the parameter type is for a SpecFlow table
+                                    if (parameterType == 'TechTalk.SpecFlow.Table') {
 
-                                    //If a placeholder exists
-                                    if (startPos > -1 && endPos > startPos) {
+                                        //TBC
+                                        //...
+                                    }
+                                    else {
+                                        
+                                        //Get the start and end positions of the first regex placeholder
+                                        //These are enclosed in brackets
+                                        var startPos = pattern.indexOf(START_REGEX);
+                                        var endPos = pattern.indexOf(END_REGEX);
 
-                                        //Replace the placeholder with the parameter name
-                                        //e.g. When I click '(.*)' -> When I click '{button}'
-                                        pattern = pattern.substring(0, startPos)
-                                            + START_PARAMETER
-                                            + name
-                                            + END_PARAMETER
-                                            + pattern.substring(endPos + 1, pattern.length);
+                                        //If a placeholder exists
+                                        if (startPos > -1 && endPos > startPos) {
+
+                                            //Replace the placeholder with the parameter name
+                                            //e.g. When I click '(.*)' -> When I click '{button}'
+                                            pattern = pattern.substring(0, startPos)
+                                                + START_PARAMETER
+                                                + name
+                                                + END_PARAMETER
+                                                + pattern.substring(endPos + 1, pattern.length);
+                                        }
                                     }
                                 }
                             }
+                            
+                            //Create a new promise to create or update the step
+                            promises.push(Step.importStep({
+                                type: type,
+                                step: pattern,
+                                projectCode: projectCode
+                            }));
                         }
-                        
                     }
                 }
             }
-        }
 
-        //If no valid data has been supplied
-        if (!promises.length) {
+            //If no valid data has been supplied
+            if (!promises.length) {
 
-            //Return an error
-            response.status(400).send({code: 400, message: 'No valid data supplied'});
-        }
+                //Return an error
+                response.status(400).send({code: 400, message: 'No valid data supplied'});
+            }
 
-        //If all the promises are successful
-        Promise.all(promises).then(function(responses) {
-            
-            //Set and send the success status
-            response.sendStatus(200);
+            //If all the promises are successful
+            Promise.all(promises).then(function(responses) {
+                
+                //Set and send the success status
+                response.sendStatus(200);
 
+            }, function(error) {
+                
+                //Otherwise, set the error status and send the error message
+                response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
+            });
         }, function(error) {
-            
+
             //Otherwise, set the error status and send the error message
             response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
         });
+        
     }
 };
 
