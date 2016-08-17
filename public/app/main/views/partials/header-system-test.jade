@@ -10,3 +10,12 @@ li.padl(ng-if="project")
     a(ng-href="/c/p/{{project.code}}/s")
         span.glyphicon.glyphicon-plus.padr
         span Create
+li.padl(ng-if="steps")
+    button.button-as-text(
+        data-target="#ModalImportStep"
+        data-toggle="modal"
+        ng-click="imported = null"
+        type="button"
+    )
+        span.glyphicon.glyphicon-import.padr
+        span Import

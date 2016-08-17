@@ -56,6 +56,7 @@ module.exports = function(app) {
     //app.get('/api/steps/all/:projectCode', steps.getAllStepsByProject);
     //app.get('/api/steps/one/:projectCode/:releaseCode', steps.getStep);
     app.get('/api/steps/search/:projectCode/:type/:step', steps.searchForStep);
+    app.post('/api/steps/import', steps.importSpecFlowSteps);
     app.post('/api/steps/*', steps.createStep);
     app.put('/api/steps/add/*', steps.addStep);
     //app.put('/api/steps/*', steps.updateStep);

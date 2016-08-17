@@ -16,6 +16,10 @@ angular.module('app').factory('dbStep', function(apiStep) {
 			return apiStep.getOne({projectCode: projectCode, stepCode: stepCode});
 		},
 
+		importStep: function(stepData) {
+			return apiStep.import(stepData);
+		},
+
 		searchForStep: function(projectCode, type, step) {
 		  return apiStep.search({projectCode: projectCode, type: type, step: step});
 		},

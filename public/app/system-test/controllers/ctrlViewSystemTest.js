@@ -563,6 +563,28 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
             });
         };
 
+        //Imports the steps using the supplied JSON
+        $scope.importStep = function() {
+
+            //Parse the imported data from a string into JSON to allow it to be modified
+            var dataToImport = JSON.parse($scope.imported);
+            
+            //Add the project code
+            dataToImport.projectCode = projectCode;
+
+            //Import the project
+            dbStep.importStep(dataToImport).$promise.then(function(data) {
+
+                //Hide the dialog (JQuery)
+                $('#ModalImportStepCloseButton').trigger('click');
+
+            }, function(error) {
+                
+                //Add the error message to the scope
+                $scope.importStepError = error.data.message;
+            });
+        };
+
         //Store acceptance test search results
         $scope.acceptanceTestResults = [];
 

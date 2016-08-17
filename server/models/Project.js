@@ -5,7 +5,8 @@ var projectSchema = mongoose.Schema({
     code: {type: String, required: '{PATH} is required', unique: true},
     description: {type: String},
 	admins: {type: [String]},
-    members: {type: [String]}
+    members: {type: [String]},
+    lastStepCode: {type: Number, default: 0}
 });
 
 projectSchema.methods = { };
