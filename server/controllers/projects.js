@@ -151,7 +151,7 @@ exports.importProject = function(request, response) {
             for (var step of data.steps) {
                 
                 //Create or update it
-                promises.push(Step.createOrUpdateStep(step));
+                promises.push(Step.importBackupStep(step));
             }
         }
 

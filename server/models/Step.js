@@ -76,11 +76,11 @@ stepSchema.statics.createStep = function createStep(newStepData) {
     return create(newStepData);
 };
 
-//Creates or update an existing step if it exists
-stepSchema.statics.createOrUpdateStep = function createOrUpdateStep(newStepData) {
+//Imports the supplied backup step by creating it or updating it if it exists
+stepSchema.statics.importBackupStep = function importBackupStep(newStepData) {
     
     //Return the created or updated step
-    return createOrUpdate(newStepData, true);
+    return importStep(newStepData, true);
 };
 
 //Checks whether the test step with the supplied code exists
@@ -177,8 +177,8 @@ stepSchema.statics.getStep = function getStep(projectCode, stepCode) {
     });
 };
 
-//Imports the supplied step by creating it or updating it if it exists
-stepSchema.statics.importStep = function importStep(newStepData) {
+//Imports the supplied SpecFlow step by creating it or updating it if it exists
+stepSchema.statics.importSpecFlowStep = function importSpecFlowStep(newStepData) {
     
     //Return a promise
     return new Promise(function(resolve, reject) {
@@ -187,7 +187,7 @@ stepSchema.statics.importStep = function importStep(newStepData) {
         if (newStepData) {
 
             //Create or update the step
-            createOrUpdate(newStepData, false).then(function(data) {
+            importStep(newStepData, false).then(function(data) {
 
                 //Return the response
                 resolve(data);
@@ -292,8 +292,34 @@ function create(newStepData) {
     });
 }
 
-//Helper method used to create or update an existing step if it exists
-function createOrUpdate(newStepData, stepCodeRequired) {
+//Gets the next unassigned code for a new test step
+function getNextCode(projectCode) {
+
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+
+        //Find the project and increment the last step code assigned by 1
+        mongoose.model('Project').findOneAndUpdate({code: projectCode},
+            {$inc: {lastStepCode: 1}}, {new: true}, function(error, project) {
+              
+                //If an error occurred
+                if (error) {
+
+                    //Return the error
+                    reject(error);
+                }
+                else {
+
+                    //Return the next available code
+                    resolve(project.lastStepCode);
+                }
+            });
+
+    });
+}
+
+//Helper method used to import a step by creating it a or updating it if it exists
+function importStep(newStepData, stepCodeRequired) {
 
     //Return a promise
     return new Promise(function(resolve, reject) {
@@ -409,32 +435,6 @@ function createOrUpdate(newStepData, stepCodeRequired) {
                 });
             }
         }
-    });
-}
-
-//Gets the next unassigned code for a new test step
-function getNextCode(projectCode) {
-
-    //Return a promise
-    return new Promise(function(resolve, reject) {
-
-        //Find the project and increment the last step code assigned by 1
-        mongoose.model('Project').findOneAndUpdate({code: projectCode},
-            {$inc: {lastStepCode: 1}}, {new: true}, function(error, project) {
-              
-                //If an error occurred
-                if (error) {
-
-                    //Return the error
-                    reject(error);
-                }
-                else {
-
-                    //Return the next available code
-                    resolve(project.lastStepCode);
-                }
-            });
-
     });
 }
 

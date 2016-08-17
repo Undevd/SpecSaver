@@ -167,7 +167,7 @@ exports.importSpecFlowSteps = function(request, response) {
                                     }
                                     
                                     //Create a new promise to create or update the step
-                                    promises.push(Step.importStep({
+                                    promises.push(Step.importSpecFlowStep({
                                         type: type,
                                         step: pattern,
                                         projectCode: projectCode
