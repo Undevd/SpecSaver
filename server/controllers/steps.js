@@ -124,7 +124,7 @@ exports.importSpecFlowSteps = function(request, response) {
                                     pattern = pattern.substring(1, pattern.length - 1);
 
                                     //Get the parameters
-                                    var parameters = step.Parameters;
+                                    var parameters = step.Method.Parameters;
 
                                     //If any parameters exist
                                     if (parameters) {
