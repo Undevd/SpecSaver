@@ -141,8 +141,24 @@ exports.importSpecFlowSteps = function(request, response) {
                                             //If the parameter type is for a SpecFlow table
                                             if (parameterType == 'TechTalk.SpecFlow.Table') {
 
-                                                //TBC
-                                                //...
+                                                //If the pattern doesn't end in a space
+                                                if (!pattern.endsWith(" ")) {
+
+                                                    //Add a space
+                                                    pattern += " ";
+                                                }
+
+                                                //Add the parameter name to the end of the pattern
+                                                //and add a column for both Field and Value
+                                                //There is no way to determine what the columns should be
+                                                //so just use Key and Value for most flexibility
+                                                pattern += START_PARAMETER
+                                                    + "|"
+                                                    + name
+                                                    + " key|"
+                                                    + name
+                                                    + " value|"
+                                                    + END_PARAMETER
                                             }
                                             else {
                                                 
