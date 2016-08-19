@@ -160,24 +160,22 @@ userStorySchema.statics.getNextCode = function getNextCode(projectCode, featureC
     //Return a promise
     return new Promise(function(resolve, reject) {
 
-    	//Find the latest user story
-		mongoose.model('UserStory')
-            .findOne({projectCode: projectCode, featureCode: featureCode})
-            .sort('-code')
-            .exec(function(error, latestUserStory) {
-	        
-            //If an error occurred
-            if(error) {
+        //Find the feature and increment the last user story code assigned by 1
+        mongoose.model('Feature').findOneAndUpdate({projectCode: projectCode, code: featureCode},
+            {$inc: {lastUserStoryCode: 1}}, {new: true}, function(error, feature) {
+              
+                //If an error occurred
+                if (error) {
 
-                //Return the error
-                reject(error);
-            }
-            else {
+                    //Return the error
+                    reject(error);
+                }
+                else {
 
-		        //Return a new code for the user story, starting from 1 if none exists
-		        resolve(latestUserStory == null? 1 : latestUserStory.code + 1);
-	    	}
-	  	});
+                    //Return the next available code
+                    resolve(feature.lastUserStoryCode);
+                }
+            });
     });
 };
 

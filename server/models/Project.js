@@ -6,7 +6,8 @@ var projectSchema = mongoose.Schema({
     description: {type: String},
 	admins: {type: [String]},
     members: {type: [String]},
-    lastStepCode: {type: Number, default: 0}
+    lastStepCode: {type: Number, default: 0},
+    lastSystemTestCode: {type: Number, default: 0}
 });
 
 projectSchema.methods = { };
@@ -310,7 +311,9 @@ function sanitise(projectData) {
         code: projectData.code,
         description: projectData.description,
         admins: projectData.admins,
-        members: projectData.members
+        members: projectData.members,
+        lastStepCode: projectData.lastStepCode,
+        lastSystemTestCode: projectData.lastSystemTestCode
     };
 }
 

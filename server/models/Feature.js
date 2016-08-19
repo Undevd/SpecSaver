@@ -4,7 +4,9 @@ var featureSchema = mongoose.Schema({
     name: {type: String, required: '{PATH} is required'},
     code: {type: String, required: '{PATH} is required'},
     description: {type:String},
-    projectCode: {type:String, required: '{PATH} is required'}
+    projectCode: {type:String, required: '{PATH} is required'},
+    lastUserStoryCode: {type: Number, default: 0},
+    lastAcceptanceTestCode: {type: Number, default: 0}
 });
 
 featureSchema.index({code: 1, projectCode: 1}, {unique: true});
@@ -369,7 +371,9 @@ function sanitise(featureData) {
         name: featureData.name,
         code: featureData.code,
         description: featureData.description,
-        projectCode: featureData.projectCode
+        projectCode: featureData.projectCode,
+        lastUserStoryCode: featureData.lastUserStoryCode,
+        lastAcceptanceTestCode: featureData.lastAcceptanceTestCode
     };
 }
 

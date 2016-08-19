@@ -423,24 +423,22 @@ acceptanceTestSchema.statics.getNextCode = function getNextCode(projectCode, fea
     //Return a promise
     return new Promise(function(resolve, reject) {
 
-    	//Find the latest acceptance test
-		mongoose.model('AcceptanceTest')
-            .findOne({projectCode: projectCode, featureCode: featureCode})
-            .sort('-code')
-            .exec(function(error, latestAcceptanceTest) {
-	        
-            //If an error occurred
-            if(error) {
+        //Find the feature and increment the last acceptance test code assigned by 1
+        mongoose.model('Feature').findOneAndUpdate({projectCode: projectCode, code: featureCode},
+            {$inc: {lastAcceptanceTestCode: 1}}, {new: true}, function(error, feature) {
+              
+                //If an error occurred
+                if (error) {
 
-                //Return the error
-                reject(error);
-            }
-            else {
+                    //Return the error
+                    reject(error);
+                }
+                else {
 
-                //Return a new code for the acceptance test, starting from 1 if none exists
-                resolve(latestAcceptanceTest == null? 1 : latestAcceptanceTest.code + 1);
-            }
-        });
+                    //Return the next available code
+                    resolve(feature.lastAcceptanceTestCode);
+                }
+            });
     });
 };
 

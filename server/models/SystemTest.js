@@ -306,24 +306,22 @@ systemTestSchema.statics.getNextCode = function getNextCode(projectCode) {
     //Return a promise
     return new Promise(function(resolve, reject) {
 
-        //Find the latest system test
-        mongoose.model('SystemTest')
-            .findOne({projectCode: projectCode})
-            .sort('-code')
-            .exec(function(error, latestSystemTest) {
-            
-            //If an error occurred
-            if(error) {
+        //Find the project and increment the last system test code assigned by 1
+        mongoose.model('Project').findOneAndUpdate({code: projectCode},
+            {$inc: {lastSystemTestCode: 1}}, {new: true}, function(error, project) {
+              
+                //If an error occurred
+                if (error) {
 
-                //Return the error
-                reject(error);
-            }
-            else {
+                    //Return the error
+                    reject(error);
+                }
+                else {
 
-                //Return a new code for the system test, starting from 1 if none exists
-                resolve(latestSystemTest == null? 1 : latestSystemTest.code + 1);
-            }
-        });
+                    //Return the next available code
+                    resolve(project.lastSystemTestCode);
+                }
+            });
     });
 };
 
