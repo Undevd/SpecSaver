@@ -178,6 +178,22 @@ exports.importSpecFlowSteps = function(request, response) {
                                                         + END_PARAMETER
                                                         + pattern.substring(endPos + 1, pattern.length);
                                                 }
+                                                else {
+
+                                                    //If the pattern doesn't end in a space
+                                                    if (!pattern.endsWith(" ")) {
+
+                                                        //Add a space
+                                                        pattern += " ";
+                                                    }
+
+                                                    //Add the placeholder to the end of the pattern
+                                                    //e.g. Then the following message is displayed:
+                                                    //-> Then the following message is displayed: {message}
+                                                    pattern += START_PARAMETER
+                                                        + name
+                                                        + END_PARAMETER;
+                                                }
                                             }
                                         }
                                     }
