@@ -33,7 +33,8 @@
                             p Using placeholders allows you to re-use the same steps with different values.
                     .row.padb
                         .col-md-12
-                            strong Arguments
+                            strong Text
+                            p Allows single-line text. The argument should be surrounded in quotes.
                             .step
                                 span.step-text '
                                 span.step-argument-value-not-supplied {argument name}
@@ -46,7 +47,20 @@
                                 span.step-text '
                     .row.padb
                         .col-md-12
+                            strong Multi-line Text
+                            p Allows text to be spread out over multiple lines. The argument must be at the very end of the step and must not be surrounded in quotes.
+                            .step
+                                span.step-argument-value-not-supplied {argument name}
+                            .step
+                                span e.g.#{' '}
+                                span.step-type Then
+                                span.step-text #{' '}the following message is displayed:
+                                span.step-text #{' '}
+                                span.step-argument-value-not-supplied {text}
+                    .row.padb
+                        .col-md-12
                             strong Tables
+                            p Allows data to be displayed in rows and columns. The column headers are supplied in the argument.
                             .step
                                 span.step-argument-value-not-supplied {|column 1 name|column 2 name|...|}
                             .step
@@ -89,7 +103,7 @@
                                     type="text"
                                 )
                                 span.input-group-btn
-                                    button.btn.btn-default(
+                                    button.btn.btn-danger(
                                         data-target="#help"
                                         data-toggle="collapse"
                                         type="button"

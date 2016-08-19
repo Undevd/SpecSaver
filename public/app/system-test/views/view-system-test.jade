@@ -119,8 +119,17 @@
                                     span.input-group-addon {{argumentName}}
                                     input.form-control(
                                         name="section.value"
+                                        ng-if="$index != step.split.length - 1"
                                         ng-model="section.value"
                                         placeholder="Value"
+                                        type="text"
+                                    )
+                                    textarea.form-control(
+                                        name="section.value"
+                                        ng-if="$index == step.split.length - 1"
+                                        ng-model="section.value"
+                                        placeholder="Value"
+                                        rows="5"
                                         type="text"
                                     )
                                 button.btn.btn-success(
@@ -164,6 +173,7 @@
                                     name="section.value"
                                     ng-model="section.value"
                                     placeholder="Format: Column 1 Row 1|Column 1 Row 2¦Column 2 Row 1|Column 2 Row 2"
+                                    rows="5"
                                     type="text"
                                 )
                                 button.btn.btn-success(
