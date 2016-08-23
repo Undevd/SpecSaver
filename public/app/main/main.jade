@@ -1,3 +1,4 @@
+include views/partials/header
 .container(ng-controller="ctrlNavBarLogin")
     .jumbotron
         h1 SpecSaver
@@ -38,22 +39,22 @@
             a.btn.colour1(href="/p")
                 span.glyphicon.glyphicon-th-list.padr
                 span Projects
-        .row
-                a.padr(
-                    href="https://github.com/zeroish/SpecSaver"
-                    target="_blank"
-                )
-                    span.glyphicon.glyphicon-home.padr
-                    span GitHub
-                a.padr(
-                    href="https://github.com/zeroish/SpecSaver/issues"
-                    target="_blank"
-                )
-                    span.glyphicon.glyphicon-flag.padr
-                    span Issues
-                a(
-                    href="https://github.com/zeroish/SpecSaver/wiki"
-                    target="_blank"
-                )
-                    span.glyphicon.glyphicon-book.padr
-                    span Wiki
+    .centre.row
+            a.padr(
+                href="https://github.com/zeroish/SpecSaver"
+                target="_blank"
+            )
+                span.glyphicon.glyphicon-home.padr
+                span GitHub
+            a.padr(
+                href="https://github.com/zeroish/SpecSaver/issues"
+                target="_blank"
+            )
+                span.glyphicon.glyphicon-flag.padr
+                span Issues
+            a(
+                href="https://github.com/zeroish/SpecSaver/wiki"
+                target="_blank"
+            )
+                span.glyphicon.glyphicon-book.padr
+                span Wiki
