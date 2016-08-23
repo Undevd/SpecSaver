@@ -311,9 +311,7 @@ function sanitise(projectData) {
         code: projectData.code,
         description: projectData.description,
         admins: projectData.admins,
-        members: projectData.members,
-        lastStepCode: projectData.lastStepCode,
-        lastSystemTestCode: projectData.lastSystemTestCode
+        members: projectData.members
     };
 }
 
@@ -369,7 +367,7 @@ function update(newProjectData) {
 
         //Find the project by code and update it
         mongoose.model('Project')
-            .findOneAndUpdate({code: newProjectData.code}, newProjectData, function(error, project) {
+            .findOneAndUpdate({code: newProjectData.code}, {$set: newProjectData}, function(error, project) {
 
             //If an error occurred
             if (error) {

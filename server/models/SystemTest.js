@@ -492,7 +492,7 @@ function update(newSystemTestData) {
         //Find the system test and update it
         mongoose.model('SystemTest')
             .findOneAndUpdate({code: newSystemTestData.code, projectCode: newSystemTestData.projectCode},
-                newSystemTestData, function(error, systemTest) {
+                {$set: newSystemTestData}, function(error, systemTest) {
 
             //If an error occurred
             if (error) {

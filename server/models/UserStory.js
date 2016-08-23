@@ -433,7 +433,7 @@ function update(newUserStoryData) {
         //Find the user story and update it
         mongoose.model('UserStory')
             .findOneAndUpdate({code: newUserStoryData.code, projectCode: newUserStoryData.projectCode,
-                featureCode: newUserStoryData.featureCode}, newUserStoryData, function(error, userStory) {
+                featureCode: newUserStoryData.featureCode}, {$set: newUserStoryData}, function(error, userStory) {
 
             //If an error occurred
             if (error) {

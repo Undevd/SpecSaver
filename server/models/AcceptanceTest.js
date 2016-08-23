@@ -606,7 +606,8 @@ function update(newAcceptanceTestData) {
         //Find the acceptance test and update it
         mongoose.model('AcceptanceTest')
             .findOneAndUpdate({code: newAcceptanceTestData.code, projectCode: newAcceptanceTestData.projectCode,
-                featureCode: newAcceptanceTestData.featureCode}, newAcceptanceTestData, function(error, acceptanceTest) {
+                featureCode: newAcceptanceTestData.featureCode}, {$set: newAcceptanceTestData},
+                    function(error, acceptanceTest) {
 
             //If an error occurred
             if (error) {

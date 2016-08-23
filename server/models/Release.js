@@ -333,7 +333,7 @@ function update(newReleaseData) {
         //Find the release and update it
         mongoose.model('Release')
             .findOneAndUpdate({code: newReleaseData.code, projectCode: newReleaseData.projectCode},
-                newReleaseData, function(error, release) {
+                {$set: newReleaseData}, function(error, release) {
 
             //If an error occurred
             if (error) {

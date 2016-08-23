@@ -371,9 +371,7 @@ function sanitise(featureData) {
         name: featureData.name,
         code: featureData.code,
         description: featureData.description,
-        projectCode: featureData.projectCode,
-        lastUserStoryCode: featureData.lastUserStoryCode,
-        lastAcceptanceTestCode: featureData.lastAcceptanceTestCode
+        projectCode: featureData.projectCode
     };
 }
 
@@ -418,7 +416,7 @@ function update(newFeatureData) {
         //Find the feature and update it
         mongoose.model('Feature')
             .findOneAndUpdate({code: newFeatureData.code, projectCode: newFeatureData.projectCode},
-                newFeatureData, function(error, feature) {
+                {$set: newFeatureData}, function(error, feature) {
 
             //If an error occurred
             if (error) {

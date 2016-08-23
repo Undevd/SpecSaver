@@ -462,7 +462,7 @@ function update(newStepData) {
         //Find the step and update it
         mongoose.model('Step')
             .findOneAndUpdate({code: newStepData.code, projectCode: newStepData.projectCode},
-                newStepData, function(error, step) {
+                {$set: newStepData}, function(error, step) {
 
             //If an error occurred
             if (error) {
