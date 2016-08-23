@@ -17,9 +17,8 @@
         div(ng-show="!edit.description")
             a.edit(ng-click="showEdit('description', true)" ng-mouseleave="hover.description = false" ng-mouseover="hover.description = true")
                 span(ng-repeat="line in project.description.split('\n') track by $index" ng-show="project.description")
-                    div
-                        span.multi-line {{line}}
-                            span.glyphicon.glyphicon-pencil.small(ng-if="$index == project.description.split('\n').length - 1" ng-show="hover.description")
+                    span.multi-line {{line}}
+                        span.glyphicon.glyphicon-pencil.small(ng-if="$index == project.description.split('\n').length - 1" ng-show="hover.description")
                 em(ng-cloak ng-show="!project.description") Click to add a description
         div(ng-show="edit.description")
             form(name="descriptionForm")

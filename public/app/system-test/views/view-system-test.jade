@@ -107,9 +107,20 @@
                             ng-if="section.isEditable"
                             ng-mouseleave="hover[id] = false"
                             ng-mouseover="hover[id] = true"
+                            ng-switch="section.value.split('\n').length"
                         )
-                            span {{section.value}}
-                            span.glyphicon.glyphicon-pencil.small(ng-show="hover[id]")
+                            span(ng-switch-when="1")
+                                span {{section.value}}
+                                span.glyphicon.glyphicon-pencil.small(ng-show="hover[id]")
+                            span(
+                                ng-repeat="line in section.value.split('\n') track by $index"
+                                ng-switch-default
+                            )
+                                span.multi-line {{line}}
+                                    span.glyphicon.glyphicon-pencil.small(
+                                        ng-if="$index == section.value.split('\n').length - 1"
+                                        ng-show="hover[id]"
+                                    )
                         span(
                             ng-if="section.isEditable && !section.isHidden"
                             ng-show="edit[id]"
