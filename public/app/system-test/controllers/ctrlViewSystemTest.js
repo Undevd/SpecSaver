@@ -567,10 +567,13 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
         $scope.importStep = function() {
 
             //Parse the imported data from a string into JSON to allow it to be modified
-            var dataToImport = JSON.parse($scope.imported);
+            var data = JSON.parse($scope.imported);
             
-            //Add the project code
-            dataToImport.projectCode = projectCode;
+            //Build the data to import by adding the project code and extracting only the step definitions
+            var dataToImport = {
+                projectCode: projectCode,
+                ProjectStepDefinitions: data.ProjectStepDefinitions
+            };
 
             //Import the project
             dbStep.importStep(dataToImport).$promise.then(function(data) {
