@@ -366,13 +366,30 @@ function get(projectCode, featureCode) {
 //Sanitises the supplied feature data and returns only the relevant content
 function sanitise(featureData) {
 
-    //Return the sanitised feature data
-    return {
+    //Build the sanitised feature data
+    var feature = {
         name: featureData.name,
         code: featureData.code,
         description: featureData.description,
         projectCode: featureData.projectCode
     };
+
+    //If the last user story code was supplied
+    if (featureData.lastUserStoryCode) {
+
+        //Add it to the feature
+        feature.lastUserStoryCode = featureData.lastUserStoryCode;
+    }
+
+    //If the last acceptance test code was supplied
+    if (featureData.lastAcceptanceTestCode) {
+
+        //Add it to the feature
+        feature.lastAcceptanceTestCode = featureData.lastAcceptanceTestCode;
+    }
+
+    //Return the feature
+    return feature;
 }
 
 //Gets all statistics related to the feature with the supplied code

@@ -305,14 +305,31 @@ function get(projectCode) {
 //Sanitises the supplied project data and returns only the relevant content
 function sanitise(projectData) {
 
-    //Return the sanitised project data
-    return {
+    //Build the sanitised project data
+    var project = {
         name: projectData.name,
         code: projectData.code,
         description: projectData.description,
         admins: projectData.admins,
         members: projectData.members
     };
+
+    //If the last step code was supplied
+    if (projectData.lastStepCode) {
+        
+        //Add it to the project
+        project.lastStepCode = projectData.lastStepCode;
+    }
+
+    //If the last system test code was supplied
+    if (projectData.lastSystemTestCode) {
+        
+        //Add it to the project
+        project.lastSystemTestCode = projectData.lastSystemTestCode;
+    }
+
+    //Return the project
+    return project;
 }
 
 //Gets all statistics related to the project with the supplied code
