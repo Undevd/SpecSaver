@@ -206,6 +206,47 @@ stepSchema.statics.importSpecFlowStep = function importSpecFlowStep(newStepData)
     });
 };
 
+//Removes a test step from the system test
+stepSchema.statics.removeStep = function removeStep(stepData) {
+    
+    //Return a promise
+    return new Promise(function(resolve, reject) {
+
+        //Find the system test
+        var systemTest = mongoose.model('SystemTest')
+            .getSystemTestAndSteps(stepData.projectCode, stepData.systemTestCode);
+
+        //If all the promises are successful
+        Promise.all([systemTest]).then(function(data) {
+
+            //Get the system test data
+            var systemTestData = data[0];
+                
+            //Remove the test step at the required position
+            systemTestData.stepArguments.splice(stepData.position, 1);
+
+            //Update the system test
+            var newSystemTest = mongoose.model('SystemTest').updateSystemTest(systemTestData);
+
+            //If all the promises are successful
+            Promise.all([newSystemTest]).then(function(data) {
+
+                //Return with the data
+                resolve(data);
+
+            }, function(error) {
+
+                //Return the error
+                reject(error);
+            });
+        }, function(error) {
+            
+            //Return the error
+            reject(error);
+        });
+    });
+};
+
 //Gets all test steps by project code and type, containing the step criteria
 stepSchema.statics.searchForStep = function searchForStep(projectCode, type, step) {
 

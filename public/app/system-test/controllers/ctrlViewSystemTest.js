@@ -588,6 +588,36 @@ angular.module('app').controller('ctrlViewSystemTest', function($scope, $rootSco
             });
         };
 
+        //Removes a test step from the system test
+        $scope.removeStep = function() {
+
+            //Get the test step data from the scope
+            var step = {
+                position: $scope.newStep.position,
+                projectCode: projectCode,
+                systemTestCode: systemTestCode
+            };
+
+            //Add the test step
+            dbStep.removeStep(step).$promise.then(function(data) {
+
+                //Clear any existing errors
+                $scope.stepError = null;
+
+                //Store the updated data in the scope
+                $scope.systemTest = data.systemTest;
+                updateStepsInScope(data.steps);
+                
+                //Close the dialog (JQuery)
+                $("#ModalAddStepCloseButton").trigger('click');
+
+            }, function(error) {
+
+                //Add the error message to the scope
+                $scope.stepError = error.data.message;
+            });
+        };
+
         //Store acceptance test search results
         $scope.acceptanceTestResults = [];
 

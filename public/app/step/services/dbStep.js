@@ -20,6 +20,10 @@ angular.module('app').factory('dbStep', function(apiStep) {
 			return apiStep.import(stepData);
 		},
 
+		removeStep: function(stepData) {
+			return apiStep.remove(stepData);
+		},
+
 		searchForStep: function(projectCode, type, step) {
 		  return apiStep.search({projectCode: projectCode, type: type, step: step});
 		},

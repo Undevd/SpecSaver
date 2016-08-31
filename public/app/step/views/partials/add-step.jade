@@ -144,6 +144,13 @@
                     )
                         span.glyphicon.glyphicon-plus.padr
                         span Create
+                span.padr
+                    a.btn.btn-danger(
+                        ng-click="removeStep()"
+                        ng-show="newStep.isEdit"
+                    )
+                        span.glyphicon.glyphicon-trash.padr
+                        span Remove
                 span
                     a.btn.btn-default(
                         data-dismiss="modal"

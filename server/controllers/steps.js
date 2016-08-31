@@ -238,6 +238,35 @@ exports.importSpecFlowSteps = function(request, response) {
     }
 };
 
+//Removes a test step from a system test at the specified position
+exports.removeStep = function(request, response) {
+
+    //Search for any matching results
+    Step.removeStep(request.body).then(function(data) {
+
+        //Get the updated system test and test steps
+        SystemTest.getSystemTestExpanded(request.body.projectCode, request.body.systemTestCode).then(function(data) {
+
+            //Set the success status and send the feature, system test, and test step data
+            response.status(200).send({
+                features: data.features,
+                systemTest: data.systemTest,
+                steps: data.steps
+            });
+
+        }, function(error) {
+            
+            //Otherwise, set the error status and send the error message
+            response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
+        });
+
+    }, function(error) {
+
+        //Set the error status and send the error message
+        response.status(error.code == 404 ? 404 : 400).send({code: error.code, message: error.errmsg});
+    });
+};
+
 //Searches for a test step using the supplied Project Code, Type, and Step criteria
 exports.searchForStep = function(request, response) {
 
