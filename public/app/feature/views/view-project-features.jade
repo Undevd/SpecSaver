@@ -8,8 +8,7 @@
         tbody(ng-repeat="feature in features")
             tr.clickable-row.row(ng-click="goTo(feature.code)")
                 td.col-md-2
-                    a.btn.btn-xs.colour3(ng-href="/p/{{project.code}}/f/{{feature.code}}")
-                        {{project.code}}-{{feature.code}}
+                    a.btn.btn-xs.colour3(ng-href="/p/{{project.code}}/f/{{feature.code}}") {{project.code}}-{{feature.code}}
                 td.col-md-5
                     a(ng-href="/p/{{project.code}}/f/{{feature.code}}")
                         div {{feature.name}}
