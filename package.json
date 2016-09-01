@@ -10,18 +10,21 @@
   "author": "Scott Hulme",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.15.0",
-    "bower": "^1.7.7",
-    "cookie-parser": "^1.4.1",
-    "express": "^4.13.4",
-    "express-session": "^1.13.0",
+    "body-parser": "^1.15.2",
+    "bower": "^1.7.9",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "express-session": "^1.14.1",
+    "graceful-fs": "^4.1.6",
     "gulp": "^3.9.1",
     "jade": "^1.11.0",
-    "mongoose": "^4.4.6",
+    "lodash": "^4.15.0",
+    "minimatch": "^3.0.3",
+    "mongoose": "^4.5.10",
     "morgan": "^1.7.0",
-    "nodemon": "^1.9.1",
+    "nodemon": "^1.10.2",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
-    "stylus": "^0.53.0"
+    "stylus": "^0.54.5"
   }
 }
