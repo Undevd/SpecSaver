@@ -17,7 +17,6 @@
     "express-session": "^1.14.1",
     "graceful-fs": "^4.1.6",
     "gulp": "^3.9.1",
-    "jade": "^1.11.0",
     "lodash": "^4.15.0",
     "minimatch": "^3.0.3",
     "mongoose": "^4.5.10",
@@ -25,6 +24,7 @@
     "nodemon": "^1.10.2",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
+    "pug": "^2.0.0-beta6",
     "stylus": "^0.54.5"
   }
 }
