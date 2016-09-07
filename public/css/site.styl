@@ -17,6 +17,8 @@ disabledHoverColour = #f00
 
 draggableHoverColour = #eee
 
+headerPadding = 13.5px 15px 13px 15px
+
 fontFamily = 'Roboto Condensed', sans-serif
 
 spacing = 1em
@@ -130,6 +132,17 @@ div
 p
     font-family fontFamily
 
+.dropdown-menu > li
+    
+    > a
+        color textColour
+
+    > a:focus
+    > a:hover
+        background-color inherit
+        color textColour
+        text-decoration underline
+
 footer
     padding-left 15px
     padding-right 15px
@@ -183,25 +196,23 @@ div.step
 .nav.navbar-nav > li.open > a
     background-color inherit
 
-.navbar > .container > .navbar-header > a.navbar-brand
-    margin-top inherit
+.navbar > .container > .navbar-header
+    
+    > a.navbar-brand
+        &:focus
+        &:hover
+            text-decoration underline
 
-.navbar-brand:focus
-.navbar-brand:hover
-    text-decoration underline
-
-.navbar-header a.navbar-brand
-    margin-top -15px
-    margin-bottom -20px
+    > button.navbar-toggle
+        margin 0
+        padding headerPadding
 
 .navbar-nav > li
-
     display inline-block
     float none
 
     > a
-        padding-bottom 13px
-        padding-top 13.5px
+        padding headerPadding
 
 [ng\:cloak]
 [ng-cloak]

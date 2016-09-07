@@ -101,6 +101,15 @@ div,
 p {
   font-family: 'Roboto Condensed', sans-serif;
 }
+.dropdown-menu > li > a {
+  color: #fff;
+}
+.dropdown-menu > li > a:focus,
+.dropdown-menu > li > a:hover {
+  background-color: inherit;
+  color: #fff;
+  text-decoration: underline;
+}
 footer {
   padding-left: 15px;
   padding-right: 15px;
@@ -152,24 +161,20 @@ div.step {
 .nav.navbar-nav > li.open > a {
   background-color: inherit;
 }
-.navbar > .container > .navbar-header > a.navbar-brand {
-  margin-top: inherit;
-}
-.navbar-brand:focus,
-.navbar-brand:hover {
+.navbar > .container > .navbar-header > a.navbar-brand:focus,
+.navbar > .container > .navbar-header > a.navbar-brand:hover {
   text-decoration: underline;
 }
-.navbar-header a.navbar-brand {
-  margin-top: -15px;
-  margin-bottom: -20px;
+.navbar > .container > .navbar-header > button.navbar-toggle {
+  margin: 0;
+  padding: 13.5px 15px 13px 15px;
 }
 .navbar-nav > li {
   display: inline-block;
   float: none;
 }
 .navbar-nav > li > a {
-  padding-bottom: 13px;
-  padding-top: 13.5px;
+  padding: 13.5px 15px 13px 15px;
 }
 [ng:cloak],
 [ng-cloak],

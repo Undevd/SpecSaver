@@ -1,8 +1,15 @@
 .navbar.navbar-fixed-top(ng-class="nav.project.isCurrentSection ? 'colour1' : nav.release.isCurrentSection ? 'colour2' : nav.feature.isCurrentSection ? 'colour3' : nav.userStory.isCurrentSection ? 'colour4' : nav.acceptanceTest.isCurrentSection ? 'colour5' : nav.systemTest.isCurrentSection ? 'colour6' : 'column1'")
     .container
         .navbar-header
+            button.collapsed.navbar-toggle(
+                aria-expanded="false"
+                data-target="#header"
+                data-toggle="collapse"
+                type="button"
+            )
+                span.glyphicon.glyphicon-menu-hamburger
             a.navbar-brand(href="/") SpecSaver
-        .collapse.navbar-collapse
+        .collapse.navbar-collapse(id="header")
             ul.nav.navbar-nav(ng-if="nav.project.isCurrentSection")
                 include header-project
             ul.nav.navbar-nav(ng-if="nav.release.isCurrentSection")
