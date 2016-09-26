@@ -29,26 +29,27 @@
                 ) {{featureError}}
                 .row.padb
                     form.form-horizontal(name="featureForm")
-                        .col-md-1
-                            button.box.btn.padlr(
-                                ng-click="searchForFeature()"
-                                ng-disabled="featureForm.$invalid"
-                            )
-                                span.glyphicon.glyphicon-search(aria-label="Search icon")
-                        .col-md-11
-                            input.form-control(
-                                name="newFeature.name"
-                                ng-change="clearFeatureResults()"
-                                ng-model="newFeature.name"
-                                required
-                                type="text"
-                            )
+                        .col-xs-12
+                            .input-group
+                                .input-group-addon
+                                    button.btn.button-as-text(
+                                        ng-click="searchForFeature()"
+                                        ng-disabled="featureForm.$invalid"
+                                    )
+                                        span.glyphicon.glyphicon-search(aria-label="Search icon")
+                                input.form-control(
+                                    name="newFeature.name"
+                                    ng-change="clearFeatureResults()"
+                                    ng-model="newFeature.name"
+                                    required
+                                    type="text"
+                                )
                 .row(ng-show="featureResults")
-                    .col-md-12
+                    .col-xs-12
                         span(ng-show="featureResults.length") Search results
                         span(ng-show="!featureResults.length && featureResultsTime") No features found {{featureResultsTime | date: '(HH:mm:ss)'}}
                 .row(ng-show="featureResults.length")
-                    .col-md-12
+                    .col-xs-12
                         select.form-control(
                             name="newFeature.index"
                             ng-model="newFeature.index"

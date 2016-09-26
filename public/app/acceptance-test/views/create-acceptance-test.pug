@@ -7,31 +7,30 @@
         .alert.alert-danger.text-center(ng-show="error" role="alert") {{error}}
         .well
             .form-group
-                .col-md-2.control-label
+                .col-md-2.col-sm-3.col-xs-12.control-label
                     span.glyphicon.glyphicon-asterisk.text-danger.padr
                     label(for="given") Given
-                .col-md-10
+                .col-md-10.col-sm-9.col-xs-12
                     input.form-control(name="given", type="text", placeholder="Given an initial condition", ng-model="given", required)
             .form-group
-                .col-md-2.control-label
+                .col-md-2.col-sm-3.col-xs-12.control-label
                     span.glyphicon.glyphicon-asterisk.text-danger.padr
                     label(for="when") When
-                .col-md-10
+                .col-md-10.col-sm-9.col-xs-12
                     input.form-control(name="when", type="text", placeholder="When a key action is performed", ng-model="when", required)
             .form-group
-                .col-md-2.control-label
+                .col-md-2.col-sm-3.col-xs-12.control-label
                     span.glyphicon.glyphicon-asterisk.text-danger.padr
                     label(for="then") Then
-                .col-md-10
+                .col-md-10.col-sm-9.col-xs-12
                     input.form-control(name="then", type="text", placeholder="Then something observable happens", ng-model="then", required)
         .alert.alert-danger.text-center(ng-show="error" role="alert") {{error}}
-        .col-md-10.col-md-offset-2
-            .pull-right
-                span.padr
-                    button.btn.btn-success(ng-click="submit()", ng-disabled="acceptanceTestForm.$invalid")
-                        span.glyphicon.glyphicon-ok.padr
-                        span Create
-                span
-                    a.btn.btn-default(ng-href="/p/{{project.code}}/f/{{feature.code}}/a")
-                        span.glyphicon.glyphicon-remove.padr
-                        span Cancel
+        .pull-right
+            span.padr
+                button.btn.btn-success(ng-click="submit()", ng-disabled="acceptanceTestForm.$invalid")
+                    span.glyphicon.glyphicon-ok.padr
+                    span Create
+            span
+                a.btn.btn-default(ng-href="/p/{{project.code}}/f/{{feature.code}}/a")
+                    span.glyphicon.glyphicon-remove.padr
+                    span Cancel

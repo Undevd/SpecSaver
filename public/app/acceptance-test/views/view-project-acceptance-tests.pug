@@ -10,7 +10,7 @@
                 span.glyphicon.glyphicon-plus.padr
                 span Create
     div
-        .col-md-2.padn(ng-class="'column' + ($index % 12 > 5 ? (6 - ($index % 6)) : (($index % 6) + 1))" ng-repeat="feature in stats.acceptanceTest.feature")
+        .col-md-2.col-sm-4.col-xs-6.padn(ng-class="'column' + ($index % 12 > 5 ? (6 - ($index % 6)) : (($index % 6) + 1))" ng-repeat="feature in stats.acceptanceTest.feature")
             a.btn.btn-block(ng-href="/p/{{project.code}}/f/{{feature.code}}/a")
                 .box {{feature.code}}
                 .box

@@ -7,9 +7,9 @@
     table.table.table-hover.table-striped.table-condensed
         tbody(ng-repeat="acceptanceTest in acceptanceTests")
             tr.clickable-row.row(ng-click="goTo(acceptanceTest.code)")
-                td.col-md-2
+                td.col-md-3.col-sm-4.col-xs-6
                     a.btn.btn-xs.colour5(ng-href="/p/{{project.code}}/f/{{feature.code}}/a/{{acceptanceTest.code}}") {{project.code}}-{{feature.code}}#A{{acceptanceTest.code}}
-                td.col-md-10
+                td.col-md-9.col-sm-8.col-xs-6
                     a(ng-href="/p/{{project.code}}/f/{{feature.code}}/a/{{acceptanceTest.code}}")
                         div Given {{acceptanceTest.given}}
                         div When {{acceptanceTest.when}}
