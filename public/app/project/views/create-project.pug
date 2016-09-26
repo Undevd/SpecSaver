@@ -6,16 +6,16 @@
         .alert.alert-danger.text-center(ng-show="error" role="alert") {{error}}
         .well.wellb
             .form-group
-                .col-md-2.control-label
+                .col-md-2.col-sm-3.col-xs-12.control-label
                     span.glyphicon.glyphicon-asterisk.text-danger.padr
                     label(for="feature") Name
-                .col-md-10
+                .col-md-10.col-sm-9.col-xs-12
                     input.form-control(name="name", type="text", placeholder="Name that project", ng-model="name", required)
             .form-group
-                .col-md-2.control-label
+                .col-md-2.col-sm-3.col-xs-12.control-label
                     span.glyphicon.glyphicon-asterisk.text-danger.padr
                     label(for="code") Code
-                .col-md-10
+                .col-md-10.col-sm-9.col-xs-12
                     input.form-control(name="code", type="text", placeholder="Project code (used in URLs)", ng-model="code", ng-pattern="/^[a-zA-Z0-9]+$/" required)
                     .alert.alert-danger(role="alert", ng-show="projectForm.code.$invalid && projectForm.code.$dirty") The project code may only contain the following characters:
                         ul
@@ -23,42 +23,41 @@
                             li Uppercase: A-Z
                             li Digit: 0-9
             .form-group
-                label.col-md-2.control-label(for="description") Description
-                .col-md-10
+                label.col-md-2.col-sm-3.col-xs-12.control-label(for="description") Description
+                .col-md-10.col-sm-9.col-xs-12
                     textarea.form-control(name="description", type="text", placeholder="Brief project description", ng-model="description")
         .row
-            .col-md-6
+            .col-sm-6.col-xs-12
                 .panel.panel-primary
                     .panel-heading.text-center Available Users
                     .panel-body
                         .row(ng-repeat="user in users")
                             div(ng-hide="isMember(user.username)")
-                                .col-md-5 {{user.username}}
-                                .col-md-5 {{user.firstname + ' ' + user.lastname}}
-                                .col-md-2
+                                .col-xs-5 {{user.username}}
+                                .col-xs-5 {{user.firstname + ' ' + user.lastname}}
+                                .col-xs-2
                                     .pull-right
                                         button.btn.btn-primary(ng-click="addMember(user.username)")
                                             span.glyphicon.glyphicon-plus
-            .col-md-6
+            .col-sm-6.col-xs-12
                 .panel.panel-primary
                     .panel-heading.text-center Project Members
                     .panel-body
                         .row(ng-repeat="user in users")
                             div(ng-show="isMember(user.username)")
-                                .col-md-5 {{user.username}}
-                                .col-md-5 {{user.firstname + ' ' + user.lastname}}
-                                .col-md-2
+                                .col-xs-5 {{user.username}}
+                                .col-xs-5 {{user.firstname + ' ' + user.lastname}}
+                                .col-xs-2
                                     .pull-right
                                         button.btn.btn-danger(ng-click="removeMember(user.username)")
                                             span.glyphicon.glyphicon-minus
         .alert.alert-danger.text-center(ng-show="error" role="alert") {{error}}
-        .col-md-10.col-md-offset-2
-            .pull-right
-                span.padr
-                    button.btn.btn-success(ng-click="submit()", ng-disabled="projectForm.$invalid")
-                        span.glyphicon.glyphicon-ok.padr
-                        span Create
-                span
-                    a.btn.btn-default(href="/p")
-                        span.glyphicon.glyphicon-remove.padr
-                        span Cancel
+        .pull-right
+            span.padr
+                button.btn.btn-success(ng-click="submit()", ng-disabled="projectForm.$invalid")
+                    span.glyphicon.glyphicon-ok.padr
+                    span Create
+            span
+                a.btn.btn-default(href="/p")
+                    span.glyphicon.glyphicon-remove.padr
+                    span Cancel
