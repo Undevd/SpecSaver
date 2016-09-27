@@ -26,13 +26,13 @@
                     id="help"
                 )
                     .row.padb
-                        .col-md-12
+                        .col-xs-12
                             h5.h2 Placeholders
                     .row.padb
-                        .col-md-12
+                        .col-xs-12
                             p Using placeholders allows you to re-use the same steps with different values.
                     .row.padb
-                        .col-md-12
+                        .col-xs-12
                             strong Text
                             p Allows single-line text. The argument should be surrounded in quotes.
                             .step
@@ -46,7 +46,7 @@
                                 span.step-argument-value-not-supplied {button}
                                 span.step-text '
                     .row.padb
-                        .col-md-12
+                        .col-xs-12
                             strong Multi-line Text
                             p Allows text to be spread out over multiple lines. The argument must be at the very end of the step and must not be surrounded in quotes.
                             .step
@@ -58,7 +58,7 @@
                                 span.step-text #{' '}
                                 span.step-argument-value-not-supplied {text}
                     .row.padb
-                        .col-md-12
+                        .col-xs-12
                             strong Tables
                             p Allows data to be displayed in rows and columns. The column headers are supplied in the argument.
                             .step
@@ -71,13 +71,7 @@
                                 span.step-argument-value-not-supplied {|field|value|}
                 .row.padb
                     form.form-horizontal(name="stepForm")
-                        .col-md-1
-                            button.box.btn.padlr(
-                                ng-click="searchForStep()"
-                                ng-disabled="stepForm.$invalid"
-                            )
-                                span.glyphicon.glyphicon-search(aria-label="Search icon")
-                        .col-md-2
+                        .col-md-2.col-sm-3.col-xs-12
                             select.form-control(
                                 name="newStep.type"
                                 ng-change="clearStepResults()"
@@ -93,7 +87,7 @@
                                 option(value="Given") Given
                                 option(value="When") When
                                 option(value="Then") Then
-                        .col-md-9
+                        .col-md-10.col-sm-9.col-xs-12
                             .input-group
                                 input.form-control(
                                     name="newStep.step"
@@ -102,19 +96,18 @@
                                     required
                                     type="text"
                                 )
-                                span.input-group-btn
-                                    button.btn.btn-danger(
-                                        data-target="#help"
-                                        data-toggle="collapse"
-                                        type="button"
+                                span.input-group-addon.input-group-addon-button
+                                    button.btn(
+                                        ng-click="searchForStep()"
+                                        ng-disabled="stepForm.$invalid"
                                     )
-                                        span.glyphicon.glyphicon-question-sign
+                                        span.glyphicon.glyphicon-search(aria-label="Search icon")
                 .row(ng-show="stepResults")
-                    .col-md-12
+                    .col-xs-12
                         span(ng-show="stepResults.length") Search results
                         span(ng-show="!stepResults.length && stepResultsTime") No test steps found {{stepResultsTime | date: '(HH:mm:ss)'}}
                 .row(ng-show="stepResults.length")
-                    .col-md-12
+                    .col-xs-12
                         select.form-control(
                             name="newStep.code"
                             ng-model="newStep.code"
@@ -130,27 +123,26 @@
                     role="alert"
                 ) {{stepError}}
             .modal-footer
-                span.padr
-                    button.btn.btn-success(
-                        ng-click="addStep()"
-                        ng-show="!stepForm.$invalid && newStep.code && newStep.code >= 0"
-                    )
+                span.padr(ng-show="!stepForm.$invalid && newStep.code && newStep.code >= 0")
+                    button.btn.btn-success(ng-click="addStep()")
                         span.glyphicon.glyphicon-ok.padr
                         span(ng-bind="newStep.isEdit ? 'Update' : 'Add'")
-                span.padr
-                    button.btn.btn-success(
-                        ng-click="createStep()"
-                        ng-show="!stepForm.$invalid && newStep.code && newStep.code < 0"
-                    )
+                span.padr(ng-show="!stepForm.$invalid && newStep.code && newStep.code < 0")
+                    button.btn.btn-success(ng-click="createStep()")
                         span.glyphicon.glyphicon-plus.padr
                         span Create
-                span.padr
-                    a.btn.btn-danger(
-                        ng-click="removeStep()"
-                        ng-show="newStep.isEdit"
-                    )
+                span.padr(ng-show="newStep.isEdit")
+                    a.btn.btn-danger(ng-click="removeStep()")
                         span.glyphicon.glyphicon-trash.padr
                         span Remove
+                span.padr
+                    button.btn.btn-warning(
+                        data-target="#help"
+                        data-toggle="collapse"
+                        type="button"
+                    )
+                        span.glyphicon.glyphicon-question-sign.padr
+                        span Help
                 span
                     a.btn.btn-default(
                         data-dismiss="modal"

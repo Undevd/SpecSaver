@@ -31,12 +31,6 @@
                     form.form-horizontal(name="acceptanceTestForm")
                         .col-xs-12
                             .input-group
-                                .input-group-addon
-                                    button.btn.button-as-text(
-                                        ng-click="searchForAcceptanceTest()"
-                                        ng-disabled="acceptanceTestForm.$invalid"
-                                    )
-                                        span.glyphicon.glyphicon-search(aria-label="Search icon")
                                 input.form-control(
                                     name="newAcceptanceTest.criteria"
                                     ng-change="clearAcceptanceTestResults()"
@@ -44,6 +38,12 @@
                                     required
                                     type="text"
                                 )
+                                span.input-group-addon.input-group-addon-button
+                                    button.btn(
+                                        ng-click="searchForAcceptanceTest()"
+                                        ng-disabled="acceptanceTestForm.$invalid"
+                                    )
+                                        span.glyphicon.glyphicon-search(aria-label="Search icon")
                 .row(ng-show="acceptanceTestResults")
                     .col-xs-12
                         span(ng-show="acceptanceTestResults.length") Search results

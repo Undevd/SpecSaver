@@ -7,11 +7,11 @@
     table.table.table-hover.table-striped.table-condensed(ng-show="releases.length")
         tbody(ng-repeat="release in releases")
             tr.clickable-row.row(ng-click="goTo(release.code)")
-                td.col-md-2
+                td.col-md-2.col-sm-3.col-xs-4
                     a.btn.btn-xs.colour2(ng-href="/p/{{project.code}}/r/{{release.code}}") {{project.code}}.{{release.code}}
-                td.col-md-5
+                td.col-md-3.col-sm-4.col-xs-4
                     a(ng-href="/p/{{project.code}}/r/{{release.code}}")
                         div {{release.name}}
-                td.col-md-5
+                td.col-md-7.col-sm-5.col-xs-4
                     a(ng-href="/p/{{project.code}}/r/{{release.code}}")
                         div {{release.description | limitTo: 100}}{{release.description.length &gt; 100 ? '...' : ''}}

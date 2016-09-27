@@ -7,17 +7,17 @@
         .alert.alert-danger.text-center(ng-show="error" role="alert") {{error}}
         .well
             .form-group
-                .col-md-2.control-label
+                .col-md-2.col-sm-3.col-xs-12.control-label
                     span.glyphicon.glyphicon-asterisk.text-danger.padr
                     label(for="name") Name
-                .col-md-10
+                .col-md-10.col-sm-9.col-xs-12
                     input.form-control(name="name", type="text", ng-model="name", required, placeholder="Release name")
                     .alert.alert-danger(role="alert", ng-show="releaseForm.name.$invalid && releaseForm.name.$dirty") Please enter a release
             .form-group
-                .col-md-2.control-label
+                .col-md-2.col-sm-3.col-xs-12.control-label
                     span.glyphicon.glyphicon-asterisk.text-danger.padr
                     label(for="code") Code
-                .col-md-10
+                .col-md-10.col-sm-9.col-xs-12
                     input.form-control(name="code", type="text", placeholder="Release code (used in URLs)", ng-model="code", ng-pattern="/^[a-zA-Z0-9.]+$/" required)
                     .alert.alert-danger(role="alert", ng-show="releaseForm.code.$invalid && releaseForm.code.$dirty") The project code may only contain the following characters:
                         ul
@@ -26,18 +26,17 @@
                             li Digit: 0-9
                             li Full stop: .
             .form-group
-                .col-md-2.control-label
+                .col-md-2.col-sm-3.col-xs-12.control-label
                     label(for="name") Description
-                .col-md-10
+                .col-md-10.col-sm-9.col-xs-12
                     textarea.form-control(name="description", type="text", ng-model="description", placeholder="Description")
         .alert.alert-danger.text-center(ng-show="error" role="alert") {{error}}
-        .col-md-10.col-md-offset-2
-            .pull-right
-                span.padr
-                    button.btn.btn-success(ng-click="submit()", ng-disabled="releaseForm.$invalid")
-                        span.glyphicon.glyphicon-ok.padr
-                        span Create
-                span
-                    a.btn.btn-default(ng-href="/p/{{project.code}}/r")
-                        span.glyphicon.glyphicon-remove.padr
-                        span Cancel
+        .pull-right
+            span.padr
+                button.btn.btn-success(ng-click="submit()", ng-disabled="releaseForm.$invalid")
+                    span.glyphicon.glyphicon-ok.padr
+                    span Create
+            span
+                a.btn.btn-default(ng-href="/p/{{project.code}}/r")
+                    span.glyphicon.glyphicon-remove.padr
+                    span Cancel

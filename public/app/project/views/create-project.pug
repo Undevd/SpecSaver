@@ -23,7 +23,8 @@
                             li Uppercase: A-Z
                             li Digit: 0-9
             .form-group
-                label.col-md-2.col-sm-3.col-xs-12.control-label(for="description") Description
+                .col-md-2.col-sm-3.col-xs-12.control-label
+                    label(for="description") Description
                 .col-md-10.col-sm-9.col-xs-12
                     textarea.form-control(name="description", type="text", placeholder="Brief project description", ng-model="description")
         .row

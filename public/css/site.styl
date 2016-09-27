@@ -17,9 +17,10 @@ disabledHoverColour = #f00
 
 draggableHoverColour = #eee
 
-headerPadding = 13.5px 15px 13px 15px
-
 fontFamily = 'Roboto Condensed', sans-serif
+
+paddingHeader = 13.5px 15px 13px 15px
+paddingInputGroupAddon = 6px 12px
 
 spacing = 1em
 
@@ -177,6 +178,14 @@ h6
 .i
     font-style italic
 
+.input-group-addon.input-group-addon-button
+    padding 0
+
+    > button
+        background none
+        border none
+        padding paddingInputGroupAddon
+
 .jumbotron
     text-align center
 
@@ -208,14 +217,14 @@ div.step
 
     > button.navbar-toggle
         margin 0
-        padding headerPadding
+        padding paddingHeader
 
 .navbar-nav > li
     display inline-block
     float none
 
     > a
-        padding headerPadding
+        padding paddingHeader
 
 [ng\:cloak]
 [ng-cloak]

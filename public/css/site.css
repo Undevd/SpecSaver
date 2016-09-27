@@ -144,6 +144,14 @@ h6,
 .i {
   font-style: italic;
 }
+.input-group-addon.input-group-addon-button {
+  padding: 0;
+}
+.input-group-addon.input-group-addon-button > button {
+  background: none;
+  border: none;
+  padding: 6px 12px;
+}
 .jumbotron {
   text-align: center;
 }

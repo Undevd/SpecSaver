@@ -31,12 +31,6 @@
                     form.form-horizontal(name="featureForm")
                         .col-xs-12
                             .input-group
-                                .input-group-addon
-                                    button.btn.button-as-text(
-                                        ng-click="searchForFeature()"
-                                        ng-disabled="featureForm.$invalid"
-                                    )
-                                        span.glyphicon.glyphicon-search(aria-label="Search icon")
                                 input.form-control(
                                     name="newFeature.name"
                                     ng-change="clearFeatureResults()"
@@ -44,6 +38,12 @@
                                     required
                                     type="text"
                                 )
+                                span.input-group-addon.input-group-addon-button
+                                    button.btn(
+                                        ng-click="searchForFeature()"
+                                        ng-disabled="featureForm.$invalid"
+                                    )
+                                        span.glyphicon.glyphicon-search(aria-label="Search icon")
                 .row(ng-show="featureResults")
                     .col-xs-12
                         span(ng-show="featureResults.length") Search results
