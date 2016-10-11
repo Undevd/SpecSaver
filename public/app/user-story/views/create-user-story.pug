@@ -7,31 +7,30 @@
         .alert.alert-danger.text-center(ng-show="error" role="alert") {{error}}
         .well
             .form-group
-                .col-md-2.control-label
+                .col-md-2.col-sm-3.col-xs-12.control-label
                     span.glyphicon.glyphicon-asterisk.text-danger.padr
                     label(for="asA") As a
-                .col-md-10
+                .col-md-10.col-sm-9.col-xs-12
                     input.form-control(name="asA", type="text", placeholder="user of the feature", ng-model="asA", required)
             .form-group
-                .col-md-2.control-label
+                .col-md-2.col-sm-3.col-xs-12.control-label
                     span.glyphicon.glyphicon-asterisk.text-danger.padr
                     label(for="iWant") I want
-                .col-md-10
+                .col-md-10.col-sm-9.col-xs-12
                     input.form-control(name="iWant", type="text", placeholder="to perform an action", ng-model="iWant", required)
             .form-group
-                .col-md-2.control-label
+                .col-md-2.col-sm-3.col-xs-12.control-label
                     span.glyphicon.glyphicon-asterisk.text-danger.padr
                     label(for="soThat") So that
-                .col-md-10
+                .col-md-10.col-sm-9.col-xs-12
                     input.form-control(name="soThat", type="text", placeholder="an expected result occurs", ng-model="soThat", required)
         .alert.alert-danger.text-center(ng-show="error" role="alert") {{error}}
-        .col-md-10.col-md-offset-2
-            .pull-right
-                span.padr
-                    button.btn.btn-success(ng-click="submit()", ng-disabled="userStoryForm.$invalid")
-                        span.glyphicon.glyphicon-ok.padr
-                        span Create
-                span
-                    a.btn.btn-default(ng-href="{{feature.code ? '/p/' + project.code + '/f/' + feature.code + '/u' : '/p/' + project.code + '/u'}}")
-                        span.glyphicon.glyphicon-remove.padr
-                        span Cancel
+        .pull-right
+            span.padr
+                button.btn.btn-success(ng-click="submit()", ng-disabled="userStoryForm.$invalid")
+                    span.glyphicon.glyphicon-ok.padr
+                    span Create
+            span
+                a.btn.btn-default(ng-href="{{feature.code ? '/p/' + project.code + '/f/' + feature.code + '/u' : '/p/' + project.code + '/u'}}")
+                    span.glyphicon.glyphicon-remove.padr
+                    span Cancel

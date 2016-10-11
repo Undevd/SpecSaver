@@ -86,14 +86,14 @@
                 data-as-sortable-item-handle
                 ng-class="edit ? '' : 'draggable'"
             )
-                .col-md-1
+                .col-xs-1
                     button.btn.btn-default.btn-xs(
                         data-target="#ModalAddStep"
                         data-toggle="modal"
                         ng-click="clearStepSearch(true, $index);"
                     )
                         span.glyphicon.glyphicon-pencil(aria-label="Edit icon")
-                .col-md-10
+                .col-xs-10
                     strong.step-type {{$index &lt; 1 || steps[$index - 1].type != step.type ? step.type : 'And'}}
                     span #{' '}
                     span(
@@ -194,7 +194,7 @@
                                     span.glyphicon.glyphicon-ok
                                 a.btn.btn-default(ng-click="cancelEdit(id, $parent.$parent.$index, $index)")
                                     span.glyphicon.glyphicon-remove
-                .col-md-1
+                .col-xs-1
                     button.btn.btn-default.btn-xs(
                         data-target="#ModalAddStep"
                         data-toggle="modal"

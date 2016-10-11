@@ -29,26 +29,27 @@
                 ) {{userStoryError}}
                 .row.padb
                     form.form-horizontal(name="userStoryForm")
-                        .col-md-1
-                            button.box.btn.padlr(
-                                ng-click="searchForUserStory()"
-                                ng-disabled="userStoryForm.$invalid"
-                            )
-                                span.glyphicon.glyphicon-search(aria-label="Search icon")
-                        .col-md-11
-                            input.form-control(
-                                name="newUserStory.criteria"
-                                ng-change="clearUserStoryResults()"
-                                ng-model="newUserStory.criteria"
-                                required
-                                type="text"
-                            )
+                        .col-xs-12
+                            .input-group
+                                input.form-control(
+                                    name="newUserStory.criteria"
+                                    ng-change="clearUserStoryResults()"
+                                    ng-model="newUserStory.criteria"
+                                    required
+                                    type="text"
+                                )
+                                span.input-group-addon.input-group-addon-button
+                                    button.btn(
+                                        ng-click="searchForUserStory()"
+                                        ng-disabled="userStoryForm.$invalid"
+                                    )
+                                        span.glyphicon.glyphicon-search(aria-label="Search icon")
                 .row(ng-show="userStoryResults")
-                    .col-md-12
+                    .col-xs-12
                         span(ng-show="userStoryResults.length") Search results
                         span(ng-show="!userStoryResults.length && userStoryResultsTime") No user stories found {{userStoryResultsTime | date: '(HH:mm:ss)'}}
                 .row(ng-show="userStoryResults.length")
-                    .col-md-12
+                    .col-xs-12
                         select.form-control(
                             name="newUserStory.index"
                             ng-model="newUserStory.index"
